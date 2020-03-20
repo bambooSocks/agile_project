@@ -17,33 +17,30 @@
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Client access to internal status
+Feature: Location update
 
   @tag1
   Scenario: Successful update
     Given a container of "Maersk"
     And a logistics company "Maersk"
     And a client "Novo Nordisk" who owns the container journey
-    And the container has a location
+    And the container has a location 45.741895 93.98930
     When logistics company updates containers location
     Then the location is changed
-    And the client is informed
     
    Scenario: Different logistics companies
     Given a container of "Hamburg Sud"
-    And a logistic company "Maersk"
+    And a logistics company "Maersk"
     And a client "Novo Nordisk" who owns the container journey
-    And the container has a location
-    When logistic company updates containers location
+    And the container has a location 45.741895 93.98930
+    When logistics company updates containers location
     Then the location is not changed
-    And the client is not informed
     
-   Scenario: Different logistics companies
-    Given unregistered container
-    And a logistic company "Maersk"
-    And a client "Novo Nordisk" who owns the container journey
-    And the container has a location
-    When logistic company updates containers location
-    Then the location is not changed
-    And the client is not informed
+ #   Scenario: Different logistics companies
+  #  Given unregistered container
+   # And a logistics company "Maersk"
+    #And a client "Novo Nordisk" who owns the container journey
+   # And the container has a location 45.741895 93.98930
+   # When logistics company updates containers location to 40.741895 73.989308
+    #Then the location is not changed
 

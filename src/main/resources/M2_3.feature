@@ -17,34 +17,22 @@
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Client access to internal status
+Feature: Journey filtering by a keyword
 
   @tag1
   Scenario: Successful filtering
     Given a client "Novo Nordisk" who owns the containers journeys
     And all the containers assigned to "Novo Nordisk"
-    And the containers destination
-    And the containers content
-    And the containers start location
-    When the client filters the containers journeys based on the specific destination
+    And the containers start location "Boston" and destination "New York"
+    When the client filters the containers journeys based on the destination "New York"
     Then the clients containers journeys with the specific destination are listed
 
     
    Scenario: Unsuccessful filtering
     Given a client "Microsoft" who owns the containers journeys
     And all the containers assigned to "Novo Nordisk"
-    And the containers destination
-    And the containers content
-    And the containers start location
-    When the client filters the containers journeys based on the specific destination
+    And the containers start location "Boston" and destination "New York"
+    When the client filters the containers journeys based on the destination "New York"
     Then the containers journeys with the specific destination are not listed
     
-   Scenario: Unuccessful filtering
-    Given a client "Novo Nordisk" who owns the containers journeys
-    And all the containers assigned to "Novo Nordisk"
-    And the containers destination
-    And the containers content
-    And the containers start location
-    When the client filters the containers journeys based on the id
-    Then the containers journeys with the specific destination are not listed
 
