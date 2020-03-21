@@ -21,32 +21,32 @@ Feature: Client searching
 
   @tag1
   Scenario: Successful search using email
-    Given a logistics company "Maersk"
-    And an email of bananas@chiquita.com
-    When a logistics company searches for bananas@chiquita.com in client profile
+    Given a logistic company "Maersk"
+    And an email bananas@chiquita.com
+    When a logistic company searches for bananas@chiquita.com in client profile
     And bananas@chiquita.com exists
     Then the client profile "Chiquita" is returned
 
   @tag2
   Scenario: Failed search for a client
-    Given a logistics company "Maersk"
-    And an email of bananas@chiquita.com
-    When a logistics company searches for bananas@chiquita.com in client profile
+    Given a logistic company "Maersk"
+    And an email bananas@chiquita.com
+    When a logistic company searches for bananas@chiquita.com in client profile
     And bananas@chiquita.com does not exist
     Then display a message that the email does not exist
 
   @tag3
   Scenario: Successful search using name
-    Given a logistics company "Maersk"
-    And a client name of "Chiquita"
-    When a logistics company searches for "Chiquita" in client profile
+    Given a logistic company "Maersk"
+    And a client name "Chiquita"
+    When a logistic company searches for "Chiquita" in client profile
     And "Chiquita" exists
     Then the client profile "Chiquita" is returned
 
   @tag4
   Scenario: Failed search using name
-    Given a logistics company "Maersk"
-    And a client name of "Chiquita"
-    When a logistics company searches for "Chiquita" in client profile
+    Given a logistic company "Maersk"
+    And a client name "Chiquita"
+    When a logistic company searches for "Chiquita" in client profile
     And "Chiquita" does not exists
     Then display a message that the client does not exist
