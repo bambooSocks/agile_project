@@ -22,31 +22,31 @@ Feature: Client searching
   @tag1
   Scenario: Successful search using email
     Given a logistic company "Maersk"
-    And an email bananas@chiquita.com
-    When a logistic company searches for bananas@chiquita.com in client profile
-    And bananas@chiquita.com exists
-    Then the client profile "Chiquita" is returned
-
+    And email "bananas@chiquita.com"
+    When a logistic company searches for email "bananas@chiquita.com" in client profile
+    And email "bananas@chiquita.com" exists
+    Then the client "Chiquita" with address "1855 Griffin Road Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and ID 20031 is returned
+ 
   @tag2
-  Scenario: Failed search for a client
+  Scenario: Failed search using email
     Given a logistic company "Maersk"
-    And an email bananas@chiquita.com
-    When a logistic company searches for bananas@chiquita.com in client profile
-    And bananas@chiquita.com does not exist
+    And email "bananas@chiquita.com"
+    When a logistic company searches for email "bananas@chiquita.com" in client profile
+    And email "bananas@chiquita.com" does not exist
     Then display a message that the email does not exist
 
   @tag3
   Scenario: Successful search using name
     Given a logistic company "Maersk"
-    And a client name "Chiquita"
-    When a logistic company searches for "Chiquita" in client profile
-    And "Chiquita" exists
-    Then the client profile "Chiquita" is returned
+    And name "Chiquita"
+    When a logistic company searches for name "Chiquita" in client profile
+    And name "Chiquita" exists
+    Then the client "Chiquita" with address "1855 Griffin Road Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and ID 20031 is returned
 
   @tag4
   Scenario: Failed search using name
     Given a logistic company "Maersk"
-    And a client name "Chiquita"
-    When a logistic company searches for "Chiquita" in client profile
-    And "Chiquita" does not exists
+    And name "Chiquita"
+    When a logistic company searches for name "Chiquita" in client profile
+    And name "Chiquita" does not exist
     Then display a message that the client does not exist
