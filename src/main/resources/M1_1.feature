@@ -25,6 +25,7 @@ Feature: Client profile creation
     And a client "Chiquita"
     And no client "Chiquita" exists in client profile
     When a logistic company enters client data of "Chiquita", "1855 Griffin Rd. Miami, Florida", "Carmen Rodriguez" and "bananas@chiquita.com" to the client profile
+##				need to add something here for the creation of the ID
     Then a client profile contains "Chiquita", "1855 Griffin Road Miami, Florida", "Carmen Rodriguez", "bananas@chiquita.com" and 20031
     And a new client profile is successfully created
 
