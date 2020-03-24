@@ -21,8 +21,8 @@ Feature: Container status tracking in container journey
 
   @tag1
 	Scenario: Successful status entry
-		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 København K", reference person "Søren Skou" and email "info@maersk.com"
-		And a first client "Novo Nordisk" with address "Novo Allé, 2880 Bagsvaerd", reference person "Lars Fruergaard Jørgensen" and email "info@novonordisk.com"
+		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
+		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a container of first logistic company with ID 1
 		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
 		And a container status of 5 degrees, 80 % humidity and 1.01 bar to the given journey
@@ -31,9 +31,9 @@ Feature: Container status tracking in container journey
 		And the journey is successfully updated
 
 	Scenario: Different logistic company
-		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 København K", reference person "Søren Skou" and email "info@maersk.com"
-		And a second logistic company "Hamburg Sud" with address "Willy-Brandt-Straße 59, 20457 Hamburg, Germany", reference person "Dr. Arnt Vespermann" and email "info@hamburgsud-line.com"
-		And a first client "Novo Nordisk" with address "Novo Allé, 2880 Bagsvaerd", reference person "Lars Fruergaard Jørgensen" and email "info@novonordisk.com"
+		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
+		And a second logistic company "Hamburg Sud" with address "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany", reference person "Dr. Arnt Vespermann" and email "info@hamburgsud-line.com"
+		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a container of first logistic company with ID 1
 		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
 		And a container status of 5 degrees, 80 % humidity and 1.01 bar to the given journey
@@ -42,8 +42,8 @@ Feature: Container status tracking in container journey
 		And the journey has failed to update
 
 	Scenario: Missing container in a journey
-		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 København K", reference person "Søren Skou" and email "info@maersk.com"
-		And a first client "Novo Nordisk" with address "Novo Allé, 2880 Bagsvaerd", reference person "Lars Fruergaard Jørgensen" and email "info@novonordisk.com"
+		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
+		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a journey of no container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
 		And a container status of 5 degrees, 80 % humidity and 1.01 bar to the given journey
 		When the first logistic company enters the given container status
