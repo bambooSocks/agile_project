@@ -19,7 +19,7 @@ public class M3 {
     private ContainerStatus status;
 
     private boolean successfulEntry = false;
-    private LinkedList<Client> statusList;
+    private LinkedList<ContainerStatus> statusList;
 
     @Given("a first logistic company {string} with address {string}, reference person {string} and email {string}")
     public void a_first_logistic_company_with_address_reference_person_and_email(String name, String address,
@@ -88,12 +88,12 @@ public class M3 {
 
     @When("the first client requests access to the status")
     public void the_first_client_requests_access_to_the_status() {
-        statusList = client1.requestStatus();
+        statusList = client1.requestStatus(journey);
     }
 
     @When("the second client requests access to the status")
     public void the_second_client_requests_access_to_the_status() {
-        statusList = client2.requestStatus();
+        statusList = client2.requestStatus(journey);
     }
 
     @Then("the journey contains the given status")
