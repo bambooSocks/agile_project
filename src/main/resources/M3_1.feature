@@ -25,7 +25,7 @@ Feature: Container status tracking in container journey
 		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a container of first logistic company with ID 1
 		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
-		And a container status of 5 degrees, 80 % humidity and 1.01 bar to the given journey
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar to the given journey
 		When the first logistic company enters the given container status
 		Then the journey contains the given status
 		And the journey is successfully updated
@@ -36,7 +36,7 @@ Feature: Container status tracking in container journey
 		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a container of first logistic company with ID 1
 		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
-		And a container status of 5 degrees, 80 % humidity and 1.01 bar to the given journey
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar to the given journey
 		When the second logistic company enters the given container status
 		Then the journey does not contain the given status
 		And the journey has failed to update
@@ -45,7 +45,7 @@ Feature: Container status tracking in container journey
 		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
 		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a journey of no container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
-		And a container status of 5 degrees, 80 % humidity and 1.01 bar to the given journey
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar to the given journey
 		When the first logistic company enters the given container status
 		Then the journey does not contain the given status
 		And the journey has failed to update
