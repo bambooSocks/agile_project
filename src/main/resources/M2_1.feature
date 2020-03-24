@@ -21,9 +21,10 @@ Feature: Container Registration
 
   @tag1
   Scenario: Successful registration
-    Given a container of "Maersk"
-    And a client "Novo Nordisk" who owns the container journey
-    And the container journey has start location "Copenhagen" and destination "New York"
+  	Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
+    And a container of the first logistics company with ID 1
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
     When a client requests to register the container
     And an Id is created
 
