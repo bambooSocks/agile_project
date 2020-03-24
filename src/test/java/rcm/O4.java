@@ -5,10 +5,10 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 public class O4 {
 	
-	private LogisticsCompany lc = new LogisticsCompany();
-	private Container c = new Container();
-	private Client client = new Client();
-	private Journey journey = new Journey();
+	private LogisticsCompany logisticsCompany;
+	private Container container;
+	private Client client;
+	private Journey journey;
 	private ResponseObject response;
 
 
