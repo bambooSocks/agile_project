@@ -27,8 +27,8 @@ Feature: Client access to internal status
 		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
 		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar
 		When the first client requests access to the status
-		Then a list of statuses contains a status of 5.0 degrees, 80.0 % humidity and 1.01 bar
-		And a list of statuses is returned
+		Then a list of statuses is returned
+		And a list of statuses contains a status of 5.0 degrees, 80.0 % humidity and 1.01 bar
 
 	Scenario: Failed access because of wrong client in the journey
 		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
@@ -38,8 +38,7 @@ Feature: Client access to internal status
 		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
 		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar
 		When the second client requests access to the status
-		Then a list of statuses is empty
-		And a list of statuses is not returned	
+		Then a list of statuses is not returned
 
 		#And a second logistic company "Hamburg Sud" with address "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany", reference person "Dr. Arnt Vespermann" and email "info@hamburgsud-line.com"
 
