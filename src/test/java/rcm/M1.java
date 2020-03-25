@@ -16,6 +16,7 @@ public class M1 {
     private boolean successfulEntry = false;
     private boolean searchResults = false;
 	private Response response;
+	private int id, newId;
 
 	
 ////	code snippets for M1:1
@@ -31,17 +32,22 @@ public class M1 {
 
 	@Given("no client {string} exists in client profile")
 	public void no_client_exists_in_client_profile(String name) {
-		searchResults = client.searchProfiles(searchParam);
+//		searchResults = client.searchProfiles(searchParam);
 	}
 
 	@When("a logistic company enters client data of {string}, {string}, {string} and {string} to the client profile")
 	public void a_logistic_company_enters_client_data_of_and_to_the_client_profile(String name, String address, String refPerson, String email) {
-        successfulProfile = client.enterProfile(name, address, refPerson, email);
+//        successfulProfile = client.enterProfile(name, address, refPerson, email, id);
  	}
+	
+	@Then("id is automatically generated")
+	public void id_is_automatically_generated() {
+//		newId = client.autoGenerateId();
+	}
 	
 	@Then("a client profile contains {string}, {string}, {string}, {string} and {int}")
 	public void a_client_profile_contains_and(String name, String address, String refPerson, String email, Integer id) {
-//		this one wont be in use after we add the process for creating the ID
+//      successfulProfile = client.createdProfile(name, address, refPerson, email, newId);
 	}
 
 	@Then("a new client profile is successfully created")
@@ -51,7 +57,7 @@ public class M1 {
 
 	@Given("a client {string} exists in client profile")
 	public void a_client_exists_in_client_profile(String name) {
-		searchResults = client.searchProfiles(searchParam);
+//		searchResults = client.searchProfiles(searchParam);
 	}
 
 	@Then("display a message that the client already exists")
@@ -78,7 +84,7 @@ public class M1 {
 
 	@When("a logistic company searches for email {string} in client profile")
 	public void a_logistic_company_searches_for_email_in_client_profile(String email) {
-        searchResults = client.searchProfiles(searchParam);
+//        searchResults = client.searchProfiles(searchParam);
 	}
 
 	@When("email {string} exists")
@@ -109,7 +115,7 @@ public class M1 {
 	
 	@When("a logistic company searches for name {string} in client profile")
 	public void a_logistic_company_searches_for_name_in_client_profile(String name) {
-        searchResults = client.searchProfiles(searchParam);
+//        searchResults = client.searchProfiles(searchParam);
 	}
 	
 	@When("name {string} exists")
@@ -132,7 +138,8 @@ public class M1 {
 	
 	@Given("a client {string} with address {string} reference person {string} email {string} and ID {int}")
 	public void a_client_with_address_reference_person_email_and_ID(String name, String address, String refPerson, String email, Integer id) {
-		client = new Client(name, address, refPerson, email);
+//		client = new Client(name, address, refPerson, email, id);
+//		this will give errors unless we add id to the profile in the Client class
 	}
 
 	@When("a client enters new address {string} and email {string}")
@@ -143,7 +150,7 @@ public class M1 {
 	
 	@Then("the client profile is changed to address {string} reference person {string} email {string} and ID {int}")
 	public void the_client_profile_is_changed_to_address_reference_person_email_and_ID(String name, String address, String refPerson, Integer id) {
-        successfulEntry = client.updateProfile(name, param1, refPerson, param2);
+//        successfulEntry = client.updateProfile(name, param1, refPerson, param2, id);
 	}
 
 	@Then("the client profile is successfully updated")
