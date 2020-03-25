@@ -21,18 +21,8 @@ Feature: Journey filtering by a keyword
 
   @tag1
   Scenario: Successful filtering
-    Given a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And a container of the first logistics company with ID 1
-    And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
-    When the client filters the containers journeys based on the destination "Rotterdam"
+    Given the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    When the first client filters his containers journeys based on the destination "Rotterdam"
     Then the clients containers journeys with the specific destination are listed
 
-    
-   #Scenario: Unsuccessful filtering
-    #Given a second client "Microsoft" with address "USA, 2880 New York", reference person "Bill Gates" and email "bill@mic.com"
-    #And all the containers assigned to "Novo Nordisk"
-    #And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"
-    #When the client filters the containers journeys based on the destination "Rotterdam"
-    #Then the containers journeys with the specific destination are not listed
-    
 
