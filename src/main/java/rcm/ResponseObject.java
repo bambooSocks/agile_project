@@ -1,5 +1,6 @@
 package rcm;
 
+@Deprecated
 public class ResponseObject {
 	int errorCode;
 	String errorMessage;
