@@ -17,7 +17,7 @@
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Client access to internal status
+Feature: Storing data when app is closing
 
   @tag1
   Scenario: App closed

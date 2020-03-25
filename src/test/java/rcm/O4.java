@@ -4,11 +4,28 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 public class O4 {
+	
+	private LogisticsCompany logisticsCompany;
+	private Container container;
+	private Client client;
+	private Journey journey;
+	private ResponseObject response;
 
 
+	@Given("client {string} containers journeys")
+	public void client_containers_journeys(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+
+	}
+	
+	@Given("a client {string} who owns the containers journeys")
+	public void a_client_who_owns_the_containers_journeys(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	}
+	
 	@When("the client wants to close the app")
 	public void the_client_wants_to_close_the_app() {
-	    // Write code here that turns the phrase above into concrete actions
+	    // response = client.closeApp()
 	   
 	}
 	@Then("the clients {string} containers journeys are saved and the app is closed")
