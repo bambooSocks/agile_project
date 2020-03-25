@@ -24,8 +24,4 @@ public class Container {
         return id;
     }
 
-    public LogisticsCompany getCompany() {
-        return company;
-    }
-
 }

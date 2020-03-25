@@ -9,7 +9,7 @@ public class O4 {
 	private Container container;
 	private Client client;
 	private Journey journey;
-	private ResponseObject response;
+	private Response response;
 
 
 	@Given("client {string} containers journeys")
