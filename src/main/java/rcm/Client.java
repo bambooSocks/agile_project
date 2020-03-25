@@ -9,8 +9,7 @@ public class Client {
     private String address;
     private String refPerson;
     private String email;
-
-    // optional
+    
     private LinkedList<Journey> journeyList;
 
     public Client(String name, String address, String refPerson, String email) {
@@ -20,6 +19,17 @@ public class Client {
         this.refPerson = refPerson;
         this.email = email;
     }
+    
+    public void addJourney(Journey journey) {
+        this.journeyList.add(journey);
+    }
+    
+
+    public Response filter(String destination) {
+        return null;
+       
+    }
+
 
 
 }

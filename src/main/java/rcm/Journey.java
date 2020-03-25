@@ -21,12 +21,15 @@ public class Journey {
         this.destinationPort = destinationPort;
         this.content = content;
         this.container = container;
+        //client.addJourney(this);
         this.client = client;
+        
     }
 
     public void setID() {
-        this.id = idGlobal;
         idGlobal ++;
+        this.id = idGlobal;
+
         
     }
     
