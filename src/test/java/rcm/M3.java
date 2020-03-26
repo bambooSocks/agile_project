@@ -72,38 +72,38 @@ public class M3 {
     public void an_initial_container_status_in_the_journey_of_degrees_humidity_and_bar(Double temperature,
             Double humidity, Double airPressure) {
         status = new ContainerStatus(temperature, humidity, airPressure);
-//        LogisticsCompany company = journey.getCompany();
-//        successfulEntry = company.enterStatus(journey, status);
+        LogisticsCompany company = journey.getCompany();
+        successfulEntry = journey.addStatus(status, company);
     }
 
     @When("the first logistic company enters the given container status")
     public void the_first_logistic_company_enters_the_given_container_status() {
-//        successfulEntry = company1.enterStatus(journey, status);
+        successfulEntry = journey.addStatus(status, company1);
     }
 
     @When("the second logistic company enters the given container status")
     public void the_second_logistic_company_enters_the_given_container_status() {
-//        successfulEntry = company2.enterStatus(journey, status);
+        successfulEntry = journey.addStatus(status, company2);
     }
 
     @When("the first client requests access to the status")
     public void the_first_client_requests_access_to_the_status() {
-//        statusList = client1.requestStatus(journey);
+        statusList = journey.getStatus(client1);
     }
 
     @When("the second client requests access to the status")
     public void the_second_client_requests_access_to_the_status() {
-//        statusList = client2.requestStatus(journey);
+        statusList = journey.getStatus(client2);
     }
 
     @Then("the journey contains the given status")
     public void the_journey_contains_the_given_status() {
-//        assertTrue(journey.contains(status));
+        assertTrue(journey.containsStatus(status));
     }
 
     @Then("the journey does not contain the given status")
     public void the_journey_does_not_contain_the_given_status() {
-//        assertFalse(journey.contains(status));
+        assertFalse(journey.containsStatus(status));
     }
 
     @Then("the journey is successfully updated")
