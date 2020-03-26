@@ -22,9 +22,9 @@ Feature: Client access to internal status
 	@tag1
 	Scenario: Successful access
 		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
-		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com" 
+		And first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com" 
 		And a container of first logistic company with ID 1
-		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
+		And journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
 		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar
 		When the first client requests access to the status
 		Then a list of statuses is returned
@@ -32,10 +32,10 @@ Feature: Client access to internal status
 
 	Scenario: Failed access because of wrong client in the journey
 		Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
-		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+		And first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a second client "Chiquita" with address "La Tuiliere, 16 1163 Etoy (VD) Switzerland", reference person "Brian W. Kocher" and email "info@chiquita.com"
 		And a container of first logistic company with ID 1
-		And a journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
+		And journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
 		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar
 		When the second client requests access to the status
 		Then a list of statuses is not returned
