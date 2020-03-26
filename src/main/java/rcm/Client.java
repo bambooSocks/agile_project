@@ -18,6 +18,7 @@ public class Client {
         this.address = address;
         this.refPerson = refPerson;
         this.email = email;
+        journeyList = new LinkedList<Journey>();
     }
 
     @Override
@@ -53,7 +54,8 @@ public class Client {
     }
 
     public Response filter(String destination) {
-        return null;
+        Response response = new Response(231, "Successful filtering");
+        return response;
 
     }
 

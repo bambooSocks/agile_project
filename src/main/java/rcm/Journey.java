@@ -20,7 +20,7 @@ public class Journey {
         this.destinationPort = destinationPort;
         this.content = content;
         this.container = container;
-        // client.addJourney(this);
+        client.addJourney(this);
         this.client = client;
         history = new LinkedList<ContainerStatus>();
     }
@@ -34,15 +34,6 @@ public class Journey {
         return this.id;
     }
 
-    // We do not run main functions inside of the class
-    // also if it is a test code don't push it 
-    // otherwise for testing use the tests :D
-    public static void main(String[] args) {
-        Journey j1 = new Journey(null, null, null, null, null);
-        Journey j2 = new Journey(null, null, null, null, null);
-        System.out.println(j1.getID());
-        System.out.println(j2.getID());
-    }
 
     public LogisticsCompany getCompany() {
         return (container == null) ? null : container.getCompany();

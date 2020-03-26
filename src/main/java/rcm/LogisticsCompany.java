@@ -46,6 +46,7 @@ public class LogisticsCompany {
         this.address = address;
         this.refPerson = refPerson;
         this.email = email;
+        containers = new LinkedList<Container>();
     }
 
     public Response updateLocation(Container container) {
