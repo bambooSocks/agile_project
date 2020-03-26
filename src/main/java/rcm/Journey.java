@@ -22,30 +22,30 @@ public class Journey {
         this.container = container;
         // client.addJourney(this);
         this.client = client;
-
+        history = new LinkedList<ContainerStatus>();
     }
 
     public void setID() {
         idGlobal++;
         this.id = idGlobal;
-
     }
 
     public int getID() {
         return this.id;
-
     }
 
+    // We do not run main functions inside of the class
+    // also if it is a test code don't push it 
+    // otherwise for testing use the tests :D
     public static void main(String[] args) {
         Journey j1 = new Journey(null, null, null, null, null);
         Journey j2 = new Journey(null, null, null, null, null);
         System.out.println(j1.getID());
         System.out.println(j2.getID());
-
     }
 
     public LogisticsCompany getCompany() {
-        return container.getCompany();
+        return (container == null) ? null : container.getCompany();
     }
 
     public boolean addStatus(ContainerStatus status, LogisticsCompany company) {
@@ -58,19 +58,11 @@ public class Journey {
     }
 
     public LinkedList<ContainerStatus> getStatus(Client client1) {
-        if (client1.equals(client)) {
-            return history;
-        } else {
-            return null;
-        }
+        return (client1.equals(client)) ? history : null;
     }
 
     public boolean containsStatus(ContainerStatus status) {
-        if (history.contains(status)) {
-            return true;
-        } else {
-            return false;
-        }
+        return history.contains(status);
     }
 
 }
