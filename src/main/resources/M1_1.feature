@@ -21,23 +21,23 @@ Feature: Client profile creation
 
   @tag1
   Scenario: Successful new client profile creation
-    Given a logistic company "Maersk" with address "Esplanaden 50, 1098 København K" reference person "Søren Skou" and email "info@maersk.com"
-    And a client "Chiquita"
-    And no client "Chiquita" exists in client profile
-    When a logistic company enters client data of "Chiquita", "1855 Griffin Rd. Miami, Florida", "Carmen Rodriguez" and "bananas@chiquita.com" to the client profile
-    Then id is automatically generated
-    And a client profile contains "Chiquita", "1855 Griffin Road Miami, Florida", "Carmen Rodriguez", "bananas@chiquita.com" and 20031
+    Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 København K" reference person "Søren Skou" and email "info@maersk.com"
+    And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    And client "Chiquita" does not exist in client profile
+    When the first logistic company enters client data
+    Then an id is automatically generated
+    And a client profile contains the client data and id
     And a new client profile is successfully created
 
   @tag2
   Scenario: Client profile already exists
-    Given a logistic company "Maersk" with address "Esplanaden 50, 1098 København K" reference person "Søren Skou" and email "info@maersk.com"
-    And a client "Chiquita"
-    And a client "Chiquita" exists in client profile
+    Given a first logistic company "Maersk" with address "Esplanaden 50, 1098 København K" reference person "Søren Skou" and email "info@maersk.com"
+    And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    And client "Chiquita" exists in client profile
     Then display a message that the client already exists
 
   @tag3
   Scenario: Client tries to create profile
     Given no logistic company
-    And a client "Chiquita"
+    And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     Then display a message that only a logistic company may create a client profile
