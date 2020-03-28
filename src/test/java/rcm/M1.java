@@ -19,8 +19,8 @@ public class M1 {
     private int id, newId;
 
 ////	code snippets for M1:1
-    @Given("a first logistic company {string} with address {string} reference person {string} and email {string}")
-    public void a_first_logistic_company_with_address_reference_person_and_email(String name, String address,
+    @Given("a first logistics company {string} with address {string} reference person {string} and email {string}")
+    public void a_first_logistics_company_with_address_reference_person_and_email(String name, String address,
             String refPerson, String email) {
 //        company = new LogisticsCompany(name, address, refPerson, email);
     }
@@ -36,8 +36,8 @@ public class M1 {
 //		searchResults = client.searchProfiles(searchParam);
     }
 
-    @When("the first logistic company enters client data")
-    public void the_first_logistic_company_enters_client_data() {
+    @When("the first logistics company enters client data")
+    public void the_first_logistics_company_enters_client_data() {
 //        successfulProfile = client.enterProfile(name, address, refPerson, email, id);
     }
 
@@ -66,21 +66,21 @@ public class M1 {
 //        assertEquals("This client already exists", response.getErrorMessage());
     }
 
-    @Given("no logistic company")
-    public void no_logistic_company() {
+    @Given("no logistics company")
+    public void no_logistics_company() {
 //        company = new LogisticsCompany(null, null, null, null);
     }
 
-    @Then("display a message that only a logistic company may create a client profile")
-    public void display_a_message_that_only_a_logistic_company_may_create_a_client_profile() {
+    @Then("display a message that only a logistics company may create a client profile")
+    public void display_a_message_that_only_a_logistics_company_may_create_a_client_profile() {
 //        assertEquals("Only a logistics company may create a client profile", response.getErrorMessage());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
 //	code snippets for M1:2
 
-    @When("a first logistic company searches for parameter {string} in client profile")
-    public void a_first_logistic_company_searches_for_parameter_in_client_profile(String searchParam) {
+    @When("a first logistics company searches for parameter {string} in client profile")
+    public void a_first_logistics_company_searches_for_parameter_in_client_profile(String searchParam) {
 //        searchResults = client.searchProfiles(searchParam);
     }
 

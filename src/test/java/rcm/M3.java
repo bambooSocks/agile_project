@@ -21,14 +21,14 @@ public class M3 {
     private boolean successfulEntry = false;
     private LinkedList<ContainerStatus> statusList;
 
-    @Given("a first logistic company {string} with address {string}, reference person {string} and email {string}")
-    public void a_first_logistic_company_with_address_reference_person_and_email(String name, String address,
+    @Given("a first logistics company {string} with address {string}, reference person {string} and email {string}")
+    public void a_first_logistics_company_with_address_reference_person_and_email(String name, String address,
             String refPerson, String email) {
         company1 = new LogisticsCompany(name, address, refPerson, email);
     }
 
-    @Given("a second logistic company {string} with address {string}, reference person {string} and email {string}")
-    public void a_second_logistic_company_with_address_reference_person_and_email(String name, String address,
+    @Given("a second logistics company {string} with address {string}, reference person {string} and email {string}")
+    public void a_second_logistics_company_with_address_reference_person_and_email(String name, String address,
             String refPerson, String email) {
         company2 = new LogisticsCompany(name, address, refPerson, email);
     }
@@ -45,8 +45,8 @@ public class M3 {
         client2 = new Client(name, address, refPerson, email);
     }
 
-    @Given("a container of first logistic company with ID {int}")
-    public void a_container_of_first_logistic_company_with_ID(Integer id) {
+    @Given("a container of first logistics company with ID {int}")
+    public void a_container_of_first_logistics_company_with_ID(Integer id) {
         container = new Container(id, company1);
     }
 
@@ -76,13 +76,13 @@ public class M3 {
         successfulEntry = journey.addStatus(status, company);
     }
 
-    @When("the first logistic company enters the given container status")
-    public void the_first_logistic_company_enters_the_given_container_status() {
+    @When("the first logistics company enters the given container status")
+    public void the_first_logistics_company_enters_the_given_container_status() {
         successfulEntry = journey.addStatus(status, company1);
     }
 
-    @When("the second logistic company enters the given container status")
-    public void the_second_logistic_company_enters_the_given_container_status() {
+    @When("the second logistics company enters the given container status")
+    public void the_second_logistics_company_enters_the_given_container_status() {
         successfulEntry = journey.addStatus(status, company2);
     }
 

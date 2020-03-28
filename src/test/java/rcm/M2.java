@@ -24,8 +24,8 @@ public class M2 {
         logisticsCompany = new LogisticsCompany(name, address, refPerson, email);
     }
 
-    @Given("the second logistic company {string} with address {string}, reference person {string} and email {string}")
-    public void the_second_logistic_company_with_address_reference_person_and_email(String name, String address,
+    @Given("the second logistics company {string} with address {string}, reference person {string} and email {string}")
+    public void the_second_logistics_company_with_address_reference_person_and_email(String name, String address,
             String refPerson, String email) {
         logisticsCompany2 = new LogisticsCompany(name, address, refPerson, email);
     }
