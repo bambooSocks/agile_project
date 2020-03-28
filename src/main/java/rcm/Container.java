@@ -8,6 +8,7 @@ public class Container {
 	public Container(int id, LogisticsCompany company) {
 		this.id = id;
 		this.company = company;
+		company.addToList(this);
 	}
 
 

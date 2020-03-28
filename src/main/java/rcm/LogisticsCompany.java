@@ -64,5 +64,10 @@ public class LogisticsCompany {
 
         }
     }
+    public void addToList(Container container) {
+        containers.add(container);
+        
+    }
+    
 
 }
