@@ -24,15 +24,10 @@ public class IdGenerator {
     
     public int getId(GroupIdType type) {
         // read the old ID
-        Integer oldId = lastIdByGroup.get(type);
+        int oldId = lastIdByGroup.getOrDefault(type, -1);
         
-        // check for new keys
-        int newId;
-        if (oldId == null) {
-            newId = 0;
-        } else {
-            newId = oldId + 1;
-        }
+        // generate a new ID
+        int newId = oldId + 1;
         
         // update the ID in the map
         lastIdByGroup.put(type, newId);
