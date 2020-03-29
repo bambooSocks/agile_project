@@ -10,9 +10,9 @@ import io.cucumber.java.en.When;
 
 public class M1 {
 
-    private Client client;
-    private LogisticsCompany company;
-    private String searchParam, successfulProfile, param1, param2;
+    private Client client1;
+    private LogisticsCompany company1;
+    private String searchParam, param1, param2;
     private boolean successfulEntry = false;
     private boolean searchResults = false;
     private Response response;
@@ -22,23 +22,24 @@ public class M1 {
     @Given("a first logistics company {string} with address {string} reference person {string} and email {string}")
     public void a_first_logistics_company_with_address_reference_person_and_email(String name, String address,
             String refPerson, String email) {
-//        company = new LogisticsCompany(name, address, refPerson, email);
+        company1 = new LogisticsCompany(name, address, refPerson, email);
     }
 
     @Given("first client {string} with address {string} reference person {string} and email {string}")
     public void first_client_with_address_reference_person_and_email(String name, String address, String refPerson,
             String email) {
-//        String searchParam = name;
+        client1 = new Client(name, address, refPerson, email);
+        searchParam = name;
     }
 
     @Given("client {string} does not exist in client profile")
     public void client_does_not_exist_in_client_profile(String name) {
-//		searchResults = client.searchProfiles(searchParam);
+		searchResults = client1.searchProfiles(searchParam);
     }
 
     @When("the first logistics company enters client data")
     public void the_first_logistics_company_enters_client_data() {
-//        successfulProfile = client.enterProfile(name, address, refPerson, email, id);
+        client1.addProfile(client1);
     }
 
     @Then("an id is automatically generated")
@@ -98,7 +99,6 @@ public class M1 {
     public void the_client_with_address_reference_person_email_and_ID_is_returned(String name, String address,
             String refPerson, String email, Integer id) {
 //        assertNotEquals(null, statusList);
-//        its late and I don't know how to do this...
     }
 
     @Then("display a message that the parameter does not exist")

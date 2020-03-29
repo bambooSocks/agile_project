@@ -11,6 +11,7 @@ public class Client {
     private String email;
 
     private LinkedList<Journey> journeyList;
+    private LinkedList<Client> clientList;
 
     public Client(String name, String address, String refPerson, String email) {
         super();
@@ -18,6 +19,8 @@ public class Client {
         this.address = address;
         this.refPerson = refPerson;
         this.email = email;
+        clientList = new LinkedList<Client>();
+        addProfile(this);
         journeyList = new LinkedList<Journey>();
     }
 
@@ -56,7 +59,14 @@ public class Client {
     public Response filter(String destination) {
         Response response = new Response(231, "Successful filtering");
         return response;
+    }
 
+    public boolean searchProfiles(String name) {
+        return clientList.contains(name);
+    }
+
+    public void addProfile(Client client) {
+        this.clientList.add(client);
     }
 
 }
