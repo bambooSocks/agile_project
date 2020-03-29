@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class Client extends User {
 
     private LinkedList<Journey> journeyList;
-    private LinkedList<Client> clientList;
+    private LinkedList<Client> clientList; //TODO: maybe remove
 
     public Client(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);

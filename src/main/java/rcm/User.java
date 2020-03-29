@@ -1,7 +1,5 @@
 package rcm;
 
-import java.util.LinkedList;
-
 public abstract class User {
 
     int id;
@@ -15,6 +13,7 @@ public abstract class User {
         this.address = address;
         this.refPerson = refPerson;
         this.email = email;
+        id = IdGenerator.getInstance().getId(GroupIdType.USER);
     }
 
     @Override
