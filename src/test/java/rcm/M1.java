@@ -29,41 +29,36 @@ public class M1 {
     public void first_client_with_address_reference_person_and_email(String name, String address, String refPerson,
             String email) {
         client1 = new Client(name, address, refPerson, email);
-        searchParam = name;
+//        searchParam = name;
     }
 
     @Given("client {string} does not exist in client profile")
     public void client_does_not_exist_in_client_profile(String name) {
-		searchResults = client1.searchProfiles(searchParam);
-    }
-
-    @When("the first logistics company enters client data")
-    public void the_first_logistics_company_enters_client_data() {
-        client1.addProfile(client1);
-    }
-
-    @Then("an id is automatically generated")
-    public void an_id_is_automatically_generated() {
-//		newId = client.autoGenerateId();
-    }
-
-    @Then("a client profile contains the client data and id")
-    public void a_client_profile_contains_the_client_data_and_id() {
-//      successfulProfile = client.createdProfile(name, address, refPerson, email, newId);
-    }
-
-    @Then("a new client profile is successfully created")
-    public void a_new_client_profile_is_successfully_created() {
-//        assertTrue(successfulEntry);
+//        successfulEntry = company1.searchProfiles(searchParam);
     }
 
     @Given("client {string} exists in client profile")
     public void client_exists_in_client_profile(String name) {
-//		searchResults = client.searchProfiles(searchParam);
+//        successfulEntry = company1.searchProfiles(name);
     }
 
-    @Then("display a message that the client already exists")
-    public void display_a_message_that_the_client_already_exists() {
+    @When("the first logistics company enters client data")
+    public void the_first_logistics_company_enters_client_data() {
+        company1.addProfile(client1);
+    }
+
+    @Then("an id is automatically generated")
+    public void an_id_is_automatically_generated() {
+        newId = IdGenerator.getInstance().getId(GroupIdType.USER);
+    }
+
+    @Then("a new client profile is successfully created")
+    public void a_new_client_profile_is_successfully_created() {
+//      assertEquals("New client profile has been created", response.getErrorMessage());
+    }
+
+    @Then("a new client profile is not created")
+    public void a_new_client_profile_is_not_created() {
 //        assertEquals("This client already exists", response.getErrorMessage());
     }
 
