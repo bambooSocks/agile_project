@@ -16,6 +16,14 @@ public abstract class User {
         id = IdGenerator.getInstance().getId(GroupIdType.USER);
     }
 
+    public String getName() {
+        return name;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

@@ -34,7 +34,6 @@ public class Journey {
         return this.id;
     }
 
-
     public LogisticsCompany getCompany() {
         return (container == null) ? null : container.getCompany();
     }

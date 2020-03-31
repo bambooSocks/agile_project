@@ -19,5 +19,13 @@ public class Client extends User {
         Response response = new Response(231, "Successful filtering");
         return response;
     }
+    
+    public boolean updateProfile(String newName, String newAddress, String newRefPerson, String newEmail) {
+        name = newName;
+        address = newAddress;
+        refPerson = newRefPerson;
+        email = newEmail;
+        return true;
+    }
 
 }

@@ -21,7 +21,7 @@ Feature: Client profile creation
 
   @tag1
   Scenario: Successful new client profile creation
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 K�benhavn K" reference person "S�ren Skou" and email "info@maersk.com"
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     And client "Chiquita" does not exist in client profile
     When the first logistics company enters client data
@@ -30,7 +30,7 @@ Feature: Client profile creation
 
   @tag2
   Scenario: Client profile already exists
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 K�benhavn K" reference person "S�ren Skou" and email "info@maersk.com"
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     And client "Chiquita" exists in client profile
     When the first logistics company enters client data

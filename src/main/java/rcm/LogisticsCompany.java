@@ -1,12 +1,13 @@
 package rcm;
 
-import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class LogisticsCompany extends User {
 
     LinkedList<Container> containers;
-    HashSet<Client> clients;
+    Set<Client> clients;
 
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
@@ -32,17 +33,33 @@ public class LogisticsCompany extends User {
     public void addToList(Container container) {
         containers.add(container);
     }
-
-    public boolean searchProfiles(String name) {
-        return clients.contains(name);
+    
+    public boolean searchProfiles(String parameter) {
+        for(Client search : clients) {
+            if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
+                return true;
+            }
+        }
+        return false;
     }
-
-    public Response addProfile(Client client) {
+    
+    public Client searchResult(String parameter) {
+        for(Client search : clients) {
+            if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
+                return search;
+            }
+        }
+        return null;
+    }
+    
+    public boolean addProfile(Client client) {
         if (this.clients.contains(client)) {
-            return new Response(567, "This client already exists");
+            return false;
+//            return new Response(567, "This client already exists");
         } else {
             clients.add(client);
-            return new Response(568, "New client profile has been created");
+            return true;
+//            return new Response(568, "New client profile has been created");
         }
     }
 
