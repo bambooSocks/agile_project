@@ -14,7 +14,7 @@ public class M2 {
     private LogisticsCompany logisticsCompany, logisticsCompany2;
     private Container container;
     private Client client, client2;
-    private Journey journey;
+    private Journey journey,journey2;
 
     private Response response;
 
@@ -30,9 +30,9 @@ public class M2 {
         logisticsCompany2 = new LogisticsCompany(name, address, refPerson, email);
     }
 
-    @Given("the container of the first logistics company with ID {int}")
-    public void the_container_of_the_first_logistics_company_with_ID(Integer id) {
-        container = new Container(id, logisticsCompany);
+    @Given("the container of the first logistics company")
+    public void the_container_of_the_first_logistics_company(){
+        container = new Container(logisticsCompany);
 
     }
 
@@ -54,15 +54,22 @@ public class M2 {
             String originPort, String destinationPort, String content) {
         journey = new Journey(originPort, destinationPort, content, container, client);
     }
+    
+    @Given("the second journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_second_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
+            String originPort, String destinationPort, String content) {
+        journey2 = new Journey(originPort, destinationPort, content, container, client);
+    }
 
     @When("the client requests to register the container")
     public void the_client_requests_to_register_the_container() {
         journey.setID();
+        journey2.setID();
     }
 
     @Then("an Id is created")
     public void an_Id_is_created() {
-        assertTrue(journey.getID() != 0);
+        assertTrue(journey.getID() != journey2.getID());
     }
 
     @Given("the container has a location {double} {double}")

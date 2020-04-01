@@ -3,7 +3,6 @@ package rcm;
 import java.util.LinkedList;
 
 public class Journey {
-    private static int idGlobal;
     private int id;
     private String originPort;
     private String destinationPort;
@@ -26,8 +25,7 @@ public class Journey {
     }
 
     public void setID() {
-        idGlobal++;
-        this.id = idGlobal;
+        id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
 
     public int getID() {
