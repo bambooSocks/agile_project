@@ -22,9 +22,6 @@ public class Journey {
         client.addJourney(this);
         this.client = client;
         history = new LinkedList<ContainerStatus>();
-    }
-
-    public void setID() {
         id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
 

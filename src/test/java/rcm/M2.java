@@ -49,23 +49,18 @@ public class M2 {
         client2 = new Client(name, address, refPerson, email);
     }
 
-    @Given("the journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
+    @When("the client requests to register the container for the journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_client_requests_to_register_the_container_for_the_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
             String originPort, String destinationPort, String content) {
         journey = new Journey(originPort, destinationPort, content, container, client);
     }
     
-    @Given("the second journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_second_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
+    @When("the client requests to register the container for the the second journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_client_requests_to_register_the_container_for_the_second_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
             String originPort, String destinationPort, String content) {
         journey2 = new Journey(originPort, destinationPort, content, container, client);
     }
 
-    @When("the client requests to register the container")
-    public void the_client_requests_to_register_the_container() {
-        journey.setID();
-        journey2.setID();
-    }
 
     @Then("an Id is created")
     public void an_Id_is_created() {

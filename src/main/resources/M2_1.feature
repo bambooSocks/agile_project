@@ -24,9 +24,8 @@ Feature: Container Registration
   	Given the first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
     And the container of the first logistics company
     And the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And the journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods" 
-    And the second journey of given container and first client with origin port of "New York", destination port of "Copenhagen" and a content of "masks"  
-    When the client requests to register the container
+    When the client requests to register the container for the journey of given container and first client with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods" 
+    And the client requests to register the container for the the second journey of given container and first client with origin port of "New York", destination port of "Copenhagen" and a content of "masks"  
     Then an Id is created
 
  # Scenario: Container not
