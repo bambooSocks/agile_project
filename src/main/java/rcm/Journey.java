@@ -50,4 +50,16 @@ public class Journey {
         return history.contains(status);
     }
 
+    public String getOriginPort() {
+        return originPort;
+    }
+
+    public String getDestinationPort() {
+        return destinationPort;
+    }
+
+    public String getContent() {
+        return content;
+    } 
+
 }

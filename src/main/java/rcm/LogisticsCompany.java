@@ -30,7 +30,7 @@ public class LogisticsCompany extends User {
         }
     }
 
-    public void addToList(Container container) {
+    public void addContainer(Container container) {
         containers.add(container);
     }
     
