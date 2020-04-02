@@ -9,13 +9,13 @@ public class Container {
     public Container(int id, LogisticsCompany company) {
         this.id = id;
         this.company = company;
-        company.addToList(this);
+        company.addContainer(this);
     }
 
     public Container(LogisticsCompany company) {
         id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
-        company.addToList(this);
+        company.addContainer(this);
     }
 
     public LogisticsCompany getCompany() {

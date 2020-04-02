@@ -15,11 +15,36 @@ public class Client extends User {
         this.journeyList.add(journey);
     }
 
-    public Response filter(String destination) {
-        // TODO: implement filtering code
-        return Response.SUCCESS;
+    public LinkedList<Journey> searchByDestination(String destination) {
+        LinkedList<Journey> filtered = new LinkedList<Journey>();
+        for (Journey j : journeyList) {
+            if (j.getDestinationPort() == destination) {
+                filtered.add(j);
+            }
+        }
+        return filtered;
     }
-    
+
+    public LinkedList<Journey> searchByOrigin(String origin) {
+        LinkedList<Journey> filtered = new LinkedList<Journey>();
+        for (Journey j : journeyList) {
+            if (j.getOriginPort() == origin) {
+                filtered.add(j);
+            }
+        }
+        return filtered;
+    }
+
+    public LinkedList<Journey> searchByContent(String content) {
+        LinkedList<Journey> filtered = new LinkedList<Journey>();
+        for (Journey j : journeyList) {
+            if (j.getContent() == content) {
+                filtered.add(j);
+            }
+        }
+        return filtered;
+    }
+
     public boolean updateProfile(String newName, String newAddress, String newRefPerson, String newEmail) {
         name = newName;
         address = newAddress;
