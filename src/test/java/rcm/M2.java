@@ -15,6 +15,7 @@ public class M2 {
     private Container container;
     private Client client, client2;
     private Journey journey, journey2;
+    private LinkedList<Journey> filteredContent, filteredDestination, filteredOrigin;
 
     private Response response;
 
@@ -22,6 +23,12 @@ public class M2 {
     public void the_first_logistics_company_with_address_reference_person_and_email(String name, String address,
             String refPerson, String email) {
         logisticsCompany = new LogisticsCompany(name, address, refPerson, email);
+    }
+
+    @Given("the container already in use")
+    public void the_container_already_in_use() {
+        container = new Container(logisticsCompany);
+        journey = new Journey("Copenhage","New York","bananas",container,client);
     }
 
     @Given("the second logistics company {string} with address {string}, reference person {string} and email {string}")
@@ -52,17 +59,28 @@ public class M2 {
     @Given("the container has a location {double} {double}")
     public void the_container_has_a_location(Double x, Double y) {
         container.setLocation(x, y);
-        
+
     }
-    
-    @When("the client requests to register the container for the journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_client_requests_to_register_the_container_for_the_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
+
+    @When("the first client requests to register no container for the journey with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_first_client_requests_to_register_no_container_for_the_journey_with_origin_port_of_destination_port_of_and_a_content_of(
+            String originPort, String destinationPort, String content) {
+        journey = new Journey(originPort, destinationPort, content, null, client);
+    }
+
+    @When("the first client filters his containers journeys based on the origin port {string}")
+    public void the_first_client_filters_his_containers_journeys_based_on_the_origin_port(String origin) {
+        filteredOrigin = client.searchByOrigin(origin);
+    }
+
+    @When("the first client requests to register the container for the journey with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_first_client_requests_to_register_the_container_for_the_journey_with_origin_port_of_destination_port_of_and_a_content_of(
             String originPort, String destinationPort, String content) {
         journey = new Journey(originPort, destinationPort, content, container, client);
     }
 
-    @When("the client requests to register the container for the the second journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_client_requests_to_register_the_container_for_the_second_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
+    @When("the first client requests to register the container for the the second journey with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_first_client_requests_to_register_the_container_for_the_second_journey_with_origin_port_of_destination_port_of_and_a_content_of(
             String originPort, String destinationPort, String content) {
         journey2 = new Journey(originPort, destinationPort, content, container, client);
     }
@@ -81,8 +99,18 @@ public class M2 {
 
     @When("the first client filters his containers journeys based on the destination {string}")
     public void the_first_client_filters_his_containers_journeys_based_on_the_destination(String destination) {
-        response = client.filter(destination);
+        filteredDestination = client.searchByDestination(destination);
 
+    }
+
+    @When("the first client filters his containers journeys based on the content {string}")
+    public void the_first_client_filters_his_containers_journeys_based_on_the_content(String content) {
+        filteredContent = client.searchByContent(content);
+    }
+
+    @Then("the journey id is not created")
+    public void the_journey_id_is_not_created() {
+        assertEquals(Response.ID_NOT_CREATED, response);
     }
 
     @Then("the location is changed")
@@ -97,10 +125,19 @@ public class M2 {
 
     }
 
-    @Then("the clients containers journeys with the specific destination are listed")
-    public void the_clients_containers_journeys_with_the_specific_destination_are_listed() {
+    @Then("the clients list of journeys with the specific destination is listed")
+    public void the_clients_list_of_journeys_with_the_specific_destination_is_listed() {
         assertEquals(Response.SUCCESS, response);
+    }
 
+    @Then("the clients list of journeys with the specific content is listed")
+    public void the_clients_list_of_journeys_with_the_specific_content_is_listed() {
+        assertEquals(Response.SUCCESS, response);
+    }
+
+    @Then("the clients list of journeys with the specific origin port is listed")
+    public void the_clients_list_of_journeys_with_the_specific_origin_port_is_listed() {
+        assertEquals(Response.SUCCESS, response);
     }
 
     @Then("an Id is created")

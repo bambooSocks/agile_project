@@ -20,9 +20,20 @@
 Feature: Journey filtering by a keyword
 
   @tag1
-  Scenario: Successful filtering
+  Scenario: Successful filtering by destination
     Given the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     When the first client filters his containers journeys based on the destination "Rotterdam"
-    Then the clients containers journeys with the specific destination are listed
+    Then the clients list of journeys with the specific destination is listed
+	
+	Scenario: Successful filtering by origin 
+    Given the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    When the first client filters his containers journeys based on the origin port "Copenhagen"
+    Then the clients list of journeys with the specific origin port is listed
+	
+		Scenario: Successful filtering by content
+    Given the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    When the first client filters his containers journeys based on the content "oranges"
+    Then the clients list of journeys with the specific content is listed
 
+	
 
