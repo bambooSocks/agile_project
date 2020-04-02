@@ -1,20 +1,8 @@
 package rcm;
 
-public class Response {
-    private int errorCode;
-    private String errorMessage;
-
-    public Response(int errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public int getErrorCode() {
-        return errorCode;
-    }
-
+public enum Response {
+    SUCCESS,
+    ERROR,
+    CLIENT_ALREADY_EXISTS,
+    LOCATION_NOT_CHANGED
 }

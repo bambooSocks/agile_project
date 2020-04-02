@@ -16,8 +16,8 @@ public class Client extends User {
     }
 
     public Response filter(String destination) {
-        Response response = new Response(231, "Successful filtering");
-        return response;
+        // TODO: implement filtering code
+        return Response.SUCCESS;
     }
     
     public boolean updateProfile(String newName, String newAddress, String newRefPerson, String newEmail) {

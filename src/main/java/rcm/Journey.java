@@ -26,7 +26,7 @@ public class Journey {
     }
 
     public int getID() {
-        return this.id;
+        return id;
     }
 
     public LogisticsCompany getCompany() {

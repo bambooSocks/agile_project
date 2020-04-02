@@ -24,9 +24,9 @@ public class LogisticsCompany extends User {
             Double y = 2313.0;
             container.setLocation(x, y);
 
-            return new Response(402, "Location changed");
+            return Response.SUCCESS;
         } else {
-            return new Response(333, "Location not changed");
+            return Response.LOCATION_NOT_CHANGED;
         }
     }
 
@@ -55,11 +55,11 @@ public class LogisticsCompany extends User {
     public boolean addProfile(Client client) {
         if (this.clients.contains(client)) {
             return false;
-//            return new Response(567, "This client already exists");
+//            return Response.CLIENT_ALREADY_EXISTS;
         } else {
             clients.add(client);
             return true;
-//            return new Response(568, "New client profile has been created");
+//            return Response.SUCCESS;
         }
     }
 

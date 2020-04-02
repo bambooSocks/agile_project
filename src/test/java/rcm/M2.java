@@ -14,7 +14,7 @@ public class M2 {
     private LogisticsCompany logisticsCompany, logisticsCompany2;
     private Container container;
     private Client client, client2;
-    private Journey journey,journey2;
+    private Journey journey, journey2;
 
     private Response response;
 
@@ -31,7 +31,7 @@ public class M2 {
     }
 
     @Given("the container of the first logistics company")
-    public void the_container_of_the_first_logistics_company(){
+    public void the_container_of_the_first_logistics_company() {
         container = new Container(logisticsCompany);
 
     }
@@ -49,28 +49,22 @@ public class M2 {
         client2 = new Client(name, address, refPerson, email);
     }
 
+    @Given("the container has a location {double} {double}")
+    public void the_container_has_a_location(Double x, Double y) {
+        container.setLocation(x, y);
+        
+    }
+    
     @When("the client requests to register the container for the journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
     public void the_client_requests_to_register_the_container_for_the_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
             String originPort, String destinationPort, String content) {
         journey = new Journey(originPort, destinationPort, content, container, client);
     }
-    
+
     @When("the client requests to register the container for the the second journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
     public void the_client_requests_to_register_the_container_for_the_second_journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
             String originPort, String destinationPort, String content) {
         journey2 = new Journey(originPort, destinationPort, content, container, client);
-    }
-
-
-    @Then("an Id is created")
-    public void an_Id_is_created() {
-        assertTrue(journey.getID() != journey2.getID());
-    }
-
-    @Given("the container has a location {double} {double}")
-    public void the_container_has_a_location(Double x, Double y) {
-        container.setLocation(x, y);
-
     }
 
     @When("the first logistics company updates containers location")
@@ -85,28 +79,33 @@ public class M2 {
 
     }
 
-    @Then("the location is changed")
-    public void the_location_is_changed() {
-        assertEquals("Location changed", response.getErrorMessage());
-
-    }
-
-    @Then("the location is not changed")
-    public void the_location_is_not_changed() {
-        assertEquals("Location not changed", response.getErrorMessage());
-
-    }
-
     @When("the first client filters his containers journeys based on the destination {string}")
     public void the_first_client_filters_his_containers_journeys_based_on_the_destination(String destination) {
         response = client.filter(destination);
 
     }
 
+    @Then("the location is changed")
+    public void the_location_is_changed() {
+        assertEquals(Response.SUCCESS, response);
+
+    }
+
+    @Then("the location is not changed")
+    public void the_location_is_not_changed() {
+        assertEquals(Response.LOCATION_NOT_CHANGED, response);
+
+    }
+
     @Then("the clients containers journeys with the specific destination are listed")
     public void the_clients_containers_journeys_with_the_specific_destination_are_listed() {
-        assertEquals("Successful filtering", response.getErrorMessage());
+        assertEquals(Response.SUCCESS, response);
 
+    }
+
+    @Then("an Id is created")
+    public void an_Id_is_created() {
+        assertTrue(journey.getID() != journey2.getID());
     }
 
 }

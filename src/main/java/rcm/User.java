@@ -7,7 +7,7 @@ public abstract class User {
     String address;
     String refPerson;
     String email;
-
+    
     public User(String name, String address, String refPerson, String email) {
         this.name = name;
         this.address = address;
