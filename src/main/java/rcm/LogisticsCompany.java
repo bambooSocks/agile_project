@@ -16,9 +16,7 @@ public class LogisticsCompany extends User {
     }
 
     public Response updateLocation(Container container) {
-
         if (this.containers.contains(container)) {
-
             // TO DO implement user input for x and y
             Double x = 1212.0;
             Double y = 2313.0;
@@ -33,26 +31,26 @@ public class LogisticsCompany extends User {
     public void addToList(Container container) {
         containers.add(container);
     }
-    
-    public boolean searchProfiles(String parameter) {
-        for(Client search : clients) {
+
+    public boolean searchClient(String parameter) {
+        for (Client search : clients) {
             if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
                 return true;
             }
         }
         return false;
     }
-    
-    public Client searchResult(String parameter) {
-        for(Client search : clients) {
+
+    public Client searchResult(String parameter) { // this needs to be fixed (try to do without)
+        for (Client search : clients) {
             if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
                 return search;
             }
         }
         return null;
     }
-    
-    public boolean addProfile(Client client) {
+
+    public boolean addClient(Client client) {
         if (this.clients.contains(client)) {
             return false;
 //            return Response.CLIENT_ALREADY_EXISTS;
@@ -62,5 +60,4 @@ public class LogisticsCompany extends User {
 //            return Response.SUCCESS;
         }
     }
-
 }

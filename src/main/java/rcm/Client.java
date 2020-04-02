@@ -19,13 +19,12 @@ public class Client extends User {
         // TODO: implement filtering code
         return Response.SUCCESS;
     }
-    
-    public boolean updateProfile(String newName, String newAddress, String newRefPerson, String newEmail) {
+
+    public boolean updateClient(String newName, String newAddress, String newRefPerson, String newEmail) {
         name = newName;
         address = newAddress;
         refPerson = newRefPerson;
         email = newEmail;
         return true;
     }
-
 }

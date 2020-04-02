@@ -19,7 +19,7 @@ public abstract class User {
     public String getName() {
         return name;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -32,7 +32,7 @@ public abstract class User {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -51,5 +51,4 @@ public abstract class User {
             return false;
         return true;
     }
-
 }
