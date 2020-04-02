@@ -1,6 +1,6 @@
 package rcm;
 
-import static org.junit.Assert.assertEquals;
+//import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -17,7 +17,7 @@ public class M1 {
     private boolean successfulUpdate = false;
     private boolean searchResults = false;
 //    private Response response;
-    private int id, newId;
+    private int newId;
 
 ////	code snippets for M1:1
     @Given("a first logistics company {string} with address {string} reference person {string} and email {string}")
@@ -31,27 +31,27 @@ public class M1 {
             String email) {
         client1 = new Client(name, address, refPerson, email);
     }
-    
 
     @Given("client {string} does not exist in client profile")
     public void client_does_not_exist_in_client_profile(String name) {
-        assertFalse(company1.searchProfiles(name));
+        assertFalse(company1.searchClient(name));           //we aren't supposed to have asserts in givens
     }
 
     @Given("client {string} exists in client profile")
     public void client_exists_in_client_profile(String name) {
-        successfulEntry = company1.addProfile(client1);
-        assertTrue(company1.searchProfiles(name));
+        successfulEntry = company1.addClient(client1);
+        assertTrue(company1.searchClient(name));            //we aren't supposed to have asserts in givens
     }
 
     @When("the first logistics company enters client data")
     public void the_first_logistics_company_enters_client_data() {
-        successfulEntry = company1.addProfile(client1);
+        successfulEntry = company1.addClient(client1);
     }
 
     @Then("an id is automatically generated")
     public void an_id_is_automatically_generated() {
         newId = IdGenerator.getInstance().getId(GroupIdType.USER);
+//        assertTrue(id has been created);    //shouldn't it be something more like this? we dont use newId for anything...
     }
 
     @Then("a new client profile is successfully created")
@@ -68,7 +68,7 @@ public class M1 {
 
     @Given("no logistics company")
     public void no_logistics_company() {
-        company1 = new LogisticsCompany(null, null, null, null);
+        company1 = null;
     }
 
     @Then("display a message that only a logistics company may create a client profile")
@@ -82,12 +82,12 @@ public class M1 {
 
     @When("a first logistics company searches for parameter {string} in client profile")
     public void a_first_logistics_company_searches_for_parameter_in_client_profile(String searchParam) {
-        searchResults = company1.searchProfiles(searchParam);
+        searchResults = company1.searchClient(searchParam);
     }
 
     @When("parameter {string} exists in client profile")
     public void parameter_exists_in_client_profile(String searchParam) {
-        searchResults = company1.addProfile(client1);
+        searchResults = company1.addClient(client1);
         assertTrue(searchResults);
     }
 
@@ -109,12 +109,13 @@ public class M1 {
 
     ///////////////////////////////////////////////////////////////////////////////
 //	code snippets for M1:3
-    
+
     @When("a client enters new client info {string} with address {string} reference person {string} and email {string}")
-    public void a_client_enters_new_client_info_with_address_reference_person_and_email(String name, String address, String refPerson, String email) {
-        successfulUpdate = client1.updateProfile(name, address, refPerson, email);
+    public void a_client_enters_new_client_info_with_address_reference_person_and_email(String name, String address,
+            String refPerson, String email) {
+        successfulUpdate = client1.updateClient(name, address, refPerson, email);
     }
-    
+
     @Then("the client profile is successfully updated")
     public void the_client_profile_is_successfully_updated() {
         assertTrue(successfulUpdate);
