@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -15,7 +16,7 @@ public class M2 {
     private Container container;
     private Client client, client2;
     private Journey journey, journey2;
-    private LinkedList<Journey> filteredContent, filteredDestination, filteredOrigin;
+    private List<Journey> filteredContent, filteredDestination, filteredOrigin;
 
     private Response response;
 
