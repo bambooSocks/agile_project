@@ -5,5 +5,5 @@ public enum Response {
     ERROR,
     CLIENT_ALREADY_EXISTS,
     LOCATION_NOT_CHANGED,
-    ID_NOT_CREATED
+    JOURNEY_NOT_CREATED
 }

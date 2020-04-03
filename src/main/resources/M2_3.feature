@@ -22,18 +22,24 @@ Feature: Journey filtering by a keyword
   @tag1
   Scenario: Successful filtering by destination
     Given the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And the first journey with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "oranges" 
+    And the second journey with origin port of "Copenhagen", destination port of "Amsterdam" and a content of "oranges" 
     When the first client filters his containers journeys based on the destination "Rotterdam"
-    Then the clients list of journeys with the specific destination is listed
+    Then the first journey is listed
 	
 	Scenario: Successful filtering by origin 
     Given the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And the first journey with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "oranges" 
+    And the second journey with origin port of "Copenhagen", destination port of "Rotterdam" and a content of "oranges" 
     When the first client filters his containers journeys based on the origin port "Copenhagen"
-    Then the clients list of journeys with the specific origin port is listed
+    Then the second journey is listed
 	
 		Scenario: Successful filtering by content
     Given the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And the first journey with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "oranges" 
+    And the second journey with origin port of "Copenhagen", destination port of "Rotterdam" and a content of "oranges" 
     When the first client filters his containers journeys based on the content "oranges"
-    Then the clients list of journeys with the specific content is listed
+    Then both journeys are listed
 
 	
 
