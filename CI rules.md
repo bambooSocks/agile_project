@@ -4,7 +4,8 @@
 
 1. Code that causes undefined or failing tests. (Implement all your tests)
 2. Commented out code ("saved for later" or test code)
-3. Unformatted code (always run `Ctrl+Shift+F`)
+3. TODO code  (e.g. `// TODO: this and that`)
+4. Unformatted code (always run `Ctrl+Shift+F`)
 
 
 
@@ -26,7 +27,7 @@
 
 ### Convention for feature branch naming
 
-every feature branch name should look like `feature_<feature_notation>_<feature_name>`. For example `feature_M1_register_client`. Keep them short and succinct.
+every feature branch name should look like `feature_<feature_notation>_<feature_name>`. For example `feature_M1_register_client`. Keep them short and succinct. If feature is not related to any functionality (which it should) the name should follow format: `feature_<feature_name>` e.g. `feature_new_test_structure`
 
 
 
