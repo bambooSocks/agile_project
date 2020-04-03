@@ -16,8 +16,8 @@ public class O4 {
 
 
 	
-	@Given("the first client {string} with address {string}, reference person {string} and email {string}")
-    public void the_first_client_with_address_reference_person_and_email(String name, String address, String refPerson,
+	@Given("the client {string} with address {string}, reference person {string} and email {string}")
+    public void the_client_with_address_reference_person_and_email(String name, String address, String refPerson,
             String email) {
         client = new Client(name, address, refPerson, email);
 
