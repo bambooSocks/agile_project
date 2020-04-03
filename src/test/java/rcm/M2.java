@@ -45,6 +45,10 @@ public class M2 {
         client = new Client(name, address, refPerson, email);
 
     }
+    @Given("the first client is a client of the the first logistics company")
+    public void the_first_client_is_a_client_of_the_the_first_logistics_company() {
+        logisticsCompany.addClient(client);
+    }
 
     @Given("the second client {string} with address {string}, reference person {string} and email {string}")
     public void the_second_client_with_address_reference_person_and_email(String name, String address, String refPerson,
