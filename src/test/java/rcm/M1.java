@@ -88,12 +88,12 @@ public class M1 {
     @Then("the client {string} with address {string} reference person {string} email {string} and ID {int} is returned")
     public void the_client_with_address_reference_person_email_and_ID_is_returned(String name, String address,
             String refPerson, String email, Integer id) {
-//        assertNotEquals(null, searchResults);
+        assertNotEquals(null, searchResults);
     }
 
     @Then("no client is returned")
     public void no_client_is_returned() {
-//        assertEquals(null, searchResults);
+        assertEquals(false, searchResults);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
