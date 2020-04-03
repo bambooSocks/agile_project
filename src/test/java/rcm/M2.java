@@ -61,6 +61,14 @@ public class M2 {
         container.setLocation(x, y);
 
     }
+    @Given("the first journey with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_first_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort, String destinationPort, String content) {
+        journey = new Journey(originPort, destinationPort, content, container, client);
+    }
+    @Given("the second journey with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_second_journey_with_origin_port_of_destination_port_of_and_a_content_of( String originPort, String destinationPort, String content) {
+        journey2 = new Journey(originPort, destinationPort, content, container, client);
+    }
 
     @When("the first client requests to register no container for the journey with origin port of {string}, destination port of {string} and a content of {string}")
     public void the_first_client_requests_to_register_no_container_for_the_journey_with_origin_port_of_destination_port_of_and_a_content_of(
@@ -125,24 +133,25 @@ public class M2 {
 
     }
 
-    @Then("the clients list of journeys with the specific destination is listed")
-    public void the_clients_list_of_journeys_with_the_specific_destination_is_listed() {
-        assertEquals(Response.SUCCESS, response);
-    }
-
-    @Then("the clients list of journeys with the specific content is listed")
-    public void the_clients_list_of_journeys_with_the_specific_content_is_listed() {
-        assertEquals(Response.SUCCESS, response);
-    }
-
-    @Then("the clients list of journeys with the specific origin port is listed")
-    public void the_clients_list_of_journeys_with_the_specific_origin_port_is_listed() {
-        assertEquals(Response.SUCCESS, response);
-    }
-
     @Then("an Id is created")
     public void an_Id_is_created() {
         assertTrue(journey.getID() != journey2.getID());
+    }
+    @Then("the first journey is listed")
+    public void the_first_journey_is_listed() {
+        LinkedList<Journey> result = new LinkedList<Journey>();
+        result.add(journey);
+        assertTrue(filteredDestination.getFirst()==result.getFirst()&&filteredDestination.size()==1);
+    }
+    @Then("the second journey is listed")
+    public void the_second_journey_is_listed() {
+        LinkedList<Journey> result = new LinkedList<Journey>();
+        result.add(journey2);
+        assertTrue(filteredOrigin.getFirst()==result.getFirst()&&filteredOrigin.size()==1);
+    }
+    @Then("both journeys are listed")
+    public void both_journeys_are_listed() {
+        assertTrue(filteredContent.size()==2);
     }
 
 }

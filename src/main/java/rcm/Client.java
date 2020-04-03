@@ -53,4 +53,11 @@ public class Client extends User {
         email = newEmail;
         return true;
     }
+
+
+    public boolean closeButton() {
+        // TODO Auto-generated method stub
+        return true;
+        
+    }
 }

@@ -1,6 +1,9 @@
 package rcm;
 
 import io.cucumber.java.en.Given;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 public class O4 {
@@ -9,40 +12,36 @@ public class O4 {
 	private Container container;
 	private Client client;
 	private Journey journey;
-	private Response response;
+	private boolean closed;
 
 
-	@Given("client {string} containers journeys")
-	public void client_containers_journeys(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-
-	}
 	
-	@Given("a client {string} who owns the containers journeys")
-	public void a_client_who_owns_the_containers_journeys(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	}
+	@Given("the first client {string} with address {string}, reference person {string} and email {string}")
+    public void the_first_client_with_address_reference_person_and_email(String name, String address, String refPerson,
+            String email) {
+        client = new Client(name, address, refPerson, email);
+
+    }
 	
-	@When("the client wants to close the app")
-	public void the_client_wants_to_close_the_app() {
-	    // response = client.closeApp()
-	   
-	}
-	@Then("the clients {string} containers journeys are saved and the app is closed")
-	public void the_clients_containers_journeys_are_saved_and_the_app_is_closed(String string) {
-	    // Write code here that turns the phrase above into concrete actions
+	@When("the client clicks the close button")
+	public void the_client_clicks_the_close_button() {
+	    closed = client.closeButton();
 	    
 	}
 
-	@When("the client {string} wants to open the app")
-	public void the_client_wants_to_open_the_app(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    
+	@Then("the clients containers journeys are saved and the app is closed")
+	public void the_clients_containers_journeys_are_saved_and_the_app_is_closed() {
+	    assertTrue(closed);
 	}
-	@Then("the clients {string} containers journeys are loaded from the database")
-	public void the_clients_containers_journeys_are_loaded_from_the_database(String string) {
+
+	@When("the client wants to open the app")
+	public void the_client_wants_to_open_the_app() {
 	    // Write code here that turns the phrase above into concrete actions
-	    
+	}
+
+	@Then("the clients containers journeys are loaded from the database")
+	public void the_clients_containers_journeys_are_loaded_from_the_database() {
+	    assertTrue(!closed);
 	}
 
 }

@@ -61,5 +61,17 @@ public class Journey {
     public String getContent() {
         return content;
     } 
+    @Override
+    public boolean equals(Object obj) {
+       Journey j = (Journey) obj;
+       if (j.getID() == this.id) {
+           return true;
+       }
+       else {
+           return false;
+       }
+        
+        
+    }
 
 }
