@@ -1,6 +1,7 @@
 package rcm;
 
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.LinkedList;
 
@@ -33,7 +34,7 @@ public class Client extends User {
 //        return filtered;
     }
 
-    public LinkedList<Journey> searchByOrigin(String origin) {
+    public List<Journey> searchByOrigin(String origin) {
         LinkedList<Journey> filtered = new LinkedList<Journey>();
         for (Journey j : journeyList) {
             if (j.getOriginPort().equals(origin)) {
@@ -43,7 +44,7 @@ public class Client extends User {
         return filtered;
     }
 
-    public LinkedList<Journey> searchByContent(String content) {
+    public List<Journey> searchByContent(String content) {
         LinkedList<Journey> filtered = new LinkedList<Journey>();
         for (Journey j : journeyList) {
             if (j.getContent().equals(content)) {
@@ -68,4 +69,16 @@ public class Client extends User {
         return true;
         
     }
+    
+    public Response requestJourney(String originPort, String destinationPort, String content,LogisticsCompany logisticsCompany) {
+        if (logisticsCompany.getClients().contains(this) && !logisticsCompany.getAvailableContainers().isEmpty()) {
+            Container container = logisticsCompany.getAvailableContainers().pop();
+            Journey journey = new Journey(originPort, destinationPort, content, container, this);
+        return Response.SUCCESS;
+        }
+        else {
+            return Response.JOURNEY_NOT_CREATED;
+        }
+    }
+    
 }
