@@ -25,11 +25,6 @@ public class M2 {
         logisticsCompany = new LogisticsCompany(name, address, refPerson, email);
     }
 
-    @Given("the container already in use")
-    public void the_container_already_in_use() {
-        container = new Container(logisticsCompany);
-        journey = new Journey("Copenhage","New York","bananas",container,client);
-    }
 
     @Given("the second logistics company {string} with address {string}, reference person {string} and email {string}")
     public void the_second_logistics_company_with_address_reference_person_and_email(String name, String address,
@@ -70,28 +65,18 @@ public class M2 {
         journey2 = new Journey(originPort, destinationPort, content, container, client);
     }
 
-    @When("the first client requests to register no container for the journey with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_first_client_requests_to_register_no_container_for_the_journey_with_origin_port_of_destination_port_of_and_a_content_of(
-            String originPort, String destinationPort, String content) {
-        journey = new Journey(originPort, destinationPort, content, null, client);
-    }
 
     @When("the first client filters his containers journeys based on the origin port {string}")
     public void the_first_client_filters_his_containers_journeys_based_on_the_origin_port(String origin) {
         filteredOrigin = client.searchByOrigin(origin);
     }
 
-    @When("the first client requests to register the container for the journey with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_first_client_requests_to_register_the_container_for_the_journey_with_origin_port_of_destination_port_of_and_a_content_of(
+    @When("the first client requests to register the container for the journey with the first logistics company with origin port of {string}, destination port of {string} and a content of {string}")
+    public void the_first_client_requests_to_register_the_container_for_the_journey_with_the_first_logistics_company_with_origin_port_of_destination_port_of_and_a_content_of(
             String originPort, String destinationPort, String content) {
-        journey = new Journey(originPort, destinationPort, content, container, client);
+        response = client.requestJourney(originPort,destinationPort,content,logisticsCompany);
     }
 
-    @When("the first client requests to register the container for the the second journey with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_first_client_requests_to_register_the_container_for_the_second_journey_with_origin_port_of_destination_port_of_and_a_content_of(
-            String originPort, String destinationPort, String content) {
-        journey2 = new Journey(originPort, destinationPort, content, container, client);
-    }
 
     @When("the first logistics company updates containers location")
     public void the_first_logistics_company_updates_containers_location() {
@@ -116,10 +101,6 @@ public class M2 {
         filteredContent = client.searchByContent(content);
     }
 
-    @Then("the journey id is not created")
-    public void the_journey_id_is_not_created() {
-        assertEquals(Response.ID_NOT_CREATED, response);
-    }
 
     @Then("the location is changed")
     public void the_location_is_changed() {
@@ -135,23 +116,25 @@ public class M2 {
 
     @Then("an Id is created")
     public void an_Id_is_created() {
-        assertTrue(journey.getID() != journey2.getID());
+        assertEquals(Response.SUCCESS,response);
     }
     @Then("the first journey is listed")
     public void the_first_journey_is_listed() {
-        LinkedList<Journey> result = new LinkedList<Journey>();
-        result.add(journey);
-        assertTrue(filteredDestination.getFirst()==result.getFirst()&&filteredDestination.size()==1);
+        assertTrue(filteredDestination.contains(journey));
+        assertTrue(filteredDestination.size()==1);
     }
     @Then("the second journey is listed")
     public void the_second_journey_is_listed() {
-        LinkedList<Journey> result = new LinkedList<Journey>();
-        result.add(journey2);
-        assertTrue(filteredOrigin.getFirst()==result.getFirst()&&filteredOrigin.size()==1);
+        assertTrue(filteredOrigin.contains(journey2));
+        assertTrue(filteredOrigin.size()==1);
     }
     @Then("both journeys are listed")
     public void both_journeys_are_listed() {
         assertTrue(filteredContent.size()==2);
+    }
+    @Then("the journey doesnt exist")
+    public void the_journey_doesnt_exist() {
+        assertEquals(Response.JOURNEY_NOT_CREATED, response);
     }
 
 }

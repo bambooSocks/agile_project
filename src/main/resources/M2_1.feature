@@ -24,21 +24,14 @@ Feature: Container Registration
   	Given the first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
     And the container of the first logistics company
     And the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    When the first client requests to register the container for the journey with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods" 
-    And the first client requests to register the container for the the second journey with origin port of "New York", destination port of "Copenhagen" and a content of "masks"  
+    When the first client requests to register the container for the journey with the first logistics company with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
     Then an Id is created 
 
   Scenario: Out of containers
   	Given the first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
     And the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    When the first client requests to register no container for the journey with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods" 
-    Then the journey id is not created 
+    When the first client requests to register the container for the journey with the first logistics company with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"  
+    Then the journey doesnt exist
     
-Scenario: Container not available
-  	Given the first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
-    And the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And the container already in use 
-    When the first client requests to register the container for the journey with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods" 
-    Then the journey id is not created 
     
     
