@@ -7,11 +7,28 @@ import java.util.HashSet;
 public class LogisticsCompany extends User {
 
     LinkedList<Container> containers;
+    LinkedList<Container> availableContainers;
+    
+    
+    public LinkedList<Container> getAvailableContainers() {
+        return availableContainers;
+    }
+    
+    public void addAvailableContainer(Container container) {
+        availableContainers.add(container);
+    }
+
     Set<Client> clients;
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+    
 
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         containers = new LinkedList<Container>();
+        availableContainers = new LinkedList<Container>();
         clients = new HashSet<Client>();
     }
 
@@ -51,11 +68,8 @@ public class LogisticsCompany extends User {
     }
 
     public boolean addClient(Client client) {
-        if (this.clients.contains(client)) {
-            return false;
-        } else {
             clients.add(client);
             return true;
-        }
+
     }
 }

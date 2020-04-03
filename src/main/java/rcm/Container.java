@@ -16,6 +16,7 @@ public class Container {
         id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
         company.addContainer(this);
+        company.addAvailableContainer(this);
     }
 
     public LogisticsCompany getCompany() {

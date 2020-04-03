@@ -16,9 +16,10 @@ public class Client extends User {
     }
 
     public LinkedList<Journey> searchByDestination(String destination) {
+
         LinkedList<Journey> filtered = new LinkedList<Journey>();
         for (Journey j : journeyList) {
-            if (j.getDestinationPort() == destination) {
+            if (j.getDestinationPort().equals(destination)) {
                 filtered.add(j);
             }
         }
@@ -28,7 +29,7 @@ public class Client extends User {
     public LinkedList<Journey> searchByOrigin(String origin) {
         LinkedList<Journey> filtered = new LinkedList<Journey>();
         for (Journey j : journeyList) {
-            if (j.getOriginPort() == origin) {
+            if (j.getOriginPort().equals(origin)) {
                 filtered.add(j);
             }
         }
@@ -38,7 +39,7 @@ public class Client extends User {
     public LinkedList<Journey> searchByContent(String content) {
         LinkedList<Journey> filtered = new LinkedList<Journey>();
         for (Journey j : journeyList) {
-            if (j.getContent() == content) {
+            if (j.getContent().equals(content)) {
                 filtered.add(j);
             }
         }
@@ -59,5 +60,16 @@ public class Client extends User {
         // TODO Auto-generated method stub
         return true;
         
+    }
+
+    public Response requestJourney(String originPort, String destinationPort, String content,LogisticsCompany logisticsCompany) {
+        if (logisticsCompany.getClients().contains(this) && !logisticsCompany.getAvailableContainers().isEmpty()) {
+            Container container = logisticsCompany.getAvailableContainers().pop();
+            Journey journey = new Journey(originPort, destinationPort, content, container, this);
+        return Response.SUCCESS;
+        }
+        else {
+            return Response.JOURNEY_NOT_CREATED;
+        }
     }
 }
