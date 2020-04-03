@@ -21,7 +21,7 @@ Feature: Client profile update
 
   @tag1
     Scenario: Successful client profile update
-    Given first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    Given a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
 #    And client "Chiquita" exists in client profile
     When a client enters new client info "Chiquita" with address "338 Hwy 82, Orlando, FLorida" reference person "Carmen Rodriguez" and email "bigyellowbananas@chiquita.com"
     Then the client profile is successfully updated

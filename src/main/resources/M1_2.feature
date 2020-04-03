@@ -22,8 +22,8 @@ Feature: Client searching
   @tag1
   Scenario: Successful search using email
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    And first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And a second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     When a first logistics company searches for parameter "bananas@chiquita.com" in client profile
     And parameter "bananas@chiquita.com" exists in client profile
     Then the client "Chiquita" with address "1855 Griffin Road Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and ID 20031 is returned
@@ -31,8 +31,8 @@ Feature: Client searching
   @tag2
   Scenario: Failed search using email
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    And first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And a second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     When a first logistics company searches for parameter "bigyellowbananas@chiquita.com" in client profile
     And parameter "bigyellowbananas@chiquita.com" does not exist in client profile
     Then no client is returned
@@ -40,8 +40,8 @@ Feature: Client searching
   @tag3
   Scenario: Successful search using name
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    And first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And a second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     When a first logistics company searches for parameter "Chiquita" in client profile
     And parameter "Chiquita" exists in client profile
     Then the client "Chiquita" with address "1855 Griffin Road Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and ID 20031 is returned
@@ -49,8 +49,8 @@ Feature: Client searching
   @tag4
   Scenario: Failed search using name
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    And first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And a second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     When a first logistics company searches for parameter "Dole" in client profile
     And parameter "Dole" does not exist in client profile
     Then no client is returned
