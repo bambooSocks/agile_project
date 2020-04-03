@@ -31,7 +31,7 @@ Feature: Client searching
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     When a first logistics company searches for parameter "bananas@chiquita.com" in client profile
     And parameter "bananas@chiquita.com" does not exist in client profile
-    Then display a message that the parameter does not exist
+    Then no client is returned
 
   @tag3
   Scenario: Successful search using name
@@ -45,4 +45,4 @@ Feature: Client searching
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     When a first logistics company searches for parameter "Chiquita" in client profile
     And parameter "Chiquita" does not exist in client profile
-    Then display a message that the parameter does not exist
+    Then no client is returned

@@ -1,6 +1,7 @@
 package rcm;
 
-//import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,12 +13,9 @@ public class M1 {
 
     private Client client1;
     private LogisticsCompany company1;
-//    private String searchParam, param1, param2;
     private boolean successfulEntry = false;
     private boolean successfulUpdate = false;
     private boolean searchResults = false;
-//    private Response response;
-    private int newId;
 
 ////	code snippets for M1:1
     @Given("a first logistics company {string} with address {string} reference person {string} and email {string}")
@@ -32,17 +30,6 @@ public class M1 {
         client1 = new Client(name, address, refPerson, email);
     }
 
-    @Given("client {string} does not exist in client profile")
-    public void client_does_not_exist_in_client_profile(String name) {
-        assertFalse(company1.searchClient(name));           //we aren't supposed to have asserts in givens
-    }
-
-    @Given("client {string} exists in client profile")
-    public void client_exists_in_client_profile(String name) {
-        successfulEntry = company1.addClient(client1);
-        assertTrue(company1.searchClient(name));            //we aren't supposed to have asserts in givens
-    }
-
     @When("the first logistics company enters client data")
     public void the_first_logistics_company_enters_client_data() {
         successfulEntry = company1.addClient(client1);
@@ -50,20 +37,12 @@ public class M1 {
 
     @Then("an id is automatically generated")
     public void an_id_is_automatically_generated() {
-        newId = IdGenerator.getInstance().getId(GroupIdType.USER);
-//        assertTrue(id has been created);    //shouldn't it be something more like this? we dont use newId for anything...
+        assertNotEquals(null, client1.id);
     }
 
     @Then("a new client profile is successfully created")
     public void a_new_client_profile_is_successfully_created() {
-//      assertEquals("New client profile has been created", response.getErrorMessage());
         assertTrue(successfulEntry);
-    }
-
-    @Then("a new client profile is not created")
-    public void a_new_client_profile_is_not_created() {
-//        assertEquals("This client already exists", response.getErrorMessage());
-        assertFalse(successfulEntry);
     }
 
     @Given("no logistics company")
@@ -71,9 +50,18 @@ public class M1 {
         company1 = null;
     }
 
-    @Then("display a message that only a logistics company may create a client profile")
-    public void display_a_message_that_only_a_logistics_company_may_create_a_client_profile() {
-//        assertEquals("Only a logistics company may create a client profile", response.getErrorMessage());
+    @When("the first client enters client data")
+    public void the_first_client_enters_client_data() {
+//        ask where this needs to be
+        try {
+            company1.addClient(client1);
+        } catch (Exception e) {
+            successfulEntry = false;
+        }
+    }
+
+    @Then("a new client profile is not created")
+    public void a_new_client_profile_is_not_created() {
         assertFalse(successfulEntry);
     }
 
@@ -93,18 +81,19 @@ public class M1 {
 
     @When("parameter {string} does not exist in client profile")
     public void parameter_does_not_exist_in_client_profile(String searchParam) {
-        assertFalse(searchResults);
+//        assertFalse(searchResults);
+        searchResults = company1.searchClient(searchParam);
     }
 
     @Then("the client {string} with address {string} reference person {string} email {string} and ID {int} is returned")
     public void the_client_with_address_reference_person_email_and_ID_is_returned(String name, String address,
             String refPerson, String email, Integer id) {
-//        company1.searchResult(name);
+//        assertNotEquals(null, searchResults);
     }
 
-    @Then("display a message that the parameter does not exist")
-    public void display_a_message_that_the_parameter_does_not_exist() {
-//        assertEquals("This item does not exist in the client database", response.getErrorMessage());
+    @Then("no client is returned")
+    public void no_client_is_returned() {
+//        assertEquals(null, searchResults);
     }
 
     ///////////////////////////////////////////////////////////////////////////////

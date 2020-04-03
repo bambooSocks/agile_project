@@ -2,11 +2,11 @@ package rcm;
 
 public abstract class User {
 
-    int id;
-    String name;
-    String address;
-    String refPerson;
-    String email;
+    protected int id;
+    protected String name;
+    protected String address;
+    protected String refPerson;
+    protected String email;
     
     public User(String name, String address, String refPerson, String email) {
         this.name = name;

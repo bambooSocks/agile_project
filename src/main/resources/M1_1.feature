@@ -23,21 +23,22 @@ Feature: Client profile creation
   Scenario: Successful new client profile creation
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-    And client "Chiquita" does not exist in client profile
+#    And client "Chiquita" does not exist in client profile
     When the first logistics company enters client data
     Then an id is automatically generated
     And a new client profile is successfully created
 
-  @tag2
-  Scenario: Client profile already exists
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-    And client "Chiquita" exists in client profile
-    When the first logistics company enters client data
-    Then a new client profile is not created
+#  @tag2
+#  Scenario: Client profile already exists
+#    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+#    And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+#    And client "Chiquita" exists in client profile
+#    When the first logistics company enters client data
+#    Then a new client profile is not created
 
   @tag3
   Scenario: Client tries to create profile
     Given no logistics company
     And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-    Then display a message that only a logistics company may create a client profile
+    When the first client enters client data
+    Then a new client profile is not created

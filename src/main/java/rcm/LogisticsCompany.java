@@ -53,11 +53,9 @@ public class LogisticsCompany extends User {
     public boolean addClient(Client client) {
         if (this.clients.contains(client)) {
             return false;
-//            return Response.CLIENT_ALREADY_EXISTS;
         } else {
             clients.add(client);
             return true;
-//            return Response.SUCCESS;
         }
     }
 }
