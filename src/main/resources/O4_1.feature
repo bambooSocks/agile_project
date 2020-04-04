@@ -19,15 +19,5 @@
 @tag
 Feature: Storing data when app is closing
 
-  @tag1
-  Scenario: App closed
-    Given a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    When the client clicks the close button
-    Then the clients containers journeys are saved and the app is closed
 
-	Scenario: App opened
-    Given a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    When the client wants to open the app
-    Then the clients containers journeys are loaded from the database
-    
    
