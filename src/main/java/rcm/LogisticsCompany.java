@@ -32,12 +32,9 @@ public class LogisticsCompany extends User {
         clients = new HashSet<Client>();
     }
 
-    public Response updateLocation(Container container) {
+    public Response updateLocation(Container container,String newLocation) {
         if (this.containers.contains(container)) {
-            // TO DO implement user input for x and y
-            Double x = 1212.0;
-            Double y = 2313.0;
-            container.setLocation(x, y);
+            container.setLocation(newLocation);
 
             return Response.SUCCESS;
         } else {

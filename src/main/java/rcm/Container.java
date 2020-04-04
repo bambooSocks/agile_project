@@ -3,7 +3,7 @@ package rcm;
 public class Container {
     private int id;
     private LogisticsCompany company;
-    private Double[] location = new Double[2];
+    private String location;
 
     @Deprecated
     public Container(int id, LogisticsCompany company) {
@@ -23,13 +23,17 @@ public class Container {
         return company;
     }
 
-    public void setLocation(Double x, Double y) {
-        this.location[0] = x;
-        this.location[1] = y;
-    }
-
     public int getId() {
         return id;
+    }
+
+    public void setLocation(String newLocation) {
+        location = newLocation;
+        
+    }
+
+    public String getLocation() {
+        return location;
     }
 
 }

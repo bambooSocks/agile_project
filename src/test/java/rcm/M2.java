@@ -24,53 +24,47 @@ public class M2 {
         holder.getFirstCompany().addClient(holder.getFirstClient());
     }
 
-    @Given("the container has a location {double} {double}")
-    public void the_container_has_a_location(Double x, Double y) {
-        holder.getContainer().setLocation(x, y);
+    @Given("the container has a location {string}")
+    public void the_container_has_a_location(String location) {
+        holder.getContainer().setLocation(location);
     }
 
-    @When("the first client requests to register the container for the journey with the first logistics company with origin port of {string}, destination port of {string} and a content of {string}")
-    public void the_first_client_requests_to_register_the_container_for_the_journey_with_the_first_logistics_company_with_origin_port_of_destination_port_of_and_a_content_of(
+    @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
+    public void the_first_client_requests_to_register_a_journey_with_the_first_logistics_company_with_origin_destination_and_content(
             String originPort, String destinationPort, String content) {
-        // veeeeeeeeeeeeery long name :D
         response = holder.getFirstClient().requestJourney(originPort, destinationPort, content,
                 holder.getFirstCompany());
     }
 
-    @When("the first logistics company updates containers location")
-    public void the_first_logistics_company_updates_containers_location() {
-        // update to what?
-        response = holder.getFirstCompany().updateLocation(holder.getContainer());
+    @When("the first logistics company updates containers location to a new location {string}")
+    public void the_first_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
+        response = holder.getFirstCompany().updateLocation(holder.getContainer(),newLocation);
     }
 
-    @When("the second logistics company updates containers location")
-    public void the_second_logistics_company_updates_containers_location() {
-        // same here ... what are you even updating?
-        response = holder.getSecondCompany().updateLocation(holder.getContainer());
+    @When("the second logistics company updates containers location to a new location {string}")
+    public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
+        response = holder.getSecondCompany().updateLocation(holder.getContainer(),newLocation);
     }
 
-    @When("the first client filters his containers journeys based on the origin port {string}")
-    public void the_first_client_filters_his_containers_journeys_based_on_the_origin_port(String origin) {
-        // minor suggestion : containers journeys -> container journeys or just journeys
+    @When("the first client filters his journeys based on the origin port {string}")
+    public void the_first_client_filters_his_journeys_based_on_the_origin_port(String origin) {
         filteredOrigin = holder.getFirstClient().searchByOrigin(origin);
     }
 
-    @When("the first client filters his containers journeys based on the destination {string}")
-    public void the_first_client_filters_his_containers_journeys_based_on_the_destination(String destination) {
-        // same here
+    @When("the first client filters his journeys based on the destination {string}")
+    public void the_first_client_filters_his_journeys_based_on_the_destination(String destination) {
         filteredDestination = holder.getFirstClient().searchByDestination(destination);
     }
 
-    @When("the first client filters his containers journeys based on the content {string}")
-    public void the_first_client_filters_his_containers_journeys_based_on_the_content(String content) {
-        // and here
+    @When("the first client filters his journeys based on the content {string}")
+    public void the_first_client_filters_his_journeys_based_on_the_content(String content) {
         filteredContent = holder.getFirstClient().searchByContent(content);
     }
 
     @Then("the location is changed")
     public void the_location_is_changed() {
-        // maybe check for expected value?
         assertEquals(Response.SUCCESS, response);
+        assertEquals("Atlantic Ocean",holder.getContainer().getLocation());
     }
 
     @Then("the location is not changed")
@@ -97,8 +91,9 @@ public class M2 {
 
     @Then("both journeys are listed")
     public void both_journeys_are_listed() {
-        // maybe check for the actual journeys
         assertTrue(filteredContent.size() == 2);
+        assertTrue(filteredContent.contains(holder.getFirstJourney()));
+        assertTrue(filteredContent.contains(holder.getSecondJourney()));
     }
 
     @Then("the journey doesnt exist")
