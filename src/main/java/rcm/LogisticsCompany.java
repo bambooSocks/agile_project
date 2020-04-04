@@ -72,4 +72,11 @@ public class LogisticsCompany extends User {
             return true;
 
     }
+    
+    public void addContainer() {
+        Container container = new Container(this);
+        addContainer(container);
+        addAvailableContainer(container);
+    }
+    
 }
