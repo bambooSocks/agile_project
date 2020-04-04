@@ -20,6 +20,14 @@ public abstract class User {
         return name;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public String getRefPerson() {
+        return refPerson;
+    }
+
     public String getEmail() {
         return email;
     }

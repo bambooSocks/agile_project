@@ -12,58 +12,19 @@ import io.cucumber.java.en.When;
 
 public class M3 {
 
-    private Container container;
-    private Journey journey;
-    private LogisticsCompany company1, company2;
-    private Client client1, client2;
     private ContainerStatus status;
 
     private boolean successfulEntry = false;
     private LinkedList<ContainerStatus> statusList;
 
-    @Given("a first logistics company {string} with address {string}, reference person {string} and email {string}")
-    public void a_first_logistics_company_with_address_reference_person_and_email(String name, String address,
-            String refPerson, String email) {
-        company1 = new LogisticsCompany(name, address, refPerson, email);
+    private SharedObjectHolder holder;
+
+    public M3(SharedObjectHolder holder) {
+        this.holder = holder;
     }
 
-    @Given("a second logistics company {string} with address {string}, reference person {string} and email {string}")
-    public void a_second_logistics_company_with_address_reference_person_and_email(String name, String address,
-            String refPerson, String email) {
-        company2 = new LogisticsCompany(name, address, refPerson, email);
-    }
-
-    @Given("first client {string} with address {string}, reference person {string} and email {string}")
-    public void first_client_with_address_reference_person_and_email(String name, String address, String refPerson,
-            String email) {
-        client1 = new Client(name, address, refPerson, email);
-    }
-
-    @Given("a second client {string} with address {string}, reference person {string} and email {string}")
-    public void a_second_client_with_address_reference_person_and_email(String name, String address, String refPerson,
-            String email) {
-        client2 = new Client(name, address, refPerson, email);
-    }
-
-    @Given("a container of first logistics company with ID {int}")
-    public void a_container_of_first_logistics_company_with_ID(Integer id) {
-        container = new Container(id, company1);
-    }
-
-    @Given("journey of given container and first client with origin port of {string}, destination port of {string} and a content of {string}")
-    public void journey_of_given_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
-            String originPort, String destinationPort, String content) {
-        journey = new Journey(originPort, destinationPort, content, container, client1);
-    }
-
-    @Given("a journey of no container and first client with origin port of {string}, destination port of {string} and a content of {string}")
-    public void a_journey_of_no_container_and_first_client_with_origin_port_of_destination_port_of_and_a_content_of(
-            String originPort, String destinationPort, String content) {
-        journey = new Journey(originPort, destinationPort, content, null, client1);
-    }
-
-    @Given("a container status of {double} degrees, {double} % humidity and {double} bar to the given journey")
-    public void a_container_status_of_degrees_humidity_and_bar_to_the_given_journey(Double temperature, Double humidity,
+    @Given("a container status of {double} degrees, {double} % humidity and {double} bar")
+    public void a_container_status_of_degrees_humidity_and_bar(Double temperature, Double humidity,
             Double airPressure) {
         status = new ContainerStatus(temperature, humidity, airPressure);
     }
@@ -72,38 +33,39 @@ public class M3 {
     public void an_initial_container_status_in_the_journey_of_degrees_humidity_and_bar(Double temperature,
             Double humidity, Double airPressure) {
         status = new ContainerStatus(temperature, humidity, airPressure);
-        LogisticsCompany company = journey.getCompany();
-        successfulEntry = journey.addStatus(status, company);
+        LogisticsCompany company = holder.getFirstJourney().getCompany();
+        successfulEntry = holder.getFirstJourney().addStatus(status, company);
+        assertTrue(holder.getFirstJourney().containsStatus(status));
     }
 
     @When("the first logistics company enters the given container status")
     public void the_first_logistics_company_enters_the_given_container_status() {
-        successfulEntry = journey.addStatus(status, company1);
+        successfulEntry = holder.getFirstJourney().addStatus(status, holder.getFirstCompany());
     }
 
     @When("the second logistics company enters the given container status")
     public void the_second_logistics_company_enters_the_given_container_status() {
-        successfulEntry = journey.addStatus(status, company2);
+        successfulEntry = holder.getFirstJourney().addStatus(status, holder.getSecondCompany());
     }
 
     @When("the first client requests access to the status")
     public void the_first_client_requests_access_to_the_status() {
-        statusList = journey.getStatus(client1);
+        statusList = holder.getFirstJourney().getStatus(holder.getFirstClient());
     }
 
     @When("the second client requests access to the status")
     public void the_second_client_requests_access_to_the_status() {
-        statusList = journey.getStatus(client2);
+        statusList = holder.getFirstJourney().getStatus(holder.getSecondClient());
     }
 
     @Then("the journey contains the given status")
     public void the_journey_contains_the_given_status() {
-        assertTrue(journey.containsStatus(status));
+        assertTrue(holder.getFirstJourney().containsStatus(status));
     }
 
     @Then("the journey does not contain the given status")
     public void the_journey_does_not_contain_the_given_status() {
-        assertFalse(journey.containsStatus(status));
+        assertFalse(holder.getFirstJourney().containsStatus(status));
     }
 
     @Then("the journey is successfully updated")
