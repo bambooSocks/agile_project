@@ -1,6 +1,7 @@
 package rcm;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.LinkedList;
@@ -18,42 +19,21 @@ public class Client extends User {
         this.journeyList.add(journey);
     }
 
+    private List<Journey> applyFilter(Predicate<Journey> p) {
+        return journeyList.stream().filter(p).collect(Collectors.toList());
+    }
+    
     public List<Journey> searchByDestination(String destination) {
-        return journeyList.stream()
-                .filter(j -> j.getDestinationPort().equals(destination))
-                .collect(Collectors.toList());
-        
-        
-        
-//        LinkedList<Journey> filtered = new LinkedList<Journey>();
-//        for (Journey j : journeyList) {
-//            if (j.getDestinationPort().equals(destination)) {
-//                filtered.add(j);
-//            }
-//        }
-//        return filtered;
+        return applyFilter(j -> j.getDestinationPort().equals(destination));
     }
 
     public List<Journey> searchByOrigin(String origin) {
-        LinkedList<Journey> filtered = new LinkedList<Journey>();
-        for (Journey j : journeyList) {
-            if (j.getOriginPort().equals(origin)) {
-                filtered.add(j);
-            }
-        }
-        return filtered;
+        return applyFilter(j -> j.getOriginPort().equals(origin));
     }
 
     public List<Journey> searchByContent(String content) {
-        LinkedList<Journey> filtered = new LinkedList<Journey>();
-        for (Journey j : journeyList) {
-            if (j.getContent().equals(content)) {
-                filtered.add(j);
-            }
-        }
-        return filtered;
+        return applyFilter(j -> j.getContent().equals(content));
     }
-
 
     public boolean updateClient(String newName, String newAddress, String newRefPerson, String newEmail) {
         name = newName;
