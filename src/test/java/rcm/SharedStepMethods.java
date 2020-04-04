@@ -61,13 +61,21 @@ public class SharedStepMethods {
     @Given("a first journey of first client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_first_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort,
             String destinationPort, String content) {
-        holder.setFirstJourney(new Journey(originPort, destinationPort, content, holder.getContainer(), holder.getFirstClient()));
+        holder.setFirstJourney(
+                new Journey(originPort, destinationPort, content, holder.getContainer(), holder.getFirstClient()));
+    }
+
+    @Given("a first journey of first client with no container with origin port of {string} destination port of {string} and a content of {string}")
+    public void a_first_journey_with_no_container_with_origin_port_of_destination_port_of_and_a_content_of(
+            String originPort, String destinationPort, String content) {
+        holder.setFirstJourney(new Journey(originPort, destinationPort, content, null, holder.getFirstClient()));
     }
 
     @Given("a second journey of first client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_second_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort,
             String destinationPort, String content) {
-        holder.setSecondJourney(new Journey(originPort, destinationPort, content, holder.getContainer(), holder.getFirstClient()));
+        holder.setSecondJourney(
+                new Journey(originPort, destinationPort, content, holder.getContainer(), holder.getFirstClient()));
     }
 
     @Given("a container of the first logistics company")
