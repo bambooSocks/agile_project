@@ -21,23 +21,25 @@ Feature: Container Registration
 
   @tag1
   Scenario: Successful registration
-  	Given the first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
-    And the container of the first logistics company
-    And the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+  	Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    And a container of the first logistics company
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     And the first client is a client of the the first logistics company
     When the first client requests to register the container for the journey with the first logistics company with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"   
-    Then an Id is created 
+    Then an id is created 
 
   Scenario: Out of containers
-  	Given the first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
-    And the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+  	Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     And the first client is a client of the the first logistics company
     When the first client requests to register the container for the journey with the first logistics company with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"  
     Then the journey doesnt exist
     
     
   Scenario: Not a client of logistics company
-  	Given the first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K", reference person "Soeren Skou" and email "info@maersk.com"
-    And the first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd", reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+  	Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     When the first client requests to register the container for the journey with the first logistics company with origin port of "Shenzhen", destination port of "Rotterdam" and a content of "medical goods"  
     Then the journey doesnt exist
+    
+    
