@@ -2,7 +2,7 @@
 
 ### What doesn't belong to master branch
 
-1. Code that causes undefined or failing tests. (Implement all your tests)
+1. Code that causes undefined, pending or failing tests. (Implement all your tests)
 2. Commented out code ("saved for later" or test code)
 3. TODO code  (e.g. `// TODO: this and that`)
 4. Unformatted code (always run `Ctrl+Shift+F`)
