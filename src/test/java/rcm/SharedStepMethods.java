@@ -32,12 +32,6 @@ public class SharedStepMethods {
         assertEquals(email, holder.getSecondCompany().getEmail());
     }
 
-    // maybe not
-    @Given("no logistics company")
-    public void no_logistics_company() {
-        holder.setFirstCompany(null);
-    }
-
     @Given("a first client {string} with address {string} reference person {string} and email {string}")
     public void a_first_client_with_address_reference_person_and_email(String name, String address, String refPerson,
             String email) {

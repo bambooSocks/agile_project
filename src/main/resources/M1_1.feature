@@ -23,8 +23,7 @@ Feature: Client profile creation
   Scenario: Successful new client profile creation
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-#    And client "Chiquita" does not exist in client profile
-    When the first logistics company enters client data
+    When the first logistics company adds a client
     Then an id is automatically generated
     And a new client profile is successfully created
 
@@ -35,10 +34,3 @@ Feature: Client profile creation
 #    And client "Chiquita" exists in client profile
 #    When the first logistics company enters client data
 #    Then a new client profile is not created
-
-  @tag3
-  Scenario: Client tries to create profile
-    Given no logistics company
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-    When the first client enters client data
-    Then a new client profile is not created

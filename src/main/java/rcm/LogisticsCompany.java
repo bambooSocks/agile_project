@@ -1,19 +1,20 @@
 package rcm;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.HashSet;
 
 public class LogisticsCompany extends User {
 
     LinkedList<Container> containers;
     LinkedList<Container> availableContainers;
-    
-    
+
     public LinkedList<Container> getAvailableContainers() {
         return availableContainers;
     }
-    
+
     public void addAvailableContainer(Container container) {
         availableContainers.add(container);
     }
@@ -23,7 +24,6 @@ public class LogisticsCompany extends User {
     public Set<Client> getClients() {
         return clients;
     }
-    
 
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
@@ -32,7 +32,7 @@ public class LogisticsCompany extends User {
         clients = new HashSet<Client>();
     }
 
-    public Response updateLocation(Container container,String newLocation) {
+    public Response updateLocation(Container container, String newLocation) {
         if (this.containers.contains(container)) {
             container.setLocation(newLocation);
 
@@ -46,27 +46,21 @@ public class LogisticsCompany extends User {
         containers.add(container);
     }
 
-    public boolean searchClient(String parameter) {
-        for (Client search : clients) {
-            if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
-                return true;
-            }
-        }
-        return false;
+    private Set<Client> applyFilter(Predicate<Client> p) {
+        return clients.stream().filter(p).collect(Collectors.toSet());
     }
 
-    public Client searchResult(String parameter) { // this needs to be fixed (try to do without)
-        for (Client search : clients) {
-            if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
-                return search;
-            }
-        }
-        return null;
+    public Set<Client> searchByName(String name) {
+        return applyFilter(c -> c.getName().equals(name));
+    }
+
+    public Set<Client> searchByEmail(String email) {
+        return applyFilter(c -> c.getEmail().equals(email));
     }
 
     public boolean addClient(Client client) {
-            clients.add(client);
-            return true;
+        clients.add(client);
+        return true;
 
     }
 }

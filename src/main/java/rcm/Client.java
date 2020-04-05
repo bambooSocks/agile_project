@@ -35,7 +35,7 @@ public class Client extends User {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateClient(String newName, String newAddress, String newRefPerson, String newEmail) {
+    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail) {
         name = newName;
         address = newAddress;
         refPerson = newRefPerson;
