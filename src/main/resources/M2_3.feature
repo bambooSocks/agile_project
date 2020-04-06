@@ -24,21 +24,21 @@ Feature: Journey filtering by a keyword
     Given a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "oranges" 
     And a second journey of first client with origin port of "Copenhagen" destination port of "Amsterdam" and a content of "oranges" 
-    When the first client filters his containers journeys based on the destination "Rotterdam"
+    When the first client filters his journeys based on the destination "Rotterdam"
     Then the first journey is listed
 	
 	Scenario: Successful filtering by origin 
     Given a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "oranges" 
     And a second journey of first client with origin port of "Copenhagen" destination port of "Rotterdam" and a content of "oranges" 
-    When the first client filters his containers journeys based on the origin port "Copenhagen"
+    When the first client filters his journeys based on the origin port "Copenhagen"
     Then the second journey is listed
 	
 		Scenario: Successful filtering by content
     Given a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "oranges" 
     And a second journey of first client with origin port of "Copenhagen" destination port of "Rotterdam" and a content of "oranges" 
-    When the first client filters his containers journeys based on the content "oranges"
+    When the first client filters his journeys based on the content "oranges"
     Then both journeys are listed
 
 	

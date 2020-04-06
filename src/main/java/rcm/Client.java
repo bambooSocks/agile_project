@@ -19,41 +19,21 @@ public class Client extends User {
     }
 
     public List<Journey> searchByDestination(String destination) {
-        return journeyList.stream()
-                .filter(j -> j.getDestinationPort().equals(destination))
+        return journeyList.stream().filter(j -> j.getDestinationPort().equals(destination))
                 .collect(Collectors.toList());
-        
-        
-        
-//        LinkedList<Journey> filtered = new LinkedList<Journey>();
-//        for (Journey j : journeyList) {
-//            if (j.getDestinationPort().equals(destination)) {
-//                filtered.add(j);
-//            }
-//        }
-//        return filtered;
+
     }
 
     public List<Journey> searchByOrigin(String origin) {
-        LinkedList<Journey> filtered = new LinkedList<Journey>();
-        for (Journey j : journeyList) {
-            if (j.getOriginPort().equals(origin)) {
-                filtered.add(j);
-            }
-        }
-        return filtered;
+        return journeyList.stream().filter(j -> j.getOriginPort().equals(origin))
+                .collect(Collectors.toList());
+
     }
 
     public List<Journey> searchByContent(String content) {
-        LinkedList<Journey> filtered = new LinkedList<Journey>();
-        for (Journey j : journeyList) {
-            if (j.getContent().equals(content)) {
-                filtered.add(j);
-            }
-        }
-        return filtered;
+        return journeyList.stream().filter(j -> j.getContent().equals(content))
+                .collect(Collectors.toList());
     }
-
 
     public boolean updateClient(String newName, String newAddress, String newRefPerson, String newEmail) {
         name = newName;
@@ -63,22 +43,23 @@ public class Client extends User {
         return true;
     }
 
+    private Client client;
 
     public boolean closeButton() {
         // TODO Auto-generated method stub
         return true;
-        
+
     }
-    
-    public Response requestJourney(String originPort, String destinationPort, String content,LogisticsCompany logisticsCompany) {
+
+    public Response requestJourney(String originPort, String destinationPort, String content,
+            LogisticsCompany logisticsCompany) {
         if (logisticsCompany.getClients().contains(this) && !logisticsCompany.getAvailableContainers().isEmpty()) {
             Container container = logisticsCompany.getAvailableContainers().pop();
             Journey journey = new Journey(originPort, destinationPort, content, container, this);
-        return Response.SUCCESS;
-        }
-        else {
+            return Response.SUCCESS;
+        } else {
             return Response.JOURNEY_NOT_CREATED;
         }
     }
-    
+
 }
