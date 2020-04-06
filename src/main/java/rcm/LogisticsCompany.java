@@ -8,31 +8,29 @@ public class LogisticsCompany extends User {
 
     LinkedList<Container> containers;
     LinkedList<Container> availableContainers;
-    
-    
-    public LinkedList<Container> getAvailableContainers() {
-        return availableContainers;
-    }
-    
-    public void addAvailableContainer(Container container) {
-        availableContainers.add(container);
-    }
-
     Set<Client> clients;
-
-    public Set<Client> getClients() {
-        return clients;
-    }
-    
 
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         containers = new LinkedList<Container>();
         availableContainers = new LinkedList<Container>();
         clients = new HashSet<Client>();
+        id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
     }
 
-    public Response updateLocation(Container container,String newLocation) {
+    public LinkedList<Container> getAvailableContainers() {
+        return availableContainers;
+    }
+
+    public void addAvailableContainer(Container container) {
+        availableContainers.add(container);
+    }
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public Response updateLocation(Container container, String newLocation) {
         if (this.containers.contains(container)) {
             container.setLocation(newLocation);
 
@@ -65,8 +63,18 @@ public class LogisticsCompany extends User {
     }
 
     public boolean addClient(Client client) {
-            clients.add(client);
-            return true;
+        clients.add(client);
+        return true;
 
+    }
+
+    public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
+        if (clients.contains(client) && !getAvailableContainers().isEmpty()) {
+            Container container = getAvailableContainers().pop();
+            return new Journey(originPort, destinationPort, content, container, client);
+        } else {
+            return null;
+        }
+        
     }
 }
