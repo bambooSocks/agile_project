@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -20,6 +21,14 @@ public class M1 {
 
     public M1(SharedObjectHolder holder) {
         this.holder = holder;
+    }
+    
+    @Given("the logistic company has some clients including first client")
+    public void the_logistic_company_has_some_clients_including_first_client() {
+        holder.getFirstCompany().addClient(holder.getFirstClient());
+        for (int i = 0; i < 9; i++) {
+            holder.getFirstCompany().addClient(new Client("n" + i, "a" + i, "r" + i, "e" + i));
+        }
     }
 
     @When("the first logistics company adds a client")
@@ -43,10 +52,27 @@ public class M1 {
         successfulUpdate = holder.getFirstClient().updateInfo(name, address, refPerson, email);
     }
 
+    @When("the company creates a first client {string} with address {string} reference person {string} and email {string}")
+    public void the_company_creates_a_first_client_with_address_reference_person_and_email(String name, String address, String refPerson, String email) {
+        // creates an instance of Client (also checks input) and adds it to the client list
+        Client client = holder.getFirstCompany().createClient(name, address, refPerson, email);
+        holder.setFirstClient(client);
+    }
+
+    @Then("a client {string} with  address {string} reference person {string} and email {string} belongs to the company")
+    public void a_client_with_address_reference_person_and_email_belongs_to_the_company(String name, String address, String refPerson, String email) {
+        // find the client in client list of the company
+        Client client = holder.getFirstCompany().getClient(name, address, refPerson, email);
+        assertNotEquals(null, client);
+        assertEquals(name, client.getName());
+        assertEquals(address, client.getAddress());
+        assertEquals(refPerson, client.getRefPerson());
+        assertEquals(email, client.getEmail());
+    }
+    
     @Then("an id is automatically generated")
     public void an_id_is_automatically_generated() {
-        // not how you should be getting ID
-        assertNotEquals(null, holder.getFirstClient().id);
+        assertNotEquals(null, holder.getFirstClient().getId());
     }
 
     @Then("a new client profile is not created")

@@ -23,8 +23,8 @@ Feature: Client searching
   Scenario: Successful search using email
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And a second client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-    When a first logistics company searches for email "bananas@chiquita.com"
+    And the logistic company has some clients including first client
+    When a first logistics company searches for email "info@novonordisk.com"
     Then it exists and the client is returned
 
   @tag2

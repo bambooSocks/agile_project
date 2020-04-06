@@ -16,6 +16,10 @@ public abstract class User {
         id = IdGenerator.getInstance().getId(GroupIdType.USER);
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

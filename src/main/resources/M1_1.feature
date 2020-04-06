@@ -22,10 +22,10 @@ Feature: Client profile creation
   @tag1
   Scenario: Successful new client profile creation
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-    When the first logistics company adds a client
+    When the company creates a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     Then an id is automatically generated
     And a new client profile is successfully created
+    And a client "Chiquita" with  address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com" belongs to the company
 
 #  @tag2
 #  Scenario: Client profile already exists
