@@ -2,6 +2,7 @@ package rcm;
 
 import java.util.LinkedList;
 import java.util.Set;
+
 import java.util.HashSet;
 
 public class LogisticsCompany extends User {
@@ -65,7 +66,6 @@ public class LogisticsCompany extends User {
     public boolean addClient(Client client) {
         clients.add(client);
         return true;
-
     }
 
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
@@ -75,7 +75,6 @@ public class LogisticsCompany extends User {
         } else {
             return null;
         }
-
     }
 
     public Container createContainer() {
