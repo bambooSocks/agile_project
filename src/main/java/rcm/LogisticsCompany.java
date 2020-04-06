@@ -8,12 +8,11 @@ public class LogisticsCompany extends User {
 
     LinkedList<Container> containers;
     LinkedList<Container> availableContainers;
-    
-    
+
     public LinkedList<Container> getAvailableContainers() {
         return availableContainers;
     }
-    
+
     public void addAvailableContainer(Container container) {
         availableContainers.add(container);
     }
@@ -23,7 +22,6 @@ public class LogisticsCompany extends User {
     public Set<Client> getClients() {
         return clients;
     }
-    
 
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
@@ -32,7 +30,7 @@ public class LogisticsCompany extends User {
         clients = new HashSet<Client>();
     }
 
-    public Response updateLocation(Container container,String newLocation) {
+    public Response updateLocation(Container container, String newLocation) {
         if (this.containers.contains(container)) {
             container.setLocation(newLocation);
 
@@ -65,16 +63,16 @@ public class LogisticsCompany extends User {
     }
 
     public boolean addClient(Client client) {
-            clients.add(client);
-            return true;
+        clients.add(client);
+        return true;
 
     }
-    
-    public Container addContainer() {
+
+    public Container createContainer() {
         Container container = new Container(this);
         addContainer(container);
         addAvailableContainer(container);
         return container;
     }
-    
+
 }
