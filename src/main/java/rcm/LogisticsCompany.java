@@ -75,6 +75,14 @@ public class LogisticsCompany extends User {
         } else {
             return null;
         }
-        
+
     }
+
+    public Container createContainer() {
+        Container container = new Container(this);
+        addContainer(container);
+        addAvailableContainer(container);
+        return container;
+    }
+
 }
