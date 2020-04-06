@@ -56,27 +56,27 @@ public class SharedStepMethods {
     public void a_first_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort,
             String destinationPort, String content) {
         holder.setFirstJourney(
-                new Journey(originPort, destinationPort, content, holder.getContainer(), holder.getFirstClient()));
-    }
-
-    @Given("a first journey of first client with no container with origin port of {string} destination port of {string} and a content of {string}")
-    public void a_first_journey_with_no_container_with_origin_port_of_destination_port_of_and_a_content_of(
-            String originPort, String destinationPort, String content) {
-        holder.setFirstJourney(new Journey(originPort, destinationPort, content, null, holder.getFirstClient()));
+                holder.getFirstCompany().createJourney(holder.getFirstClient(), originPort, destinationPort, content));
+        assertEquals(holder.getFirstClient(), holder.getFirstJourney().getClient());
+        assertEquals(originPort, holder.getFirstJourney().getOriginPort());
+        assertEquals(destinationPort, holder.getFirstJourney().getDestinationPort());
+        assertEquals(content, holder.getFirstJourney().getContent());
     }
 
     @Given("a second journey of first client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_second_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort,
             String destinationPort, String content) {
         holder.setSecondJourney(
-                new Journey(originPort, destinationPort, content, holder.getContainer(), holder.getFirstClient()));
+                holder.getFirstCompany().createJourney(holder.getFirstClient(), originPort, destinationPort, content));
+        assertEquals(holder.getFirstClient(), holder.getSecondJourney().getClient());
+        assertEquals(originPort, holder.getSecondJourney().getOriginPort());
+        assertEquals(destinationPort, holder.getSecondJourney().getDestinationPort());
+        assertEquals(content, holder.getSecondJourney().getContent());
     }
 
     @Given("a container of the first logistics company")
     public void a_container_of_the_first_logistics_company() {
-        // maybe consider refactoring the container
-        // switch the way it is set
-        holder.setContainer(new Container(holder.getFirstCompany()));
+        holder.setContainer(holder.getFirstCompany().createContainer());
     }
 
 }

@@ -7,13 +7,12 @@ public abstract class User {
     protected String address;
     protected String refPerson;
     protected String email;
-    
+
     public User(String name, String address, String refPerson, String email) {
         this.name = name;
         this.address = address;
         this.refPerson = refPerson;
         this.email = email;
-        id = IdGenerator.getInstance().getId(GroupIdType.USER);
     }
 
     public int getId() {
