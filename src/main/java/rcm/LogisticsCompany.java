@@ -58,9 +58,22 @@ public class LogisticsCompany extends User {
         return applyFilter(c -> c.getEmail().equals(email));
     }
 
-    public boolean addClient(Client client) {
+    public Client createClient(String name, String address, String refPerson, String email) {
+        if (name.length() <= 25 && name.matches("[a-zA-Z0-9+]") && email.contains("@") && email.contains(".")) {
+            return new Client(name, address, refPerson, email);
+        } else {
+            return null;
+        }
+    }
+
+    public void addClient(Client client) {
         clients.add(client);
-        return true;
+    }
+
+    public Client getClient(String name, String address, String refPerson, String email) {
+        Client client = createClient(name, address, refPerson, email);
+        addClient(client);
+        return client;
     }
 
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {

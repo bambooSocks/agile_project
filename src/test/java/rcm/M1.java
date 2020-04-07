@@ -22,18 +22,13 @@ public class M1 {
     public M1(SharedObjectHolder holder) {
         this.holder = holder;
     }
-    
+
     @Given("the logistic company has some clients including first client")
     public void the_logistic_company_has_some_clients_including_first_client() {
         holder.getFirstCompany().addClient(holder.getFirstClient());
         for (int i = 0; i < 9; i++) {
             holder.getFirstCompany().addClient(new Client("n" + i, "a" + i, "r" + i, "e" + i));
         }
-    }
-
-    @When("the first logistics company adds a client")
-    public void the_first_logistics_company_adds_a_client() {
-        successfulEntry = holder.getFirstCompany().addClient(holder.getFirstClient());
     }
 
     @When("a first logistics company searches for name {string}")
@@ -53,15 +48,17 @@ public class M1 {
     }
 
     @When("the company creates a first client {string} with address {string} reference person {string} and email {string}")
-    public void the_company_creates_a_first_client_with_address_reference_person_and_email(String name, String address, String refPerson, String email) {
-        // creates an instance of Client (also checks input) and adds it to the client list
+    public void the_company_creates_a_first_client_with_address_reference_person_and_email(String name, String address,
+            String refPerson, String email) {
         Client client = holder.getFirstCompany().createClient(name, address, refPerson, email);
         holder.setFirstClient(client);
     }
 
-    @Then("a client {string} with  address {string} reference person {string} and email {string} belongs to the company")
-    public void a_client_with_address_reference_person_and_email_belongs_to_the_company(String name, String address, String refPerson, String email) {
+    @Then("a client {string} with address {string} reference person {string} and email {string} belongs to the company")
+    public void a_client_with_address_reference_person_and_email_belongs_to_the_company(String name, String address,
+            String refPerson, String email) {
         // find the client in client list of the company
+        // da fuk?!
         Client client = holder.getFirstCompany().getClient(name, address, refPerson, email);
         assertNotEquals(null, client);
         assertEquals(name, client.getName());
@@ -69,26 +66,33 @@ public class M1 {
         assertEquals(refPerson, client.getRefPerson());
         assertEquals(email, client.getEmail());
     }
-    
+
     @Then("an id is automatically generated")
     public void an_id_is_automatically_generated() {
+//        why is this not working now?!?
         assertNotEquals(null, holder.getFirstClient().getId());
     }
 
-    @Then("a new client profile is not created")
-    public void a_new_client_profile_is_not_created() {
-        assertFalse(successfulEntry);
+    @Then("a new client is successfully created")
+    public void a_new_client_is_successfully_created() {
+        assertTrue(successfulEntry);
     }
 
-    @Then("a new client profile is successfully created")
-    public void a_new_client_profile_is_successfully_created() {
-        assertTrue(successfulEntry);
+    @Then("the email is not a valid email and the client is not created")
+    public void the_email_is_not_a_valid_email_and_the_client_is_not_created() {
+        assertEquals(null, holder.getFirstClient());
+    }
+
+    @Then("the name is not a valid email and the client is not created")
+    public void the_name_is_not_a_valid_email_and_the_client_is_not_created() {
+        assertEquals(null, holder.getFirstClient());
     }
 
     @Then("it exists and the client is returned")
     public void it_exists_and_the_client_is_returned() {
         assertFalse(searchResults.isEmpty());
         // how to add the clients from Given to the set?
+        // still a problem
     }
 
     @Then("it does not exist and no client is returned")

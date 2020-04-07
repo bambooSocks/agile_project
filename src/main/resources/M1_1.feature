@@ -24,13 +24,17 @@ Feature: Client profile creation
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     When the company creates a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     Then an id is automatically generated
-    And a new client profile is successfully created
-    And a client "Chiquita" with  address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com" belongs to the company
+    And a new client is successfully created
+    And a client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com" belongs to the company
 
-#  @tag2
-#  Scenario: Client profile already exists
-#    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-#    And first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-#    And client "Chiquita" exists in client profile
-#    When the first logistics company enters client data
-#    Then a new client profile is not created
+  @tag2
+  Scenario: Is new email valid
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    When the company creates a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananaschiquitacom"
+    Then the email is not a valid email and the client is not created
+
+  @tag3
+  Scenario: Is new name valid
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    When the company creates a first client "Chiqu@7hfsoufahsdvhasædogihasdnflasædmogimaæfoi568jasd_lfas!d foijasdæfoiajsdfmæoiajsdmoiasjdfæita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
+    Then the name is not a valid email and the client is not created
