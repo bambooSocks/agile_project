@@ -3,11 +3,16 @@ package rcm;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Client extends User {
 
     private List<Journey> journeyList;
     private LogisticsCompany company;
+
+    private static final String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    private static final String regex2 = "^[ a-zA-Z_0-9]+$";
 
     public Client(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
@@ -26,32 +31,44 @@ public class Client extends User {
     public List<Journey> searchByDestination(String destination) {
         return journeyList.stream().filter(j -> j.getDestinationPort().equals(destination))
                 .collect(Collectors.toList());
-
     }
 
     public List<Journey> searchByOrigin(String origin) {
         return journeyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
-
     }
 
     public List<Journey> searchByContent(String content) {
         return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
     }
 
-    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail) {
-        name = newName;
-        address = newAddress;
-        refPerson = newRefPerson;
-        email = newEmail;
-        return true;
+    public static boolean validInfo(String name, String address, String refPerson, String email) {
+        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern2 = Pattern.compile(regex2);
+        Matcher matcher = pattern.matcher(email);
+        Matcher matcher2 = pattern2.matcher(name);
+        if (name.length() <= 25 && matcher2.matches() && matcher.matches()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    private Client client;
+    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail) {
+        if (validInfo(newName, newAddress, newRefPerson, newEmail)) {
+            name = newName;
+            address = newAddress;
+            refPerson = newRefPerson;
+            email = newEmail;
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
     public boolean closeButton() {
         // TODO Auto-generated method stub
         return true;
-
     }
 
     /**

@@ -13,7 +13,6 @@ import io.cucumber.java.en.When;
 
 public class M1 {
 
-    private boolean successfulEntry = false;
     private boolean successfulUpdate = false;
     private Set<Client> searchResults;
 
@@ -23,30 +22,7 @@ public class M1 {
         this.holder = holder;
     }
 
-    @Given("the logistic company has some clients including first client")
-    public void the_logistic_company_has_some_clients_including_first_client() {
-        holder.getFirstCompany().addClient(holder.getFirstClient());
-        for (int i = 0; i < 9; i++) {
-            holder.getFirstCompany().addClient(new Client("n" + i, "a" + i, "r" + i, "e" + i));
-        }
-    }
-
-    @When("a first logistics company searches for name {string}")
-    public void a_first_logistics_company_searches_for_name(String name) {
-        searchResults = holder.getFirstCompany().searchByName(name);
-    }
-
-    @When("a first logistics company searches for email {string}")
-    public void a_first_logistics_company_searches_for_email(String email) {
-        searchResults = holder.getFirstCompany().searchByEmail(email);
-    }
-
-    @When("a client enters new client info {string} with address {string} reference person {string} and email {string}")
-    public void a_client_enters_new_client_info_with_address_reference_person_and_email(String name, String address,
-            String refPerson, String email) {
-        successfulUpdate = holder.getFirstClient().updateInfo(name, address, refPerson, email);
-    }
-
+    ////////////// M1:1////////////////////////////////////////////////
     @When("the company creates a first client {string} with address {string} reference person {string} and email {string}")
     public void the_company_creates_a_first_client_with_address_reference_person_and_email(String name, String address,
             String refPerson, String email) {
@@ -54,28 +30,19 @@ public class M1 {
         holder.setFirstClient(client);
     }
 
-    @Then("a client {string} with address {string} reference person {string} and email {string} belongs to the company")
-    public void a_client_with_address_reference_person_and_email_belongs_to_the_company(String name, String address,
-            String refPerson, String email) {
-        // find the client in client list of the company
-        // da fuk?!
-        Client client = holder.getFirstCompany().getClient(name, address, refPerson, email);
-        assertNotEquals(null, client);
-        assertEquals(name, client.getName());
-        assertEquals(address, client.getAddress());
-        assertEquals(refPerson, client.getRefPerson());
-        assertEquals(email, client.getEmail());
-    }
-
     @Then("an id is automatically generated")
     public void an_id_is_automatically_generated() {
-//        why is this not working now?!?
         assertNotEquals(null, holder.getFirstClient().getId());
     }
 
-    @Then("a new client is successfully created")
-    public void a_new_client_is_successfully_created() {
-        assertTrue(successfulEntry);
+    @Then("a new client {string} with address {string} reference person {string} and email {string} belongs to the company")
+    public void a_new_client_with_address_reference_person_and_email_belongs_to_the_company(String name, String address,
+            String refPerson, String email) {
+        assertNotEquals(null, holder.getFirstClient());
+        assertEquals(name, holder.getFirstClient().getName());
+        assertEquals(address, holder.getFirstClient().getAddress());
+        assertEquals(refPerson, holder.getFirstClient().getRefPerson());
+        assertEquals(email, holder.getFirstClient().getEmail());
     }
 
     @Then("the email is not a valid email and the client is not created")
@@ -88,11 +55,35 @@ public class M1 {
         assertEquals(null, holder.getFirstClient());
     }
 
-    @Then("it exists and the client is returned")
-    public void it_exists_and_the_client_is_returned() {
+///////////////////M1:2//////////////////////////////////////////
+    @Given("the logistic company has some clients including first client")
+    public void the_logistic_company_has_some_clients_including_first_client() {
+        String name = holder.getFirstClient().getName();
+        String address = holder.getFirstClient().getAddress();
+        String refPerson = holder.getFirstClient().getRefPerson();
+        String email = holder.getFirstClient().getEmail();
+        holder.getFirstCompany().createClient(name, address, refPerson, email);
+    }
+
+    @When("a first logistics company searches for name {string}")
+    public void a_first_logistics_company_searches_for_name(String name) {
+        searchResults = holder.getFirstCompany().searchByName(name);
+    }
+
+    @When("a first logistics company searches for email {string}")
+    public void a_first_logistics_company_searches_for_email(String email) {
+        searchResults = holder.getFirstCompany().searchByEmail(email);
+    }
+
+    @Then("it exists and the client {string} with address {string} reference person {string} and email {string} is returned")
+    public void it_exists_and_the_client_with_address_reference_person_and_email_is_returned(String name,
+            String address, String refPerson, String email) {
         assertFalse(searchResults.isEmpty());
-        // how to add the clients from Given to the set?
-        // still a problem
+        assertNotEquals(null, holder.getFirstClient());
+        assertEquals(name, holder.getFirstClient().getName());
+        assertEquals(address, holder.getFirstClient().getAddress());
+        assertEquals(refPerson, holder.getFirstClient().getRefPerson());
+        assertEquals(email, holder.getFirstClient().getEmail());
     }
 
     @Then("it does not exist and no client is returned")
@@ -100,8 +91,21 @@ public class M1 {
         assertTrue(searchResults.isEmpty());
     }
 
-    @Then("the client profile is successfully updated")
-    public void the_client_profile_is_successfully_updated() {
+//////////////////M1:3////////////////////////////////////////////////
+    @When("a client enters new client info {string} with address {string} reference person {string} and email {string}")
+    public void a_client_enters_new_client_info_with_address_reference_person_and_email(String name, String address,
+            String refPerson, String email) {
+        successfulUpdate = holder.getFirstClient().updateInfo(name, address, refPerson, email);
+    }
+
+    @Then("the client {string} with address {string} reference person {string} and email {string} is successfully updated")
+    public void the_client_with_address_reference_person_and_email_is_successfully_updated(String name, String address,
+            String refPerson, String email) {
         assertTrue(successfulUpdate);
+        assertNotEquals(null, holder.getFirstClient());
+        assertEquals(name, holder.getFirstClient().getName());
+        assertEquals(address, holder.getFirstClient().getAddress());
+        assertEquals(refPerson, holder.getFirstClient().getRefPerson());
+        assertEquals(email, holder.getFirstClient().getEmail());
     }
 }
