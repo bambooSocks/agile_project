@@ -19,5 +19,3 @@
 @tag
 Feature: Storing data when app is closing
 
-
-   
