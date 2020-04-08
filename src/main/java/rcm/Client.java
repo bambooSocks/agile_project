@@ -11,8 +11,8 @@ public class Client extends User {
     private List<Journey> journeyList;
     private LogisticsCompany company;
 
-    private static final String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private static final String regex2 = "^[ a-zA-Z_0-9]+$";
+    private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 
     public Client(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
@@ -42,11 +42,10 @@ public class Client extends User {
     }
 
     public static boolean validInfo(String name, String address, String refPerson, String email) {
-        Pattern pattern = Pattern.compile(regex);
-        Pattern pattern2 = Pattern.compile(regex2);
-        Matcher matcher = pattern.matcher(email);
-        Matcher matcher2 = pattern2.matcher(name);
-        if (name.length() <= 25 && matcher2.matches() && matcher.matches()) {
+        Matcher matcherName = Pattern.compile(regexName).matcher(name);
+        Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
+        Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
+        if (name.length() <= 25 && matcherName.matches() && matcherEmail.matches() && matcherRefPerson.matches()) {
             return true;
         } else {
             return false;
