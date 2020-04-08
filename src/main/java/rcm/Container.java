@@ -5,13 +5,6 @@ public class Container {
     private LogisticsCompany company;
     private String location;
 
-    @Deprecated
-    public Container(int id, LogisticsCompany company) {
-        this.id = id;
-        this.company = company;
-        company.addContainer(this);
-    }
-
     public Container(LogisticsCompany company) {
         id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
@@ -29,7 +22,7 @@ public class Container {
 
     public void setLocation(String newLocation) {
         location = newLocation;
-        
+
     }
 
     public String getLocation() {

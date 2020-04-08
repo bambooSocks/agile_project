@@ -19,13 +19,6 @@ public class M2 {
         this.holder = holder;
     }
 
-    @Given("the first client is a client of the the first logistics company")
-    public void the_first_client_is_a_client_of_the_the_first_logistics_company() {
-        // TODO: change to createClient (Group 1)
-        holder.getFirstCompany().addClient(holder.getFirstClient());
-        holder.getFirstClient().assignCompany(holder.getFirstCompany());
-    }
-
     @Given("the first logistics company has two available containers")
     public void the_first_logistics_company_has_two_available_containers() {
         holder.getFirstCompany().createContainer();
@@ -76,12 +69,16 @@ public class M2 {
 
     @Then("the location is not changed")
     public void the_location_is_not_changed() {
+
         assertEquals(Response.LOCATION_NOT_CHANGED, response);
+        assertEquals("Los Angeles", holder.getContainer().getLocation());
     }
 
     @Then("an id is created")
     public void an_id_is_created() {
         assertEquals(Response.SUCCESS, response);
+        assertTrue(!holder.getFirstClient().getJourneyList().isEmpty());
+
     }
 
     @Then("the first journey is listed")
@@ -106,6 +103,7 @@ public class M2 {
     @Then("the journey doesnt exist")
     public void the_journey_doesnt_exist() {
         assertEquals(Response.JOURNEY_NOT_CREATED, response);
+        assertTrue(holder.getFirstClient().getJourneyList().isEmpty());
     }
 
 }

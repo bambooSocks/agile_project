@@ -91,11 +91,6 @@ public class Client extends User {
 
     }
 
-    public boolean closeButton() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
     /**
      * Method which requests the company to create a journey
      * 
@@ -112,6 +107,10 @@ public class Client extends User {
         } else {
             return Response.JOURNEY_NOT_CREATED;
         }
+    }
+
+    public List<Journey> getJourneyList() {
+        return journeyList;
     }
 
 }
