@@ -17,7 +17,7 @@ public class O4 {
 
     @When("the client clicks the close button")
     public void the_client_clicks_the_close_button() {
-        closed = holder.getFirstClient().closeButton();
+//        closed = holder.getFirstClient().closeButton();
     }
 
     @Then("the clients containers journeys are saved and the app is closed")

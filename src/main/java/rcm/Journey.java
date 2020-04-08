@@ -1,5 +1,6 @@
 package rcm;
 
+import java.util.List;
 import java.util.LinkedList;
 
 public class Journey {
@@ -12,7 +13,7 @@ public class Journey {
     private Container container;
     private Client client;
 
-    private LinkedList<ContainerStatus> history;
+    private List<ContainerStatus> history;
 
     public Journey(String originPort, String destinationPort, String content, Container container, Client client) {
         this.originPort = originPort;
@@ -33,17 +34,8 @@ public class Journey {
         return (container == null) ? null : container.getCompany();
     }
 
-    public boolean addStatus(ContainerStatus status, LogisticsCompany company) {
-        if (company.equals(getCompany())) {
-            history.add(status);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public LinkedList<ContainerStatus> getStatus(Client client1) {
-        return (client1.equals(client)) ? history : null;
+    public List<ContainerStatus> getStatus() {
+        return history;
     }
 
     public boolean containsStatus(ContainerStatus status) {
@@ -86,6 +78,10 @@ public class Journey {
 
     public Client getClient() {
         return client;
+    }
+
+    public void addStatus(ContainerStatus status) {
+        history.add(status);
     }
 
 }

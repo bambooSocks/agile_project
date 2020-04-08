@@ -134,4 +134,13 @@ public class LogisticsCompany extends User {
         return container;
     }
 
+    public boolean enterStatus(ContainerStatus status, Journey journey) {
+        if (journey != null && journey.getCompany().equals(this)) {
+            journey.addStatus(status);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

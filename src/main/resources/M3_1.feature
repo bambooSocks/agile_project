@@ -41,3 +41,9 @@ Feature: Container status tracking in container journey
 		Then the journey does not contain the given status
 		And the journey has failed to update
 
+	Scenario: Failed add status due to no available container and journey is null
+		Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar
+		When the first logistics company enters the given container status
+		Then the status will fail to be entered

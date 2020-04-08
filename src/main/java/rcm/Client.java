@@ -91,6 +91,14 @@ public class Client extends User {
 
     }
 
+    public List<ContainerStatus> requestStatus(Journey journey) {
+        if (journey.getClient().equals(this)) {
+            return journey.getStatus();
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Method which requests the company to create a journey
      * 
