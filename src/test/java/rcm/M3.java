@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class M3 {
     private ContainerStatus status;
 
     private boolean successfulEntry = false;
+    private boolean successfulJourneyStart = false;
     private List<ContainerStatus> statusList;
 
     private SharedObjectHolder holder;
@@ -40,6 +43,12 @@ public class M3 {
         assertTrue(holder.getFirstJourney().containsStatus(status));
     }
 
+    @Given("the journey has started at {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
+        Calendar timestamp = new GregorianCalendar(year, month, day, hours, minutes);
+        holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
+    }
+
     @When("the first logistics company enters the given container status")
     public void the_first_logistics_company_enters_the_given_container_status() {
         successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
@@ -58,6 +67,13 @@ public class M3 {
     @When("the second client requests access to the status")
     public void the_second_client_requests_access_to_the_status() {
         statusList = holder.getSecondClient().requestStatus(holder.getFirstJourney());
+    }
+
+    @When("the logistics company starts a journey with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_logistics_company_starts_a_journey_with_a_timestamp(Integer hours, Integer minutes, Integer day,
+            Integer month, Integer year) {
+        Calendar timestamp = new GregorianCalendar(year, month, day, hours, minutes);
+        successfulJourneyStart = holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
     }
 
     @Then("the journey contains the given status")
@@ -96,10 +112,32 @@ public class M3 {
         ContainerStatus _status = new ContainerStatus(temperature, humidity, airPressure);
         assertTrue(statusList.contains(_status));
     }
-    
+
     @Then("the status will fail to be entered")
     public void the_status_will_fail_to_be_entered() {
         assertFalse(successfulEntry);
     }
 
+    @Then("the container is allocated")
+    public void the_container_is_allocated() {
+        assertTrue(holder.getFirstCompany().isAllocated(holder.getContainer()));
+    }
+
+    @Then("the journey is started")
+    public void the_journey_is_started() {
+        assertTrue(successfulJourneyStart);
+        assertTrue(holder.getFirstJourney().isStarted());
+    }
+
+    @Then("the journey failed to start")
+    public void the_journey_failed_to_start() {
+        assertFalse(successfulJourneyStart);
+    }
+
+    @Then("the starting timestamp of the journey is {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_starting_timestamp_of_the_journey_is(Integer hours, Integer minutes, Integer day, Integer month,
+            Integer year) {
+        Calendar timestamp = new GregorianCalendar(year, month, day, hours, minutes);
+        assertEquals(timestamp, holder.getFirstJourney().getStartTimestamp());
+    }
 }

@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.Calendar;
 import java.util.HashSet;
 
 public class LogisticsCompany extends User {
@@ -120,7 +121,7 @@ public class LogisticsCompany extends User {
 
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
         if (clients.contains(client) && !getAvailableContainers().isEmpty()) {
-            Container container = getAvailableContainers().pop();
+            Container container = availableContainers.pop();
             return new Journey(originPort, destinationPort, content, container, client);
         } else {
             return null;
@@ -141,6 +142,20 @@ public class LogisticsCompany extends User {
         } else {
             return false;
         }
+    }
+
+    public boolean startJourney(Journey journey, Calendar timestamp) {
+        if (journey != null && !journey.isStarted()) {
+            journey.setStartTimestamp(timestamp);
+            journey.setStarted(true);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isAllocated(Container container) {
+        return !availableContainers.contains(container);
     }
 
 }
