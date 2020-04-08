@@ -1,8 +1,9 @@
 package rcm;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 import java.util.Set;
-
+import java.util.function.Predicate;
 import java.util.HashSet;
 
 public class LogisticsCompany extends User {
@@ -11,6 +12,14 @@ public class LogisticsCompany extends User {
     LinkedList<Container> availableContainers;
     Set<Client> clients;
 
+    /**
+     * Logistics Company constructor
+     * 
+     * @param name      Name of the logistics company
+     * @param address   Address of the logistics company
+     * @param refPerson Reference person of the logistics company
+     * @param email     Email of the logistics company
+     */
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         containers = new LinkedList<Container>();
@@ -27,6 +36,11 @@ public class LogisticsCompany extends User {
         availableContainers.add(container);
     }
 
+    /**
+     * Getter for client set
+     * 
+     * @return a set of clients
+     */
     public Set<Client> getClients() {
         return clients;
     }
@@ -45,27 +59,63 @@ public class LogisticsCompany extends User {
         containers.add(container);
     }
 
-    public boolean searchClient(String parameter) {
-        for (Client search : clients) {
-            if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
-                return true;
-            }
-        }
-        return false;
+    /**
+     * Filter method for client set
+     * 
+     * @param p search criteria
+     * @return set of clients that meet filter requirements
+     */
+    private Set<Client> applyFilter(Predicate<Client> p) {
+        return clients.stream().filter(p).collect(Collectors.toSet());
     }
 
-    public Client searchResult(String parameter) { // this needs to be fixed (try to do without)
-        for (Client search : clients) {
-            if (parameter.equals(search.getName()) || parameter.equals(search.getEmail())) {
-                return search;
-            }
-        }
-        return null;
+    /**
+     * Method to search by client name
+     * 
+     * @param name Name of the client
+     * @return filter method with appropriate search criteria
+     */
+    public Set<Client> searchByName(String name) {
+        return applyFilter(c -> c.getName().equals(name));
     }
 
-    public boolean addClient(Client client) {
+    /**
+     * Method to search by client email
+     * 
+     * @param email Email of the client
+     * @return filter method with appropriate search criteria
+     */
+    public Set<Client> searchByEmail(String email) {
+        return applyFilter(c -> c.getEmail().equals(email));
+    }
+
+    /**
+     * Method for creating a client
+     * 
+     * @param name      Name of the client
+     * @param address   Address of the client
+     * @param refPerson Reference person of the client
+     * @param email     Email of the client
+     * @return either valid created client or null
+     */
+    public Client createClient(String name, String address, String refPerson, String email) {
+        if (Client.validInfo(name, address, refPerson, email)) {
+            Client c = new Client(name, address, refPerson, email);
+            addClient(c);
+            c.assignCompany(this);
+            return c;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Method to add a client to the client set
+     * 
+     * @param client New client
+     */
+    public void addClient(Client client) {
         clients.add(client);
-        return true;
     }
 
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
