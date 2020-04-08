@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 enum GroupIdType {
-    USER,
+    COMPANY,
+    CLIENT,
     JOURNEY,
     CONTAINER
 }
