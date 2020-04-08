@@ -14,6 +14,14 @@ public class Client extends User {
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 
+    /**
+     * Client constructor
+     * 
+     * @param name      Name of the client
+     * @param address   Address of the client
+     * @param refPerson Reference person of the client
+     * @param email     Email of the client
+     */
     public Client(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         journeyList = new LinkedList<Journey>();
@@ -41,6 +49,15 @@ public class Client extends User {
         return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
     }
 
+    /**
+     * Method for validating client information
+     * 
+     * @param name      Name to validate
+     * @param address   Address to validate
+     * @param refPerson Reference person to validate
+     * @param email     Email to validate
+     * @return boolean for if the information is valid
+     */
     public static boolean validInfo(String name, String address, String refPerson, String email) {
         Matcher matcherName = Pattern.compile(regexName).matcher(name);
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
@@ -52,6 +69,15 @@ public class Client extends User {
         }
     }
 
+    /**
+     * Method for updating client information
+     * 
+     * @param newName      Optional new name of the client
+     * @param newAddress   Optional new address of the client
+     * @param newRefPerson Optional new reference person of the client
+     * @param newEmail     Optional new email of the client
+     * @return boolean for if the information was updated
+     */
     public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail) {
         if (validInfo(newName, newAddress, newRefPerson, newEmail)) {
             name = newName;
