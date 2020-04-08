@@ -113,4 +113,9 @@ public class Client extends User {
         return journeyList;
     }
 
+    public boolean closeButton() {
+        // TODO Auto-generated method stub hello
+        return true;
+    }
+
 }
