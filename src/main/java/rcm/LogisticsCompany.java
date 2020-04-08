@@ -12,6 +12,13 @@ public class LogisticsCompany extends User {
     LinkedList<Container> availableContainers;
     Set<Client> clients;
 
+    /**
+     * Logistics Company constructor
+     * @param name      Name of the logistics company
+     * @param address   Address of the logistics company
+     * @param refPerson Reference person of the logistics company
+     * @param email     Email of the logistics company
+     */
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         containers = new LinkedList<Container>();
