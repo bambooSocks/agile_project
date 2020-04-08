@@ -3,6 +3,7 @@ package rcm;
 public abstract class User {
 
     protected int id;
+    protected String password;
     protected String name;
     protected String address;
     protected String refPerson;
@@ -17,6 +18,10 @@ public abstract class User {
 
     public int getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getName() {

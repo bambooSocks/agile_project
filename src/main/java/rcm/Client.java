@@ -18,6 +18,7 @@ public class Client extends User {
         super(name, address, refPerson, email);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
+        password = getPassword();
     }
 
     public void assignCompany(LogisticsCompany company) {
