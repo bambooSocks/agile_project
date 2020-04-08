@@ -14,6 +14,7 @@ public class LogisticsCompany extends User {
 
     /**
      * Logistics Company constructor
+     * 
      * @param name      Name of the logistics company
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
