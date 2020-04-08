@@ -21,7 +21,15 @@ public class M2 {
 
     @Given("the first client is a client of the the first logistics company")
     public void the_first_client_is_a_client_of_the_the_first_logistics_company() {
+        // TODO: change to createClient (Group 1)
         holder.getFirstCompany().addClient(holder.getFirstClient());
+        holder.getFirstClient().assignCompany(holder.getFirstCompany());
+    }
+
+    @Given("the first logistics company has two available containers")
+    public void the_first_logistics_company_has_two_available_containers() {
+        holder.getFirstCompany().createContainer();
+        holder.getFirstCompany().createContainer();
     }
 
     @Given("the container has a location {string}")
@@ -32,18 +40,17 @@ public class M2 {
     @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
     public void the_first_client_requests_to_register_a_journey_with_the_first_logistics_company_with_origin_destination_and_content(
             String originPort, String destinationPort, String content) {
-        response = holder.getFirstClient().requestJourney(originPort, destinationPort, content,
-                holder.getFirstCompany());
+        response = holder.getFirstClient().requestJourney(originPort, destinationPort, content);
     }
 
     @When("the first logistics company updates containers location to a new location {string}")
     public void the_first_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getFirstCompany().updateLocation(holder.getContainer(),newLocation);
+        response = holder.getFirstCompany().updateLocation(holder.getContainer(), newLocation);
     }
 
     @When("the second logistics company updates containers location to a new location {string}")
     public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getSecondCompany().updateLocation(holder.getContainer(),newLocation);
+        response = holder.getSecondCompany().updateLocation(holder.getContainer(), newLocation);
     }
 
     @When("the first client filters his journeys based on the origin port {string}")
@@ -64,7 +71,7 @@ public class M2 {
     @Then("the location is changed")
     public void the_location_is_changed() {
         assertEquals(Response.SUCCESS, response);
-        assertEquals("Atlantic Ocean",holder.getContainer().getLocation());
+        assertEquals("Atlantic Ocean", holder.getContainer().getLocation());
     }
 
     @Then("the location is not changed")

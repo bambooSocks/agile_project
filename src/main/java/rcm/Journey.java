@@ -82,9 +82,10 @@ public class Journey {
         if (id != other.id)
             return false;
         return true;
-    } 
-   
-        
-        
+    }
+
+    public Client getClient() {
+        return client;
+    }
 
 }

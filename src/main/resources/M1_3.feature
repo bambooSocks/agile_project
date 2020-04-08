@@ -20,16 +20,8 @@
 Feature: Client profile update
 
   @tag1
-    Scenario: Successful client profile update
-    Given a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-#    And client "Chiquita" exists in client profile
+  Scenario: Successful client profile update
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
     When a client enters new client info "Chiquita" with address "338 Hwy 82, Orlando, FLorida" reference person "Carmen Rodriguez" and email "bigyellowbananas@chiquita.com"
-    Then the client profile is successfully updated
-	
-#  @tag2
-#  Scenario: Client profile id cannot be changed
-#    Given first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" and email "bananas@chiquita.com"
-#    And client "Chiquita" exists in client profile
-#    When a client enters a new id 20354
-#    Then display a message that the client id cannot be changed
-#    And the client profile fails to update
+    Then the client "Chiquita" with address "338 Hwy 82, Orlando, FLorida" reference person "Carmen Rodriguez" and email "bigyellowbananas@chiquita.com" is successfully updated
