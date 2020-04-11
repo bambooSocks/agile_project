@@ -63,7 +63,7 @@ public class LogisticsCompany extends User {
     /**
      * Filter method for client set
      * 
-     * @param p search criteria
+     * @param p Search criteria
      * @return set of clients that meet filter requirements
      */
     private Set<Client> applyFilter(Predicate<Client> p) {
@@ -113,7 +113,7 @@ public class LogisticsCompany extends User {
     /**
      * Method to add a client to the client set
      * 
-     * @param client New client
+     * @param client Client to be added to the client set
      */
     public void addClient(Client client) {
         clients.add(client);

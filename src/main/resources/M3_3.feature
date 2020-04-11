@@ -19,9 +19,6 @@
 @tag
 Feature: Journey start
 
-As a logistics company, I want to be able to start a journey and allocate 
-a container for the journey, so that journey can accept new container statuses.
-
   @tag1
   Scenario: Successful journey start
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"

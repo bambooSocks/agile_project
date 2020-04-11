@@ -100,7 +100,7 @@ public class Client extends User {
     }
 
     /**
-     * Method which requests the company to create a journey
+     * Requests the company to create a journey
      * 
      * @param originPort      the origin port of the journey
      * @param destinationPort the destination port of the journey
