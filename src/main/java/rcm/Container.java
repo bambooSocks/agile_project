@@ -2,6 +2,7 @@ package rcm;
 
 public class Container {
     private int id;
+    private boolean available;
     private LogisticsCompany company;
     private String location;
 
@@ -25,6 +26,14 @@ public class Container {
 
     public String getLocation() {
         return location;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
 }

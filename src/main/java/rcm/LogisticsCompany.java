@@ -1,6 +1,7 @@
 package rcm;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -9,8 +10,7 @@ import java.util.HashSet;
 
 public class LogisticsCompany extends User {
 
-    LinkedList<Container> containers;
-    LinkedList<Container> availableContainers;
+    List<Container> containers;
     Set<Client> clients;
 
     /**
@@ -24,17 +24,27 @@ public class LogisticsCompany extends User {
     public LogisticsCompany(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         containers = new LinkedList<Container>();
-        availableContainers = new LinkedList<Container>();
         clients = new HashSet<Client>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
     }
 
-    public LinkedList<Container> getAvailableContainers() {
-        return availableContainers;
+    public List<Container> getAllAvailableContainers() {
+        return containers.stream().filter(c -> c.isAvailable()).collect(Collectors.toList());
+    }
+    
+    public Container getAvailableContainer() {
+        List<Container> available = getAllAvailableContainers();
+        if (available.isEmpty()) {
+            return null;
+        } else {
+            Container container = available.get(0);
+            container.setAvailable(false);
+            return container;
+        }
     }
 
     public void addAvailableContainer(Container container) {
-        availableContainers.add(container);
+        container.setAvailable(true);
     }
 
     /**
@@ -120,8 +130,8 @@ public class LogisticsCompany extends User {
     }
 
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
-        if (clients.contains(client) && !getAvailableContainers().isEmpty()) {
-            Container container = availableContainers.pop();
+        Container container = getAvailableContainer();
+        if (clients.contains(client) && container != null) {
             return new Journey(originPort, destinationPort, content, container, client);
         } else {
             return null;
@@ -155,7 +165,7 @@ public class LogisticsCompany extends User {
     }
 
     public boolean isAllocated(Container container) {
-        return !availableContainers.contains(container);
+        return !getAllAvailableContainers().contains(container);
     }
 
 }
