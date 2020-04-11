@@ -1,13 +1,13 @@
 package rcm;
 
 import java.util.List;
-import java.util.Calendar;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 public class Journey {
     private int id;
     private boolean started = false;
-    private Calendar startTimestamp;
+    private LocalDateTime startTimestamp;
     private String originPort;
     private String destinationPort;
     private String content;
@@ -17,7 +17,7 @@ public class Journey {
     private Client client;
 
     private List<ContainerStatus> history;
-    
+
     public Journey(String originPort, String destinationPort, String content, Container container, Client client) {
         this.originPort = originPort;
         this.destinationPort = destinationPort;
@@ -87,20 +87,20 @@ public class Journey {
         history.add(status);
     }
 
-	public boolean isStarted() {
-		return started;
-	}
+    public boolean isStarted() {
+        return started;
+    }
 
-	public void setStarted(boolean started) {
-		this.started = started;
-	}
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
 
-	public Calendar getStartTimestamp() {
-		return startTimestamp;
-	}
+    public LocalDateTime getStartTimestamp() {
+        return startTimestamp;
+    }
 
-	public void setStartTimestamp(Calendar timestamp) {
-		startTimestamp = timestamp;
-	}
+    public void setStartTimestamp(LocalDateTime timestamp) {
+        startTimestamp = timestamp;
+    }
 
 }

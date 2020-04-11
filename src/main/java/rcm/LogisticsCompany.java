@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.HashSet;
 
@@ -31,7 +32,7 @@ public class LogisticsCompany extends User {
     public List<Container> getAllAvailableContainers() {
         return containers.stream().filter(c -> c.isAvailable()).collect(Collectors.toList());
     }
-    
+
     public Container getAvailableContainer() {
         List<Container> available = getAllAvailableContainers();
         if (available.isEmpty()) {
@@ -154,7 +155,7 @@ public class LogisticsCompany extends User {
         }
     }
 
-    public boolean startJourney(Journey journey, Calendar timestamp) {
+    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
         if (journey != null && !journey.isStarted()) {
             journey.setStartTimestamp(timestamp);
             journey.setStarted(true);

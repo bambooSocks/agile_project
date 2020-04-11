@@ -2,7 +2,7 @@ package rcm;
 
 public class Container {
     private int id;
-    private boolean available;
+    private boolean available=true;
     private LogisticsCompany company;
     private String location;
 

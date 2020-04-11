@@ -25,10 +25,11 @@ Feature: Client access to internal status
 		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com" 
 		And a container of the first logistics company
 	  And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar
+	  And the journey has started at 4:20 13/3/2020
+		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar with a timestamp 4:22 13/3/2020
 		When the first client requests access to the status
 		Then a list of statuses is returned
-		And a list of statuses contains a status of 5.0 degrees, 80.0 % humidity and 1.01 bar
+		And a list of statuses contains a status of 5.0 degrees, 80.0 % humidity and 1.01 bar with a timestamp 4:22 13/3/2020
 
 	Scenario: Failed access because of wrong client in the journey
 		Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
@@ -36,6 +37,7 @@ Feature: Client access to internal status
 		And a second client "Chiquita" with address "La Tuiliere, 16 1163 Etoy (VD) Switzerland" reference person "Brian W. Kocher" and email "info@chiquita.com"
 		And a container of the first logistics company
 	  And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar
+	  And the journey has started at 4:20 13/3/2020
+		And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar with a timestamp 4:22 13/3/2020
 		When the second client requests access to the status
 		Then a list of statuses is not returned

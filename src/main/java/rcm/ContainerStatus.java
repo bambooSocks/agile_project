@@ -1,11 +1,15 @@
 package rcm;
 
+import java.time.LocalDateTime;
+
 public class ContainerStatus {
     private double temperature;
     private double humidity;
     private double atmPressure;
+    private LocalDateTime timestamp;
 
-    public ContainerStatus(double temperature, double humidity, double atmPressure) {
+    public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure) {
+        this.timestamp = timestamp;
         this.temperature = temperature;
         this.humidity = humidity;
         this.atmPressure = atmPressure;
@@ -22,6 +26,7 @@ public class ContainerStatus {
         result = prime * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(temperature);
         result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
         return result;
     }
 
@@ -39,6 +44,11 @@ public class ContainerStatus {
         if (Double.doubleToLongBits(humidity) != Double.doubleToLongBits(other.humidity))
             return false;
         if (Double.doubleToLongBits(temperature) != Double.doubleToLongBits(other.temperature))
+            return false;
+        if (timestamp == null) {
+            if (other.timestamp != null)
+                return false;
+        } else if (!timestamp.equals(other.timestamp))
             return false;
         return true;
     }
