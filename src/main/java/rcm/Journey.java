@@ -11,7 +11,6 @@ public class Journey {
     private String originPort;
     private String destinationPort;
     private String content;
-    private String currentPosition;
 
     private Container container;
     private Client client;

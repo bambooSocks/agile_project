@@ -53,4 +53,8 @@ public class ContainerStatus {
         return true;
     }
 
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
 }

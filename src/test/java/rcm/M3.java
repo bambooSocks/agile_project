@@ -6,9 +6,6 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
@@ -124,6 +121,8 @@ public class M3 {
         assertTrue(holder.getFirstCompany().isAllocated(holder.getContainer()));
     }
 
+    LocalDateTime date;
+
     @Then("the journey is started")
     public void the_journey_is_started() {
         assertTrue(successfulJourneyStart);
@@ -138,16 +137,16 @@ public class M3 {
     @Then("the starting timestamp of the journey is {int}:{int} {int}\\/{int}\\/{int}")
     public void the_starting_timestamp_of_the_journey_is(Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) {
-        Calendar timestamp = new GregorianCalendar(year, month, day, hours, minutes);
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         assertEquals(timestamp, holder.getFirstJourney().getStartTimestamp());
     }
 
-    @Then("the logistics company succesfully adds a container status with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
-    public void the_logistics_company_succesfully_adds_a_container_status_with_a_timestamp(Integer hours,
+    @Then("the logistics company successfully adds a container status with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_logistics_company_successfully_adds_a_container_status_with_a_timestamp(Integer hours,
             Integer minutes, Integer day, Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01);
-        assertFalse(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
+        assertTrue(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
 
     }
 

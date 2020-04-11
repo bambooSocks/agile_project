@@ -29,16 +29,17 @@ Feature: Journey start
     Then the container is allocated
     And the journey is started
     And the starting timestamp of the journey is 4:20 13/3/2020
-    And the logistics company succesfully adds a container status with a timestamp 4:22 13/3/2020
+    And the logistics company successfully adds a container status with a timestamp 4:22 13/3/2020
 
 	Scenario: Failed journey start because of journey already started
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And a container of the first logistics company
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods" 
+    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And the journey has started at 4:20 13/3/2020 
     When the logistics company starts a journey with a timestamp 4:20 14/3/2020
     Then the journey failed to start
-    And the logistics company fails to add a container status with a timestamp 4:22 13/3/2020
+    And the logistics company successfully adds a container status with a timestamp 4:22 13/3/2020
 	
 	Scenario: Failed journey start because of missing journey
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"

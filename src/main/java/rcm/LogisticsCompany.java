@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.HashSet;
 
 public class LogisticsCompany extends User {
@@ -147,7 +146,8 @@ public class LogisticsCompany extends User {
     }
 
     public boolean enterStatus(ContainerStatus status, Journey journey) {
-        if (journey != null && journey.getCompany().equals(this)) {
+        if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
+                && journey.getStartTimestamp().isBefore(status.getTimestamp())) {
             journey.addStatus(status);
             return true;
         } else {
