@@ -28,10 +28,20 @@ public class LogisticsCompany extends User {
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
     }
 
+    /**
+     * Getter for a list of all available containers
+     * 
+     * @return List of Container filtered by availability
+     */
     public List<Container> getAllAvailableContainers() {
         return containers.stream().filter(c -> c.isAvailable()).collect(Collectors.toList());
     }
 
+    /**
+     * Getter for a single available container
+     * 
+     * @return An available container or null if all containers are allocated
+     */
     public Container getAvailableContainer() {
         List<Container> available = getAllAvailableContainers();
         if (available.isEmpty()) {
@@ -43,7 +53,12 @@ public class LogisticsCompany extends User {
         }
     }
 
-    public void addAvailableContainer(Container container) {
+    /**
+     * Sets the given container available
+     * 
+     * @param container The container to be set available
+     */
+    public void setAvailableContainer(Container container) {
         container.setAvailable(true);
     }
 
@@ -66,6 +81,11 @@ public class LogisticsCompany extends User {
         }
     }
 
+    /**
+     * Adds a container to the list of all containers associated with the company
+     * 
+     * @param container The container to be added to the list
+     */
     public void addContainer(Container container) {
         containers.add(container);
     }
@@ -129,22 +149,47 @@ public class LogisticsCompany extends User {
         clients.add(client);
     }
 
+    /**
+     * Creates a journey for a given client and links them together
+     * 
+     * @param client          The client requesting a new journey
+     * @param originPort      The origin port of the journey
+     * @param destinationPort The destination port of the journey
+     * @param content         The content of the container transported in the
+     *                        journey
+     * @return null if all containers are allocated or the client is not of the
+     *         logistics company creating the journey
+     */
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
         Container container = getAvailableContainer();
         if (clients.contains(client) && container != null) {
-            return new Journey(originPort, destinationPort, content, container, client);
+            Journey journey = new Journey(originPort, destinationPort, content, container, client);
+            client.addJourney(journey);
+            return journey;
         } else {
             return null;
         }
     }
 
+    /**
+     * Creates a container and links it together with the company
+     * 
+     * @return A created container
+     */
     public Container createContainer() {
         Container container = new Container(this);
         addContainer(container);
-        addAvailableContainer(container);
+        setAvailableContainer(container);
         return container;
     }
 
+    /**
+     * Enters a new container status to the given journey
+     * 
+     * @param status  The status to be entered
+     * @param journey The journey that the status should be entered to
+     * @return Boolean of whether the container status was entered successfully
+     */
     public boolean enterStatus(ContainerStatus status, Journey journey) {
         if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
                 && journey.getStartTimestamp().isBefore(status.getTimestamp())) {
@@ -155,18 +200,32 @@ public class LogisticsCompany extends User {
         }
     }
 
+    /**
+     * Starts a given journey with given time stamp
+     * 
+     * @param journey   The journey to be stared
+     * @param timestamp The time stamp to be set as starting time stamp of the
+     *                  journey
+     * @return Boolean of whether the journey was started successfully
+     */
     public boolean startJourney(Journey journey, LocalDateTime timestamp) {
         if (journey != null && !journey.isStarted()) {
             journey.setStartTimestamp(timestamp);
-            journey.setStarted(true);
+            journey.setStarted();
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * Checks whether a container is allocated
+     * 
+     * @param container The container to be checked
+     * @return Boolean of whether container is allocated
+     */
     public boolean isAllocated(Container container) {
-        return !getAllAvailableContainers().contains(container);
+        return !container.isAvailable();
     }
 
 }

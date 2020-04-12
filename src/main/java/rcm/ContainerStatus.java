@@ -8,6 +8,17 @@ public class ContainerStatus {
     private double atmPressure;
     private LocalDateTime timestamp;
 
+    /**
+     * Container status constructor
+     * 
+     * @param timestamp   LocalDateTime with at least minute precision denoting the
+     *                    time at which the measurement took place
+     * @param temperature Double of the temperature in the container at the given
+     *                    time
+     * @param humidity    Double of the humidity in the container at the given time
+     * @param atmPressure Double of the air pressure in the container at the given
+     *                    time
+     */
     public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure) {
         this.timestamp = timestamp;
         this.temperature = temperature;
@@ -15,6 +26,9 @@ public class ContainerStatus {
         this.atmPressure = atmPressure;
     }
 
+    /**
+     * Override of hashCode method to check all fields
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -30,6 +44,9 @@ public class ContainerStatus {
         return result;
     }
 
+    /**
+     * Override of equals method to check all fields
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -53,6 +70,11 @@ public class ContainerStatus {
         return true;
     }
 
+    /**
+     * Getter for the time stamp
+     * 
+     * @return LocalDateTime of the time stamp of the Container Status
+     */
     public LocalDateTime getTimestamp() {
         return timestamp;
     }

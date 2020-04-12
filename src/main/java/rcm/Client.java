@@ -91,6 +91,12 @@ public class Client extends User {
 
     }
 
+    /**
+     * Requests the history of container statuses from journey
+     * 
+     * @param journey Journey providing the status
+     * @return List of container statuses of the given journey
+     */
     public List<ContainerStatus> requestStatus(Journey journey) {
         if (journey.getClient().equals(this)) {
             return journey.getStatus();
@@ -117,6 +123,11 @@ public class Client extends User {
         }
     }
 
+    /**
+     * Getter for list of journeys
+     * 
+     * @return List of Journeys belonging to the clientS
+     */
     public List<Journey> getJourneyList() {
         return journeyList;
     }
