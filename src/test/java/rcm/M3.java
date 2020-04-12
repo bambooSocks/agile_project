@@ -18,6 +18,7 @@ public class M3 {
 
     private boolean successfulEntry = false;
     private boolean successfulJourneyStart = false;
+    private boolean successfulJourneyEnd = false;
     private List<ContainerStatus> statusList;
 
     private SharedObjectHolder holder;
@@ -50,6 +51,12 @@ public class M3 {
         holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
     }
 
+    @Given("the journey has ended at {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_journey_has_ended_at(Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
+        holder.getFirstCompany().endJourney(holder.getFirstJourney(), timestamp);
+    }
+
     @When("the first logistics company enters the given container status")
     public void the_first_logistics_company_enters_the_given_container_status() {
         successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
@@ -75,6 +82,13 @@ public class M3 {
             Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         successfulJourneyStart = holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
+    }
+
+    @When("the logistics company ends a journey with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_logistics_company_ends_a_journey_with_a_timestamp(Integer hours, Integer minutes, Integer day,
+            Integer month, Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
+        successfulJourneyEnd = holder.getFirstCompany().endJourney(holder.getFirstJourney(), timestamp);
     }
 
     @Then("the journey contains the given status")
@@ -121,7 +135,10 @@ public class M3 {
         assertTrue(holder.getFirstCompany().isAllocated(holder.getContainer()));
     }
 
-    LocalDateTime date;
+    @Then("the container is available")
+    public void the_container_is_available() {
+        assertTrue(holder.getFirstCompany().isAvailable(holder.getContainer()));
+    }
 
     @Then("the journey is started")
     public void the_journey_is_started() {
@@ -134,11 +151,29 @@ public class M3 {
         assertFalse(successfulJourneyStart);
     }
 
+    @Then("the journey is ended")
+    public void the_journey_is_ended() {
+        assertTrue(successfulJourneyEnd);
+        assertTrue(holder.getFirstJourney().isEnded());
+    }
+
+    @Then("the journey failed to end")
+    public void the_journey_failed_to_end() {
+        assertFalse(successfulJourneyEnd);
+    }
+
     @Then("the starting timestamp of the journey is {int}:{int} {int}\\/{int}\\/{int}")
     public void the_starting_timestamp_of_the_journey_is(Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         assertEquals(timestamp, holder.getFirstJourney().getStartTimestamp());
+    }
+
+    @Then("the ending timestamp of the journey is {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_ending_timestamp_of_the_journey_is(Integer hours, Integer minutes, Integer day, Integer month,
+            Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
+        assertEquals(timestamp, holder.getFirstJourney().getEndTimestamp());
     }
 
     @Then("the logistics company successfully adds a container status with a timestamp {int}:{int} {int}\\/{int}\\/{int}")

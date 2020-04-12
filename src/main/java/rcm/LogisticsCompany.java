@@ -48,7 +48,6 @@ public class LogisticsCompany extends User {
             return null;
         } else {
             Container container = available.get(0);
-            container.setAvailable(false);
             return container;
         }
     }
@@ -60,6 +59,10 @@ public class LogisticsCompany extends User {
      */
     public void setAvailableContainer(Container container) {
         container.setAvailable(true);
+    }
+
+    public void setAllocatedContainer(Container container) {
+        container.setAvailable(false);
     }
 
     /**
@@ -192,7 +195,7 @@ public class LogisticsCompany extends User {
      */
     public boolean enterStatus(ContainerStatus status, Journey journey) {
         if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
-                && journey.getStartTimestamp().isBefore(status.getTimestamp())) {
+                && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
             journey.addStatus(status);
             return true;
         } else {
@@ -212,6 +215,7 @@ public class LogisticsCompany extends User {
         if (journey != null && !journey.isStarted()) {
             journey.setStartTimestamp(timestamp);
             journey.setStarted();
+            setAllocatedContainer(journey.getContainer());
             return true;
         } else {
             return false;
@@ -226,6 +230,21 @@ public class LogisticsCompany extends User {
      */
     public boolean isAllocated(Container container) {
         return !container.isAvailable();
+    }
+
+    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
+        if (journey != null && !journey.isEnded() && journey.isStarted() && journey.isValidEndTimestamp(timestamp)) {
+            journey.setEndTimestamp(timestamp);
+            journey.setEnded();
+            setAvailableContainer(journey.getContainer());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isAvailable(Container container) {
+        return container.isAvailable();
     }
 
 }

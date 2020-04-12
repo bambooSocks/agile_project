@@ -7,7 +7,9 @@ import java.util.LinkedList;
 public class Journey {
     private int id;
     private boolean started = false;
+    private boolean ended = false;
     private LocalDateTime startTimestamp;
+    private LocalDateTime endTimestamp;
     private String originPort;
     private String destinationPort;
     private String content;
@@ -141,6 +143,14 @@ public class Journey {
         this.started = true;
     }
 
+    public boolean isEnded() {
+        return ended;
+    }
+
+    public void setEnded() {
+        this.ended = true;
+    }
+
     /**
      * Getter for the Journey's starting time stamp
      * 
@@ -158,6 +168,23 @@ public class Journey {
      */
     public void setStartTimestamp(LocalDateTime timestamp) {
         startTimestamp = timestamp;
+    }
+
+    public LocalDateTime getEndTimestamp() {
+        return endTimestamp;
+    }
+
+    public void setEndTimestamp(LocalDateTime endTimestamp) {
+        this.endTimestamp = endTimestamp;
+    }
+
+    public Container getContainer() {
+        return container;
+    }
+
+    public boolean isValidEndTimestamp(LocalDateTime timestamp) {
+        return history.stream().allMatch(s -> s.getTimestamp().isBefore(timestamp))
+                && startTimestamp.isBefore(timestamp);
     }
 
 }
