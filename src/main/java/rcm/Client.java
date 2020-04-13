@@ -55,13 +55,11 @@ public class Client extends User {
     public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail,
             String newPassword) {
         if (validInfo(newName, newAddress, newRefPerson, newEmail, newPassword)) {
-            System.out.println("this is new password" + newPassword);
             name = newName;
             address = newAddress;
             refPerson = newRefPerson;
             email = newEmail;
             password = Password.SHA1_Hasher(newPassword);
-            System.out.println("this is the rehased" + password);
             return true;
         } else {
             return false;
