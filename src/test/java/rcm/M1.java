@@ -23,10 +23,10 @@ public class M1 {
     }
 
     ////////////// M1:1////////////////////////////////////////////////
-    @When("the company creates a first client {string} with address {string} reference person {string} and email {string}")
-    public void the_company_creates_a_first_client_with_address_reference_person_and_email(String name, String address,
-            String refPerson, String email) {
-        Client client = holder.getFirstCompany().createClient(name, address, refPerson, email);
+    @When("the company creates a first client {string} with address {string} reference person {string} email {string} and password {string}")
+    public void the_company_creates_a_first_client_with_address_reference_person_email_and_password(String name,
+            String address, String refPerson, String email, String password) {
+        Client client = holder.getFirstCompany().createClient(name, address, refPerson, email, password);
         holder.setFirstClient(client);
     }
 
@@ -35,14 +35,15 @@ public class M1 {
         assertNotEquals(null, holder.getFirstClient().getId());
     }
 
-    @Then("a new client {string} with address {string} reference person {string} and email {string} belongs to the company")
-    public void a_new_client_with_address_reference_person_and_email_belongs_to_the_company(String name, String address,
-            String refPerson, String email) {
+    @Then("a new client {string} with address {string} reference person {string} email {string} and password {string} belongs to the company")
+    public void a_new_client_with_address_reference_person_email_and_password_belongs_to_the_company(String name,
+            String address, String refPerson, String email, String password) {
         assertNotEquals(null, holder.getFirstClient());
         assertEquals(name, holder.getFirstClient().getName());
         assertEquals(address, holder.getFirstClient().getAddress());
         assertEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertEquals(email, holder.getFirstClient().getEmail());
+        assertEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
     @Then("the email is not a valid email and the client is not created")
@@ -62,7 +63,8 @@ public class M1 {
         String address = holder.getFirstClient().getAddress();
         String refPerson = holder.getFirstClient().getRefPerson();
         String email = holder.getFirstClient().getEmail();
-        holder.getFirstCompany().createClient(name, address, refPerson, email);
+        String password = holder.getFirstClient().getPassword();
+        holder.getFirstCompany().createClient(name, address, refPerson, email, password);
     }
 
     @When("a first logistics company searches for name {string}")
@@ -75,15 +77,16 @@ public class M1 {
         searchResults = holder.getFirstCompany().searchByEmail(email);
     }
 
-    @Then("it exists and the client {string} with address {string} reference person {string} and email {string} is returned")
-    public void it_exists_and_the_client_with_address_reference_person_and_email_is_returned(String name,
-            String address, String refPerson, String email) {
+    @Then("it exists and the client {string} with address {string} reference person {string} email {string} and password {string} is returned")
+    public void it_exists_and_the_client_with_address_reference_person_email_and_pasword_is_returned(String name,
+            String address, String refPerson, String email, String password) {
         assertFalse(searchResults.isEmpty());
         assertNotEquals(null, holder.getFirstClient());
         assertEquals(name, holder.getFirstClient().getName());
         assertEquals(address, holder.getFirstClient().getAddress());
         assertEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertEquals(email, holder.getFirstClient().getEmail());
+        assertEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
     @Then("it does not exist and no client is returned")
@@ -92,20 +95,21 @@ public class M1 {
     }
 
 //////////////////M1:3////////////////////////////////////////////////
-    @When("a client enters new client info {string} with address {string} reference person {string} and email {string}")
-    public void a_client_enters_new_client_info_with_address_reference_person_and_email(String name, String address,
-            String refPerson, String email) {
-        successfulUpdate = holder.getFirstClient().updateInfo(name, address, refPerson, email);
+    @When("a client enters new client info {string} with address {string} reference person {string} email {string} and password {string}")
+    public void a_client_enters_new_client_info_with_address_reference_person_email_and_password(String name,
+            String address, String refPerson, String email, String password) {
+        successfulUpdate = holder.getFirstClient().updateInfo(name, address, refPerson, email, password);
     }
 
-    @Then("the client {string} with address {string} reference person {string} and email {string} is successfully updated")
-    public void the_client_with_address_reference_person_and_email_is_successfully_updated(String name, String address,
-            String refPerson, String email) {
+    @Then("the client {string} with address {string} reference person {string} email {string} and password {string} is successfully updated")
+    public void the_client_with_address_reference_person_email_and_password_is_successfully_updated(String name,
+            String address, String refPerson, String email, String password) {
         assertTrue(successfulUpdate);
         assertNotEquals(null, holder.getFirstClient());
         assertEquals(name, holder.getFirstClient().getName());
         assertEquals(address, holder.getFirstClient().getAddress());
         assertEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertEquals(email, holder.getFirstClient().getEmail());
+        assertEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 }

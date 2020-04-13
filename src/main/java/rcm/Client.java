@@ -14,11 +14,10 @@ public class Client extends User {
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 
-    public Client(String name, String address, String refPerson, String email) {
-        super(name, address, refPerson, email);
+    public Client(String name, String address, String refPerson, String email, String password) {
+        super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
-        password = getPassword();
     }
 
     public void assignCompany(LogisticsCompany company) {
@@ -42,7 +41,7 @@ public class Client extends User {
         return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
     }
 
-    public static boolean validInfo(String name, String address, String refPerson, String email) {
+    public static boolean validInfo(String name, String address, String refPerson, String email, String password) {
         Matcher matcherName = Pattern.compile(regexName).matcher(name);
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
         Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
@@ -53,12 +52,16 @@ public class Client extends User {
         }
     }
 
-    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail) {
-        if (validInfo(newName, newAddress, newRefPerson, newEmail)) {
+    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail,
+            String newPassword) {
+        if (validInfo(newName, newAddress, newRefPerson, newEmail, newPassword)) {
+            System.out.println("this is new password" + newPassword);
             name = newName;
             address = newAddress;
             refPerson = newRefPerson;
             email = newEmail;
+            password = Password.SHA1_Hasher(newPassword);
+            System.out.println("this is the rehased" + password);
             return true;
         } else {
             return false;

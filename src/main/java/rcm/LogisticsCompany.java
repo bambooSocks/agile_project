@@ -1,6 +1,7 @@
 package rcm;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -11,6 +12,7 @@ public class LogisticsCompany extends User {
     LinkedList<Container> containers;
     LinkedList<Container> availableContainers;
     Set<Client> clients;
+    List<String> hashKeys;
 
     /**
      * Logistics Company constructor
@@ -19,12 +21,14 @@ public class LogisticsCompany extends User {
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
+     * @param password
      */
-    public LogisticsCompany(String name, String address, String refPerson, String email) {
-        super(name, address, refPerson, email);
+    public LogisticsCompany(String name, String address, String refPerson, String email, String password) {
+        super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
         availableContainers = new LinkedList<Container>();
         clients = new HashSet<Client>();
+        hashKeys = new LinkedList<String>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
     }
 
@@ -66,9 +70,9 @@ public class LogisticsCompany extends User {
         return applyFilter(c -> c.getEmail().equals(email));
     }
 
-    public Client createClient(String name, String address, String refPerson, String email) {
-        if (Client.validInfo(name, address, refPerson, email)) {
-            Client c = new Client(name, address, refPerson, email);
+    public Client createClient(String name, String address, String refPerson, String email, String password) {
+        if (Client.validInfo(name, address, refPerson, email, password)) {
+            Client c = new Client(name, address, refPerson, email, password);
             addClient(c);
             c.assignCompany(this);
             return c;
