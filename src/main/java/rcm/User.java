@@ -3,20 +3,26 @@ package rcm;
 public abstract class User {
 
     protected int id;
+    protected String password;
     protected String name;
     protected String address;
     protected String refPerson;
     protected String email;
 
-    public User(String name, String address, String refPerson, String email) {
+    public User(String name, String address, String refPerson, String email, String password) {
         this.name = name;
         this.address = address;
         this.refPerson = refPerson;
         this.email = email;
+        this.password = Password.SHA1_Hasher(password);
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getName() {

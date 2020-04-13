@@ -22,8 +22,8 @@ public class Client extends User {
      * @param refPerson Reference person of the client
      * @param email     Email of the client
      */
-    public Client(String name, String address, String refPerson, String email) {
-        super(name, address, refPerson, email);
+    public Client(String name, String address, String refPerson, String email, String password) {
+        super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
     }
@@ -58,7 +58,7 @@ public class Client extends User {
      * @param email     Email to validate
      * @return boolean for if the information is valid
      */
-    public static boolean validInfo(String name, String address, String refPerson, String email) {
+    public static boolean validInfo(String name, String address, String refPerson, String email, String password) {
         Matcher matcherName = Pattern.compile(regexName).matcher(name);
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
         Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
@@ -78,12 +78,14 @@ public class Client extends User {
      * @param newEmail     Optional new email of the client
      * @return boolean for if the information was updated
      */
-    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail) {
-        if (validInfo(newName, newAddress, newRefPerson, newEmail)) {
+    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail,
+            String newPassword) {
+        if (validInfo(newName, newAddress, newRefPerson, newEmail, newPassword)) {
             name = newName;
             address = newAddress;
             refPerson = newRefPerson;
             email = newEmail;
+            password = Password.SHA1_Hasher(newPassword);
             return true;
         } else {
             return false;
