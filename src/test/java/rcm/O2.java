@@ -1,64 +1,62 @@
 package rcm;
 
-import static org.junit.Assert.assertEquals;
-
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class O2 {
 
     private SharedObjectHolder holder;
-    private String newHashKey;
 
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
     }
-
+    
     @When("first client enters a valid password {string}")
     public void first_client_enters_a_valid_password(String password) {
-        newHashKey = Password.SHA1_Hasher(password);
+        throw new io.cucumber.java.PendingException();
     }
 
-    @Then("the password matches the hashKey {string} and the client is logged in")
-    public void the_password_matches_the_hashKey_and_the_client_is_logged_in(String key) {
-        assertEquals(key, newHashKey);
+    @Then("first client is logged in")
+    public void first_client_is_logged_in() {
+        throw new io.cucumber.java.PendingException();
     }
 
-    @When("first client {string} is logged-in")
+    @Given("first client {string} is logged-in")
     public void first_client_is_logged_in(String string) {
-//      a boolean for log-in status?
         throw new io.cucumber.java.PendingException();
     }
 
-    @Then("client {string} can view {string} containers and data")
-    public void client_can_view_containers_and_data(String name1, String name2) {
-//        if true and name1 = name 2 then show data
+    @When("client {string} tries to view {string} containers and data")
+    public void client_tries_to_view_containers_and_data(String name1, String name2) {
         throw new io.cucumber.java.PendingException();
     }
 
-    @Then("client {string} can not view {string} containers and data")
-    public void client_can_not_view_containers_and_data(String name1, String name2) {
-//        if true and name1 != name2 then do not show data
+    @Then("they can view it")
+    public void they_can_view_it() {
+        throw new io.cucumber.java.PendingException();
+    }
+
+    @Given("second client {string} with address {string} reference person {string} and email {string}")
+    public void second_client_with_address_reference_person_and_email(String name, String address, String refPerson,
+            String email) {
+        throw new io.cucumber.java.PendingException();
+    }
+
+    @Then("they can not view it")
+    public void they_can_not_view_it() {
         throw new io.cucumber.java.PendingException();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @When("first logistics company {string} is logged-in")
+    @Given("first logistics company {string} is logged-in")
     public void first_logistics_company_is_logged_in(String name) {
-//        a boolean for log-in status?
         throw new io.cucumber.java.PendingException();
     }
 
-    @Then("logistics company {string} can view {string} clients, containers, and data")
-    public void logistics_company_can_view_clients_containers_and_data(String name1, String name2) {
-//        if true and name2 belongs to name1 then show data
-        throw new io.cucumber.java.PendingException();
-    }
-
-    @Then("logistics company {string} can not view {string} clients, containers, and data")
-    public void logistics_company_can_not_view_clients_containers_and_data(String name1, String name2) {
-//        if true and name2 doesn't belong to name1 then don't show data
+    @When("logistics company {string} tries to view {string} clients, containers, and data")
+    public void logistics_company_tries_to_view_clients_containers_and_data(String name1, String name2) {
         throw new io.cucumber.java.PendingException();
     }
 
