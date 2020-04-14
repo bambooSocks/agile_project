@@ -2,6 +2,8 @@ package rcm;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.SQLException;
+
 import io.cucumber.java.en.Given;
 
 public class SharedStepMethods {
@@ -14,7 +16,7 @@ public class SharedStepMethods {
 
     @Given("a first logistics company {string} with address {string} reference person {string} and email {string}")
     public void a_first_logistics_company_with_address_reference_person_and_email(String name, String address,
-            String refPerson, String email) {
+            String refPerson, String email) throws SQLException {
         holder.setFirstCompany(new LogisticsCompany(name, address, refPerson, email));
         assertEquals(name, holder.getFirstCompany().getName());
         assertEquals(address, holder.getFirstCompany().getAddress());
@@ -24,7 +26,7 @@ public class SharedStepMethods {
 
     @Given("a second logistics company {string} with address {string} reference person {string} and email {string}")
     public void a_second_logistics_company_with_address_reference_person_and_email(String name, String address,
-            String refPerson, String email) {
+            String refPerson, String email) throws SQLException {
         holder.setSecondCompany(new LogisticsCompany(name, address, refPerson, email));
         assertEquals(name, holder.getSecondCompany().getName());
         assertEquals(address, holder.getSecondCompany().getAddress());
@@ -34,7 +36,7 @@ public class SharedStepMethods {
 
     @Given("a first client {string} with address {string} reference person {string} and email {string}")
     public void a_first_client_with_address_reference_person_and_email(String name, String address, String refPerson,
-            String email) {
+            String email) throws SQLException {
         Client client = holder.getFirstCompany().createClient(name, address, refPerson, email);
         holder.setFirstClient(client);
         assertEquals(name, holder.getFirstClient().getName());
@@ -45,7 +47,7 @@ public class SharedStepMethods {
 
     @Given("a second client {string} with address {string} reference person {string} and email {string}")
     public void a_second_client_with_address_reference_person_and_email(String name, String address, String refPerson,
-            String email) {
+            String email) throws SQLException {
         Client client = holder.getFirstCompany().createClient(name, address, refPerson, email);
         holder.setSecondClient(client);
         assertEquals(name, holder.getSecondClient().getName());
@@ -56,7 +58,7 @@ public class SharedStepMethods {
 
     @Given("a first journey of first client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_first_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort,
-            String destinationPort, String content) {
+            String destinationPort, String content) throws SQLException {
         holder.setFirstJourney(
                 holder.getFirstCompany().createJourney(holder.getFirstClient(), originPort, destinationPort, content));
         assertEquals(holder.getFirstClient(), holder.getFirstJourney().getClient());
@@ -67,7 +69,7 @@ public class SharedStepMethods {
 
     @Given("a second journey of first client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_second_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort,
-            String destinationPort, String content) {
+            String destinationPort, String content) throws SQLException {
         holder.setSecondJourney(
                 holder.getFirstCompany().createJourney(holder.getFirstClient(), originPort, destinationPort, content));
         assertEquals(holder.getFirstClient(), holder.getSecondJourney().getClient());
@@ -77,7 +79,7 @@ public class SharedStepMethods {
     }
 
     @Given("a container of the first logistics company")
-    public void a_container_of_the_first_logistics_company() {
+    public void a_container_of_the_first_logistics_company() throws SQLException {
         holder.setContainer(holder.getFirstCompany().createContainer());
     }
 

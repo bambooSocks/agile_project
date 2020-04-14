@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.sql.SQLException;
 import java.util.HashSet;
 
 public class LogisticsCompany extends User {
@@ -19,13 +20,17 @@ public class LogisticsCompany extends User {
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
+     * @throws SQLException 
      */
-    public LogisticsCompany(String name, String address, String refPerson, String email) {
+    public LogisticsCompany(String name, String address, String refPerson, String email) throws SQLException {
         super(name, address, refPerson, email);
         containers = new LinkedList<Container>();
         availableContainers = new LinkedList<Container>();
         clients = new HashSet<Client>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
+        Database.save(name, address, refPerson, email);
+        
+        
     }
 
     public LinkedList<Container> getAvailableContainers() {
@@ -47,7 +52,7 @@ public class LogisticsCompany extends User {
 
     public Response updateLocation(Container container, String newLocation) {
         if (this.containers.contains(container)) {
-            container.setLocation(newLocation);
+            //container.setLocation(newLocation);
 
             return Response.SUCCESS;
         } else {
@@ -97,12 +102,12 @@ public class LogisticsCompany extends User {
      * @param refPerson Reference person of the client
      * @param email     Email of the client
      * @return either valid created client or null
+     * @throws SQLException 
      */
-    public Client createClient(String name, String address, String refPerson, String email) {
+    public Client createClient(String name, String address, String refPerson, String email) throws SQLException {
         if (Client.validInfo(name, address, refPerson, email)) {
-            Client c = new Client(name, address, refPerson, email);
+            Client c = new Client(name, address, refPerson, email,this);
             addClient(c);
-            c.assignCompany(this);
             return c;
         } else {
             return null;
@@ -118,7 +123,7 @@ public class LogisticsCompany extends User {
         clients.add(client);
     }
 
-    public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
+    public Journey createJourney(Client client, String originPort, String destinationPort, String content) throws SQLException {
         if (clients.contains(client) && !getAvailableContainers().isEmpty()) {
             Container container = getAvailableContainers().pop();
             return new Journey(originPort, destinationPort, content, container, client);
@@ -127,7 +132,7 @@ public class LogisticsCompany extends User {
         }
     }
 
-    public Container createContainer() {
+    public Container createContainer() throws SQLException {
         Container container = new Container(this);
         addContainer(container);
         addAvailableContainer(container);

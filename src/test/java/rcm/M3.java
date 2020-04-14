@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -25,13 +26,13 @@ public class M3 {
 
     @Given("a container status of {double} degrees, {double} % humidity and {double} bar")
     public void a_container_status_of_degrees_humidity_and_bar(Double temperature, Double humidity,
-            Double airPressure) {
+            Double airPressure) throws SQLException {
         status = new ContainerStatus(temperature, humidity, airPressure);
     }
 
     @Given("an initial container status in the journey of {double} degrees, {double} % humidity and {double} bar")
     public void an_initial_container_status_in_the_journey_of_degrees_humidity_and_bar(Double temperature,
-            Double humidity, Double airPressure) {
+            Double humidity, Double airPressure) throws SQLException {
         status = new ContainerStatus(temperature, humidity, airPressure);
         LogisticsCompany company = holder.getFirstJourney().getCompany();
         successfulEntry = holder.getFirstJourney().addStatus(status, company);
@@ -90,7 +91,7 @@ public class M3 {
 
     @Then("a list of statuses contains a status of {double} degrees, {double} % humidity and {double} bar")
     public void a_list_of_statuses_contains_a_status_of_degrees_humidity_and_bar(Double temperature, Double humidity,
-            Double airPressure) {
+            Double airPressure) throws SQLException {
         ContainerStatus _status = new ContainerStatus(temperature, humidity, airPressure);
         assertTrue(statusList.contains(_status));
     }

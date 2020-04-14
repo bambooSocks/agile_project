@@ -1,14 +1,19 @@
 package rcm;
 
+import java.sql.SQLException;
+
 public class ContainerStatus {
     private double temperature;
     private double humidity;
     private double atmPressure;
+    private int journeyId;
 
-    public ContainerStatus(double temperature, double humidity, double atmPressure) {
+
+    public ContainerStatus(double temperature, double humidity, double atmPressure) throws SQLException {
         this.temperature = temperature;
         this.humidity = humidity;
         this.atmPressure = atmPressure;
+        Database.save(temperature, humidity, atmPressure,journeyId);
     }
 
     @Override
@@ -41,6 +46,14 @@ public class ContainerStatus {
         if (Double.doubleToLongBits(temperature) != Double.doubleToLongBits(other.temperature))
             return false;
         return true;
+    }
+    
+    public int getJourneyId() {
+        return journeyId;
+    }
+
+    public void setJourneyId(int journeyId) {
+        this.journeyId = journeyId;
     }
 
 }

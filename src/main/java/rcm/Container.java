@@ -1,15 +1,17 @@
 package rcm;
 
+import java.sql.SQLException;
+
 public class Container {
     private int id;
     private LogisticsCompany company;
-    private String location;
 
-    public Container(LogisticsCompany company) {
+    public Container(LogisticsCompany company) throws SQLException {
         id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
         company.addContainer(this);
         company.addAvailableContainer(this);
+        Database.save(company.getId(),1);
     }
 
     public LogisticsCompany getCompany() {
@@ -18,15 +20,6 @@ public class Container {
 
     public int getId() {
         return id;
-    }
-
-    public void setLocation(String newLocation) {
-        location = newLocation;
-
-    }
-
-    public String getLocation() {
-        return location;
     }
 
 }

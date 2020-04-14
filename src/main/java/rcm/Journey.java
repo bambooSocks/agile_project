@@ -1,5 +1,6 @@
 package rcm;
 
+import java.sql.SQLException;
 import java.util.LinkedList;
 
 public class Journey {
@@ -12,7 +13,7 @@ public class Journey {
 
     private LinkedList<ContainerStatus> history;
 
-    public Journey(String originPort, String destinationPort, String content, Container container, Client client) {
+    public Journey(String originPort, String destinationPort, String content, Container container, Client client) throws SQLException {
         this.originPort = originPort;
         this.destinationPort = destinationPort;
         this.content = content;
@@ -21,6 +22,7 @@ public class Journey {
         this.client = client;
         history = new LinkedList<ContainerStatus>();
         id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
+        Database.save(originPort, destinationPort, content, client.getId(), container.getId());
     }
 
     public int getID() {
@@ -34,6 +36,7 @@ public class Journey {
     public boolean addStatus(ContainerStatus status, LogisticsCompany company) {
         if (company.equals(getCompany())) {
             history.add(status);
+            status.setJourneyId(id);
             return true;
         } else {
             return false;
