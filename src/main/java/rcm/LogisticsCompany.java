@@ -12,7 +12,6 @@ public class LogisticsCompany extends User {
     LinkedList<Container> containers;
     LinkedList<Container> availableContainers;
     Set<Client> clients;
-    List<String> hashKeys;
 
     /**
      * Logistics Company constructor
@@ -28,7 +27,6 @@ public class LogisticsCompany extends User {
         containers = new LinkedList<Container>();
         availableContainers = new LinkedList<Container>();
         clients = new HashSet<Client>();
-        hashKeys = new LinkedList<String>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
     }
 
@@ -68,6 +66,26 @@ public class LogisticsCompany extends User {
 
     public Set<Client> searchByEmail(String email) {
         return applyFilter(c -> c.getEmail().equals(email));
+    }
+    
+    public Set<Client> searchByHashKey(String hashKey) {
+        return applyFilter(c -> c.getPassword().equals(hashKey));
+    }
+    
+//    same name and same password are a problem
+    public boolean logInStatus(String name, String password) {
+        Set<Client> named = searchByName(name);
+        String hashKey = Password.SHA1_Hasher(password);
+        if (named.isEmpty()) {
+            return false;
+        } else {
+            Set<Client> passed = named.stream().filter(c -> c.getPassword().equals(hashKey)).collect(Collectors.toSet());
+            if (passed.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
     public Client createClient(String name, String address, String refPerson, String email, String password) {

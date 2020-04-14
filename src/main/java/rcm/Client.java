@@ -64,7 +64,21 @@ public class Client extends User {
         } else {
             return false;
         }
+    }
 
+//    maybe search journeyList for a Client, not a String
+//    add Containers, contents, history, etc. to returned data
+    public LinkedList<String> viewData(boolean loggedIn, String name1, String name2) {
+        if (name1 == name2 && loggedIn) {
+            LinkedList<String> data;
+//            data.add(name2.getJourneyList());
+//            data.add(name2.getOtherStuff());
+            return data;
+//        } else if (permission) {
+//            return true;
+        } else {
+            return null;
+        }
     }
 
     public boolean closeButton() {
