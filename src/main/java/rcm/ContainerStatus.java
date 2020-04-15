@@ -8,12 +8,11 @@ public class ContainerStatus {
     private double atmPressure;
     private int journeyId;
 
-
     public ContainerStatus(double temperature, double humidity, double atmPressure) throws SQLException {
         this.temperature = temperature;
         this.humidity = humidity;
         this.atmPressure = atmPressure;
-        Database.save(temperature, humidity, atmPressure,journeyId);
+
     }
 
     @Override
@@ -47,13 +46,25 @@ public class ContainerStatus {
             return false;
         return true;
     }
-    
+
     public int getJourneyId() {
         return journeyId;
     }
 
     public void setJourneyId(int journeyId) {
         this.journeyId = journeyId;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public double getAtmPressure() {
+        return atmPressure;
     }
 
 }

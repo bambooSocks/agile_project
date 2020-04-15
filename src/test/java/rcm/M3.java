@@ -40,12 +40,12 @@ public class M3 {
     }
 
     @When("the first logistics company enters the given container status")
-    public void the_first_logistics_company_enters_the_given_container_status() {
+    public void the_first_logistics_company_enters_the_given_container_status() throws SQLException {
         successfulEntry = holder.getFirstJourney().addStatus(status, holder.getFirstCompany());
     }
 
     @When("the second logistics company enters the given container status")
-    public void the_second_logistics_company_enters_the_given_container_status() {
+    public void the_second_logistics_company_enters_the_given_container_status() throws SQLException {
         successfulEntry = holder.getFirstJourney().addStatus(status, holder.getSecondCompany());
     }
 

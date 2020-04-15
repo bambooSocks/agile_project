@@ -22,19 +22,17 @@ public class Client extends User {
      * @param address   Address of the client
      * @param refPerson Reference person of the client
      * @param email     Email of the client
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public Client(String name, String address, String refPerson, String email,LogisticsCompany company) throws SQLException {
+    public Client(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
-        this.company = company;
-        Database.save(name, address, refPerson, email, company.getId());
     }
 
-    //public void assignCompany(LogisticsCompany company) {
-      //  this.company = company;
-    //}
+    public void assignCompany(LogisticsCompany company) {
+        this.company = company;
+    }
 
     public void addJourney(Journey journey) {
         journeyList.add(journey);
@@ -103,7 +101,7 @@ public class Client extends User {
      * @param content         content of the container in the journey
      * @return Response.SUCCESS for journey created and added to journeyList
      *         JOURNEY_NOT_CREATED for failing to create journey
-     * @throws SQLException 
+     * @throws SQLException
      * @implNote This method only works if the client is assigned to a company
      */
     public Response requestJourney(String originPort, String destinationPort, String content) throws SQLException {
@@ -116,11 +114,6 @@ public class Client extends User {
 
     public List<Journey> getJourneyList() {
         return journeyList;
-    }
-
-    public boolean closeButton() {
-        // TODO Auto-generated method stub hello
-        return true;
     }
 
 }

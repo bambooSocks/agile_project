@@ -13,7 +13,7 @@ public class Journey {
 
     private LinkedList<ContainerStatus> history;
 
-    public Journey(String originPort, String destinationPort, String content, Container container, Client client) throws SQLException {
+    public Journey(String originPort, String destinationPort, String content, Container container, Client client) {
         this.originPort = originPort;
         this.destinationPort = destinationPort;
         this.content = content;
@@ -22,7 +22,6 @@ public class Journey {
         this.client = client;
         history = new LinkedList<ContainerStatus>();
         id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
-        Database.save(originPort, destinationPort, content, client.getId(), container.getId());
     }
 
     public int getID() {
@@ -33,10 +32,12 @@ public class Journey {
         return (container == null) ? null : container.getCompany();
     }
 
-    public boolean addStatus(ContainerStatus status, LogisticsCompany company) {
+    public boolean addStatus(ContainerStatus status, LogisticsCompany company) throws SQLException {
         if (company.equals(getCompany())) {
             history.add(status);
             status.setJourneyId(id);
+            Database.save(status.getTemperature(), status.getHumidity(), status.getAtmPressure(), id);
+
             return true;
         } else {
             return false;

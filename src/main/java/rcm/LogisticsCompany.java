@@ -106,8 +106,10 @@ public class LogisticsCompany extends User {
      */
     public Client createClient(String name, String address, String refPerson, String email) throws SQLException {
         if (Client.validInfo(name, address, refPerson, email)) {
-            Client c = new Client(name, address, refPerson, email,this);
+            Client c = new Client(name, address, refPerson, email);
             addClient(c);
+            c.assignCompany(this);
+            Database.save(name, address, refPerson, email, id);
             return c;
         } else {
             return null;
@@ -126,6 +128,7 @@ public class LogisticsCompany extends User {
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) throws SQLException {
         if (clients.contains(client) && !getAvailableContainers().isEmpty()) {
             Container container = getAvailableContainers().pop();
+            Database.save(originPort, destinationPort, content, client.getId(), container.getId());
             return new Journey(originPort, destinationPort, content, container, client);
         } else {
             return null;
@@ -136,6 +139,7 @@ public class LogisticsCompany extends User {
         Container container = new Container(this);
         addContainer(container);
         addAvailableContainer(container);
+        Database.save(id,1);
         return container;
     }
 
