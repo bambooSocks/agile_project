@@ -20,7 +20,7 @@ public class LogisticsCompany extends User {
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
-     * @throws SQLException 
+     * @throws SQLException
      */
     public LogisticsCompany(String name, String address, String refPerson, String email) throws SQLException {
         super(name, address, refPerson, email);
@@ -29,8 +29,7 @@ public class LogisticsCompany extends User {
         clients = new HashSet<Client>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
         Database.save(name, address, refPerson, email);
-        
-        
+
     }
 
     public LinkedList<Container> getAvailableContainers() {
@@ -48,16 +47,6 @@ public class LogisticsCompany extends User {
      */
     public Set<Client> getClients() {
         return clients;
-    }
-
-    public Response updateLocation(Container container, String newLocation) {
-        if (this.containers.contains(container)) {
-            //container.setLocation(newLocation);
-
-            return Response.SUCCESS;
-        } else {
-            return Response.LOCATION_NOT_CHANGED;
-        }
     }
 
     public void addContainer(Container container) {
@@ -102,7 +91,7 @@ public class LogisticsCompany extends User {
      * @param refPerson Reference person of the client
      * @param email     Email of the client
      * @return either valid created client or null
-     * @throws SQLException 
+     * @throws SQLException
      */
     public Client createClient(String name, String address, String refPerson, String email) throws SQLException {
         if (Client.validInfo(name, address, refPerson, email)) {
@@ -125,7 +114,8 @@ public class LogisticsCompany extends User {
         clients.add(client);
     }
 
-    public Journey createJourney(Client client, String originPort, String destinationPort, String content) throws SQLException {
+    public Journey createJourney(Client client, String originPort, String destinationPort, String content)
+            throws SQLException {
         if (clients.contains(client) && !getAvailableContainers().isEmpty()) {
             Container container = getAvailableContainers().pop();
             Database.save(originPort, destinationPort, content, client.getId(), container.getId());
@@ -139,7 +129,7 @@ public class LogisticsCompany extends User {
         Container container = new Container(this);
         addContainer(container);
         addAvailableContainer(container);
-        Database.save(id,1);
+        Database.save(id, 1);
         return container;
     }
 
