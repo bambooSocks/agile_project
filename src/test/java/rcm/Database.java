@@ -18,7 +18,6 @@ public class Database {
             String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/" + "Database.db";
             // create a connection to the database
             conn = DriverManager.getConnection(url);
-            System.out.println("Connection to SQLite has been established.");
             return conn;
         } catch (SQLException e) {
             throw new SQLException("Not connected");
@@ -28,13 +27,13 @@ public class Database {
 
     public static void disconnect() throws SQLException {
         try {
-           if (conn != null) {
+            if (conn != null) {
                 conn.close();
             }
         } catch (SQLException ex) {
             throw new SQLException("Not disconnected");
         }
-  }
+    }
 
     public static void createNewTables() {
 
@@ -47,15 +46,14 @@ public class Database {
                 + "    email text NOT NULL,\n" + "logisticsCompanyId integer NOT NULL,\n"
                 + "FOREIGN KEY (logisticsCompanyId) REFERENCES LogisticsCompanies(logisticsCompanyId)\n" + ");";
         String container = "CREATE TABLE IF NOT EXISTS Containers (\n" + "    containerId integer PRIMARY KEY,\n"
-                + "   availability integer NOT NULL,\n"
-                + "logisticsCompanyId integer NOT NULL,\n"
+                + "   availability integer NOT NULL,\n" + "logisticsCompanyId integer NOT NULL,\n"
                 + "FOREIGN KEY (logisticsCompanyId) REFERENCES LogisticsCompanies(logisticsCompanyId)\n" + ");";
         String journey = "CREATE TABLE IF NOT EXISTS Journeys (\n" + "    journeyId integer PRIMARY KEY,\n"
                 + "    originPort text NOT NULL,\n" + "   destinationPort text NOT NULL,\n"
-                + "    content text NOT NULL,\n" + "    containerId integer NOT NULL,\n"
-                + "    logisticsCompanyId integer NOT NULL,\n"
+                + "    content text NOT NULL,\n" + "    clientId integer NOT NULL,\n"
+                + "    containerId integer NOT NULL,\n"
                 + "FOREIGN KEY (containerId) REFERENCES Containers(containerId),\n "
-                + "FOREIGN KEY (logisticsCompanyId) REFERENCES LogisticsCompanies(logisticsCompanyId)\n" + ");";
+                + "FOREIGN KEY (clientId) REFERENCES Clients(clientId)\n" + ");";
         String containerStatus = "CREATE TABLE IF NOT EXISTS ContainersStatus (\n" + "   temperature real NOT NULL,\n"
                 + "   humidity real NOT NULL,\n" + "atmPressure real NOT NULL,\n" + "journeyId integer NOT NULL,\n"
                 + "FOREIGN KEY (journeyId) REFERENCES Journeys(journeyId)\n" + ");";
@@ -66,15 +64,13 @@ public class Database {
             stmt.execute(container);
             stmt.execute(journey);
             stmt.execute(containerStatus);
-            System.out.println("Table has been created");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-    
-    
+
     // logistics company
-    public static void save (String name, String address, String refPerson, String email) throws SQLException {
+    public static void save(String name, String address, String refPerson, String email) throws SQLException {
         String sql = "INSERT INTO LogisticsCompanies(name,address,refPerson,email) VALUES(?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -88,8 +84,9 @@ public class Database {
             System.out.println(e.getMessage());
         }
     }
+
     // container
-    public static void save (int logisticsCompanyId, int availability) throws SQLException {
+    public static void save(int logisticsCompanyId, int availability) throws SQLException {
         String sql = "INSERT INTO Containers(logisticsCompanyId,availability) VALUES(?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -101,8 +98,10 @@ public class Database {
             System.out.println(e.getMessage());
         }
     }
-    //client
-    public static void save (String name, String address, String refPerson, String email,int logisticsCompanyId) throws SQLException {
+
+    // client
+    public static void save(String name, String address, String refPerson, String email, int logisticsCompanyId)
+            throws SQLException {
         String sql = "INSERT INTO Clients(name,address,refPerson,email,logisticsCompanyId) VALUES(?,?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -117,9 +116,11 @@ public class Database {
             System.out.println(e.getMessage());
         }
     }
+
     // journey
-    public static void save (String originPort, String destinationPort, String content, int clientId, int containerId)  throws SQLException{
-        String sql = "INSERT INTO LogisticsCompanies(name,address,refPerson,email) VALUES(?,?,?,?,?)";
+    public static void save(String originPort, String destinationPort, String content, int clientId, int containerId)
+            throws SQLException {
+        String sql = "INSERT INTO Journeys(originPort,destinationPort,content,clientId,containerId) VALUES(?,?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, originPort);
@@ -133,10 +134,11 @@ public class Database {
             System.out.println(e.getMessage());
         }
     }
-    
+
     // container status
-    public static void save (double temperature,double humidity,double atmPressure, int journeyId)  throws SQLException{
-        String sql = "INSERT INTO LogisticsCompanies(name,address,refPerson,email) VALUES(?,?,?,?)";
+    public static void save(double temperature, double humidity, double atmPressure, int journeyId)
+            throws SQLException {
+        String sql = "INSERT INTO ContainersStatus(temperature,humidity,atmPressure,journeyId) VALUES(?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, temperature);
@@ -149,9 +151,6 @@ public class Database {
             System.out.println(e.getMessage());
         }
     }
-    
-    
-    
 
     public static void main(String[] args) throws SQLException {
         Database.connect();
