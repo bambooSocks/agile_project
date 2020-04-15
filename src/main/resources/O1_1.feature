@@ -17,44 +17,18 @@
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Title of your feature
-  I want to use this template for my feature file
+Feature: Availability of containers based on end-date and start-date of the journey
 
-  #@tag1
-  #Scenario: Succesful timestamp added at the beginning of the journey
-  #	Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    #And a container of the first logistics company
-    #And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    #And the first client requests to register a journey with the first logistics company with origin "Shenzhen", destination "Rotterdam" and content "medical goods" 
-    #When the first logistics company enters the first container status
-    #And an id for the journey is created
-    #Then a beginning timestamp is added to mark the beginning of the journey 
-    
-  #Scenario: Failed to add timestamp at the beginning of the journey
-  #	Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    #And a second logistics company "Hamburg Sud" with address "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany" reference person "Dr. Arnt Vespermann" and email "info@hamburgsud-line.com"
-    #And a container of the first logistics company
-    #And a second client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    #And the second client is a client of the the second logistics company
-    #When the second client requests to register a journey with the first logistics company with origin "Shenzhen", destination "Rotterdam" and content "medical goods" 
-    #And an id for the journey is created
-    #Then a beginning timestamp is added to mark the beginning of the journey 
-    #
-  #Scenario: Succesful timestamp added at the end of the journey
-    #Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    #And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-#		And a container of the first logistics company in a journey and with an internal status
-    #And the container has a location "New York"
-    #When the first logistics company updates containers location to a new location "Atlantic Ocean"
-    #Then then an ending timestamp is added to mark the end of the journey
-    #And a journey map is assigned to the container 
-    #
-  #Scenario: Failed to add timestamp due to wrong company
-    #Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
-    #And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-#		And a container of the first logistics company in a journey and with an internal status
-    #And the container has a beginning timestamp of a journey
-    #When the second logistics company updates containers location to a new location "Atlantic Ocean"
-    #Then then the timestamp is not added to mark the end of the journey
-    #And a journey map is not assigned to the container 
-
+  @tag1
+  Scenario: Succesful start of second journey
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    And a container of the first logistics company
+    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And the first journey has started at 4:20 11/3/2020
+    And the first journey has ended at 4:20 12/3/2020
+    And the list of journeys of the container contains the first journey
+    And the last journey of the container list is ended
+    And a second journey of first client with origin port of "Rotterdam" destination port of "Copenhagen" and a content of "medical goods"
+    When the logistics company starts a second journey of the first client with a timestamp 4:20 13/3/2020
+    Then the list of journeys of the container contains the second journey

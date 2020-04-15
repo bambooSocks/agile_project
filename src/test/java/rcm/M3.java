@@ -192,4 +192,5 @@ public class M3 {
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01);
         assertFalse(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
     }
+
 }

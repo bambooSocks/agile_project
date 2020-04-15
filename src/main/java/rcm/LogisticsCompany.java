@@ -166,11 +166,31 @@ public class LogisticsCompany extends User {
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
         Container container = getAvailableContainer();
         if (clients.contains(client) && container != null) {
-            Journey journey = new Journey(originPort, destinationPort, content, container, client);
+            Journey journey = new Journey(originPort, destinationPort, content, client, container);
             client.addJourney(journey);
             return journey;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Starts a given journey with given time stamp
+     * 
+     * @param journey   The journey to be stared
+     * @param timestamp The time stamp to be set as starting time stamp of the
+     *                  journey
+     * @return Boolean of whether the journey was started successfully
+     */
+    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
+        if (journey != null && !journey.isStarted()) {
+            journey.setStartTimestamp(timestamp);
+            journey.setStarted();
+            journey.getContainer().addJourney(journey);
+            setAllocatedContainer(journey.getContainer());
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -197,25 +217,6 @@ public class LogisticsCompany extends User {
         if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
                 && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
             journey.addStatus(status);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Starts a given journey with given time stamp
-     * 
-     * @param journey   The journey to be stared
-     * @param timestamp The time stamp to be set as starting time stamp of the
-     *                  journey
-     * @return Boolean of whether the journey was started successfully
-     */
-    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
-        if (journey != null && !journey.isStarted()) {
-            journey.setStartTimestamp(timestamp);
-            journey.setStarted();
-            setAllocatedContainer(journey.getContainer());
             return true;
         } else {
             return false;
