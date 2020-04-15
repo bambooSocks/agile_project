@@ -39,10 +39,10 @@ public class Database {
         // SQL statement for creating a new table
         String logisticsCompany = "CREATE TABLE IF NOT EXISTS LogisticsCompanies (\n"
                 + "    logisticsCompanyId integer PRIMARY KEY,\n" + "    name text NOT NULL,\n"
-                + "   address text NOT NULL,\n" + "    refPerson text NOT NULL,\n" + "    email text NOT NULL\n" + ");";
+                + "   address text NOT NULL,\n" + "    refPerson text NOT NULL,\n" + "    email text UNIQUE NOT NULL\n" + ");";
         String client = "CREATE TABLE IF NOT EXISTS Clients (\n" + "    clientId integer PRIMARY KEY,\n"
-                + "    name text NOT NULL,\n" + "   address text NOT NULL,\n" + "    refPerson text NOT NULL,\n"
-                + "    email text NOT NULL,\n" + "logisticsCompanyId integer NOT NULL,\n"
+                + "    name NOT NULL,\n" + "   address text NOT NULL,\n" + "    refPerson text NOT NULL,\n"
+                + "    email text UNIQUE NOT NULL,\n" + "logisticsCompanyId integer NOT NULL,\n"
                 + "FOREIGN KEY (logisticsCompanyId) REFERENCES LogisticsCompanies(logisticsCompanyId)\n" + ");";
         String container = "CREATE TABLE IF NOT EXISTS Containers (\n" + "    containerId integer PRIMARY KEY,\n"
                 + "   availability integer NOT NULL,\n" + "logisticsCompanyId integer NOT NULL,\n"
@@ -70,7 +70,7 @@ public class Database {
 
     // logistics company
     public static void save(String name, String address, String refPerson, String email) throws SQLException {
-        String sql = "INSERT INTO LogisticsCompanies(name,address,refPerson,email) VALUES(?,?,?,?)";
+        String sql = "INSERT OR IGNORE INTO LogisticsCompanies(name,address,refPerson,email) VALUES(?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
@@ -86,7 +86,7 @@ public class Database {
 
     // container
     public static void save(int logisticsCompanyId, int availability) throws SQLException {
-        String sql = "INSERT INTO Containers(logisticsCompanyId,availability) VALUES(?,?)";
+        String sql = "INSERT OR IGNORE INTO Containers(logisticsCompanyId,availability) VALUES(?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, logisticsCompanyId);
@@ -101,7 +101,7 @@ public class Database {
     // client
     public static void save(String name, String address, String refPerson, String email, int logisticsCompanyId)
             throws SQLException {
-        String sql = "INSERT INTO Clients(name,address,refPerson,email,logisticsCompanyId) VALUES(?,?,?,?,?)";
+        String sql = "INSERT OR IGNORE INTO Clients(name,address,refPerson,email,logisticsCompanyId) VALUES(?,?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, name);
@@ -119,7 +119,7 @@ public class Database {
     // journey
     public static void save(String originPort, String destinationPort, String content, int clientId, int containerId)
             throws SQLException {
-        String sql = "INSERT INTO Journeys(originPort,destinationPort,content,clientId,containerId) VALUES(?,?,?,?,?)";
+        String sql = "INSERT OR IGNORE INTO Journeys(originPort,destinationPort,content,clientId,containerId) VALUES(?,?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, originPort);
@@ -137,7 +137,7 @@ public class Database {
     // container status
     public static void save(double temperature, double humidity, double atmPressure, int journeyId)
             throws SQLException {
-        String sql = "INSERT INTO ContainersStatus(temperature,humidity,atmPressure,journeyId) VALUES(?,?,?,?)";
+        String sql = "INSERT OR IGNORE INTO ContainersStatus(temperature,humidity,atmPressure,journeyId) VALUES(?,?,?,?)";
         Database.connect();
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setDouble(1, temperature);
