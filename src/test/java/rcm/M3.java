@@ -132,12 +132,12 @@ public class M3 {
 
     @Then("the container is allocated")
     public void the_container_is_allocated() {
-        assertTrue(holder.getFirstCompany().isAllocated(holder.getContainer()));
+        assertTrue(holder.getFirstCompany().isAllocated(holder.getFirstContainer()));
     }
 
     @Then("the container is available")
     public void the_container_is_available() {
-        assertTrue(holder.getFirstCompany().isAvailable(holder.getContainer()));
+        assertTrue(holder.getFirstCompany().isAvailable(holder.getFirstContainer()));
     }
 
     @Then("the journey is started")

@@ -166,7 +166,7 @@ public class LogisticsCompany extends User {
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
         Container container = getAvailableContainer();
         if (clients.contains(client) && container != null) {
-            Journey journey = new Journey(originPort, destinationPort, content, client, container);
+            Journey journey = new Journey(originPort, destinationPort, content, container, client);
             client.addJourney(journey);
             return journey;
         } else {

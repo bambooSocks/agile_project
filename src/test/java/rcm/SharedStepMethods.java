@@ -78,7 +78,7 @@ public class SharedStepMethods {
 
     @Given("a container of the first logistics company")
     public void a_container_of_the_first_logistics_company() {
-        holder.setContainer(holder.getFirstCompany().createContainer());
+        holder.setFirstContainer(holder.getFirstCompany().createContainer());
     }
 
 }

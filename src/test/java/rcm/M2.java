@@ -27,7 +27,7 @@ public class M2 {
 
     @Given("the container has a location {string}")
     public void the_container_has_a_location(String location) {
-        holder.getContainer().setLocation(location);
+        holder.getFirstContainer().setLocation(location);
     }
 
     @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
@@ -38,12 +38,12 @@ public class M2 {
 
     @When("the first logistics company updates containers location to a new location {string}")
     public void the_first_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getFirstCompany().updateLocation(holder.getContainer(), newLocation);
+        response = holder.getFirstCompany().updateLocation(holder.getFirstContainer(), newLocation);
     }
 
     @When("the second logistics company updates containers location to a new location {string}")
     public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getSecondCompany().updateLocation(holder.getContainer(), newLocation);
+        response = holder.getSecondCompany().updateLocation(holder.getFirstContainer(), newLocation);
     }
 
     @When("the first client filters his journeys based on the origin port {string}")
@@ -64,14 +64,14 @@ public class M2 {
     @Then("the location is changed")
     public void the_location_is_changed() {
         assertEquals(Response.SUCCESS, response);
-        assertEquals("Atlantic Ocean", holder.getContainer().getLocation());
+        assertEquals("Atlantic Ocean", holder.getFirstContainer().getLocation());
     }
 
     @Then("the location is not changed")
     public void the_location_is_not_changed() {
 
         assertEquals(Response.LOCATION_NOT_CHANGED, response);
-        assertEquals("Los Angeles", holder.getContainer().getLocation());
+        assertEquals("Los Angeles", holder.getFirstContainer().getLocation());
     }
 
     @Then("an id is created")

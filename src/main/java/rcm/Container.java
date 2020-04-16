@@ -48,11 +48,10 @@ public class Container {
         return location;
     }
 
-    /**
-     * Getter for availability flag
-     * 
-     * @return Boolean of whether the container is available or not
-     */
+    // make a sort method and afterwards check if the last element of the journey
+    // list is ended
+    // input: start-date of journey
+    // afterwards check for container if it's available in start journey
     public boolean isAvailable() {
         return available;
     }
