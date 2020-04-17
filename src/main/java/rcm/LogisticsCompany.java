@@ -33,8 +33,8 @@ public class LogisticsCompany extends User {
      * 
      * @return List of Container filtered by availability
      */
-    public List<Container> getAllAvailableContainers() {
-        return containers.stream().filter(c -> c.isAvailable()).collect(Collectors.toList());
+    public List<Container> getAllAvailableContainers(LocalDateTime timestamp) {
+        return containers.stream().filter(c -> c.isAvailable(timestamp)).collect(Collectors.toList());
     }
 
     /**
@@ -42,27 +42,14 @@ public class LogisticsCompany extends User {
      * 
      * @return An available container or null if all containers are allocated
      */
-    public Container getAvailableContainer() {
-        List<Container> available = getAllAvailableContainers();
+    public Container getAvailableContainer(LocalDateTime timestamp) {
+        List<Container> available = getAllAvailableContainers(timestamp);
         if (available.isEmpty()) {
             return null;
         } else {
             Container container = available.get(0);
             return container;
         }
-    }
-
-    /**
-     * Sets the given container available
-     * 
-     * @param container The container to be set available
-     */
-    public void setAvailableContainer(Container container) {
-        container.setAvailable(true);
-    }
-
-    public void setAllocatedContainer(Container container) {
-        container.setAvailable(false);
     }
 
     /**
@@ -160,13 +147,12 @@ public class LogisticsCompany extends User {
      * @param destinationPort The destination port of the journey
      * @param content         The content of the container transported in the
      *                        journey
-     * @return null if all containers are allocated or the client is not of the
-     *         logistics company creating the journey
+     * @return null if the client is not of the logistics company creating the
+     *         journey
      */
     public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
-        Container container = getAvailableContainer();
-        if (clients.contains(client) && container != null) {
-            Journey journey = new Journey(originPort, destinationPort, content, container, client);
+        if (clients.contains(client)) {
+            Journey journey = new Journey(originPort, destinationPort, content, client);
             client.addJourney(journey);
             return journey;
         } else {
@@ -183,11 +169,29 @@ public class LogisticsCompany extends User {
      * @return Boolean of whether the journey was started successfully
      */
     public boolean startJourney(Journey journey, LocalDateTime timestamp) {
-        if (journey != null && !journey.isStarted()) {
+        Container container = getAvailableContainer(timestamp);
+        if (journey != null && !journey.isStarted() && container != null) {
+            journey.setContainer(container);
             journey.setStartTimestamp(timestamp);
             journey.setStarted();
             journey.getContainer().addJourney(journey);
-            setAllocatedContainer(journey.getContainer());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Ends a given journey with given time stamp
+     * 
+     * @param journey   The journey to be ended
+     * @param timestamp The time stamp to be set as ending time stamp of the journey
+     * @return Boolean of whether the journey was ended successfully
+     */
+    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
+        if (journey != null && !journey.isEnded() && journey.isStarted() && journey.isValidEndTimestamp(timestamp)) {
+            journey.setEndTimestamp(timestamp);
+            journey.setEnded();
             return true;
         } else {
             return false;
@@ -202,7 +206,6 @@ public class LogisticsCompany extends User {
     public Container createContainer() {
         Container container = new Container(this);
         addContainer(container);
-        setAvailableContainer(container);
         return container;
     }
 
@@ -221,31 +224,6 @@ public class LogisticsCompany extends User {
         } else {
             return false;
         }
-    }
-
-    /**
-     * Checks whether a container is allocated
-     * 
-     * @param container The container to be checked
-     * @return Boolean of whether container is allocated
-     */
-    public boolean isAllocated(Container container) {
-        return !container.isAvailable();
-    }
-
-    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
-        if (journey != null && !journey.isEnded() && journey.isStarted() && journey.isValidEndTimestamp(timestamp)) {
-            journey.setEndTimestamp(timestamp);
-            journey.setEnded();
-            setAvailableContainer(journey.getContainer());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isAvailable(Container container) {
-        return container.isAvailable();
     }
 
 }

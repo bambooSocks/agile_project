@@ -1,13 +1,16 @@
-package rcm;
+package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import rcm.Journey;
+import rcm.Response;
 
 public class M2 {
 
@@ -33,7 +36,8 @@ public class M2 {
     @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
     public void the_first_client_requests_to_register_a_journey_with_the_first_logistics_company_with_origin_destination_and_content(
             String originPort, String destinationPort, String content) {
-        response = holder.getFirstClient().requestJourney(originPort, destinationPort, content);
+        response = holder.getFirstClient().requestJourney(originPort, destinationPort, content,
+                LocalDateTime.of(2020, 3, 13, 4, 20));
     }
 
     @When("the first logistics company updates containers location to a new location {string}")
@@ -100,10 +104,9 @@ public class M2 {
         assertTrue(filteredContent.contains(holder.getSecondJourney()));
     }
 
-    @Then("the journey doesnt exist")
-    public void the_journey_doesnt_exist() {
-        assertEquals(Response.JOURNEY_NOT_CREATED, response);
-        assertTrue(holder.getFirstClient().getJourneyList().isEmpty());
+    @Then("the journey doesnt start")
+    public void the_journey_doesnt_start() {
+        assertEquals(Response.JOURNEY_NOT_STARTED, response);
     }
 
 }

@@ -1,10 +1,11 @@
 package rcm;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class Container {
     private int id;
-    private boolean available = true;
     private LogisticsCompany company;
     private String location;
     private LinkedList<Journey> journeyList;
@@ -48,27 +49,36 @@ public class Container {
         return location;
     }
 
-    // make a sort method and afterwards check if the last element of the journey
-    // list is ended
-    // input: start-date of journey
-    // afterwards check for container if it's available in start journey
-    public boolean isAvailable() {
-        return available;
+    /**
+     * Checks whether a container is available at given time
+     * 
+     * @param timestamp LocalDateTime of the time stamp to be checked
+     * @return boolean of whether the container is available
+     */
+    public boolean isAvailable(LocalDateTime timestamp) {
+        if (journeyList.isEmpty()) {
+            return true;
+        } else {
+            Collections.sort(journeyList);
+            Journey lastJourney = journeyList.getLast();
+            return lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
+        }
     }
 
     /**
-     * Setter for availability flag
+     * Adds a journey to the journey list of the container
      * 
-     * @param available Boolean value the flag should be set to
+     * @param journey Journey to be added to the list
      */
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
     public void addJourney(Journey journey) {
         journeyList.add(journey);
     }
 
+    /**
+     * Getter for the journey list
+     * 
+     * @return LinkedList of Journey of the journey list
+     */
     public LinkedList<Journey> getJourneyList() {
         return journeyList;
     }

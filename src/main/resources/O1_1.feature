@@ -17,31 +17,33 @@
 ## (Comments)
 #Sample Feature Definition Template
 @tag
-Feature: Availability of containers based on end-date and start-date of the journey
+Feature: Journey start
 
   @tag1
-  Scenario: Succesful start of second journey of container
+  Scenario: Successful journey start
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And a container of the first logistics company
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And the first journey has started at 4:20 11/3/2020
-    And the first journey has ended at 4:20 12/3/2020
-    And a second journey of first client with origin port of "Rotterdam" destination port of "Copenhagen" and a content of "medical goods"
-    When the logistics company starts a second journey of the first client with a timestamp 4:20 13/3/2020
-    Then the second journey has started
-    And the list of journeys of the container contains the second journey
+    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods" 
+    When the logistics company starts a first journey of the first client with a timestamp 4:20 13/3/2020
+    Then the first journey has started
+    And the starting timestamp of the first journey is 4:20 13/3/2020
+    And the logistics company successfully adds a container status with a timestamp 4:22 13/3/2020
 
-  Scenario: Failed to start journey due to last journey on the list not being ended
+	Scenario: Failed journey start because of journey already started
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And a container of the first logistics company
-    And another container of first logistics company
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And the first journey has started at 4:20 11/3/2020
-    And a second journey of first client with origin port of "Rotterdam" destination port of "Copenhagen" and a content of "medical goods"
-    When the logistics company starts a second journey of the first client with a timestamp 4:20 13/3/2020
-    Then the second journey failed to start
-    And the list of journeys of the container does not contain the second journey
-    
-  #Scenario: Failed to start journey  due to the start-date being before the end-date of the last journey in the list
+    And the journey has started at 4:20 13/3/2020 
+    When the logistics company starts a first journey of the first client with a timestamp 4:20 14/3/2020
+    Then the first journey failed to start
+    And the logistics company successfully adds a container status with a timestamp 4:22 13/3/2020
+	
+	Scenario: Failed journey start because of missing journey
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+    When the logistics company starts a first journey of the first client with a timestamp 4:20 14/3/2020
+    Then the first journey failed to start
+    And the logistics company fails to add a container status with a timestamp 4:22 13/3/2020
+	
+	

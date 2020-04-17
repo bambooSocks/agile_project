@@ -1,8 +1,10 @@
-package rcm;
+package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 
 import io.cucumber.java.en.Given;
+import rcm.Client;
+import rcm.LogisticsCompany;
 
 public class SharedStepMethods {
 

@@ -2,6 +2,7 @@ package rcm;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -111,13 +112,21 @@ public class Client extends User {
      * @param originPort      the origin port of the journey
      * @param destinationPort the destination port of the journey
      * @param content         content of the container in the journey
+     * @param timestamp       time stamp of the journey start
      * @return Response.SUCCESS for journey created and added to journeyList
+     *         JOURNEY_NOT_STARTED for failing to start journey. The journey is
+     *         added to the journeyList. 
      *         JOURNEY_NOT_CREATED for failing to create journey
      * @implNote This method only works if the client is assigned to a company
      */
-    public Response requestJourney(String originPort, String destinationPort, String content) {
-        if (company.createJourney(this, originPort, destinationPort, content) != null) {
-            return Response.SUCCESS;
+    public Response requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) {
+        Journey journey = company.createJourney(this, originPort, destinationPort, content);
+        if (journey != null) {
+            if (company.startJourney(journey, timestamp)) {
+                return Response.SUCCESS;
+            } else {
+                return Response.JOURNEY_NOT_STARTED;
+            }
         } else {
             return Response.JOURNEY_NOT_CREATED;
         }

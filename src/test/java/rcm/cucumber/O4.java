@@ -1,4 +1,4 @@
-package rcm;
+package rcm.cucumber;
 
 import static org.junit.Assert.assertTrue;
 

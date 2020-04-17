@@ -31,6 +31,6 @@ Feature: Container Registration
   	Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
     When the first client requests to register a journey with the first logistics company with origin "Shenzhen", destination "Rotterdam" and content "medical goods"  
-    Then the journey doesnt exist
+    Then the journey doesnt start
     
     

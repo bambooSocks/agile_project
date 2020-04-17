@@ -1,4 +1,9 @@
-package rcm;
+package rcm.cucumber;
+
+import rcm.Client;
+import rcm.Container;
+import rcm.Journey;
+import rcm.LogisticsCompany;
 
 public class SharedObjectHolder {
 

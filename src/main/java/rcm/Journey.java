@@ -4,7 +4,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class Journey {
+public class Journey implements Comparable<Journey> {
     private int id;
     private boolean started = false;
     private boolean ended = false;
@@ -26,15 +26,13 @@ public class Journey {
      * @param destinationPort The name of the destination port
      * @param content         The content of the container being transported in the
      *                        journey
-     * @param container       The container assigned to the journey
      * @param client          The client that the journey belongs to
      * @implNote should be only called from Logistics Company
      */
-    public Journey(String originPort, String destinationPort, String content, Container container, Client client) {
+    public Journey(String originPort, String destinationPort, String content, Client client) {
         this.originPort = originPort;
         this.destinationPort = destinationPort;
         this.content = content;
-        this.container = container;
         this.client = client;
         history = new LinkedList<ContainerStatus>();
         id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
@@ -92,6 +90,18 @@ public class Journey {
         return content;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public Container getContainer() {
+        return container;
+    }
+
+    public void setContainer(Container container) {
+        this.container = container;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -112,10 +122,6 @@ public class Journey {
         if (id != other.id)
             return false;
         return true;
-    }
-
-    public Client getClient() {
-        return client;
     }
 
     /**
@@ -143,10 +149,18 @@ public class Journey {
         this.started = true;
     }
 
+    /**
+     * Getter for the ended flag
+     * 
+     * @return Boolean of whether the journey has been ended
+     */
     public boolean isEnded() {
         return ended;
     }
 
+    /**
+     * Sets the journey to ended
+     */
     public void setEnded() {
         this.ended = true;
     }
@@ -170,21 +184,46 @@ public class Journey {
         startTimestamp = timestamp;
     }
 
+    /**
+     * Getter for the Journey's ending time stamp
+     * 
+     * @return LocalDateTime denoting the journey's ending time stamp
+     */
     public LocalDateTime getEndTimestamp() {
         return endTimestamp;
     }
 
+    /**
+     * Setter for the Journey's ending time stamp
+     * 
+     * @param timestamp LocalDateTime that the journey's ending time stamp should be
+     *                  set to
+     */
     public void setEndTimestamp(LocalDateTime endTimestamp) {
         this.endTimestamp = endTimestamp;
     }
 
-    public Container getContainer() {
-        return container;
-    }
-
+    /**
+     * Checks whether the given time stamp can be used as an ending time stamp for
+     * the journey
+     * 
+     * @param timestamp The time stamp that should be checked
+     * @return Boolean of whether the time stamp can be used as an ending time stamp
+     */
     public boolean isValidEndTimestamp(LocalDateTime timestamp) {
         return history.stream().allMatch(s -> s.getTimestamp().isBefore(timestamp))
                 && startTimestamp.isBefore(timestamp);
+    }
+
+    /**
+     * Override of the compareTo from the Comparable interface
+     * 
+     * @implNote Since the Journey lists should be able to be sorted by start time
+     *           stamp.
+     */
+    @Override
+    public int compareTo(Journey o) {
+        return startTimestamp.compareTo(o.getStartTimestamp());
     }
 
 }
