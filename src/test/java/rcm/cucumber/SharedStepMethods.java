@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import io.cucumber.java.en.Given;
 import rcm.Client;
 import rcm.LogisticsCompany;
+import rcm.Password;
 
 public class SharedStepMethods {
 

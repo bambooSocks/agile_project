@@ -1,6 +1,7 @@
 package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.Journey;
+import rcm.Location;
+import rcm.LogisticsCompany;
 import rcm.Response;
 
 public class M2 {
@@ -17,6 +20,9 @@ public class M2 {
     private List<Journey> filteredContent, filteredDestination, filteredOrigin;
     private Response response;
     private SharedObjectHolder holder;
+    protected LocalDateTime timestamp;
+    private Location containerLocation;
+    private boolean successfulEntry = false;
 
     public M2(SharedObjectHolder holder) {
         this.holder = holder;
@@ -28,9 +34,12 @@ public class M2 {
         holder.getFirstCompany().createContainer();
     }
 
-    @Given("the container has a location {string}")
-    public void the_container_has_a_location(String location) {
-        holder.getFirstContainer().setLocation(location);
+    @Given("the container entered location {string} at {int}:{int} {int}\\\\/{int}\\\\/{int}")
+    public void the_container_entered_location_at(String location, Integer hours, Integer minutes, Integer day,
+            Integer month, Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
+        containerLocation = new Location(timestamp, location);
+
     }
 
     @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
@@ -40,14 +49,14 @@ public class M2 {
                 LocalDateTime.of(2020, 3, 13, 4, 20));
     }
 
-    @When("the first logistics company updates containers location to a new location {string}")
-    public void the_first_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getFirstCompany().updateLocation(holder.getFirstContainer(), newLocation);
+    @When("the first logistics company updates containers location")
+    public void the_first_logistics_company_updates_containers_location() {
+        successfulEntry = holder.getFirstCompany().enterLocation(containerLocation, holder.getFirstJourney());
     }
 
     @When("the second logistics company updates containers location to a new location {string}")
     public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getSecondCompany().updateLocation(holder.getFirstContainer(), newLocation);
+        successfulEntry = holder.getSecondCompany().enterLocation(containerLocation, holder.getFirstJourney());
     }
 
     @When("the first client filters his journeys based on the origin port {string}")
@@ -67,15 +76,14 @@ public class M2 {
 
     @Then("the location is changed")
     public void the_location_is_changed() {
-        assertEquals(Response.SUCCESS, response);
-        assertEquals("Atlantic Ocean", holder.getFirstContainer().getLocation());
+        assertTrue(successfulEntry);
+        assertTrue(holder.getFirstJourney().containsLocation(containerLocation));
     }
 
     @Then("the location is not changed")
     public void the_location_is_not_changed() {
-
-        assertEquals(Response.LOCATION_NOT_CHANGED, response);
-        assertEquals("Los Angeles", holder.getFirstContainer().getLocation());
+        assertFalse(successfulEntry);
+        assertFalse(holder.getFirstJourney().containsLocation(containerLocation));
     }
 
     @Then("an id is created")
