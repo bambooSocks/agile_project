@@ -42,14 +42,17 @@ public class Client extends User {
     }
 
     public List<Journey> viewData(boolean loggedIn, String email1, String email2, boolean access) {
-        if ((email1 == email2 || access) && loggedIn) {
+        if ((email1.equals(email2) || access) && loggedIn) {
             LinkedList<Client> cl = new LinkedList<Client>();
             cl.addAll(company.searchByEmail(email2));
             System.out.println("cl " + cl); /////////////////////////
             if (cl.isEmpty()) {
                 return null;
             } else {
-                System.out.println("viewData " + cl.pop().getJourneyList()); /////////////////////
+//                Calling pop() will actually remove the element from the list
+//                So calling it many times doesn't work
+//                System.out.println("viewData " + cl.pop().getJourneyList()); /////////////////////
+//                System.out.println("cl.pop " + cl.pop()); /////////////////////
                 return cl.pop().getJourneyList();
             }
         } else {

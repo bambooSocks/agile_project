@@ -69,6 +69,8 @@ public class O2 {
     @Then("the containers and data can be viewed")
     public void the_containers_and_data_can_be_viewed() {
 //        having a null pointer exception here...
+//        I think we have to add a journey for the client in the scenarios
+//        right now we don't have any, so viewData returns []
         System.out.println("data to be viewed " + data); // this one is printing null
         System.out.println("data to be compared " + holder.getSecondClient().getJourneyList()); // this one doesnt print
 //        are we comparing the same types here?

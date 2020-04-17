@@ -72,13 +72,13 @@ public class LogisticsCompany extends User {
         return applyFilter(c -> c.getPassword().equals(hashKey));
     }
 
-//    this method is not working yet even though everything matches!!!!!
+//    Fixed
 //    tags 2, 6, and 7
     public boolean companyLogInStatus(String email, String password) throws WrongInputException {
-        System.out.println("email " + email + " stored email " + getEmail());       //the emails are matching
-        System.out.println("password " + Password.SHA1_Hasher(password) + " stored " + getPassword());      //the hashes are also matching
-        if (email == getEmail()) {
-            if (Password.SHA1_Hasher(password) == getPassword()) {
+//        System.out.println("email " + email + " stored email " + getEmail());       //the emails are matching
+//        System.out.println("password " + Password.SHA1_Hasher(password) + " stored " + getPassword());      //the hashes are also matching
+        if (email.equals(getEmail())) {
+            if (Password.SHA1_Hasher(password).equals(getPassword())) {
                 return true;
             } else {
                 throw new WrongInputException("Your password is incorrect");
