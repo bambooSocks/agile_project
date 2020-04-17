@@ -4,8 +4,18 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+@Entity
 public class Container {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
+    @Column
+    private int companyId;
     private LogisticsCompany company;
     private String location;
     private LinkedList<Journey> journeyList;
@@ -19,9 +29,10 @@ public class Container {
     public Container(LogisticsCompany company) {
         id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
+        companyId = company.getId();
         journeyList = new LinkedList<Journey>();
     }
-
+    
     /**
      * Getter for company owning the container
      * 
@@ -38,15 +49,6 @@ public class Container {
      */
     public int getId() {
         return id;
-    }
-
-    public void setLocation(String newLocation) {
-        location = newLocation;
-
-    }
-
-    public String getLocation() {
-        return location;
     }
 
     /**

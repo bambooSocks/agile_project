@@ -2,8 +2,22 @@ package rcm;
 
 import java.time.LocalDateTime;
 
-public abstract class TimeStamp {
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
+@Entity  
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "Type",
+                       discriminatorType = DiscriminatorType.STRING,
+                       length = 20)
+@DiscriminatorValue("T")
+public abstract class TimeStamp {
+    @Id
     protected LocalDateTime timestamp;
 
     /**

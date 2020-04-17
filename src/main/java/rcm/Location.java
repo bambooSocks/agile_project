@@ -2,6 +2,8 @@ package rcm;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+@Entity
 public class Location extends TimeStamp {
 
     private String location;

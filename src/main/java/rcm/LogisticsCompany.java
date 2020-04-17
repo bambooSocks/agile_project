@@ -34,7 +34,6 @@ public class LogisticsCompany extends User {
         clients = new HashSet<Client>();
         hashKeys = new LinkedList<String>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
-        Database.save(name, address, refPerson, email);
 
     }
 
@@ -71,13 +70,20 @@ public class LogisticsCompany extends User {
         return clients;
     }
 
-    public Response updateLocation(Container container, String newLocation) {
-        if (this.containers.contains(container)) {
-            container.setLocation(newLocation);
-
-            return Response.SUCCESS;
+    /**
+     * Enters a new container status to the given journey
+     * 
+     * @param status  The status to be entered
+     * @param journey The journey that the status should be entered to
+     * @return Boolean of whether the container status was entered successfully
+     */
+    public boolean enterLocation(Location location, Journey journey) {
+        if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
+                && journey.getStartTimestamp().isBefore(location.getTimestamp()) && !journey.isEnded()) {
+            journey.addLocation(location);
+            return true;
         } else {
-            return Response.LOCATION_NOT_CHANGED;
+            return false;
         }
     }
 
@@ -135,7 +141,6 @@ public class LogisticsCompany extends User {
             Client c = new Client(name, address, refPerson, email, password);
             addClient(c);
             c.assignCompany(this);
-            Database.save(name, address, refPerson, email, id);
             return c;
         } else {
             return null;

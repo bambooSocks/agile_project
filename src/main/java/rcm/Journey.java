@@ -1,24 +1,38 @@
 package rcm;
 
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import java.time.LocalDateTime;
 import java.util.LinkedList;
-
+@Entity
 public class Journey implements Comparable<Journey> {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private boolean started = false;
     private boolean ended = false;
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
+    @Column
     private String originPort;
+    @Column
     private String destinationPort;
+    @Column
     private String content;
-
+    
+    private int containerId;
+    private int clientId;
     private Container container;
     private Client client;
-
+    
+    
     private List<ContainerStatus> history;
-    private LinkedList<ContainerStatus> history;
     private LinkedList<Location> locationHistory;
 
     /**
@@ -70,16 +84,11 @@ public class Journey implements Comparable<Journey> {
         return history;
     }
 
-    public boolean addLocation(Location location, LogisticsCompany company) throws SQLException {
-        if (company.equals(getCompany())) {
+    public void addLocation(Location location) {
             locationHistory.add(location);
-            return true;
-        } else {
-            return false;
-        }
     }
 
-    public LinkedList<ContainerStatus> getStatus(Client client1) {
+    public List<ContainerStatus> getStatus(Client client1) {
         return (client1.equals(client)) ? history : null;
     }
 
@@ -93,6 +102,7 @@ public class Journey implements Comparable<Journey> {
     public boolean containsStatus(ContainerStatus status) {
         return history.contains(status);
     }
+    
     
     public boolean containsLocation(Location location) {
         return locationHistory.contains(location);

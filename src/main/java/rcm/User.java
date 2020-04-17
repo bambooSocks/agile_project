@@ -24,6 +24,7 @@ public abstract class User {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column
     protected int id;
+    @Column
     protected String password;
     @Column
     protected String name;
