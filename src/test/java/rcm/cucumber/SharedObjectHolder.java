@@ -1,11 +1,16 @@
-package rcm;
+package rcm.cucumber;
+
+import rcm.Client;
+import rcm.Container;
+import rcm.Journey;
+import rcm.LogisticsCompany;
 
 public class SharedObjectHolder {
 
     private LogisticsCompany company1, company2;
     private Client client1, client2;
     private Journey journey1, journey2;
-    private Container container;
+    private Container container1, container2;
 
     public LogisticsCompany getFirstCompany() {
         return company1;
@@ -55,12 +60,20 @@ public class SharedObjectHolder {
         journey2 = journey;
     }
 
-    public Container getContainer() {
-        return container;
+    public Container getFirstContainer() {
+        return container1;
     }
 
-    public void setContainer(Container container) {
-        this.container = container;
+    public void setFirstContainer(Container container) {
+        this.container1 = container;
+    }
+
+    public Container getSecondContainer() {
+        return container2;
+    }
+
+    public void setSecondContainer(Container container) {
+        this.container2 = container;
     }
 
 }
