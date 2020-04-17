@@ -18,7 +18,6 @@ public abstract class User {
 
     public User(String name, String address, String refPerson, String email, String password)
             throws WrongInputException {
-        
         this.address = address;
 
         if (validateSomeName(name)) {
@@ -26,34 +25,51 @@ public abstract class User {
         } else {
             throw new WrongInputException("The given name is not valid");
         }
-        
+
         if (validateSomeName(refPerson)) {
             this.refPerson = refPerson;
         } else {
             throw new WrongInputException("The given name is not valid");
         }
-        
+
         if (validateEmail(email)) {
             this.email = email;
         } else {
             throw new WrongInputException("The given email is not valid");
         }
-        
+
         if (validatePassword(password)) {
             this.password = Password.SHA1_Hasher(password);
         } else {
             throw new WrongInputException("The given password is not valid");
         }
-
-//        if () {
-//            this.address = address;
-//        } else {
-//            throw new WrongInputException();
-//        }
-
     }
 
-    public static boolean validateSomeName(String someName) {
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getRefPerson() {
+        return refPerson;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    private static boolean validateSomeName(String someName) {
         Matcher matcherName = Pattern.compile(regexName).matcher(someName);
         Matcher matcherRefPerson = Pattern.compile(regexName).matcher(someName);
         if (matcherName.matches() || matcherRefPerson.matches()) {
@@ -63,7 +79,7 @@ public abstract class User {
         }
     }
 
-    public static boolean validateEmail(String email) {
+    private static boolean validateEmail(String email) {
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
         if (matcherEmail.matches()) {
             return true;
@@ -72,7 +88,7 @@ public abstract class User {
         }
     }
 
-    public static boolean validatePassword(String password) {
+    private static boolean validatePassword(String password) {
         Matcher matcherPassword = Pattern.compile(regexPassword).matcher(password);
         if (matcherPassword.matches()) {
             return true;
@@ -107,30 +123,6 @@ public abstract class User {
         if (validatePassword(newPassword)) {
             password = Password.SHA1_Hasher(newPassword);
         }
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getRefPerson() {
-        return refPerson;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     @Override

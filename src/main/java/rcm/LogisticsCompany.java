@@ -72,14 +72,32 @@ public class LogisticsCompany extends User {
         return applyFilter(c -> c.getPassword().equals(hashKey));
     }
 
-    public boolean logInStatus(String email, String password) {
+//    this method is not working yet even though everything matches!!!!!
+//    tags 2, 6, and 7
+    public boolean companyLogInStatus(String email, String password) throws WrongInputException {
+        System.out.println("email " + email + " stored email " + getEmail());       //the emails are matching
+        System.out.println("password " + Password.SHA1_Hasher(password) + " stored " + getPassword());      //the hashes are also matching
+        if (email == getEmail()) {
+            if (Password.SHA1_Hasher(password) == getPassword()) {
+                return true;
+            } else {
+                throw new WrongInputException("Your password is incorrect");
+            }
+        } else {
+            throw new WrongInputException("Please try another email");
+        }
+    }
+
+    public boolean clientLogInStatus(String email, String password) {
         Set<Client> emails = searchByEmail(email);
+//        System.out.println("emails " + emails); /////////////////////////
         String hashKey = Password.SHA1_Hasher(password);
         if (emails.isEmpty()) {
             return false;
         } else {
             Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
                     .collect(Collectors.toSet());
+//            System.out.println("passed " + passed); ////////////////////
             if (passed.isEmpty()) {
                 return false;
             } else {

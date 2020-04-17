@@ -26,45 +26,56 @@ Feature: Log-ins and permissions
     When first client enters email "bananas@chiquita.com" and password "Object123"
     Then the client is logged in
 
-  # Client enters wrong password scenario
-  #  Scenario: Successful company Log-in
   @tag2
+  Scenario: Successful company Log-in
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
+    When first logistics company enters email "info@maersk.com" and password "Agile123"
+    Then the company is logged in
+
+  @tag3
+  Scenario: Failed client Log-in
+    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
+    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
+    When first client enters email "bananas@chiquita.com" and password "Corndog12"
+    Then the client is not logged in
+
+  @tag4
   Scenario: Client can view own containers
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And first client is logged-in
+    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
     When client with email "bananas@chiquita.com" tries to view containers and data of client with email "bananas@chiquita.com"
     Then the containers and data can be viewed
 
-  @tag3
+  @tag5
   Scenario: Client cannot view others containers
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
-    And first client is logged-in
+    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
     When client with email "bananas@chiquita.com" tries to view containers and data of client with email "Ilovetoeat@hotmail.com"
     Then the containers and data can not be viewed
 
-  @tag4
+  @tag6
   Scenario: Logistics Company can view own clients
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     When logistics company with email "info@maersk.com" tries to view clients, containers, and data of logistics company with email "info@maersk.com"
     Then the clients, containers, and data can be viewed
 
-  @tag5
+  @tag7
   Scenario: Logistics Company can't view other clients
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a second logistics company "Hamburg Sud" with address "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany" reference person "Dr. Arnt Vespermann" email "info@hamburgsud-line.com" and password "Agile123"
-    And first logistics company is logged-in
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     When logistics company with email "info@maersk.com" tries to view clients, containers, and data of logistics company with email "info@hamburgsud-line.com"
     Then the clients, containers, and data can not be viewed
 
-  @tag6
+  @tag8
   Scenario: Client can give access to other clients
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
-    And first client is logged-in
+    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
     When first client with email "bananas@chiquita.com" gives access to client with email "Ilovetoeat@hotmail.com"
     Then they can view the containers and data of the first client

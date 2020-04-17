@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
@@ -55,16 +54,6 @@ public class M1 {
     }
 
 ///////////////////M1:2//////////////////////////////////////////
-    @Given("the logistic company has some clients including first client")
-    public void the_logistic_company_has_some_clients_including_first_client() {
-        String name = holder.getFirstClient().getName();
-        String address = holder.getFirstClient().getAddress();
-        String refPerson = holder.getFirstClient().getRefPerson();
-        String email = holder.getFirstClient().getEmail();
-        String password = holder.getFirstClient().getPassword();
-        holder.getFirstCompany().createClient(name, address, refPerson, email, password);
-    }
-
     @When("a first logistics company searches for name {string}")
     public void a_first_logistics_company_searches_for_name(String name) {
         searchResults = holder.getFirstCompany().searchByName(name);

@@ -9,7 +9,8 @@ public class Client extends User {
     private List<Journey> journeyList;
     private LogisticsCompany company;
 
-    public Client(String name, String address, String refPerson, String email, String password) throws WrongInputException {
+    public Client(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
@@ -42,11 +43,15 @@ public class Client extends User {
 
     public List<Journey> viewData(boolean loggedIn, String email1, String email2, boolean access) {
         if ((email1 == email2 || access) && loggedIn) {
-//            makesure its not empty
             LinkedList<Client> cl = new LinkedList<Client>();
             cl.addAll(company.searchByEmail(email2));
-            return cl.pop().getJourneyList();
-//            return null;
+            System.out.println("cl " + cl); /////////////////////////
+            if (cl.isEmpty()) {
+                return null;
+            } else {
+                System.out.println("viewData " + cl.pop().getJourneyList()); /////////////////////
+                return cl.pop().getJourneyList();
+            }
         } else {
             return null;
         }
