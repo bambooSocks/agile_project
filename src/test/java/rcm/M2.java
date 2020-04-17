@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
@@ -26,9 +27,10 @@ public class M2 {
         holder.getFirstCompany().createContainer();
     }
 
-    @Given("the container has a location {string}")
-    public void the_container_has_a_location(String location) {
-        //holder.getContainer().setLocation(location);
+    @Given("the container had a location {string} at {int}:{int} {int}\\\\/{int}\\\\/{int}")
+    public void the_container_has_a_location_at(String location,Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
+        holder.getContainer().setLocation(location);
     }
 
     @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
@@ -37,13 +39,15 @@ public class M2 {
         response = holder.getFirstClient().requestJourney(originPort, destinationPort, content);
     }
 
-    @When("the first logistics company updates containers location to a new location {string}")
-    public void the_first_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
+    @When("the first logistics company updates containers location to a new location {string} at {int}:{int} {int}\\\\/{int}\\\\/{int}")
+    public void the_first_logistics_company_updates_containers_location_to_a_new_location_at(String newLocation,Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         response = holder.getFirstCompany().updateLocation(holder.getContainer(), newLocation);
     }
 
-    @When("the second logistics company updates containers location to a new location {string}")
-    public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
+    @When("the second logistics company updates containers location to a new location {string} at {int}:{int} {int}\\\\/{int}\\\\/{int}")
+    public void the_second_logistics_company_updates_containers_location_to_a_new_location_at(String newLocation,Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         response = holder.getSecondCompany().updateLocation(holder.getContainer(), newLocation);
     }
 

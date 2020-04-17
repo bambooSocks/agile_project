@@ -1,5 +1,8 @@
 package rcm;
-
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;  
+import javax.persistence.Id;  
+import javax.persistence.Table;  
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -7,6 +10,8 @@ import java.util.function.Predicate;
 import java.sql.SQLException;
 import java.util.HashSet;
 
+@Entity
+@DiscriminatorValue("L")
 public class LogisticsCompany extends User {
 
     LinkedList<Container> containers;
@@ -132,5 +137,15 @@ public class LogisticsCompany extends User {
         Database.save(id, 1);
         return container;
     }
-
+    /*
+    public boolean enterLocation(Location location, Journey journey) {
+        if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
+                && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
+            journey.addLocation(location);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    */
 }

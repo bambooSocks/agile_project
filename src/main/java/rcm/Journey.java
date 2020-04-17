@@ -61,6 +61,10 @@ public class Journey {
     public boolean containsStatus(ContainerStatus status) {
         return history.contains(status);
     }
+    
+    public boolean containsLocation(Location location) {
+        return locationHistory.contains(location);
+    }
 
     public String getOriginPort() {
         return originPort;

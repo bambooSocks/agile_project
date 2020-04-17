@@ -7,6 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 public class Database {
 
     private static Connection conn = null;
@@ -14,7 +18,7 @@ public class Database {
 
         try {
             // db parameters
-            String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/" + "Database.db";
+            String url = "jdbc:sqlite:Database.db";
             // create a connection to the database
             conn = DriverManager.getConnection(url);
             return conn;
@@ -152,8 +156,20 @@ public class Database {
     }
 
     public static void main(String[] args) throws SQLException {
-        Database.connect();
-        Database.createNewTables();
+       // Database.connect();
+       // Database.createNewTables();
+        
+        SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+        Session session = sessionFactory.openSession();
+
+        Client client = new Client("nadsfme", "sdaddress", "srefPerson", "semail");
+        LogisticsCompany cldient = new LogisticsCompany("naddsfme", "sdadddress", "srefPersddon", "semddail");
+        
+        session.getTransaction().begin();
+        session.saveOrUpdate(client);
+        session.saveOrUpdate(cldient);
+        session.getTransaction().commit();
+        session.close();
     }
 
 }

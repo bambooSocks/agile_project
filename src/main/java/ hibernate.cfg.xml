@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 5.2//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-5.2.dtd">  
+  
+<hibernate-configuration>  
+  
+    <session-factory>   
+        <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>  
+         <property name="connection.url">jdbc:sqlite:Database.db</property>   
+    	<property name="connection.driver_class">org.sqlite.JDBC</property>
+    	<mapping class="com.srccodes.example.hibernate.User"/>
+    </session-factory>  
+  
+</hibernate-configuration> 

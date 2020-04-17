@@ -1,6 +1,5 @@
 package rcm;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 public class ContainerStatus extends TimeStamp {

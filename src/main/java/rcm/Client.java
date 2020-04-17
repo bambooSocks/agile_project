@@ -2,15 +2,25 @@ package rcm;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+@Entity
+@DiscriminatorValue("C")
 public class Client extends User {
 
     private List<Journey> journeyList;
     private LogisticsCompany company;
+    @Column
+    private int companyId;
 
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
@@ -27,12 +37,13 @@ public class Client extends User {
     public Client(String name, String address, String refPerson, String email) {
         super(name, address, refPerson, email);
         journeyList = new LinkedList<Journey>();
-        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
+        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT); 
     }
 
     public void assignCompany(LogisticsCompany company) {
         this.company = company;
-    }
+        companyId = company.getId();
+        }
 
     public void addJourney(Journey journey) {
         journeyList.add(journey);
