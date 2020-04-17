@@ -43,8 +43,10 @@ public class Client extends User {
     public List<Journey> viewData(boolean loggedIn, String email1, String email2, boolean access) {
         if ((email1 == email2 || access) && loggedIn) {
 //            makesure its not empty
-//            return company.searchByEmail(email2).getJourneyList();
-            return null;
+            LinkedList<Client> cl = new LinkedList<Client>();
+            cl.addAll(company.searchByEmail(email2));
+            return cl.pop().getJourneyList();
+//            return null;
         } else {
             return null;
         }
