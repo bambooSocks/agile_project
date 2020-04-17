@@ -1,5 +1,6 @@
 package rcm;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -159,11 +160,11 @@ public class Database {
        // Database.connect();
        // Database.createNewTables();
         
-        SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+        SessionFactory sessionFactory = new Configuration().configure(new File("/home/mihaela/git/agile_project/hibernate.cfg.xml")).buildSessionFactory();
         Session session = sessionFactory.openSession();
 
-        Client client = new Client("nadsfme", "sdaddress", "srefPerson", "semail");
-        LogisticsCompany cldient = new LogisticsCompany("naddsfme", "sdadddress", "srefPersddon", "semddail");
+        Client client = new Client("nadsfme", "sdaddress", "srefPerson", "semail","pas");
+        LogisticsCompany cldient = new LogisticsCompany("naddsfme", "sdadddress", "srefPersddon", "semddail","pas2");
         
         session.getTransaction().begin();
         session.saveOrUpdate(client);
