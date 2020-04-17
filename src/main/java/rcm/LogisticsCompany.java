@@ -1,7 +1,6 @@
 package rcm;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -22,7 +21,8 @@ public class LogisticsCompany extends User {
      * @param email     Email of the logistics company
      * @param password
      */
-    public LogisticsCompany(String name, String address, String refPerson, String email, String password) {
+    public LogisticsCompany(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
         super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
         availableContainers = new LinkedList<Container>();
@@ -67,19 +67,19 @@ public class LogisticsCompany extends User {
     public Set<Client> searchByEmail(String email) {
         return applyFilter(c -> c.getEmail().equals(email));
     }
-    
+
     public Set<Client> searchByHashKey(String hashKey) {
         return applyFilter(c -> c.getPassword().equals(hashKey));
     }
-    
-//    same name and same password are a problem
-    public boolean logInStatus(String name, String password) {
-        Set<Client> named = searchByName(name);
+
+    public boolean logInStatus(String email, String password) {
+        Set<Client> emails = searchByEmail(email);
         String hashKey = Password.SHA1_Hasher(password);
-        if (named.isEmpty()) {
+        if (emails.isEmpty()) {
             return false;
         } else {
-            Set<Client> passed = named.stream().filter(c -> c.getPassword().equals(hashKey)).collect(Collectors.toSet());
+            Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
+                    .collect(Collectors.toSet());
             if (passed.isEmpty()) {
                 return false;
             } else {
@@ -89,14 +89,25 @@ public class LogisticsCompany extends User {
     }
 
     public Client createClient(String name, String address, String refPerson, String email, String password) {
-        if (Client.validInfo(name, address, refPerson, email, password)) {
+        try {
             Client c = new Client(name, address, refPerson, email, password);
             addClient(c);
             c.assignCompany(this);
             return c;
-        } else {
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
             return null;
         }
+
+//        if (validateSomeName(name) && validateSomeName(refPerson) && validateEmail(email)
+//                && validatePassword(password)) {
+//            Client c = new Client(name, address, refPerson, email, password);
+//            addClient(c);
+//            c.assignCompany(this);
+//            return c;
+//        } else {
+//            return null;
+//        }
     }
 
     public void addClient(Client client) {

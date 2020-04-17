@@ -3,21 +3,20 @@ package rcm;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Client extends User {
 
     private List<Journey> journeyList;
     private LogisticsCompany company;
 
-    private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-
-    public Client(String name, String address, String refPerson, String email, String password) {
+    public Client(String name, String address, String refPerson, String email, String password) throws WrongInputException {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
+    }
+
+    public List<Journey> getJourneyList() {
+        return journeyList;
     }
 
     public void assignCompany(LogisticsCompany company) {
@@ -41,41 +40,11 @@ public class Client extends User {
         return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
     }
 
-    public static boolean validInfo(String name, String address, String refPerson, String email, String password) {
-        Matcher matcherName = Pattern.compile(regexName).matcher(name);
-        Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
-        Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
-        if (name.length() <= 25 && matcherName.matches() && matcherEmail.matches() && matcherRefPerson.matches()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail,
-            String newPassword) {
-        if (validInfo(newName, newAddress, newRefPerson, newEmail, newPassword)) {
-            name = newName;
-            address = newAddress;
-            refPerson = newRefPerson;
-            email = newEmail;
-            password = Password.SHA1_Hasher(newPassword);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-//    maybe search journeyList for a Client, not a String
-//    add Containers, contents, history, etc. to returned data
-    public LinkedList<String> viewData(boolean loggedIn, String name1, String name2) {
-        if (name1 == name2 && loggedIn) {
-            LinkedList<String> data;
-//            data.add(name2.getJourneyList());
-//            data.add(name2.getOtherStuff());
-            return data;
-//        } else if (permission) {
-//            return true;
+    public List<Journey> viewData(boolean loggedIn, String email1, String email2, boolean access) {
+        if ((email1 == email2 || access) && loggedIn) {
+//            makesure its not empty
+//            return company.searchByEmail(email2).getJourneyList();
+            return null;
         } else {
             return null;
         }

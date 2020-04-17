@@ -23,7 +23,7 @@ Feature: Log-ins and permissions
   Scenario: Successful client Log-in
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    When first client enters password "Object123"
+    When first client enters email "bananas@chiquita.com" and password "Object123"
     Then the client is logged in
 
   # Client enters wrong password scenario
@@ -33,8 +33,8 @@ Feature: Log-ins and permissions
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And first client is logged-in
-    When client "Chiquita" tries to view "Chiquita" containers and data
-    Then they can view "Chiquita" containers and data
+    When client with email "bananas@chiquita.com" tries to view containers and data of client with email "bananas@chiquita.com"
+    Then the containers and data can be viewed
 
   @tag3
   Scenario: Client cannot view others containers
@@ -42,23 +42,23 @@ Feature: Log-ins and permissions
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
     And first client is logged-in
-    When client "Chiquita" tries to view "Dole" containers and data
-    Then they can not view "Dole" containers and data
+    When client with email "bananas@chiquita.com" tries to view containers and data of client with email "Ilovetoeat@hotmail.com"
+    Then the containers and data can not be viewed
 
   @tag4
   Scenario: Logistics Company can view own clients
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And first logistics company is logged-in
-    When logistics company "Maersk" tries to view "Maersk" clients, containers, and data
-    Then they can view "Maersk" clients, containers, and data
+    When logistics company with email "info@maersk.com" tries to view clients, containers, and data of logistics company with email "info@maersk.com"
+    Then the clients, containers, and data can be viewed
 
   @tag5
   Scenario: Logistics Company can't view other clients
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a second logistics company "Hamburg Sud" with address "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany" reference person "Dr. Arnt Vespermann" email "info@hamburgsud-line.com" and password "Agile123"
     And first logistics company is logged-in
-    When logistics company "Maersk" tries to view "Hamburg Sud" clients, containers, and data
-    Then they can not view "Hamburg Sud" clients, containers, and data
+    When logistics company with email "info@maersk.com" tries to view clients, containers, and data of logistics company with email "info@hamburgsud-line.com"
+    Then the clients, containers, and data can not be viewed
 
   @tag6
   Scenario: Client can give access to other clients
@@ -66,5 +66,5 @@ Feature: Log-ins and permissions
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
     And first client is logged-in
-    When client "Chiquita" gives access to client "Dole"
-    Then they can view "Chiquita" clients, containers, and data
+    When first client with email "bananas@chiquita.com" gives access to client with email "Ilovetoeat@hotmail.com"
+    Then they can view the containers and data of the first client

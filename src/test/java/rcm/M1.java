@@ -13,9 +13,7 @@ import io.cucumber.java.en.When;
 
 public class M1 {
 
-    private boolean successfulUpdate = false;
     private Set<Client> searchResults;
-
     private SharedObjectHolder holder;
 
     public M1(SharedObjectHolder holder) {
@@ -98,13 +96,16 @@ public class M1 {
     @When("a client enters new client info {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_client_enters_new_client_info_with_address_reference_person_email_and_password(String name,
             String address, String refPerson, String email, String password) {
-        successfulUpdate = holder.getFirstClient().updateInfo(name, address, refPerson, email, password);
+        holder.getFirstClient().updateName(name);
+        holder.getFirstClient().updateAddress(address);
+        holder.getFirstClient().updateRefPerson(refPerson);
+        holder.getFirstClient().updateEmail(email);
+        holder.getFirstClient().updatePassword(password);
     }
 
     @Then("the client {string} with address {string} reference person {string} email {string} and password {string} is successfully updated")
     public void the_client_with_address_reference_person_email_and_password_is_successfully_updated(String name,
             String address, String refPerson, String email, String password) {
-        assertTrue(successfulUpdate);
         assertNotEquals(null, holder.getFirstClient());
         assertEquals(name, holder.getFirstClient().getName());
         assertEquals(address, holder.getFirstClient().getAddress());

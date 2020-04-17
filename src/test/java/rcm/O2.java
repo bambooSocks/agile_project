@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,15 +14,16 @@ public class O2 {
 
     private SharedObjectHolder holder;
     private boolean loggedIn = false;
-    private LinkedList<String> data;
+    private boolean access = false;
+    private List<Journey> data;
 
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
     }
 
-    @When("first client enters password {string}")
-    public void first_client_enters_password(String password) {
-        loggedIn = holder.getFirstCompany().logInStatus(holder.getFirstClient().getName(), password);
+    @When("first client enters email {string} and password {string}")
+    public void first_client_enters_email_and_password(String email, String password) {
+        loggedIn = holder.getFirstCompany().logInStatus(email, password);
     }
 
     @Then("the client is logged in")
@@ -31,24 +33,23 @@ public class O2 {
 
     @Given("first client is logged-in")
     public void first_client_is_logged_in() {
-        loggedIn = holder.getFirstCompany().logInStatus(holder.getFirstClient().getName(),
+        loggedIn = holder.getFirstCompany().logInStatus(holder.getFirstClient().getEmail(),
                 holder.getFirstClient().getPassword());
     }
 
-    @When("client {string} tries to view {string} containers and data")
-    public void client_tries_to_view_containers_and_data(String name1, String name2) {
-        data = holder.getFirstClient().viewData(loggedIn, name1, name2);
+    @When("client with email {string} tries to view containers and data of client with email {string}")
+    public void client_with_email_tries_to_view_containers_and_data_of_client_with_email(String email1, String email2) {
+        data = holder.getFirstClient().viewData(loggedIn, email1, email2, access);
     }
 
-    @Then("they can view {string} containers and data")
-    public void they_can_view_containers_and_data(String name2) {
-//        assertEquals(name2.getJourneyList(), data);
-//        not an assert true but maybe return the data?
+    @Then("the containers and data can be viewed")
+    public void the_containers_and_data_can_be_viewed() {
+//        assertEquals(something, data);
     }
 
-    @Then("they can not view {string} containers and data")
-    public void they_can_not_view_containers_and_data(String name2) {
-//        if true and name1 != name2 then do not show data
+    @Then("the containers and data can not be viewed")
+    public void the_containers_and_data_can_not_be_viewed() {
+//      assertEquals(something, data);
         throw new io.cucumber.java.PendingException();
     }
 
@@ -60,33 +61,37 @@ public class O2 {
         throw new io.cucumber.java.PendingException();
     }
 
-    @When("logistics company {string} tries to view {string} clients, containers, and data")
-    public void logistics_company_tries_to_view_clients_containers_and_data(String name1, String name2) {
+    @When("logistics company with email {string} tries to view clients, containers, and data of logistics company with email {string}")
+    public void logistics_company_with_email_tries_to_view_clients_containers_and_data_of_logistics_company_with_email(
+            String email1, String email2) {
         // Write code here that turns the phrase above into concrete actions
         throw new io.cucumber.java.PendingException();
     }
 
-    @Then("they can not view {string} clients, containers, and data")
-    public void they_can_not_view_clients_containers_and_data(String name2) {
+    @Then("the clients, containers, and data can not be viewed")
+    public void the_clients_containers_and_data_can_not_be_viewed() {
         // Write code here that turns the phrase above into concrete actions
         throw new io.cucumber.java.PendingException();
     }
 
-    @Then("they can view {string} clients, containers, and data")
-    public void they_can_view_clients_containers_and_data(String name2) {
+    @Then("the clients, containers, and data can be viewed")
+    public void the_clients_containers_and_data_can_be_viewed() {
         // Write code here that turns the phrase above into concrete actions
         throw new io.cucumber.java.PendingException();
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @When("client {string} gives access to client {string}")
-    public void client_gives_access_to_client(String name1, String name2) {
-        throw new io.cucumber.java.PendingException();
+    @When("first client with email {string} gives access to client with email {string}")
+    public void first_client_with_email_gives_access_to_client_with_email(String email1, String email2) {
+        access = true;
+        data = holder.getFirstClient().viewData(loggedIn, email1, email2, access);
+
     }
 
-    @Then("client {string} can view {string} clients, containers, and data")
-    public void client_can_view_clients_containers_and_data(String name1, String name2) {
-        throw new io.cucumber.java.PendingException();
+    @Then("they can view the containers and data of the first client")
+    public void they_can_view_the_containers_and_data_of_the_first_client() {
+//      assertEquals(something, data);
+
     }
 }
