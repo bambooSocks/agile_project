@@ -9,6 +9,7 @@ public class ContainerStatus extends TimeStamp {
     private double humidity;
 
     private double atmPressure;
+    private LocalDateTime timestamp;
 
     /**
      * 
@@ -45,11 +46,8 @@ public class ContainerStatus extends TimeStamp {
     }
 
     /**
-     * 
      * Override of hashCode method to check all fields
-     * 
      */
-
     @Override
 
     public int hashCode() {
@@ -71,19 +69,14 @@ public class ContainerStatus extends TimeStamp {
         temp = Double.doubleToLongBits(temperature);
 
         result = prime * result + (int) (temp ^ (temp >>> 32));
-
         result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
-
         return result;
 
     }
 
     /**
-     * 
      * Override of equals method to check all fields
-     * 
      */
-
     @Override
 
     public boolean equals(Object obj) {
@@ -113,19 +106,22 @@ public class ContainerStatus extends TimeStamp {
         if (Double.doubleToLongBits(temperature) != Double.doubleToLongBits(other.temperature))
 
             return false;
-
         if (timestamp == null) {
-
             if (other.timestamp != null)
-
                 return false;
-
         } else if (!timestamp.equals(other.timestamp))
-
             return false;
-
         return true;
 
+    }
+
+    /**
+     * Getter for the time stamp
+     * 
+     * @return LocalDateTime of the time stamp of the Container Status
+     */
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
     public double getTemperature() {

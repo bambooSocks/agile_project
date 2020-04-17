@@ -25,7 +25,8 @@ Feature: Container status tracking in container journey
 		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a container of the first logistics company
 		And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar with timestamp 4:22 13/3/2020
+		And the journey has started at 4:20 13/3/2020  
 		When the first logistics company enters the given container status
 		Then the journey contains the given status
 		And the journey is successfully updated
@@ -36,8 +37,28 @@ Feature: Container status tracking in container journey
 		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
 		And a container of the first logistics company
 		And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar with timestamp 4:22 13/3/2020
+		And the journey has started at 4:20 13/3/2020
 		When the second logistics company enters the given container status
 		Then the journey does not contain the given status
 		And the journey has failed to update
 
+	Scenario: Failed add status due to no available container and journey is null
+		Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar with timestamp 4:22 13/3/2020
+		And the journey has started at 4:20 13/3/2020
+		When the first logistics company enters the given container status
+		Then the journey has failed to update
+
+	Scenario: Failed add status due to timestamp of container status being earlier than joruney start
+		Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" and email "info@maersk.com"
+		And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" and email "info@novonordisk.com"
+		And a container of the first logistics company
+		And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+		And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar with timestamp 4:10 13/3/2020
+		And the journey has started at 4:20 13/3/2020  
+		When the first logistics company enters the given container status
+		Then the journey does not contain the given status
+		And the journey has failed to update
+	

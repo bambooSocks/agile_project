@@ -4,19 +4,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;  
 import javax.persistence.Table;  
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @Entity
 @DiscriminatorValue("L")
 public class LogisticsCompany extends User {
 
-    LinkedList<Container> containers;
-    LinkedList<Container> availableContainers;
+    List<Container> containers;
     Set<Client> clients;
+    List<String> hashKeys;
 
     /**
      * Logistics Company constructor
@@ -25,24 +26,40 @@ public class LogisticsCompany extends User {
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
-     * @throws SQLException
+     * @param password
      */
-    public LogisticsCompany(String name, String address, String refPerson, String email) throws SQLException {
-        super(name, address, refPerson, email);
+    public LogisticsCompany(String name, String address, String refPerson, String email, String password) {
+        super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
-        availableContainers = new LinkedList<Container>();
         clients = new HashSet<Client>();
+        hashKeys = new LinkedList<String>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
         Database.save(name, address, refPerson, email);
 
     }
 
-    public LinkedList<Container> getAvailableContainers() {
-        return availableContainers;
+    /**
+     * Getter for a list of all available containers
+     * 
+     * @return List of Container filtered by availability
+     */
+    public List<Container> getAllAvailableContainers(LocalDateTime timestamp) {
+        return containers.stream().filter(c -> c.isAvailable(timestamp)).collect(Collectors.toList());
     }
 
-    public void addAvailableContainer(Container container) {
-        availableContainers.add(container);
+    /**
+     * Getter for a single available container
+     * 
+     * @return An available container or null if all containers are allocated
+     */
+    public Container getAvailableContainer(LocalDateTime timestamp) {
+        List<Container> available = getAllAvailableContainers(timestamp);
+        if (available.isEmpty()) {
+            return null;
+        } else {
+            Container container = available.get(0);
+            return container;
+        }
     }
 
     /**
@@ -54,6 +71,21 @@ public class LogisticsCompany extends User {
         return clients;
     }
 
+    public Response updateLocation(Container container, String newLocation) {
+        if (this.containers.contains(container)) {
+            container.setLocation(newLocation);
+
+            return Response.SUCCESS;
+        } else {
+            return Response.LOCATION_NOT_CHANGED;
+        }
+    }
+
+    /**
+     * Adds a container to the list of all containers associated with the company
+     * 
+     * @param container The container to be added to the list
+     */
     public void addContainer(Container container) {
         containers.add(container);
     }
@@ -61,7 +93,7 @@ public class LogisticsCompany extends User {
     /**
      * Filter method for client set
      * 
-     * @param p search criteria
+     * @param p Search criteria
      * @return set of clients that meet filter requirements
      */
     private Set<Client> applyFilter(Predicate<Client> p) {
@@ -98,9 +130,9 @@ public class LogisticsCompany extends User {
      * @return either valid created client or null
      * @throws SQLException
      */
-    public Client createClient(String name, String address, String refPerson, String email) throws SQLException {
-        if (Client.validInfo(name, address, refPerson, email)) {
-            Client c = new Client(name, address, refPerson, email);
+    public Client createClient(String name, String address, String refPerson, String email, String password) {
+        if (Client.validInfo(name, address, refPerson, email, password)) {
+            Client c = new Client(name, address, refPerson, email, password);
             addClient(c);
             c.assignCompany(this);
             Database.save(name, address, refPerson, email, id);
@@ -113,39 +145,97 @@ public class LogisticsCompany extends User {
     /**
      * Method to add a client to the client set
      * 
-     * @param client New client
+     * @param client Client to be added to the client set
      */
     public void addClient(Client client) {
         clients.add(client);
     }
 
-    public Journey createJourney(Client client, String originPort, String destinationPort, String content)
-            throws SQLException {
-        if (clients.contains(client) && !getAvailableContainers().isEmpty()) {
-            Container container = getAvailableContainers().pop();
-            Database.save(originPort, destinationPort, content, client.getId(), container.getId());
-            return new Journey(originPort, destinationPort, content, container, client);
+    /**
+     * Creates a journey for a given client and links them together
+     * 
+     * @param client          The client requesting a new journey
+     * @param originPort      The origin port of the journey
+     * @param destinationPort The destination port of the journey
+     * @param content         The content of the container transported in the
+     *                        journey
+     * @return null if the client is not of the logistics company creating the
+     *         journey
+     */
+    public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
+        if (clients.contains(client)) {
+            Journey journey = new Journey(originPort, destinationPort, content, client);
+            client.addJourney(journey);
+            return journey;
         } else {
             return null;
         }
     }
 
-    public Container createContainer() throws SQLException {
-        Container container = new Container(this);
-        addContainer(container);
-        addAvailableContainer(container);
-        Database.save(id, 1);
-        return container;
-    }
-    /*
-    public boolean enterLocation(Location location, Journey journey) {
-        if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
-                && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
-            journey.addLocation(location);
+    /**
+     * Starts a given journey with given time stamp
+     * 
+     * @param journey   The journey to be stared
+     * @param timestamp The time stamp to be set as starting time stamp of the
+     *                  journey
+     * @return Boolean of whether the journey was started successfully
+     */
+    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
+        Container container = getAvailableContainer(timestamp);
+        if (journey != null && !journey.isStarted() && container != null) {
+            journey.setContainer(container);
+            journey.setStartTimestamp(timestamp);
+            journey.setStarted();
+            journey.getContainer().addJourney(journey);
             return true;
         } else {
             return false;
         }
     }
-    */
+
+    /**
+     * Ends a given journey with given time stamp
+     * 
+     * @param journey   The journey to be ended
+     * @param timestamp The time stamp to be set as ending time stamp of the journey
+     * @return Boolean of whether the journey was ended successfully
+     */
+    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
+        if (journey != null && !journey.isEnded() && journey.isStarted() && journey.isValidEndTimestamp(timestamp)) {
+            journey.setEndTimestamp(timestamp);
+            journey.setEnded();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Creates a container and links it together with the company
+     * 
+     * @return A created container
+     */
+    public Container createContainer() {
+        Container container = new Container(this);
+        addContainer(container);
+        return container;
+    }
+
+    /**
+     * Enters a new container status to the given journey
+     * 
+     * @param status  The status to be entered
+     * @param journey The journey that the status should be entered to
+     * @return Boolean of whether the container status was entered successfully
+     */
+    public boolean enterStatus(ContainerStatus status, Journey journey) {
+        if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
+                && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
+            journey.addStatus(status);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

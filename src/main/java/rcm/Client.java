@@ -2,6 +2,7 @@ package rcm;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -34,8 +35,8 @@ public class Client extends User {
      * @param email     Email of the client
      * @throws SQLException
      */
-    public Client(String name, String address, String refPerson, String email) {
-        super(name, address, refPerson, email);
+    public Client(String name, String address, String refPerson, String email, String password) {
+        super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT); 
     }
@@ -71,7 +72,7 @@ public class Client extends User {
      * @param email     Email to validate
      * @return boolean for if the information is valid
      */
-    public static boolean validInfo(String name, String address, String refPerson, String email) {
+    public static boolean validInfo(String name, String address, String refPerson, String email, String password) {
         Matcher matcherName = Pattern.compile(regexName).matcher(name);
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
         Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
@@ -91,12 +92,14 @@ public class Client extends User {
      * @param newEmail     Optional new email of the client
      * @return boolean for if the information was updated
      */
-    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail) {
-        if (validInfo(newName, newAddress, newRefPerson, newEmail)) {
+    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail,
+            String newPassword) {
+        if (validInfo(newName, newAddress, newRefPerson, newEmail, newPassword)) {
             name = newName;
             address = newAddress;
             refPerson = newRefPerson;
             email = newEmail;
+            password = Password.SHA1_Hasher(newPassword);
             return true;
         } else {
             return false;
@@ -105,24 +108,51 @@ public class Client extends User {
     }
 
     /**
-     * Method which requests the company to create a journey
+     * Requests the history of container statuses from journey
+     * 
+     * @param journey Journey providing the status
+     * @return List of container statuses of the given journey
+     */
+    public List<ContainerStatus> requestStatus(Journey journey) {
+        if (journey.getClient().equals(this)) {
+            return journey.getStatus();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Requests the company to create a journey
      * 
      * @param originPort      the origin port of the journey
      * @param destinationPort the destination port of the journey
      * @param content         content of the container in the journey
+     * @param timestamp       time stamp of the journey start
      * @return Response.SUCCESS for journey created and added to journeyList
+     *         JOURNEY_NOT_STARTED for failing to start journey. The journey is
+     *         added to the journeyList. 
      *         JOURNEY_NOT_CREATED for failing to create journey
      * @throws SQLException
      * @implNote This method only works if the client is assigned to a company
      */
-    public Response requestJourney(String originPort, String destinationPort, String content) throws SQLException {
-        if (company.createJourney(this, originPort, destinationPort, content) != null) {
-            return Response.SUCCESS;
+    public Response requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) {
+        Journey journey = company.createJourney(this, originPort, destinationPort, content);
+        if (journey != null) {
+            if (company.startJourney(journey, timestamp)) {
+                return Response.SUCCESS;
+            } else {
+                return Response.JOURNEY_NOT_STARTED;
+            }
         } else {
             return Response.JOURNEY_NOT_CREATED;
         }
     }
 
+    /**
+     * Getter for list of journeys
+     * 
+     * @return List of Journeys belonging to the clientS
+     */
     public List<Journey> getJourneyList() {
         return journeyList;
     }
