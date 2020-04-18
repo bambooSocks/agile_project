@@ -5,6 +5,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class Password {
 
+    /**
+     * Method to convert a cleartext password into a hashkey
+     * 
+     * @param passwordToHash Cleartext password entered by the user
+     * @return Hashkey of the users password
+     */
     public static String SHA1_Hasher(String passwordToHash) {
         String generatedPassword = null;
         try {
