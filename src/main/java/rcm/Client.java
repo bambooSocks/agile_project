@@ -17,10 +17,6 @@ public class Client extends User {
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
     }
 
-    public List<Journey> getJourneyList() {
-        return journeyList;
-    }
-
     public void assignCompany(LogisticsCompany company) {
         this.company = company;
     }
@@ -42,18 +38,13 @@ public class Client extends User {
         return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
     }
 
-    public List<Journey> viewData(boolean loggedIn, String email1, String email2, boolean access) {
+    public List<Journey> viewClientData(boolean loggedIn, String email1, String email2, boolean access) {
         if ((email1.equals(email2) || access) && loggedIn) {
             LinkedList<Client> cl = new LinkedList<Client>();
             cl.addAll(company.searchByEmail(email2));
-            System.out.println("cl " + cl); /////////////////////////
             if (cl.isEmpty()) {
                 return null;
             } else {
-//                Calling pop() will actually remove the element from the list
-//                So calling it many times doesn't work
-//                System.out.println("viewData " + cl.pop().getJourneyList()); /////////////////////
-//                System.out.println("cl.pop " + cl.pop()); /////////////////////
                 return cl.pop().getJourneyList();
             }
         } else {
@@ -114,5 +105,4 @@ public class Client extends User {
     public List<Journey> getJourneyList() {
         return journeyList;
     }
-
 }

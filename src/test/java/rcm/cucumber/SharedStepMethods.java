@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import io.cucumber.java.en.Given;
 import rcm.Client;
 import rcm.LogisticsCompany;
+import rcm.Password;
+import rcm.WrongInputException;
 
 public class SharedStepMethods {
 
@@ -20,8 +22,7 @@ public class SharedStepMethods {
         try {
             holder.setFirstCompany(new LogisticsCompany(name, address, refPerson, email, password));
         } catch (WrongInputException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
         assertEquals(name, holder.getFirstCompany().getName());
         assertEquals(address, holder.getFirstCompany().getAddress());
@@ -36,8 +37,7 @@ public class SharedStepMethods {
         try {
             holder.setSecondCompany(new LogisticsCompany(name, address, refPerson, email, password));
         } catch (WrongInputException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
         assertEquals(name, holder.getSecondCompany().getName());
         assertEquals(address, holder.getSecondCompany().getAddress());

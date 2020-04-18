@@ -1,6 +1,7 @@
 package rcm;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -98,11 +99,7 @@ public class LogisticsCompany extends User {
         return applyFilter(c -> c.getPassword().equals(hashKey));
     }
 
-//    Fixed
-//    tags 2, 6, and 7
     public boolean companyLogInStatus(String email, String password) throws WrongInputException {
-//        System.out.println("email " + email + " stored email " + getEmail());       //the emails are matching
-//        System.out.println("password " + Password.SHA1_Hasher(password) + " stored " + getPassword());      //the hashes are also matching
         if (email.equals(getEmail())) {
             if (Password.SHA1_Hasher(password).equals(getPassword())) {
                 return true;
@@ -116,14 +113,12 @@ public class LogisticsCompany extends User {
 
     public boolean clientLogInStatus(String email, String password) {
         Set<Client> emails = searchByEmail(email);
-//        System.out.println("emails " + emails); /////////////////////////
         String hashKey = Password.SHA1_Hasher(password);
         if (emails.isEmpty()) {
             return false;
         } else {
             Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
                     .collect(Collectors.toSet());
-//            System.out.println("passed " + passed); ////////////////////
             if (passed.isEmpty()) {
                 return false;
             } else {
@@ -240,4 +235,11 @@ public class LogisticsCompany extends User {
         }
     }
 
+    public Set<Client> viewCompanyData(boolean loggedIn, String email1, String email2) {
+        if ((email1.equals(email2)) && loggedIn) {
+                return getClients();
+        } else {
+            return null;
+        }
+    }
 }

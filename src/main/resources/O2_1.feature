@@ -40,22 +40,25 @@ Feature: Log-ins and permissions
     Then the client is not logged in
 
   @tag4
-  Scenario: Client can view own containers
+  Scenario: Client can view own journeys
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
     And a container of the first logistics company
-    And a first journey of second client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar
+    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar with timestamp 4:22 13/3/2020
     When client with email "bananas@chiquita.com" tries to view containers and data of client with email "bananas@chiquita.com"
     Then the containers and data can be viewed
 
   @tag5
-  Scenario: Client cannot view others containers
+  Scenario: Client cannot view others journeys
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
     And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
+    And a container of the first logistics company
+    And a first journey of second client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar with timestamp 4:22 13/3/2020
     When client with email "bananas@chiquita.com" tries to view containers and data of client with email "Ilovetoeat@hotmail.com"
     Then the containers and data can not be viewed
 
