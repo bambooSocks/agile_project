@@ -2,18 +2,23 @@ package rcm;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 @Entity
 public class Journey implements Comparable<Journey> {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "journey")
+    @SequenceGenerator(name="journey", sequenceName = "journey", allocationSize=50)
     private int id;
     private boolean started = false;
     private boolean ended = false;
@@ -26,15 +31,20 @@ public class Journey implements Comparable<Journey> {
     @Column
     private String content;
     
-    private int containerId;
-    private int clientId;
+    @ManyToOne
     private Container container;
+    @ManyToOne
     private Client client;
     
-    
+    @OneToMany(cascade=CascadeType.ALL)
     private List<ContainerStatus> history;
-    private LinkedList<Location> locationHistory;
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Location> locationHistory;
 
+    
+    private Journey()
+    {
+    }
     /**
      * Journey constructor
      * 
@@ -84,9 +94,6 @@ public class Journey implements Comparable<Journey> {
         return history;
     }
 
-    public void addLocation(Location location) {
-            locationHistory.add(location);
-    }
 
     public List<ContainerStatus> getStatus(Client client1) {
         return (client1.equals(client)) ? history : null;
@@ -161,6 +168,12 @@ public class Journey implements Comparable<Journey> {
      */
     public void addStatus(ContainerStatus status) {
         history.add(status);
+        status.setJourney(this);
+    }
+    
+    public void addLocation(Location location) {
+        locationHistory.add(location);
+        location.setJourney(this);
     }
 
     /**

@@ -3,23 +3,34 @@ package rcm;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 @Entity
 public class Container {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "container")
+    @SequenceGenerator(name="container", sequenceName = "container", allocationSize=50)
     private int id;
-    @Column
-    private int companyId;
+    @ManyToOne
     private LogisticsCompany company;
-    private String location;
-    private LinkedList<Journey> journeyList;
+    
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Journey> journeyList;
 
+    
+    
+    private Container()
+    {
+    }
     /**
      * Constructor for container
      * 
@@ -29,7 +40,6 @@ public class Container {
     public Container(LogisticsCompany company) {
         id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
-        companyId = company.getId();
         journeyList = new LinkedList<Journey>();
     }
     
@@ -62,7 +72,7 @@ public class Container {
             return true;
         } else {
             Collections.sort(journeyList);
-            Journey lastJourney = journeyList.getLast();
+            Journey lastJourney = journeyList.get(journeyList.size() - 1);
             return lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
         }
     }
@@ -81,7 +91,7 @@ public class Container {
      * 
      * @return LinkedList of Journey of the journey list
      */
-    public LinkedList<Journey> getJourneyList() {
+    public List<Journey> getJourneyList() {
         return journeyList;
     }
 

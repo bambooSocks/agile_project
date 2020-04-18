@@ -160,7 +160,7 @@ public class Database {
        // Database.connect();
        // Database.createNewTables();
         
-        SessionFactory sessionFactory = new Configuration().configure(new File("/home/mihaela/git/agile_project/hibernate.cfg.xml")).buildSessionFactory();
+        SessionFactory sessionFactory = new Configuration().configure(new File("hibernate.cfg.xml")).buildSessionFactory();
         Session session = sessionFactory.openSession();
 
         Client client = new Client("nadsfme", "sdaddress", "srefPerson", "semail","pas");

@@ -1,7 +1,11 @@
 package rcm;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;  
-import javax.persistence.Id;  
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;  
 import java.util.LinkedList;
 import java.util.List;
@@ -14,11 +18,21 @@ import java.util.HashSet;
 @Entity
 @DiscriminatorValue("L")
 public class LogisticsCompany extends User {
-
+    
+    @OneToMany(cascade=CascadeType.ALL)
     List<Container> containers;
+    @OneToMany(cascade=CascadeType.ALL)
     Set<Client> clients;
-    List<String> hashKeys;
+    
 
+    //List<String> hashKeys;
+
+    
+    private LogisticsCompany()
+    {
+        super();
+    }
+    
     /**
      * Logistics Company constructor
      * 
@@ -32,7 +46,7 @@ public class LogisticsCompany extends User {
         super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
         clients = new HashSet<Client>();
-        hashKeys = new LinkedList<String>();
+        //hashKeys = new LinkedList<String>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
 
     }

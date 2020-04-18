@@ -10,16 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-@Entity  
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "Type",
-                       discriminatorType = DiscriminatorType.STRING,
-                       length = 20)
-@DiscriminatorValue("T")
 public abstract class TimeStamp {
     @Id
     protected LocalDateTime timestamp;
+    
+    protected TimeStamp() {
 
+
+    }
     /**
      * 
      * Time stamp constructor

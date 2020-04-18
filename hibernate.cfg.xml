@@ -7,9 +7,15 @@
   
     <session-factory>   
         <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>  
-         <property name="connection.url">jdbc:sqlite:Database.db</property>   
+        <property name="connection.url">jdbc:sqlite:Database.db</property>   
     	<property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
-    	<mapping class="rcm.src.main.java.rcm.Journey"/>
+    	<mapping class="rcm.Journey"/>
+    	<mapping class="rcm.Client"/>
+    	<mapping class="rcm.User"/>
+    	<mapping class="rcm.Container"/>
+    	<mapping class="rcm.LogisticsCompany"/>
+    	<mapping class="rcm.Location"/>
+    	<mapping class="rcm.ContainerStatus"/>
     </session-factory>  
   
 </hibernate-configuration> 

@@ -2,6 +2,12 @@ package rcm;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class ContainerStatus extends TimeStamp {
 
     private double temperature;
@@ -9,6 +15,15 @@ public class ContainerStatus extends TimeStamp {
     private double humidity;
 
     private double atmPressure;
+    @ManyToOne
+    private Journey journey;
+    
+    @Id
+    private LocalDateTime timestamp2;
+    
+    
+    
+    
     private LocalDateTime timestamp;
 
     /**
@@ -32,10 +47,15 @@ public class ContainerStatus extends TimeStamp {
      *                    time
      * 
      */
-
+    private ContainerStatus()
+    {
+        super();
+    }
+    
     public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure) {
 
         super(timestamp);
+        timestamp2 = this.timestamp;
 
         this.temperature = temperature;
 
@@ -136,6 +156,8 @@ public class ContainerStatus extends TimeStamp {
         return atmPressure;
     }
     
-    
+    public void setJourney(Journey journey) {
+        this.journey = journey;
+    }
 
 }

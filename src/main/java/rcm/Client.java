@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -17,15 +20,20 @@ import java.util.regex.Pattern;
 @Entity
 @DiscriminatorValue("C")
 public class Client extends User {
-
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Journey> journeyList;
+    @ManyToOne
     private LogisticsCompany company;
-    @Column
-    private int companyId;
+
 
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
 
+    
+    private Client()
+    {
+        super();
+    }
     /**
      * Client constructor
      * 
@@ -43,7 +51,6 @@ public class Client extends User {
 
     public void assignCompany(LogisticsCompany company) {
         this.company = company;
-        companyId = company.getId();
         }
 
     public void addJourney(Journey journey) {
@@ -151,7 +158,7 @@ public class Client extends User {
     /**
      * Getter for list of journeys
      * 
-     * @return List of Journeys belonging to the clientS
+     * @return List of Journeys belonging to the client
      */
     public List<Journey> getJourneyList() {
         return journeyList;

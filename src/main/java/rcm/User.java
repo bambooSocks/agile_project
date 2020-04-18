@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity  
@@ -19,9 +20,11 @@ import javax.persistence.Table;
                        length = 20)
 @DiscriminatorValue("U")
 
+
 public abstract class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "user")
+    @SequenceGenerator(name="user", sequenceName = "user", allocationSize=50)
     @Column
     protected int id;
     @Column
@@ -35,6 +38,10 @@ public abstract class User {
     @Column
     protected String email;
 
+    
+    protected User()
+    {
+    }
     public User(String name, String address, String refPerson, String email, String password) {
         this.name = name;
         this.address = address;

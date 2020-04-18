@@ -3,13 +3,27 @@ package rcm;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 @Entity
 public class Location extends TimeStamp {
 
     private String location;
+    @ManyToOne
+    private Journey journey;
+    @Id
+    LocalDateTime timestamp2;
 
+    
+    private Location()
+    {
+        super();
+    }
     public Location(LocalDateTime timestamp, String location) {
         super(timestamp);
+        timestamp2 = this.timestamp;
         this.location = location;
 
     }
@@ -41,6 +55,10 @@ public class Location extends TimeStamp {
 
     public String getLocation() {
         return location;
+    }
+    
+    public void setJourney(Journey journey) {
+        this.journey = journey;
     }
 
 }
