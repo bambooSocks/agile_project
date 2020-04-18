@@ -2,7 +2,6 @@ package rcm;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 public class Password {
 
@@ -21,13 +20,4 @@ public class Password {
         }
         return generatedPassword;
     }
-
-//also need:
-    // Method that compares name(ID) with stored name and retrieves corresponding
-    // hashkey
-    // Method that compares new hash and the retrieved hashkey and returns a bool
-    // (logged-in)
-    // add updateInfo options for passwords (make sure the cleartext is deleted
-    // after hash is stored)
-    // method for rules about valid passwords
 }

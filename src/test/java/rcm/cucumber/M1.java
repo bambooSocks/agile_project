@@ -7,16 +7,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.Client;
+import rcm.Password;
 
 public class M1 {
 
-    private boolean successfulUpdate = false;
     private Set<Client> searchResults;
-
     private SharedObjectHolder holder;
 
     public M1(SharedObjectHolder holder) {
@@ -58,16 +56,6 @@ public class M1 {
     }
 
 ///////////////////M1:2//////////////////////////////////////////
-    @Given("the logistic company has some clients including first client")
-    public void the_logistic_company_has_some_clients_including_first_client() {
-        String name = holder.getFirstClient().getName();
-        String address = holder.getFirstClient().getAddress();
-        String refPerson = holder.getFirstClient().getRefPerson();
-        String email = holder.getFirstClient().getEmail();
-        String password = holder.getFirstClient().getPassword();
-        holder.getFirstCompany().createClient(name, address, refPerson, email, password);
-    }
-
     @When("a first logistics company searches for name {string}")
     public void a_first_logistics_company_searches_for_name(String name) {
         searchResults = holder.getFirstCompany().searchByName(name);
@@ -99,13 +87,16 @@ public class M1 {
     @When("a client enters new client info {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_client_enters_new_client_info_with_address_reference_person_email_and_password(String name,
             String address, String refPerson, String email, String password) {
-        successfulUpdate = holder.getFirstClient().updateInfo(name, address, refPerson, email, password);
+        holder.getFirstClient().updateName(name);
+        holder.getFirstClient().updateAddress(address);
+        holder.getFirstClient().updateRefPerson(refPerson);
+        holder.getFirstClient().updateEmail(email);
+        holder.getFirstClient().updatePassword(password);
     }
 
     @Then("the client {string} with address {string} reference person {string} email {string} and password {string} is successfully updated")
     public void the_client_with_address_reference_person_email_and_password_is_successfully_updated(String name,
             String address, String refPerson, String email, String password) {
-        assertTrue(successfulUpdate);
         assertNotEquals(null, holder.getFirstClient());
         assertEquals(name, holder.getFirstClient().getName());
         assertEquals(address, holder.getFirstClient().getAddress());

@@ -42,7 +42,7 @@ public class Container {
 
     public void setLocation(String newLocation) {
         location = newLocation;
-
+        
     }
 
     public String getLocation() {

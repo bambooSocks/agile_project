@@ -4,26 +4,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Client extends User {
 
     private List<Journey> journeyList;
     private LogisticsCompany company;
 
-    private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-
-    /**
-     * Client constructor
-     * 
-     * @param name      Name of the client
-     * @param address   Address of the client
-     * @param refPerson Reference person of the client
-     * @param email     Email of the client
-     */
-    public Client(String name, String address, String refPerson, String email, String password) {
+    public Client(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
@@ -50,48 +38,23 @@ public class Client extends User {
         return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
     }
 
-    /**
-     * Method for validating client information
-     * 
-     * @param name      Name to validate
-     * @param address   Address to validate
-     * @param refPerson Reference person to validate
-     * @param email     Email to validate
-     * @return boolean for if the information is valid
-     */
-    public static boolean validInfo(String name, String address, String refPerson, String email, String password) {
-        Matcher matcherName = Pattern.compile(regexName).matcher(name);
-        Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
-        Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
-        if (name.length() <= 25 && matcherName.matches() && matcherEmail.matches() && matcherRefPerson.matches()) {
-            return true;
+    public List<Journey> viewClientData(boolean loggedIn, String email1, String email2, boolean access) {
+        if ((email1.equals(email2) || access) && loggedIn) {
+            LinkedList<Client> cl = new LinkedList<Client>();
+            cl.addAll(company.searchByEmail(email2));
+            if (cl.isEmpty()) {
+                return null;
+            } else {
+                return cl.pop().getJourneyList();
+            }
         } else {
-            return false;
+            return null;
         }
     }
 
-    /**
-     * Method for updating client information
-     * 
-     * @param newName      Optional new name of the client
-     * @param newAddress   Optional new address of the client
-     * @param newRefPerson Optional new reference person of the client
-     * @param newEmail     Optional new email of the client
-     * @return boolean for if the information was updated
-     */
-    public boolean updateInfo(String newName, String newAddress, String newRefPerson, String newEmail,
-            String newPassword) {
-        if (validInfo(newName, newAddress, newRefPerson, newEmail, newPassword)) {
-            name = newName;
-            address = newAddress;
-            refPerson = newRefPerson;
-            email = newEmail;
-            password = Password.SHA1_Hasher(newPassword);
-            return true;
-        } else {
-            return false;
-        }
-
+    public boolean closeButton() {
+        // TODO Auto-generated method stub
+        return true;
     }
 
     /**
@@ -142,5 +105,4 @@ public class Client extends User {
     public List<Journey> getJourneyList() {
         return journeyList;
     }
-
 }
