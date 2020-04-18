@@ -12,6 +12,8 @@ import rcm.unitTest.*;
     // Acceptance tests
     CucumberTest.class,
     // Unit tests
-    JourneyTest.class
+    JourneyTest.class,
+    LogisticsCompanyTest.class,
+    ContainerStatusTest.class
 })
 public class FullSuite { }

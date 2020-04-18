@@ -11,7 +11,7 @@ public class O2 {
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
     }
-    
+
     @When("first client enters a valid password {string}")
     public void first_client_enters_a_valid_password(String password) {
         throw new io.cucumber.java.PendingException();

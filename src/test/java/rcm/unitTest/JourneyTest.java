@@ -27,7 +27,9 @@ public class JourneyTest {
     
     @Test
     public void testHashCode() {
-//        fail("Not yet implemented");
+        Journey j2 = journey;
+        assertTrue(journey.equals(j2) && j2.equals(journey));
+        assertTrue(journey.hashCode() == j2.hashCode());
     }
 
     @Test
@@ -40,7 +42,11 @@ public class JourneyTest {
 
     @Test
     public void testEqualsObject() {
-//        fail("Not yet implemented");
+        assertFalse(journey.equals(null));
+        assertFalse(journey.equals(client));
+        Journey j2 = company.createJourney(client, "Lima", "Hamburg", "bananas");
+        assertFalse(journey.equals(j2));
+        assertTrue(journey.equals(journey));
     }
 
 }
