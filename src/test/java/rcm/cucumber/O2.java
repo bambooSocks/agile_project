@@ -1,4 +1,4 @@
-package rcm;
+package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -59,12 +59,6 @@ public class O2 {
 //        loggedIn = holder.getFirstCompany().clientLogInStatus(holder.getFirstClient().getEmail(),
 //                holder.getFirstClient().getPassword());
         loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
-    }
-    
-    @Given("a first journey of second client with origin port of {string} destination port of {string} and a content of {string}")
-    public void a_first_journey_of_second_client_with_origin_port_of_destination_port_of_and_a_content_of(String string, String string2, String string3) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
     }
 
     @When("client with email {string} tries to view containers and data of client with email {string}")

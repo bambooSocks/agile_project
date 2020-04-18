@@ -1,16 +1,34 @@
 package rcm;
 
+import java.time.LocalDateTime;
+
 public class ContainerStatus {
     private double temperature;
     private double humidity;
     private double atmPressure;
+    private LocalDateTime timestamp;
 
-    public ContainerStatus(double temperature, double humidity, double atmPressure) {
+    /**
+     * Container status constructor
+     * 
+     * @param timestamp   LocalDateTime with at least minute precision denoting the
+     *                    time at which the measurement took place
+     * @param temperature Double of the temperature in the container at the given
+     *                    time
+     * @param humidity    Double of the humidity in the container at the given time
+     * @param atmPressure Double of the air pressure in the container at the given
+     *                    time
+     */
+    public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure) {
+        this.timestamp = timestamp;
         this.temperature = temperature;
         this.humidity = humidity;
         this.atmPressure = atmPressure;
     }
 
+    /**
+     * Override of hashCode method to check all fields
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -22,9 +40,13 @@ public class ContainerStatus {
         result = prime * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(temperature);
         result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
         return result;
     }
 
+    /**
+     * Override of equals method to check all fields
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -40,7 +62,21 @@ public class ContainerStatus {
             return false;
         if (Double.doubleToLongBits(temperature) != Double.doubleToLongBits(other.temperature))
             return false;
+        if (timestamp == null) {
+            if (other.timestamp != null)
+                return false;
+        } else if (!timestamp.equals(other.timestamp))
+            return false;
         return true;
+    }
+
+    /**
+     * Getter for the time stamp
+     * 
+     * @return LocalDateTime of the time stamp of the Container Status
+     */
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
 }

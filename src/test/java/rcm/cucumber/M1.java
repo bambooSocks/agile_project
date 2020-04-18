@@ -1,4 +1,4 @@
-package rcm;
+package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -9,6 +9,7 @@ import java.util.Set;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import rcm.Client;
 
 public class M1 {
 
