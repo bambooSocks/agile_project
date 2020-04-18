@@ -116,16 +116,6 @@ public class LogisticsCompany extends User {
             System.err.println(e.getMessage());
             return null;
         }
-
-//        if (validateSomeName(name) && validateSomeName(refPerson) && validateEmail(email)
-//                && validatePassword(password)) {
-//            Client c = new Client(name, address, refPerson, email, password);
-//            addClient(c);
-//            c.assignCompany(this);
-//            return c;
-//        } else {
-//            return null;
-//        }
     }
 
     public void addClient(Client client) {

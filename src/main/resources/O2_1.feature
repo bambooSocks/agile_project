@@ -44,6 +44,9 @@ Feature: Log-ins and permissions
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
+    And a container of the first logistics company
+    And a first journey of second client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And a container status of 5.0 degrees, 80.0 % humidity and 1.01 bar
     When client with email "bananas@chiquita.com" tries to view containers and data of client with email "bananas@chiquita.com"
     Then the containers and data can be viewed
 
