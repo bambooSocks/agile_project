@@ -1,4 +1,4 @@
-package rcm;
+package rcm.model;
 
 import java.util.HashMap;
 import java.util.Map;

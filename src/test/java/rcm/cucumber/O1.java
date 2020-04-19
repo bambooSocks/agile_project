@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.ContainerStatus;
+import rcm.model.ContainerStatus;
 
 public class O1 {
     private SharedObjectHolder holder;

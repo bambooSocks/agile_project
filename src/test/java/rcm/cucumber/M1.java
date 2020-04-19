@@ -9,8 +9,8 @@ import java.util.Set;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.Client;
-import rcm.Password;
+import rcm.model.Client;
+import rcm.model.Password;
 
 public class M1 {
 

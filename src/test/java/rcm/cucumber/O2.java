@@ -10,9 +10,9 @@ import java.util.Set;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.Client;
-import rcm.Journey;
-import rcm.WrongInputException;
+import rcm.model.Client;
+import rcm.model.Journey;
+import rcm.model.WrongInputException;
 
 public class O2 {
 

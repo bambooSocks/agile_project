@@ -1,4 +1,4 @@
-package rcm;
+package rcm.model;
 
 public enum Response {
     SUCCESS,
