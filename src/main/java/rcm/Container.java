@@ -14,22 +14,27 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 @Entity
 public class Container {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "container")
-    @SequenceGenerator(name="container", sequenceName = "container", allocationSize=50)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
+    
+    //@ManyToOne
+    @Transient
     private LogisticsCompany company;
     
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany
     private List<Journey> journeyList;
 
     
     
-    private Container()
+    public Container()
     {
+        //id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
+        journeyList = new LinkedList<Journey>();
+        
     }
     /**
      * Constructor for container
@@ -38,7 +43,7 @@ public class Container {
      * @implNote should be only called from Logistics Company class
      */
     public Container(LogisticsCompany company) {
-        id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
+       id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
         journeyList = new LinkedList<Journey>();
     }

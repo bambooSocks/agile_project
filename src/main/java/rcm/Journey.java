@@ -11,14 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 @Entity
 public class Journey implements Comparable<Journey> {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "journey")
-    @SequenceGenerator(name="journey", sequenceName = "journey", allocationSize=50)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     private boolean started = false;
     private boolean ended = false;
@@ -33,16 +33,19 @@ public class Journey implements Comparable<Journey> {
     
     @ManyToOne
     private Container container;
-    @ManyToOne
+   // @ManyToOne
+    @Transient
     private Client client;
     
-    @OneToMany(cascade=CascadeType.ALL)
+    //@OneToMany(cascade=CascadeType.ALL)
+    @Transient
     private List<ContainerStatus> history;
-    @OneToMany(cascade=CascadeType.ALL)
+    //@OneToMany(cascade=CascadeType.ALL)
+    @Transient
     private List<Location> locationHistory;
 
     
-    private Journey()
+    public Journey(String originPort, String destinationPort, String content)
     {
     }
     /**

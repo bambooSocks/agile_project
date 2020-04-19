@@ -34,11 +34,6 @@
 			<artifactId>cucumber-picocontainer</artifactId>
 			<version>5.4.1</version>
 		</dependency>
-		 <dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-core</artifactId>
-		    <version>5.2.12.Final</version>
-		</dependency>
 		<dependency>
 		    <groupId>com.github.gwenn</groupId>
 		    <artifactId>sqlite-dialect</artifactId>
@@ -67,8 +62,14 @@
 		<dependency>
 	    	<groupId>org.xerial</groupId>
 	    	<artifactId>sqlite-jdbc</artifactId>
-	    	<version>3.6.20</version>
+	    	<version>3.21.0</version>
 	     </dependency>
+	     <!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+		<dependency>
+		    <groupId>org.eclipse.persistence</groupId>
+		    <artifactId>eclipselink</artifactId>
+		    <version>2.5.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
