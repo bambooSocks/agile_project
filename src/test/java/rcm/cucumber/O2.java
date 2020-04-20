@@ -51,6 +51,11 @@ public class O2 {
     public void the_company_is_logged_in() {
         assertTrue(loggedIn);
     }
+    
+    @Then("the company is not logged in")
+    public void the_company_is_not_logged_in() {
+        assertFalse(loggedIn);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 

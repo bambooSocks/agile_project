@@ -104,6 +104,26 @@ public class LogisticsCompany extends User {
     }
 
     /**
+     * Method to search clients by address
+     * 
+     * @param address Search criteria
+     * @return Set of clients that have a matching address
+     */
+    public Set<Client> searchByAddress(String address) {
+        return applyFilter(c -> c.getAddress().equals(address));
+    }
+
+    /**
+     * Method to search clients by reference person
+     * 
+     * @param refPerson Search criteria
+     * @return Set of clients that have a matching reference person
+     */
+    public Set<Client> searchByRefPerson(String refPerson) {
+        return applyFilter(c -> c.getRefPerson().equals(refPerson));
+    }
+
+    /**
      * Method to search clients by email
      * 
      * @param email Search criteria

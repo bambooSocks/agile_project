@@ -57,6 +57,16 @@ public class M1 {
         searchResults = holder.getFirstCompany().searchByName(name);
     }
 
+    @When("a first logistics company searches for address {string}")
+    public void a_first_logistics_company_searches_for_address(String address) {
+        searchResults = holder.getFirstCompany().searchByAddress(address);
+    }
+
+    @When("a first logistics company searches for reference person {string}")
+    public void a_first_logistics_company_searches_for_reference_person(String refPerson) {
+        searchResults = holder.getFirstCompany().searchByRefPerson(refPerson);
+    }
+
     @When("a first logistics company searches for email {string}")
     public void a_first_logistics_company_searches_for_email(String email) {
         searchResults = holder.getFirstCompany().searchByEmail(email);
