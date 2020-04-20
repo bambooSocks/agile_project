@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 @Entity
 public class Container {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     
     //@ManyToOne
@@ -32,7 +32,7 @@ public class Container {
     
     public Container()
     {
-        //id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
+        id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         journeyList = new LinkedList<Journey>();
         
     }
@@ -45,7 +45,7 @@ public class Container {
     public Container(LogisticsCompany company) {
        id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
-        journeyList = new LinkedList<Journey>();
+       journeyList = new LinkedList<Journey>();
     }
     
     /**
@@ -72,6 +72,7 @@ public class Container {
      * @param timestamp LocalDateTime of the time stamp to be checked
      * @return boolean of whether the container is available
      */
+    
     public boolean isAvailable(LocalDateTime timestamp) {
         if (journeyList.isEmpty()) {
             return true;
@@ -81,6 +82,7 @@ public class Container {
             return lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
         }
     }
+    
 
     /**
      * Adds a journey to the journey list of the container

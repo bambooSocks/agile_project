@@ -23,8 +23,7 @@ import javax.persistence.Table;
 
 public abstract class User {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "user")
-    @SequenceGenerator(name="user", sequenceName = "user", allocationSize=50)
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column
     protected int id;
     @Column

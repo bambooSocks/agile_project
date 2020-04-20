@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ContainerStatus extends TimeStamp {
+public class ContainerStatus{
 
     private double temperature;
 
@@ -19,12 +19,10 @@ public class ContainerStatus extends TimeStamp {
     private Journey journey;
     
     @Id
-    private LocalDateTime timestamp2;
-    
-    
-    
-    
     private LocalDateTime timestamp;
+    
+    private String location;
+
 
     /**
      * 
@@ -47,84 +45,65 @@ public class ContainerStatus extends TimeStamp {
      *                    time
      * 
      */
+    
     private ContainerStatus()
     {
-        super();
     }
     
-    public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure) {
+    public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure, String location) {
 
-        super(timestamp);
-        timestamp2 = this.timestamp;
+ 
+        this.timestamp = timestamp;
 
         this.temperature = temperature;
 
         this.humidity = humidity;
 
         this.atmPressure = atmPressure;
+        
+        this.location = location;
 
     }
-
     /**
      * Override of hashCode method to check all fields
      */
     @Override
-
     public int hashCode() {
-
         final int prime = 31;
-
         int result = 1;
-
         long temp;
-
         temp = Double.doubleToLongBits(atmPressure);
-
         result = prime * result + (int) (temp ^ (temp >>> 32));
-
         temp = Double.doubleToLongBits(humidity);
-
         result = prime * result + (int) (temp ^ (temp >>> 32));
-
+        result = prime * result + ((location == null) ? 0 : location.hashCode());
         temp = Double.doubleToLongBits(temperature);
-
         result = prime * result + (int) (temp ^ (temp >>> 32));
         result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
         return result;
-
     }
-
     /**
      * Override of equals method to check all fields
      */
     @Override
-
     public boolean equals(Object obj) {
-
         if (this == obj)
-
             return true;
-
         if (obj == null)
-
             return false;
-
         if (getClass() != obj.getClass())
-
             return false;
-
         ContainerStatus other = (ContainerStatus) obj;
-
         if (Double.doubleToLongBits(atmPressure) != Double.doubleToLongBits(other.atmPressure))
-
             return false;
-
         if (Double.doubleToLongBits(humidity) != Double.doubleToLongBits(other.humidity))
-
             return false;
-
+        if (location == null) {
+            if (other.location != null)
+                return false;
+        } else if (!location.equals(other.location))
+            return false;
         if (Double.doubleToLongBits(temperature) != Double.doubleToLongBits(other.temperature))
-
             return false;
         if (timestamp == null) {
             if (other.timestamp != null)
@@ -132,8 +111,8 @@ public class ContainerStatus extends TimeStamp {
         } else if (!timestamp.equals(other.timestamp))
             return false;
         return true;
-
     }
+
 
     /**
      * Getter for the time stamp
@@ -159,5 +138,10 @@ public class ContainerStatus extends TimeStamp {
     public void setJourney(Journey journey) {
         this.journey = journey;
     }
+    
+    public String getLocation() {
+        return location;
+    }
+    
 
 }

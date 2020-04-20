@@ -2,6 +2,7 @@ package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
@@ -10,8 +11,8 @@ import java.util.List;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import rcm.ContainerStatus;
 import rcm.Journey;
-import rcm.Location;
 import rcm.LogisticsCompany;
 import rcm.Response;
 
@@ -21,7 +22,7 @@ public class M2 {
     private Response response;
     private SharedObjectHolder holder;
     protected LocalDateTime timestamp;
-    private Location containerLocation;
+    private ContainerStatus status;
     private boolean successfulEntry = false;
 
     public M2(SharedObjectHolder holder) {
@@ -38,7 +39,7 @@ public class M2 {
     public void the_container_entered_location_at(String location, Integer hours, Integer minutes, Integer day,
             Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        containerLocation = new Location(timestamp, location);
+        status = new ContainerStatus(timestamp,25.0,50.0,101.0, location);
 
     }
 
@@ -51,12 +52,12 @@ public class M2 {
 
     @When("the first logistics company updates containers location")
     public void the_first_logistics_company_updates_containers_location() {
-        successfulEntry = holder.getFirstCompany().enterLocation(containerLocation, holder.getFirstJourney());
+        successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
     }
 
     @When("the second logistics company updates containers location to a new location {string}")
     public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        successfulEntry = holder.getSecondCompany().enterLocation(containerLocation, holder.getFirstJourney());
+        successfulEntry = holder.getSecondCompany().enterStatus(status, holder.getFirstJourney());
     }
 
     @When("the first client filters his journeys based on the origin port {string}")
@@ -77,13 +78,13 @@ public class M2 {
     @Then("the location is changed")
     public void the_location_is_changed() {
         assertTrue(successfulEntry);
-        assertTrue(holder.getFirstJourney().containsLocation(containerLocation));
+        assertEquals("New York",holder.getFirstJourney().getStatus().get(holder.getFirstJourney().getStatus().size()-1).getLocation());
     }
 
     @Then("the location is not changed")
     public void the_location_is_not_changed() {
         assertFalse(successfulEntry);
-        assertFalse(holder.getFirstJourney().containsLocation(containerLocation));
+        assertNotEquals("Los Angeles",holder.getFirstJourney().getStatus().get(holder.getFirstJourney().getStatus().size()-1).getLocation());
     }
 
     @Then("an id is created")

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
 	<persistence-unit name="Database" transaction-type="RESOURCE_LOCAL">
-<!-- 		<class>rcm.Journey</class> 
+<!-- 
 		<class>rcm.User</class> 
 		<class>rcm.Client</class>
 		<class>rcm.Journey</class>
@@ -11,6 +11,7 @@
 		<class>rcm.Location</class>
 		<class>rcm.ContainerStatus</class> 
 		<class>rcm.LogisticsCompany</class>-->
+		<class>rcm.Journey</class> 
 		<class>rcm.Container</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />

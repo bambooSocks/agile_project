@@ -148,7 +148,7 @@ public class O1 {
     public void the_logistics_company_successfully_adds_a_container_status_with_a_timestamp(Integer hours,
             Integer minutes, Integer day, Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01);
+        ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
         assertTrue(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
     }
 
@@ -156,7 +156,7 @@ public class O1 {
     public void the_logistics_company_fails_to_add_a_container_status_with_a_timestamp(Integer hours, Integer minutes,
             Integer day, Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01);
+        ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
         assertFalse(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
     }
 }

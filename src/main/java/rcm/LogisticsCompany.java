@@ -85,23 +85,6 @@ public class LogisticsCompany extends User {
     }
 
     /**
-     * Enters a new container status to the given journey
-     * 
-     * @param status  The status to be entered
-     * @param journey The journey that the status should be entered to
-     * @return Boolean of whether the container status was entered successfully
-     */
-    public boolean enterLocation(Location location, Journey journey) {
-        if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
-                && journey.getStartTimestamp().isBefore(location.getTimestamp()) && !journey.isEnded()) {
-            journey.addLocation(location);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Adds a container to the list of all containers associated with the company
      * 
      * @param container The container to be added to the list

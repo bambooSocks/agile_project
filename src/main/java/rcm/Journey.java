@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import java.time.LocalDateTime;
@@ -33,19 +32,17 @@ public class Journey implements Comparable<Journey> {
     
     @ManyToOne
     private Container container;
-   // @ManyToOne
-    @Transient
+   @ManyToOne
+    
     private Client client;
     
-    //@OneToMany(cascade=CascadeType.ALL)
-    @Transient
+    @OneToMany(cascade=CascadeType.ALL)
+    
     private List<ContainerStatus> history;
-    //@OneToMany(cascade=CascadeType.ALL)
-    @Transient
-    private List<Location> locationHistory;
+    
 
     
-    public Journey(String originPort, String destinationPort, String content)
+    public Journey()
     {
     }
     /**
@@ -64,7 +61,6 @@ public class Journey implements Comparable<Journey> {
         this.content = content;
         this.client = client;
         history = new LinkedList<ContainerStatus>();
-        locationHistory = new LinkedList<Location>();
         id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
 
@@ -113,10 +109,7 @@ public class Journey implements Comparable<Journey> {
         return history.contains(status);
     }
     
-    
-    public boolean containsLocation(Location location) {
-        return locationHistory.contains(location);
-    }
+  
 
     public String getOriginPort() {
         return originPort;
@@ -173,11 +166,7 @@ public class Journey implements Comparable<Journey> {
         history.add(status);
         status.setJourney(this);
     }
-    
-    public void addLocation(Location location) {
-        locationHistory.add(location);
-        location.setJourney(this);
-    }
+   
 
     /**
      * Getter for the started flag

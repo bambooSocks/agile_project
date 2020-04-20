@@ -29,10 +29,14 @@ public class TestDatabaseAccess {
 	       Repository db = new SqliteRepository();
 	       db.clearDatabase(); // Remove all users from the database to get a fresh database for testing
 	       Container user = new Container();
+	       Container user2 = new Container();
 	       db.createContainer(user);
+	       db.createContainer(user2);
 	       db = new SqliteRepository();
 	       Container dbUser = db.readContainer(user.getId());
+	       Container dbUser2 = db.readContainer(user2.getId());
 	       assertEquals(user.getId(),dbUser.getId());
+	       assertEquals(user2.getId(),dbUser2.getId());
 	}
 
 }

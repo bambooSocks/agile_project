@@ -31,7 +31,7 @@ public class M3 {
     public void a_container_status_of_degrees_humidity_and_bar_with_timestamp(Double temperature, Double humidity,
             Double airPressure, Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        status = new ContainerStatus(timestamp, temperature, humidity, airPressure);
+        status = new ContainerStatus(timestamp, temperature, humidity, airPressure, "New York");
     }
 
     @Given("an initial container status in the journey of {double} degrees, {double} % humidity and {double} bar with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
@@ -39,7 +39,7 @@ public class M3 {
             Double temperature, Double humidity, Double airPressure, Integer hours, Integer minutes, Integer day,
             Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        status = new ContainerStatus(timestamp, temperature, humidity, airPressure);
+        status = new ContainerStatus(timestamp, temperature, humidity, airPressure, "New York");
         LogisticsCompany company = holder.getFirstJourney().getCompany();
         successfulEntry = company.enterStatus(status, holder.getFirstJourney());
         assertTrue(holder.getFirstJourney().containsStatus(status));
@@ -100,7 +100,7 @@ public class M3 {
             Double humidity, Double airPressure, Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        ContainerStatus _status = new ContainerStatus(timestamp, temperature, humidity, airPressure);
+        ContainerStatus _status = new ContainerStatus(timestamp, temperature, humidity, airPressure,"New York");
         assertTrue(statusList.contains(_status));
     }
 
