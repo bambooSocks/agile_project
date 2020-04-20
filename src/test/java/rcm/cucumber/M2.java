@@ -55,8 +55,8 @@ public class M2 {
         successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
     }
 
-    @When("the second logistics company updates containers location to a new location {string}")
-    public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
+    @When("the second logistics company updates containers location")
+    public void the_second_logistics_company_updates_containers_location() {
         successfulEntry = holder.getSecondCompany().enterStatus(status, holder.getFirstJourney());
     }
 

@@ -23,21 +23,13 @@ public class Client extends User {
     @ManyToOne
     private LogisticsCompany company;
 
-    public Client(String name, String address, String refPerson, String email, String password)
-            throws WrongInputException {
-     */
-     * @throws SQLException
-     * @param email     Email of the client
-     * @param refPerson Reference person of the client
-     * @param address   Address of the client
-     * @param name      Name of the client
-     * 
-    /**
-     * Client constructor
-    }
-        super();
-    {
+     
     private Client()
+    {
+        super();
+    }
+        public Client(String name, String address, String refPerson, String email, String password)
+                throws WrongInputException{
     
 
         super(name, address, refPerson, email, password);
@@ -80,10 +72,6 @@ public class Client extends User {
         }
     }
 
-    public boolean closeButton() {
-        // TODO Auto-generated method stub
-        return true;
-    }
 
     /**
      * Requests the history of container statuses from journey

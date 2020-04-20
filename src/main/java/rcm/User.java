@@ -43,12 +43,15 @@ public abstract class User {
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*.{2,25}$";
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
-
+    
+    
+    protected User() {
+        
+    }
     public User(String name, String address, String refPerson, String email, String password)
             throws WrongInputException {
-    }
-    {
-    protected User()
+    
+   
         this.address = address;
 
         if (validateSomeName(name)) {
