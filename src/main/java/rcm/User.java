@@ -15,6 +15,8 @@ public abstract class User {
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*.{2,25}$";
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
+    private static final String regexAddress = "^([A-Za-z0-9+_.(), -])+$";
+//    "^[0-9]+(([,. -][a-zA-Z0-9])?[a-zA-Z]*)*.{1,30}$"
 
     public User(String name, String address, String refPerson, String email, String password)
             throws WrongInputException {
@@ -23,13 +25,19 @@ public abstract class User {
         if (validateSomeName(name)) {
             this.name = name;
         } else {
-            throw new WrongInputException("The given name is not valid");
+            throw new WrongInputException("The given client name is not valid");
+        }
+
+        if (validateAddress(address)) {
+            this.address = address;
+        } else {
+            throw new WrongInputException("The given address is not valid");
         }
 
         if (validateSomeName(refPerson)) {
             this.refPerson = refPerson;
         } else {
-            throw new WrongInputException("The given name is not valid");
+            throw new WrongInputException("The given reference name is not valid");
         }
 
         if (validateEmail(email)) {
@@ -79,6 +87,15 @@ public abstract class User {
         }
     }
 
+    private static boolean validateAddress(String address) {
+        Matcher matcherAddress = Pattern.compile(regexAddress).matcher(address);
+        if (matcherAddress.matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private static boolean validateEmail(String email) {
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
         if (matcherEmail.matches()) {
@@ -97,31 +114,43 @@ public abstract class User {
         }
     }
 
-    public void updateName(String newName) {
+    public void updateName(String newName) throws WrongInputException {
         if (validateSomeName(newName)) {
             name = newName;
+        } else {
+            throw new WrongInputException("The given client name is not valid");
         }
     }
 
-    public void updateAddress(String newAddress) {
-        address = newAddress;
+    public void updateAddress(String newAddress) throws WrongInputException {
+        if (validateAddress(newAddress)) {
+            address = newAddress;
+        } else {
+            throw new WrongInputException("The given address is not valid");
+        }
     }
 
-    public void updateRefPerson(String newRefPerson) {
+    public void updateRefPerson(String newRefPerson) throws WrongInputException {
         if (validateSomeName(newRefPerson)) {
             refPerson = newRefPerson;
+        } else {
+            throw new WrongInputException("The given reference name is not valid");
         }
     }
 
-    public void updateEmail(String newEmail) {
+    public void updateEmail(String newEmail) throws WrongInputException {
         if (validateEmail(newEmail)) {
             email = newEmail;
+        } else {
+            throw new WrongInputException("The given email is not valid");
         }
     }
 
-    public void updatePassword(String newPassword) {
+    public void updatePassword(String newPassword) throws WrongInputException {
         if (validatePassword(newPassword)) {
             password = Password.SHA1_Hasher(newPassword);
+        } else {
+            throw new WrongInputException("The given password is not valid");
         }
     }
 

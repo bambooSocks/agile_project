@@ -27,13 +27,7 @@ Feature: Client profile creation
     And a new client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123" belongs to the company
 
   @tag2
-  Scenario: Is new email valid
+  Scenario: Unsuccessful new client profile creation
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    When the company creates a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananaschiquitacom" and password "Object123"
-    Then the email is not a valid email and the client is not created
-
-  @tag3
-  Scenario: Is new name valid
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    When the company creates a first client "Chiqu@7hfsoufahsdvhasædogihas_dnflasædmogimaæfoi568jasd" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    Then the name is not a valid email and the client is not created
+    When the company creates a first client "Chiqu@7hfsoufahsdvhasædogihas_dnflasædmogimaæfoi568jasd" with address "1855 Griffin Rd. Miami, Florida" reference person "car7men Rodriguez Jr." email "bananas.com" and password "lamepassword"
+    Then the information is not valid and the client is not created

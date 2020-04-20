@@ -95,10 +95,6 @@ public class LogisticsCompany extends User {
         return applyFilter(c -> c.getEmail().equals(email));
     }
 
-    public Set<Client> searchByHashKey(String hashKey) {
-        return applyFilter(c -> c.getPassword().equals(hashKey));
-    }
-
     public boolean companyLogInStatus(String email, String password) throws WrongInputException {
         if (email.equals(getEmail())) {
             if (Password.SHA1_Hasher(password).equals(getPassword())) {
@@ -232,14 +228,6 @@ public class LogisticsCompany extends User {
             return true;
         } else {
             return false;
-        }
-    }
-
-    public Set<Client> viewCompanyData(boolean loggedIn, String email1, String email2) {
-        if ((email1.equals(email2)) && loggedIn) {
-                return getClients();
-        } else {
-            return null;
         }
     }
 }

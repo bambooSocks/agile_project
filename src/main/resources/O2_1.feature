@@ -39,6 +39,7 @@ Feature: Log-ins and permissions
     When first client enters email "bananas@chiquita.com" and password "Corndog12"
     Then the client is not logged in
 
+#failed company login
   @tag4
   Scenario: Client can view own journeys
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
@@ -63,21 +64,6 @@ Feature: Log-ins and permissions
     Then the containers and data can not be viewed
 
   @tag6
-  Scenario: Logistics Company can view own clients
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    When logistics company with email "info@maersk.com" tries to view clients, containers, and data of logistics company with email "info@maersk.com"
-    Then the clients, containers, and data can be viewed
-
-  @tag7
-  Scenario: Logistics Company can't view other clients
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And a second logistics company "Hamburg Sud" with address "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany" reference person "Dr. Arnt Vespermann" email "info@hamburgsud-line.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    When logistics company with email "info@maersk.com" tries to view clients, containers, and data of logistics company with email "info@hamburgsud-line.com"
-    Then the clients, containers, and data can not be viewed
-
-  @tag8
   Scenario: Client can give access to other clients
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"

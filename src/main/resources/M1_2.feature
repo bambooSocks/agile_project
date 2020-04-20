@@ -34,15 +34,17 @@ Feature: Client searching
     Then it does not exist and no client is returned
 
   @tag3
-  Scenario: Successful search using name
+  Scenario: Successful search using client name
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     When a first logistics company searches for name "Chiquita"
     Then it exists and the client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123" is returned
 
   @tag4
-  Scenario: Failed search using name
+  Scenario: Failed search using client name
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     When a first logistics company searches for name "Dole"
     Then it does not exist and no client is returned
+    
+    # expand user stories for searching by refperson and email (both successful and failed)
