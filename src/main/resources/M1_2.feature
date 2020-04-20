@@ -23,7 +23,6 @@ Feature: Client searching
   Scenario: Successful search using email
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123"
-    And the logistic company has some clients including first client
     When a first logistics company searches for email "info@novonordisk.com"
     Then it exists and the client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123" is returned
 
@@ -31,7 +30,6 @@ Feature: Client searching
   Scenario: Failed search using email
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123"
-    And the logistic company has some clients including first client
     When a first logistics company searches for email "bigyellowbananas@chiquita.com"
     Then it does not exist and no client is returned
 
@@ -39,7 +37,6 @@ Feature: Client searching
   Scenario: Successful search using name
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And the logistic company has some clients including first client
     When a first logistics company searches for name "Chiquita"
     Then it exists and the client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123" is returned
 
@@ -47,6 +44,5 @@ Feature: Client searching
   Scenario: Failed search using name
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And the logistic company has some clients including first client
     When a first logistics company searches for name "Dole"
     Then it does not exist and no client is returned

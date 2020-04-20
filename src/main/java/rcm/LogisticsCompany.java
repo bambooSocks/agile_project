@@ -23,7 +23,6 @@ public class LogisticsCompany extends User {
     List<Container> containers;
     @OneToMany(cascade=CascadeType.ALL)
     Set<Client> clients;
-    
 
     //List<String> hashKeys;
 
@@ -42,11 +41,11 @@ public class LogisticsCompany extends User {
      * @param email     Email of the logistics company
      * @param password
      */
-    public LogisticsCompany(String name, String address, String refPerson, String email, String password) {
+    public LogisticsCompany(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
         super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
         clients = new HashSet<Client>();
-        //hashKeys = new LinkedList<String>();
         id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
 
     }
@@ -75,11 +74,6 @@ public class LogisticsCompany extends User {
         }
     }
 
-    /**
-     * Getter for client set
-     * 
-     * @return a set of clients
-     */
     public Set<Client> getClients() {
         return clients;
     }
@@ -103,24 +97,44 @@ public class LogisticsCompany extends User {
         return clients.stream().filter(p).collect(Collectors.toSet());
     }
 
-    /**
-     * Method to search by client name
-     * 
-     * @param name Name of the client
-     * @return filter method with appropriate search criteria
-     */
     public Set<Client> searchByName(String name) {
         return applyFilter(c -> c.getName().equals(name));
     }
 
-    /**
-     * Method to search by client email
-     * 
-     * @param email Email of the client
-     * @return filter method with appropriate search criteria
-     */
     public Set<Client> searchByEmail(String email) {
         return applyFilter(c -> c.getEmail().equals(email));
+    }
+
+    public Set<Client> searchByHashKey(String hashKey) {
+        return applyFilter(c -> c.getPassword().equals(hashKey));
+    }
+
+    public boolean companyLogInStatus(String email, String password) throws WrongInputException {
+        if (email.equals(getEmail())) {
+            if (Password.SHA1_Hasher(password).equals(getPassword())) {
+                return true;
+            } else {
+                throw new WrongInputException("Your password is incorrect");
+            }
+        } else {
+            throw new WrongInputException("Please try another email");
+        }
+    }
+
+    public boolean clientLogInStatus(String email, String password) {
+        Set<Client> emails = searchByEmail(email);
+        String hashKey = Password.SHA1_Hasher(password);
+        if (emails.isEmpty()) {
+            return false;
+        } else {
+            Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
+                    .collect(Collectors.toSet());
+            if (passed.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 
     /**
@@ -134,12 +148,13 @@ public class LogisticsCompany extends User {
      * @throws SQLException
      */
     public Client createClient(String name, String address, String refPerson, String email, String password) {
-        if (Client.validInfo(name, address, refPerson, email, password)) {
+        try {
             Client c = new Client(name, address, refPerson, email, password);
             addClient(c);
             c.assignCompany(this);
             return c;
-        } else {
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
             return null;
         }
     }
@@ -240,4 +255,11 @@ public class LogisticsCompany extends User {
         }
     }
 
+    public Set<Client> viewCompanyData(boolean loggedIn, String email1, String email2) {
+        if ((email1.equals(email2)) && loggedIn) {
+                return getClients();
+        } else {
+            return null;
+        }
+    }
 }

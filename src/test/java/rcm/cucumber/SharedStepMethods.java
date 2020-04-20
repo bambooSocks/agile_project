@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import rcm.Client;
 import rcm.LogisticsCompany;
 import rcm.Password;
+import rcm.WrongInputException;
 
 public class SharedStepMethods {
 
@@ -18,7 +19,11 @@ public class SharedStepMethods {
     @Given("a first logistics company {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_first_logistics_company_with_address_reference_person_email_and_password(String name, String address,
             String refPerson, String email, String password) {
-        holder.setFirstCompany(new LogisticsCompany(name, address, refPerson, email, password));
+        try {
+            holder.setFirstCompany(new LogisticsCompany(name, address, refPerson, email, password));
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
         assertEquals(name, holder.getFirstCompany().getName());
         assertEquals(address, holder.getFirstCompany().getAddress());
         assertEquals(refPerson, holder.getFirstCompany().getRefPerson());
@@ -29,7 +34,11 @@ public class SharedStepMethods {
     @Given("a second logistics company {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_second_logistics_company_with_address_reference_person_email_and_password(String name, String address,
             String refPerson, String email, String password) {
-        holder.setSecondCompany(new LogisticsCompany(name, address, refPerson, email, password));
+        try {
+            holder.setSecondCompany(new LogisticsCompany(name, address, refPerson, email, password));
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
         assertEquals(name, holder.getSecondCompany().getName());
         assertEquals(address, holder.getSecondCompany().getAddress());
         assertEquals(refPerson, holder.getSecondCompany().getRefPerson());
