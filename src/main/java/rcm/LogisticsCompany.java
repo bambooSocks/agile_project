@@ -143,7 +143,7 @@ public class LogisticsCompany extends User {
      */
     public boolean companyLogInStatus(String email, String password) throws WrongInputException {
         if (email.equals(getEmail())) {
-            if (Password.SHA1_Hasher(password).equals(getPassword())) {
+            if (SHA1_Hasher(password).equals(getPassword())) {
                 return true;
             } else {
                 throw new WrongInputException("Your password is incorrect");
@@ -159,17 +159,18 @@ public class LogisticsCompany extends User {
      * @param email    Email of the client
      * @param password Password of the client
      * @return true if correct email and password, otherwise return false
+     * @throws WrongInputException
      */
-    public boolean clientLogInStatus(String email, String password) {
+    public boolean clientLogInStatus(String email, String password) throws WrongInputException {
         Set<Client> emails = searchByEmail(email);
-        String hashKey = Password.SHA1_Hasher(password);
+        String hashKey = SHA1_Hasher(password);
         if (emails.isEmpty()) {
-            return false;
+            throw new WrongInputException("Please try another email");
         } else {
             Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
                     .collect(Collectors.toSet());
             if (passed.isEmpty()) {
-                return false;
+                throw new WrongInputException("Your password is incorrect");
             } else {
                 return true;
             }

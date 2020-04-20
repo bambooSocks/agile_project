@@ -29,5 +29,5 @@ Feature: Client profile creation
   @tag2
   Scenario: Unsuccessful new client profile creation
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    When the company creates a first client "Chiqu@7hfsoufahsdvhasædogihas_dnflasædmogimaæfoi568jasd" with address "1855 Griffin Rd. Miami, Florida" reference person "car7men Rodriguez Jr." email "bananas.com" and password "lamepassword"
+    When the company creates a first client "chiqu!t@" with address "338 Hwy 82!, Orlando; FLorida" reference person "car7men Rodriguez Jr." email "bananas.com" and password "lamepassword"
     Then the information is not valid and the client is not created

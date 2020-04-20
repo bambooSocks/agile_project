@@ -1,5 +1,7 @@
 package rcm;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,10 +15,9 @@ public abstract class User {
     protected String email;
 
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private static final String regexName = "^[A-Z]+([a-z]*)+(([',. -][a-zA-Z ])?[a-zA-Z]*)*.{2,25}$";
+    private static final String regexName = "^[A-Z]+[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=0-9]{2,30}$";
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
-    private static final String regexAddress = "^([A-Za-z0-9+_.(), -])+$";
-//    "^[0-9]+(([,. -][a-zA-Z0-9])?[a-zA-Z]*)*.{1,30}$"
+    private static final String regexAddress = "^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\\\/<>?;|=]{2,50}$";
 
     /**
      * User constructor
@@ -32,7 +33,7 @@ public abstract class User {
             throws WrongInputException {
         this.address = address;
 
-        if (validateSomeName(name)) {
+        if (validateName(name)) {
             this.name = name;
         } else {
             throw new WrongInputException("The given client name is not valid");
@@ -44,7 +45,7 @@ public abstract class User {
             throw new WrongInputException("The given address is not valid");
         }
 
-        if (validateSomeName(refPerson)) {
+        if (validateRefPerson(refPerson)) {
             this.refPerson = refPerson;
         } else {
             throw new WrongInputException("The given reference name is not valid");
@@ -57,7 +58,7 @@ public abstract class User {
         }
 
         if (validatePassword(password)) {
-            this.password = Password.SHA1_Hasher(password);
+            this.password = SHA1_Hasher(password);
         } else {
             throw new WrongInputException("The given password is not valid");
         }
@@ -118,24 +119,44 @@ public abstract class User {
     }
 
     /**
-     * Method to validate user name or reference person
+     * Method to validate user name
      * 
-     * @param someName Name or reference person of the User
-     * @return true if valid name or reference person, otherwise return false
+     * @param name Name of the User
+     * @return true if valid name, otherwise return false
      */
-    private static boolean validateSomeName(String someName) {
-        Matcher matcherName = Pattern.compile(regexName).matcher(someName);
-        Matcher matcherRefPerson = Pattern.compile(regexName).matcher(someName);
-        if (matcherName.matches() || matcherRefPerson.matches()) {
+    private static boolean validateName(String name) {
+        Matcher matcherName = Pattern.compile(regexName).matcher(name);
+        if (matcherName.matches()) {
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * Method to validate user address
+     * 
+     * @param address Address of the User
+     * @return true if valid address, otherwise return false
+     */
     private static boolean validateAddress(String address) {
         Matcher matcherAddress = Pattern.compile(regexAddress).matcher(address);
         if (matcherAddress.matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Method to validate user reference person
+     * 
+     * @param refPerson Reference Person of the User
+     * @return true if valid reference person, otherwise return false
+     */
+    private static boolean validateRefPerson(String refPerson) {
+        Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
+        if (matcherRefPerson.matches()) {
             return true;
         } else {
             return false;
@@ -178,7 +199,7 @@ public abstract class User {
      * @param newName New name of the user
      */
     public void updateName(String newName) throws WrongInputException {
-        if (validateSomeName(newName)) {
+        if (validateName(newName)) {
             name = newName;
         } else {
             throw new WrongInputException("The given client name is not valid");
@@ -204,7 +225,7 @@ public abstract class User {
      * @param newRefPerson New reference person of the user
      */
     public void updateRefPerson(String newRefPerson) throws WrongInputException {
-        if (validateSomeName(newRefPerson)) {
+        if (validateRefPerson(newRefPerson)) {
             refPerson = newRefPerson;
         } else {
             throw new WrongInputException("The given reference name is not valid");
@@ -231,10 +252,32 @@ public abstract class User {
      */
     public void updatePassword(String newPassword) throws WrongInputException {
         if (validatePassword(newPassword)) {
-            password = Password.SHA1_Hasher(newPassword);
+            password = SHA1_Hasher(newPassword);
         } else {
             throw new WrongInputException("The given password is not valid");
         }
+    }
+
+    /**
+     * Method to convert a cleartext password into a hashkey
+     * 
+     * @param passwordToHash Cleartext password entered by the user
+     * @return Hashkey of the users password
+     */
+    public static String SHA1_Hasher(String passwordToHash) {
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            byte[] bytes = md.digest(passwordToHash.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return generatedPassword;
     }
 
     @Override

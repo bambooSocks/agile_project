@@ -25,7 +25,11 @@ public class O2 {
 
     @When("first client enters email {string} and password {string}")
     public void first_client_enters_email_and_password(String email, String password) {
-        loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        try {
+            loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Then("the client is logged in")
@@ -61,7 +65,11 @@ public class O2 {
 
     @Given("first client is logged-in with email {string} and password {string}")
     public void first_client_is_logged_in_with_email_and_password(String email, String password) {
-        loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        try {
+            loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Given("a first journey of second client with origin port of {string} destination port of {string} and a content of {string}")

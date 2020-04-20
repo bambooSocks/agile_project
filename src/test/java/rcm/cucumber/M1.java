@@ -10,7 +10,7 @@ import java.util.Set;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.Client;
-import rcm.Password;
+import rcm.User;
 import rcm.WrongInputException;
 
 public class M1 {
@@ -43,7 +43,7 @@ public class M1 {
         assertEquals(address, holder.getFirstClient().getAddress());
         assertEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertEquals(email, holder.getFirstClient().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
+        assertEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
     @Then("the information is not valid and the client is not created")
@@ -81,7 +81,7 @@ public class M1 {
         assertEquals(address, holder.getFirstClient().getAddress());
         assertEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertEquals(email, holder.getFirstClient().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
+        assertEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
     @Then("it does not exist and no client is returned")
@@ -128,7 +128,7 @@ public class M1 {
         assertEquals(address, holder.getFirstClient().getAddress());
         assertEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertEquals(email, holder.getFirstClient().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
+        assertEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
     @Then("the client {string} with address {string} reference person {string} email {string} and password {string} is not updated")
@@ -139,7 +139,7 @@ public class M1 {
         assertNotEquals(address, holder.getFirstClient().getAddress());
         assertNotEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertNotEquals(email, holder.getFirstClient().getEmail());
-        assertNotEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
+        assertNotEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
     @When("a logistics company enters new info {string} with address {string} reference person {string} email {string} and password {string}")
@@ -180,7 +180,7 @@ public class M1 {
         assertEquals(address, holder.getFirstCompany().getAddress());
         assertEquals(refPerson, holder.getFirstCompany().getRefPerson());
         assertEquals(email, holder.getFirstCompany().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
+        assertEquals(User.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
     }
 
     @Then("the logistics company {string} with address {string} reference person {string} email {string} and password {string} is not updated")
@@ -191,6 +191,6 @@ public class M1 {
         assertNotEquals(address, holder.getFirstCompany().getAddress());
         assertNotEquals(refPerson, holder.getFirstCompany().getRefPerson());
         assertNotEquals(email, holder.getFirstCompany().getEmail());
-        assertNotEquals(Password.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
+        assertNotEquals(User.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
     }
 }
