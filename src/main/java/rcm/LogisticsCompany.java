@@ -20,7 +20,8 @@ public class LogisticsCompany extends User {
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
-     * @param password
+     * @param password  Password of the logistics company
+     * @throws WrongInputException
      */
     public LogisticsCompany(String name, String address, String refPerson, String email, String password)
             throws WrongInputException {
@@ -54,6 +55,11 @@ public class LogisticsCompany extends User {
         }
     }
 
+    /**
+     * Getter for the client set of a logistics company
+     * 
+     * @return Set of all clients of a logistics company
+     */
     public Set<Client> getClients() {
         return clients;
     }
@@ -81,20 +87,40 @@ public class LogisticsCompany extends User {
      * Filter method for client set
      * 
      * @param p Search criteria
-     * @return set of clients that meet filter requirements
+     * @return Set of clients that meet filter requirements
      */
     private Set<Client> applyFilter(Predicate<Client> p) {
         return clients.stream().filter(p).collect(Collectors.toSet());
     }
 
+    /**
+     * Method to search clients by name
+     * 
+     * @param name Search criteria
+     * @return Set of clients that have a matching name
+     */
     public Set<Client> searchByName(String name) {
         return applyFilter(c -> c.getName().equals(name));
     }
 
+    /**
+     * Method to search clients by email
+     * 
+     * @param email Search criteria
+     * @return Set of clients that have a matching email
+     */
     public Set<Client> searchByEmail(String email) {
         return applyFilter(c -> c.getEmail().equals(email));
     }
 
+    /**
+     * Method to log in a logistics company
+     * 
+     * @param email    Email of the logistics company
+     * @param password Password of the logistics company
+     * @return true if correct email and password, otherwise return false
+     * @throws WrongInputException
+     */
     public boolean companyLogInStatus(String email, String password) throws WrongInputException {
         if (email.equals(getEmail())) {
             if (Password.SHA1_Hasher(password).equals(getPassword())) {
@@ -107,6 +133,13 @@ public class LogisticsCompany extends User {
         }
     }
 
+    /**
+     * Method to log in a client
+     * 
+     * @param email    Email of the client
+     * @param password Password of the client
+     * @return true if correct email and password, otherwise return false
+     */
     public boolean clientLogInStatus(String email, String password) {
         Set<Client> emails = searchByEmail(email);
         String hashKey = Password.SHA1_Hasher(password);
@@ -123,6 +156,16 @@ public class LogisticsCompany extends User {
         }
     }
 
+    /**
+     * Method to create a client and assign it to a logistics company
+     * 
+     * @param name      Name of the client
+     * @param address   Address of the client
+     * @param refPerson Reference person of the client
+     * @param email     Email of the client
+     * @param password  Password of the client
+     * @return created client or null if client is not created
+     */
     public Client createClient(String name, String address, String refPerson, String email, String password) {
         try {
             Client c = new Client(name, address, refPerson, email, password);

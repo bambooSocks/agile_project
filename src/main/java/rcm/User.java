@@ -18,6 +18,16 @@ public abstract class User {
     private static final String regexAddress = "^([A-Za-z0-9+_.(), -])+$";
 //    "^[0-9]+(([,. -][a-zA-Z0-9])?[a-zA-Z]*)*.{1,30}$"
 
+    /**
+     * User constructor
+     * 
+     * @param name      Name of the user
+     * @param address   Address of the user
+     * @param refPerson Reference person of the user
+     * @param email     Email of the user
+     * @param password  Password of the user
+     * @throws WrongInputException
+     */
     public User(String name, String address, String refPerson, String email, String password)
             throws WrongInputException {
         this.address = address;
@@ -53,30 +63,66 @@ public abstract class User {
         }
     }
 
+    /**
+     * Getter for user name
+     * 
+     * @return name of the user
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Getter for user address
+     * 
+     * @return address of the user
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * Getter for user reference person
+     * 
+     * @return reference person of the user
+     */
     public String getRefPerson() {
         return refPerson;
     }
 
+    /**
+     * Getter for user email
+     * 
+     * @return email of the user
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Getter for user id
+     * 
+     * @return id of the user
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Getter for user password
+     * 
+     * @return password of the user
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Method to validate user name or reference person
+     * 
+     * @param someName Name or reference person of the User
+     * @return true if valid name or reference person, otherwise return false
+     */
     private static boolean validateSomeName(String someName) {
         Matcher matcherName = Pattern.compile(regexName).matcher(someName);
         Matcher matcherRefPerson = Pattern.compile(regexName).matcher(someName);
@@ -96,6 +142,12 @@ public abstract class User {
         }
     }
 
+    /**
+     * Method to validate user email
+     * 
+     * @param email Email of the user
+     * @return true if valid email, otherwise return false
+     */
     private static boolean validateEmail(String email) {
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
         if (matcherEmail.matches()) {
@@ -105,6 +157,12 @@ public abstract class User {
         }
     }
 
+    /**
+     * Method to validate user password
+     * 
+     * @param password Password of the user
+     * @return true if valid password, otherwise return false
+     */
     private static boolean validatePassword(String password) {
         Matcher matcherPassword = Pattern.compile(regexPassword).matcher(password);
         if (matcherPassword.matches()) {
@@ -114,6 +172,11 @@ public abstract class User {
         }
     }
 
+    /**
+     * Method to update user name
+     * 
+     * @param newName New name of the user
+     */
     public void updateName(String newName) throws WrongInputException {
         if (validateSomeName(newName)) {
             name = newName;
@@ -122,6 +185,11 @@ public abstract class User {
         }
     }
 
+    /**
+     * Method to update user address
+     * 
+     * @param newAddress New address of the user
+     */
     public void updateAddress(String newAddress) throws WrongInputException {
         if (validateAddress(newAddress)) {
             address = newAddress;
@@ -130,6 +198,11 @@ public abstract class User {
         }
     }
 
+    /**
+     * Method to update user reference person
+     * 
+     * @param newRefPerson New reference person of the user
+     */
     public void updateRefPerson(String newRefPerson) throws WrongInputException {
         if (validateSomeName(newRefPerson)) {
             refPerson = newRefPerson;
@@ -138,6 +211,11 @@ public abstract class User {
         }
     }
 
+    /**
+     * Method to update user email
+     * 
+     * @param newEmail New email of the user
+     */
     public void updateEmail(String newEmail) throws WrongInputException {
         if (validateEmail(newEmail)) {
             email = newEmail;
@@ -146,6 +224,11 @@ public abstract class User {
         }
     }
 
+    /**
+     * Method to update user password
+     * 
+     * @param newEmail New password of the user
+     */
     public void updatePassword(String newPassword) throws WrongInputException {
         if (validatePassword(newPassword)) {
             password = Password.SHA1_Hasher(newPassword);
@@ -175,5 +258,4 @@ public abstract class User {
             return false;
         return true;
     }
-
 }
