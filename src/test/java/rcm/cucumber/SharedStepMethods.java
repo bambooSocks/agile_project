@@ -2,6 +2,8 @@ package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDateTime;
+
 import io.cucumber.java.en.Given;
 import rcm.Client;
 import rcm.LogisticsCompany;
@@ -95,6 +97,14 @@ public class SharedStepMethods {
     @Given("a container of the first logistics company")
     public void a_container_of_the_first_logistics_company() {
         holder.setFirstContainer(holder.getFirstCompany().createContainer());
+    }
+    
+
+    @Given("the first journey has started at {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_first_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month,
+            Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
+        holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
     }
 
 }

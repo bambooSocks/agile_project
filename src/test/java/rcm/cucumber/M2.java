@@ -39,7 +39,7 @@ public class M2 {
     public void the_container_entered_location_at(String location, Integer hours, Integer minutes, Integer day,
             Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        status = new ContainerStatus(timestamp,25.0,50.0,101.0, location);
+        status = new ContainerStatus(timestamp, 25.0, 50.0, 101.0, location);
 
     }
 
@@ -48,11 +48,13 @@ public class M2 {
             String originPort, String destinationPort, String content) {
         response = holder.getFirstClient().requestJourney(originPort, destinationPort, content,
                 LocalDateTime.of(2020, 3, 13, 4, 20));
+
     }
 
     @When("the first logistics company updates containers location")
     public void the_first_logistics_company_updates_containers_location() {
         successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
+
     }
 
     @When("the second logistics company updates containers location")
@@ -78,13 +80,16 @@ public class M2 {
     @Then("the location is changed")
     public void the_location_is_changed() {
         assertTrue(successfulEntry);
-        assertEquals("New York",holder.getFirstJourney().getStatus().get(holder.getFirstJourney().getStatus().size()-1).getLocation());
+        LocalDateTime t = LocalDateTime.of(2020, 3, 13, 4, 20);
+        ContainerStatus s = new ContainerStatus(t, 25.0, 50.0, 101.0, "New York");
+        assertTrue(holder.getFirstJourney().getStatus().contains(s));
     }
 
     @Then("the location is not changed")
     public void the_location_is_not_changed() {
         assertFalse(successfulEntry);
-        assertNotEquals("Los Angeles",holder.getFirstJourney().getStatus().get(holder.getFirstJourney().getStatus().size()-1).getLocation());
+        assertTrue(holder.getFirstJourney().getStatus().isEmpty());
+        
     }
 
     @Then("an id is created")

@@ -25,13 +25,6 @@ public class O1 {
         holder.setSecondContainer(holder.getFirstCompany().createContainer());
     }
 
-    @Given("the first journey has started at {int}:{int} {int}\\/{int}\\/{int}")
-    public void the_first_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month,
-            Integer year) {
-        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
-    }
-
     @Given("the first journey has ended at {int}:{int} {int}\\/{int}\\/{int}")
     public void the_first_journey_has_ended_at(Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) {
@@ -46,12 +39,14 @@ public class O1 {
 
     @Given("the last journey of the container list is ended")
     public void the_last_journey_of_the_container_list_is_ended() {
-        assertTrue(holder.getFirstContainer().getJourneyList().get(holder.getFirstContainer().getJourneyList().size() - 1).isEnded());
+        assertTrue(holder.getFirstContainer().getJourneyList()
+                .get(holder.getFirstContainer().getJourneyList().size() - 1).isEnded());
     }
 
     @Given("the last journey of the container list is not ended")
     public void the_last_journey_of_the_container_list_is_not_ended() {
-        assertFalse(holder.getFirstContainer().getJourneyList().get(holder.getFirstContainer().getJourneyList().size() - 1).isEnded());
+        assertFalse(holder.getFirstContainer().getJourneyList()
+                .get(holder.getFirstContainer().getJourneyList().size() - 1).isEnded());
     }
 
     @Given("the journey has started at {int}:{int} {int}\\/{int}\\/{int}")
