@@ -31,15 +31,6 @@ public class Container {
         return company;
     }
 
-    /**
-     * Getter for Container ID
-     * 
-     * @return Integer denoting the Container ID
-     */
-    public int getId() {
-        return id;
-    }
-
     public void setLocation(String newLocation) {
         location = newLocation;
         

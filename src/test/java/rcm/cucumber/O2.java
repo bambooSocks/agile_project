@@ -5,14 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.Set;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.model.Client;
-import rcm.model.Journey;
-import rcm.model.WrongInputException;
+import rcm.Journey;
+import rcm.WrongInputException;
 
 public class O2 {
 
@@ -20,7 +18,6 @@ public class O2 {
     private boolean loggedIn = false;
     private boolean access = false;
     private List<Journey> journeys;
-    private Set<Client> clients;
 
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
@@ -28,7 +25,11 @@ public class O2 {
 
     @When("first client enters email {string} and password {string}")
     public void first_client_enters_email_and_password(String email, String password) {
-        loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        try {
+            loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Then("the client is logged in")
@@ -54,12 +55,21 @@ public class O2 {
     public void the_company_is_logged_in() {
         assertTrue(loggedIn);
     }
+    
+    @Then("the company is not logged in")
+    public void the_company_is_not_logged_in() {
+        assertFalse(loggedIn);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Given("first client is logged-in with email {string} and password {string}")
     public void first_client_is_logged_in_with_email_and_password(String email, String password) {
-        loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        try {
+            loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Given("a first journey of second client with origin port of {string} destination port of {string} and a content of {string}")
@@ -86,33 +96,6 @@ public class O2 {
     @Then("the containers and data can not be viewed")
     public void the_containers_and_data_can_not_be_viewed() {
         assertEquals(null, journeys);
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Given("first logistics company is logged-in with email {string} and password {string}")
-    public void first_logistics_company_is_logged_in_with_email_and_password(String email, String password) {
-        try {
-            loggedIn = holder.getFirstCompany().companyLogInStatus(email, password);
-        } catch (WrongInputException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
-    @When("logistics company with email {string} tries to view clients, containers, and data of logistics company with email {string}")
-    public void logistics_company_with_email_tries_to_view_clients_containers_and_data_of_logistics_company_with_email(
-            String email1, String email2) {
-        clients = holder.getFirstCompany().viewCompanyData(loggedIn, email1, email2);
-    }
-
-    @Then("the clients, containers, and data can not be viewed")
-    public void the_clients_containers_and_data_can_not_be_viewed() {
-        assertEquals(null, clients);
-    }
-
-    @Then("the clients, containers, and data can be viewed")
-    public void the_clients_containers_and_data_can_be_viewed() {
-        assertEquals(holder.getFirstCompany().getClients(), clients);
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -39,15 +39,6 @@ public class Journey implements Comparable<Journey> {
     }
 
     /**
-     * Getter for ID
-     * 
-     * @return Integer of the journey ID
-     */
-    public int getID() {
-        return id;
-    }
-
-    /**
      * Getter for the company that the journey is associated with
      * 
      * @return null if the container is missing otherwise the LogisticsCompany that
