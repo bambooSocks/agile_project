@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import rcm.ContainerStatus;
+import rcm.model.ContainerStatus;
 
 public class ContainerStatusTest {
 

@@ -9,8 +9,8 @@ import java.util.List;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.Journey;
-import rcm.WrongInputException;
+import rcm.model.Journey;
+import rcm.model.WrongInputException;
 
 public class O2 {
 
