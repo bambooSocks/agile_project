@@ -11,8 +11,8 @@ import java.util.List;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.ContainerStatus;
-import rcm.LogisticsCompany;
+import rcm.model.ContainerStatus;
+import rcm.model.LogisticsCompany;
 
 public class M3 {
 

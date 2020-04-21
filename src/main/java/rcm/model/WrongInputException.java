@@ -1,4 +1,4 @@
-package rcm;
+package rcm.model;
 
 public class WrongInputException extends Exception {
 

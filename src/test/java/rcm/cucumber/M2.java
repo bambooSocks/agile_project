@@ -9,8 +9,8 @@ import java.util.List;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.Journey;
-import rcm.Response;
+import rcm.model.Journey;
+import rcm.model.Response;
 
 public class M2 {
 
