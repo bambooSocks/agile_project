@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 public abstract class BaseTopBar extends JPanel {
@@ -23,6 +24,7 @@ public abstract class BaseTopBar extends JPanel {
 
         add(buildRightSide(), BorderLayout.EAST);
         add(buildLeftSide(), BorderLayout.WEST);
+
     }
 
     public abstract JPanel buildLeftSide();
@@ -30,7 +32,7 @@ public abstract class BaseTopBar extends JPanel {
     private JPanel buildRightSide() {
         JPanel rightSide = new JPanel(new FlowLayout());
 
-        // Search bar 
+        // Search bar
         JTextField searchBar = new JTextField();
         searchBar.setPreferredSize(new Dimension(200, 20));
         rightSide.add(searchBar);
