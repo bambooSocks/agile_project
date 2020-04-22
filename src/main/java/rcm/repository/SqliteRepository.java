@@ -10,6 +10,8 @@ import javax.persistence.TypedQuery;
 
 import rcm.Container;
 import rcm.LogisticsCompany;
+import rcm.Journey;
+import rcm.ContainerStatus;
 
 
 public class SqliteRepository implements Repository {

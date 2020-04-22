@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ContainerStatus{
-    
+public class ContainerStatus {
+
     @Id
     private LocalDateTime timestamp;
 
@@ -20,17 +20,12 @@ public class ContainerStatus{
     private double atmPressure;
     @ManyToOne
     private Journey journey;
-    
 
-    
     private String location;
-    
-    private ContainerStatus()
-    {
+
+    private ContainerStatus() {
+
     }
-    
-    
-    
 
     /**
      * 
@@ -53,9 +48,9 @@ public class ContainerStatus{
      *                    time
      * 
      */
-    public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure, String location) {
+    public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure,
+            String location) {
 
- 
         this.timestamp = timestamp;
 
         this.temperature = temperature;
@@ -63,11 +58,11 @@ public class ContainerStatus{
         this.humidity = humidity;
 
         this.atmPressure = atmPressure;
-        
+
         this.location = location;
-        
 
     }
+
     /**
      * Override of hashCode method to check all fields
      */
@@ -86,6 +81,7 @@ public class ContainerStatus{
         result = prime * result + ((timestamp == null) ? 0 : timestamp.hashCode());
         return result;
     }
+
     /**
      * Override of equals method to check all fields
      */
@@ -117,7 +113,6 @@ public class ContainerStatus{
         return true;
     }
 
-
     /**
      * Getter for the time stamp
      * 
@@ -138,14 +133,13 @@ public class ContainerStatus{
     public double getAtmPressure() {
         return atmPressure;
     }
-    
+
     public void setJourney(Journey journey) {
         this.journey = journey;
     }
-    
+
     public String getLocation() {
         return location;
     }
-    
 
 }

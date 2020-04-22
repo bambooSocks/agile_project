@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 @Entity
-public class Journey {
+public class Journey implements Comparable<Journey> {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
@@ -38,6 +38,8 @@ public class Journey {
     
     private Journey()
     {
+        history = new LinkedList<ContainerStatus>();
+        id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
     
     
@@ -242,8 +244,11 @@ public class Journey {
      * @return Boolean of whether the time stamp can be used as an ending time stamp
      */
     public boolean isValidEndTimestamp(LocalDateTime timestamp) {
-        return history.stream().allMatch(s -> s.getTimestamp().isBefore(timestamp))
-                && startTimestamp.isBefore(timestamp);
+        boolean output = true;
+        for (ContainerStatus c: history) {
+            output = output && c.getTimestamp().isBefore(timestamp);
+        }
+        return output && startTimestamp.isBefore(timestamp);
     }
 
     /**
@@ -252,9 +257,9 @@ public class Journey {
      * @implNote Since the Journey lists should be able to be sorted by start time
      *           stamp.
      */
-  //  @Override
-   // public int compareTo(Journey o) {
-    //    return startTimestamp.compareTo(o.getStartTimestamp());
-   // }
+   @Override
+   public int compareTo(Journey o) {
+        return startTimestamp.compareTo(o.getStartTimestamp());
+    }
 
 }

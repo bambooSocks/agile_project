@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import rcm.Container;
 import rcm.LogisticsCompany;
+import rcm.Journey;
+import rcm.ContainerStatus;
 import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
 

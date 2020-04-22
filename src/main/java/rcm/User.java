@@ -13,17 +13,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@Entity  
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "LogisticsCompanyID",
-                       discriminatorType = DiscriminatorType.STRING,
-                       length = 20)
-@DiscriminatorValue("U")
 
-
+@MappedSuperclass 
 public abstract class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

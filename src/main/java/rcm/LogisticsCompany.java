@@ -1,37 +1,34 @@
 package rcm;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;  
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;  
+import javax.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @Entity
-@DiscriminatorValue("L")
 public class LogisticsCompany extends User {
-    
-    @OneToMany(cascade=CascadeType.ALL)
+
+    @OneToMany(cascade = CascadeType.ALL)
     List<Container> containers;
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     Set<Client> clients;
 
-    //List<String> hashKeys;
+    // List<String> hashKeys;
 
-    
-    private LogisticsCompany()
-    {
+    private LogisticsCompany() {
         super();
     }
-    
+
     /**
      * Logistics Company constructor
      * 
@@ -56,7 +53,15 @@ public class LogisticsCompany extends User {
      * @return List of Container filtered by availability
      */
     public List<Container> getAllAvailableContainers(LocalDateTime timestamp) {
-        return containers.stream().filter(c -> c.isAvailable(timestamp)).collect(Collectors.toList());
+        LinkedList<Container> output = new LinkedList<Container>();
+
+        for (Container c : containers) {
+            if (c.isAvailable(timestamp)) {
+                output.add(c);
+            }
+        }
+        return output;
+
     }
 
     /**
@@ -87,26 +92,38 @@ public class LogisticsCompany extends User {
         containers.add(container);
     }
 
-    /**
-     * Filter method for client set
-     * 
-     * @param p Search criteria
-     * @return set of clients that meet filter requirements
-     */
-    private Set<Client> applyFilter(Predicate<Client> p) {
-        return clients.stream().filter(p).collect(Collectors.toSet());
-    }
-
     public Set<Client> searchByName(String name) {
-        return applyFilter(c -> c.getName().equals(name));
+        Set<Client> output = new HashSet<Client>();
+
+        for (Client c : clients) {
+            if (c.getName().equals(name)) {
+                output.add(c);
+            }
+        }
+        return output;
+
     }
 
     public Set<Client> searchByEmail(String email) {
-        return applyFilter(c -> c.getEmail().equals(email));
+        Set<Client> output = new HashSet<Client>();
+
+        for (Client c : clients) {
+            if (c.getEmail().equals(email)) {
+                output.add(c);
+            }
+        }
+        return output;
     }
 
     public Set<Client> searchByHashKey(String hashKey) {
-        return applyFilter(c -> c.getPassword().equals(hashKey));
+        Set<Client> output = new HashSet<Client>();
+
+        for (Client c : clients) {
+            if (c.getPassword().equals(hashKey)) {
+                output.add(c);
+            }
+        }
+        return output;
     }
 
     public boolean companyLogInStatus(String email, String password) throws WrongInputException {
@@ -127,8 +144,14 @@ public class LogisticsCompany extends User {
         if (emails.isEmpty()) {
             return false;
         } else {
-            Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
-                    .collect(Collectors.toSet());
+            Set<Client> passed = new HashSet<Client>();
+
+            for (Client c : emails) {
+                if (c.getPassword().equals(hashKey)) {
+                    passed.add(c);
+                }
+            }
+
             if (passed.isEmpty()) {
                 return false;
             } else {
@@ -257,7 +280,7 @@ public class LogisticsCompany extends User {
 
     public Set<Client> viewCompanyData(boolean loggedIn, String email1, String email2) {
         if ((email1.equals(email2)) && loggedIn) {
-                return getClients();
+            return getClients();
         } else {
             return null;
         }

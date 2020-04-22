@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import rcm.Container;
 import rcm.LogisticsCompany;
+import rcm.Journey;
+import rcm.ContainerStatus;
 
 public interface Repository {
 /*

@@ -1,12 +1,10 @@
 package rcm;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -14,48 +12,66 @@ import javax.persistence.OneToMany;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-
 @Entity
-@DiscriminatorValue("C")
 public class Client extends User {
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Journey> journeyList;
     @ManyToOne
     private LogisticsCompany company;
 
-     
-    private Client()
-    {
+    private Client() {
         super();
     }
-        public Client(String name, String address, String refPerson, String email, String password)
-                throws WrongInputException{
-    
+
+    public Client(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
 
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
-        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT); 
+        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
     }
 
     public void assignCompany(LogisticsCompany company) {
         this.company = company;
-        }
+    }
 
     public void addJourney(Journey journey) {
         journeyList.add(journey);
     }
 
     public List<Journey> searchByDestination(String destination) {
-        return journeyList.stream().filter(j -> j.getDestinationPort().equals(destination))
-                .collect(Collectors.toList());
+
+        LinkedList<Journey> output = new LinkedList<Journey>();
+
+        for (Journey j : journeyList) {
+            if (j.getDestinationPort().equals(destination)) {
+                output.add(j);
+            }
+        }
+        return output;
+
     }
 
     public List<Journey> searchByOrigin(String origin) {
-        return journeyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
+        LinkedList<Journey> output = new LinkedList<Journey>();
+
+        for (Journey j : journeyList) {
+            if (j.getOriginPort().equals(origin)) {
+                output.add(j);
+            }
+        }
+        return output;
     }
 
     public List<Journey> searchByContent(String content) {
-        return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
+LinkedList<Journey> output = new LinkedList<Journey>();
+        
+        for (Journey j : journeyList) {
+            if(j.getContent().equals(content)) {
+                output.add(j);
+            }
+        }
+        return output;
     }
 
     public List<Journey> viewClientData(boolean loggedIn, String email1, String email2, boolean access) {
@@ -71,7 +87,6 @@ public class Client extends User {
             return null;
         }
     }
-
 
     /**
      * Requests the history of container statuses from journey
@@ -96,8 +111,8 @@ public class Client extends User {
      * @param timestamp       time stamp of the journey start
      * @return Response.SUCCESS for journey created and added to journeyList
      *         JOURNEY_NOT_STARTED for failing to start journey. The journey is
-     *         added to the journeyList. 
-     *         JOURNEY_NOT_CREATED for failing to create journey
+     *         added to the journeyList. JOURNEY_NOT_CREATED for failing to create
+     *         journey
      * @throws SQLException
      * @implNote This method only works if the client is assigned to a company
      */
