@@ -9,6 +9,9 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class ContainerStatus{
+    
+    @Id
+    private LocalDateTime timestamp;
 
     private double temperature;
 
@@ -18,11 +21,16 @@ public class ContainerStatus{
     @ManyToOne
     private Journey journey;
     
-    @Id
-    private LocalDateTime timestamp;
+
     
     private String location;
-
+    
+    private ContainerStatus()
+    {
+    }
+    
+    
+    
 
     /**
      * 
@@ -45,11 +53,6 @@ public class ContainerStatus{
      *                    time
      * 
      */
-    
-    private ContainerStatus()
-    {
-    }
-    
     public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure, String location) {
 
  
@@ -62,6 +65,7 @@ public class ContainerStatus{
         this.atmPressure = atmPressure;
         
         this.location = location;
+        
 
     }
     /**

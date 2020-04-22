@@ -10,12 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 @Entity
-public class Journey implements Comparable<Journey> {
+public class Journey {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
@@ -23,28 +22,25 @@ public class Journey implements Comparable<Journey> {
     private boolean ended = false;
     private LocalDateTime startTimestamp;
     private LocalDateTime endTimestamp;
-    @Column
     private String originPort;
-    @Column
     private String destinationPort;
-    @Column
     private String content;
     
     @ManyToOne
     private Container container;
-   @ManyToOne
-    
+    @ManyToOne
     private Client client;
     
     @OneToMany(cascade=CascadeType.ALL)
-    
     private List<ContainerStatus> history;
     
 
     
-    public Journey()
+    private Journey()
     {
     }
+    
+    
     /**
      * Journey constructor
      * 
@@ -256,9 +252,9 @@ public class Journey implements Comparable<Journey> {
      * @implNote Since the Journey lists should be able to be sorted by start time
      *           stamp.
      */
-    @Override
-    public int compareTo(Journey o) {
-        return startTimestamp.compareTo(o.getStartTimestamp());
-    }
+  //  @Override
+   // public int compareTo(Journey o) {
+    //    return startTimestamp.compareTo(o.getStartTimestamp());
+   // }
 
 }

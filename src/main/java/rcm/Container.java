@@ -21,8 +21,7 @@ public class Container {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private int id;
     
-    //@ManyToOne
-    @Transient
+    @ManyToOne
     private LogisticsCompany company;
     
     @OneToMany
@@ -32,8 +31,6 @@ public class Container {
     
     public Container()
     {
-        id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
-        journeyList = new LinkedList<Journey>();
         
     }
     /**
@@ -44,7 +41,7 @@ public class Container {
      */
     public Container(LogisticsCompany company) {
        id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
-        this.company = company;
+       this.company = company;
        journeyList = new LinkedList<Journey>();
     }
     
@@ -77,7 +74,7 @@ public class Container {
         if (journeyList.isEmpty()) {
             return true;
         } else {
-            Collections.sort(journeyList);
+           // Collections.sort(journeyList);
             Journey lastJourney = journeyList.get(journeyList.size() - 1);
             return lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
         }
