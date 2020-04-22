@@ -3,42 +3,54 @@ package rcm.persistency;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import org.junit.Test;
 
+import rcm.Client;
 import rcm.Container;
 import rcm.LogisticsCompany;
+import rcm.WrongInputException;
 import rcm.Journey;
 import rcm.ContainerStatus;
 import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
 
 public class TestDatabaseAccess {
-	
-	@Test
-	public void testDatabase() throws IOException {
-        /*
-         * Repository db = new SqliteRepository(); db.clearDatabase(); // Remove all
-         * users from the database to get a fresh database for testing LogisticsCompany
-         * user = new LogisticsCompany("Maersk","linde alle","Peter",
-         * "kjh@ldhjf.cz","kjh"); db.createUser(user); db = new SqliteRepository();
-         * LogisticsCompany dbUser = db.readUser(user.getId());
-         * assertEquals(user.getId(),dbUser.getId());
-         * assertEquals(user.getName(),dbUser.getName());
-         * assertEquals(user.getEmail(),dbUser.getEmail());
-         */
-	    
-	       Repository db = new SqliteRepository();
-	       db.clearDatabase(); // Remove all users from the database to get a fresh database for testing
-	       //Container user = new Container();
-	       //Container user2 = new Container();
-	       //db.createContainer(user);
-	       //db.createContainer(user2);
-	       db = new SqliteRepository();
-	       //Container dbUser = db.readContainer(user.getId());
-	       //Container dbUser2 = db.readContainer(user2.getId());
-	       //assertEquals(user.getId(),dbUser.getId());
-	       //assertEquals(user2.getId(),dbUser2.getId());
-	}
+
+    @Test
+    public void testDatabase() throws IOException, WrongInputException {
+
+        Repository db = new SqliteRepository();
+        db.clearDatabase(); // Remove all users from the database to get a fresh database for testing
+        LogisticsCompany lc1 = new LogisticsCompany("Maersk", "Linde Alle", "Peter", "peter@maersk.dk", "Peter12345");
+        Container c1 = new Container(lc1);
+        Client cl1 = new Client("DTU", "Linde Alle 2", "Tom", "tom@dtu.dk", "Tom123456");
+        Journey j1 = new Journey("Copenhagen", "New York", "robots", cl1);
+        LocalDateTime timestamp = LocalDateTime.of(2020, 4, 22, 15, 0);
+        ContainerStatus cs1 = new ContainerStatus(timestamp, 35.0, 20.0, 101.0, "Copenhagen");
+
+        db.createLogisticsCompany(lc1);
+        db.createContainer(c1);
+        db.createClient(cl1);
+        db.createJourney(j1);
+        db.createContainerStatus(cs1);
+
+        db = new SqliteRepository();
+
+        Container dbUser1 = db.readContainer(c1.getId());
+        Client dbUser2 = db.readClient(cl1.getId());
+        LogisticsCompany dbUser3 = db.readLogisticsCompany(lc1.getId());
+        Journey dbUser4 = db.readJourney(j1.getID());
+
+        assertEquals("Maersk", dbUser3.getName());
+
+        assertEquals("DTU", dbUser2.getName());
+
+        assertEquals(c1.getId(), dbUser1.getId());
+
+        assertEquals("robots", dbUser4.getContent());
+
+    }
 
 }

@@ -1,13 +1,16 @@
 package rcm;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -40,38 +43,16 @@ public class Client extends User {
     }
 
     public List<Journey> searchByDestination(String destination) {
-
-        LinkedList<Journey> output = new LinkedList<Journey>();
-
-        for (Journey j : journeyList) {
-            if (j.getDestinationPort().equals(destination)) {
-                output.add(j);
-            }
-        }
-        return output;
-
+        return journeyList.stream().filter(j -> j.getDestinationPort().equals(destination))
+                .collect(Collectors.toList());
     }
 
     public List<Journey> searchByOrigin(String origin) {
-        LinkedList<Journey> output = new LinkedList<Journey>();
-
-        for (Journey j : journeyList) {
-            if (j.getOriginPort().equals(origin)) {
-                output.add(j);
-            }
-        }
-        return output;
+        return journeyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
     }
 
     public List<Journey> searchByContent(String content) {
-LinkedList<Journey> output = new LinkedList<Journey>();
-        
-        for (Journey j : journeyList) {
-            if(j.getContent().equals(content)) {
-                output.add(j);
-            }
-        }
-        return output;
+        return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
     }
 
     public List<Journey> viewClientData(boolean loggedIn, String email1, String email2, boolean access) {

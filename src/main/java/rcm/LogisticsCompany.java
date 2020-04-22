@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
@@ -91,39 +93,26 @@ public class LogisticsCompany extends User {
     public void addContainer(Container container) {
         containers.add(container);
     }
+    
+    
+    private Set<Client> applyFilter(Predicate<Client> p) {
+        return clients.stream().filter(p).collect(Collectors.toSet());
+    }
 
     public Set<Client> searchByName(String name) {
-        Set<Client> output = new HashSet<Client>();
-
-        for (Client c : clients) {
-            if (c.getName().equals(name)) {
-                output.add(c);
-            }
-        }
-        return output;
-
+        return applyFilter(c -> c.getName().equals(name));
     }
+
+ 
 
     public Set<Client> searchByEmail(String email) {
-        Set<Client> output = new HashSet<Client>();
-
-        for (Client c : clients) {
-            if (c.getEmail().equals(email)) {
-                output.add(c);
-            }
-        }
-        return output;
+        return applyFilter(c -> c.getEmail().equals(email));
     }
 
-    public Set<Client> searchByHashKey(String hashKey) {
-        Set<Client> output = new HashSet<Client>();
+ 
 
-        for (Client c : clients) {
-            if (c.getPassword().equals(hashKey)) {
-                output.add(c);
-            }
-        }
-        return output;
+    public Set<Client> searchByHashKey(String hashKey) {
+        return applyFilter(c -> c.getPassword().equals(hashKey));
     }
 
     public boolean companyLogInStatus(String email, String password) throws WrongInputException {
@@ -144,14 +133,8 @@ public class LogisticsCompany extends User {
         if (emails.isEmpty()) {
             return false;
         } else {
-            Set<Client> passed = new HashSet<Client>();
-
-            for (Client c : emails) {
-                if (c.getPassword().equals(hashKey)) {
-                    passed.add(c);
-                }
-            }
-
+            Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
+                    .collect(Collectors.toSet());
             if (passed.isEmpty()) {
                 return false;
             } else {

@@ -11,28 +11,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
+
 @Entity
 public class Container {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    
+
     @ManyToOne
     private LogisticsCompany company;
-    
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Journey> journeyList;
 
-    
-    
-    public Container()
-    {
-        
+    public Container() {
+
     }
+
     /**
      * Constructor for container
      * 
@@ -40,11 +40,11 @@ public class Container {
      * @implNote should be only called from Logistics Company class
      */
     public Container(LogisticsCompany company) {
-       id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
-       this.company = company;
-       journeyList = new LinkedList<Journey>();
+        id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
+        this.company = company;
+        journeyList = new LinkedList<Journey>();
     }
-    
+
     /**
      * Getter for company owning the container
      * 
@@ -69,17 +69,16 @@ public class Container {
      * @param timestamp LocalDateTime of the time stamp to be checked
      * @return boolean of whether the container is available
      */
-    
+
     public boolean isAvailable(LocalDateTime timestamp) {
         if (journeyList.isEmpty()) {
             return true;
         } else {
-           // Collections.sort(journeyList);
+            Collections.sort(journeyList);
             Journey lastJourney = journeyList.get(journeyList.size() - 1);
             return lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
         }
     }
-    
 
     /**
      * Adds a journey to the journey list of the container

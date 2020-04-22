@@ -8,41 +8,46 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
+
 @Entity
 public class Journey implements Comparable<Journey> {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column
     private boolean started = false;
+    @Column
     private boolean ended = false;
+    @Column(nullable = true)
     private LocalDateTime startTimestamp;
+    @Column(nullable = true)
     private LocalDateTime endTimestamp;
+    @Column
     private String originPort;
+    @Column
     private String destinationPort;
+    @Column
     private String content;
-    
+
     @ManyToOne
     private Container container;
     @ManyToOne
     private Client client;
-    
-    @OneToMany(cascade=CascadeType.ALL)
-    private List<ContainerStatus> history;
-    
 
-    
-    private Journey()
-    {
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ContainerStatus> history;
+
+    private Journey() {
         history = new LinkedList<ContainerStatus>();
         id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
-    
-    
+
     /**
      * Journey constructor
      * 
@@ -91,7 +96,6 @@ public class Journey implements Comparable<Journey> {
         return history;
     }
 
-
     public List<ContainerStatus> getStatus(Client client1) {
         return (client1.equals(client)) ? history : null;
     }
@@ -106,8 +110,6 @@ public class Journey implements Comparable<Journey> {
     public boolean containsStatus(ContainerStatus status) {
         return history.contains(status);
     }
-    
-  
 
     public String getOriginPort() {
         return originPort;
@@ -164,7 +166,6 @@ public class Journey implements Comparable<Journey> {
         history.add(status);
         status.setJourney(this);
     }
-   
 
     /**
      * Getter for the started flag
@@ -244,11 +245,8 @@ public class Journey implements Comparable<Journey> {
      * @return Boolean of whether the time stamp can be used as an ending time stamp
      */
     public boolean isValidEndTimestamp(LocalDateTime timestamp) {
-        boolean output = true;
-        for (ContainerStatus c: history) {
-            output = output && c.getTimestamp().isBefore(timestamp);
-        }
-        return output && startTimestamp.isBefore(timestamp);
+        return history.stream().allMatch(s -> s.getTimestamp().isBefore(timestamp))
+                && startTimestamp.isBefore(timestamp);
     }
 
     /**
@@ -257,8 +255,8 @@ public class Journey implements Comparable<Journey> {
      * @implNote Since the Journey lists should be able to be sorted by start time
      *           stamp.
      */
-   @Override
-   public int compareTo(Journey o) {
+    @Override
+    public int compareTo(Journey o) {
         return startTimestamp.compareTo(o.getStartTimestamp());
     }
 
