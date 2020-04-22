@@ -16,6 +16,7 @@ class ClientsTopBar extends BaseTopBar {
     public JPanel buildLeftSide() {
         JPanel leftSide = new JPanel(new FlowLayout());
         
+        // New Client button
         JButton newClient = new JButton("New Client");
         newClient.setPreferredSize(new Dimension(150, 30));
         newClient.addActionListener(new ActionListener() {

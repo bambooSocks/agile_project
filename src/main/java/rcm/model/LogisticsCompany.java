@@ -55,15 +55,6 @@ public class LogisticsCompany extends User {
         }
     }
 
-    /**
-     * Getter for the client set of a logistics company
-     * 
-     * @return Set of all clients of a logistics company
-     */
-    public Set<Client> getClients() {
-        return clients;
-    }
-
     public Response updateLocation(Container container, String newLocation) {
         if (this.containers.contains(container)) {
             container.setLocation(newLocation);
