@@ -96,7 +96,6 @@ public class M2 {
     public void an_id_is_created() {
         assertEquals(Response.SUCCESS, response);
         assertTrue(!holder.getFirstClient().getJourneyList().isEmpty());
-
     }
 
     @Then("the first journey is listed")

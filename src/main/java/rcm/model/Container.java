@@ -1,11 +1,3 @@
-package rcm.model;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,22 +8,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
-
 @Entity
-public class Container {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
     @ManyToOne
-    private LogisticsCompany company;
-
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Journey> journeyList;
+package rcm.model;
 
-    public Container() {
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.LinkedList;
 
-    }
+public class Container {
+    private int id;
+    private LogisticsCompany company;
+    private String location;
+    private LinkedList<Journey> journeyList;
 
     /**
      * Constructor for container
@@ -54,13 +46,13 @@ public class Container {
         return company;
     }
 
-    /**
-     * Getter for Container ID
-     * 
-     * @return Integer denoting the Container ID
-     */
-    public int getId() {
-        return id;
+    public void setLocation(String newLocation) {
+        location = newLocation;
+        
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     /**
@@ -69,13 +61,12 @@ public class Container {
      * @param timestamp LocalDateTime of the time stamp to be checked
      * @return boolean of whether the container is available
      */
-
     public boolean isAvailable(LocalDateTime timestamp) {
         if (journeyList.isEmpty()) {
             return true;
         } else {
             Collections.sort(journeyList);
-            Journey lastJourney = journeyList.get(journeyList.size() - 1);
+            Journey lastJourney = journeyList.getLast();
             return lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
         }
     }
@@ -94,8 +85,13 @@ public class Container {
      * 
      * @return LinkedList of Journey of the journey list
      */
-    public List<Journey> getJourneyList() {
+    public LinkedList<Journey> getJourneyList() {
         return journeyList;
     }
 
 }
+
+import javax.persistence.CascadeType;
+    public Container() {
+
+    }

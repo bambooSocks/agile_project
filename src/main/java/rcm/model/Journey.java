@@ -1,52 +1,23 @@
 package rcm.model;
 
 import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-@Entity
 public class Journey implements Comparable<Journey> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column
     private boolean started = false;
-    @Column
     private boolean ended = false;
-    @Column(nullable = true)
     private LocalDateTime startTimestamp;
-    @Column(nullable = true)
     private LocalDateTime endTimestamp;
-    @Column
     private String originPort;
-    @Column
     private String destinationPort;
-    @Column
     private String content;
 
-    @ManyToOne
     private Container container;
-    @ManyToOne
     private Client client;
 
-    @OneToMany(cascade = CascadeType.ALL)
     private List<ContainerStatus> history;
-
-    private Journey() {
-        history = new LinkedList<ContainerStatus>();
-        id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
-    }
 
     /**
      * Journey constructor
@@ -68,15 +39,6 @@ public class Journey implements Comparable<Journey> {
     }
 
     /**
-     * Getter for ID
-     * 
-     * @return Integer of the journey ID
-     */
-    public int getID() {
-        return id;
-    }
-
-    /**
      * Getter for the company that the journey is associated with
      * 
      * @return null if the container is missing otherwise the LogisticsCompany that
@@ -94,10 +56,6 @@ public class Journey implements Comparable<Journey> {
      */
     public List<ContainerStatus> getStatus() {
         return history;
-    }
-
-    public List<ContainerStatus> getStatus(Client client1) {
-        return (client1.equals(client)) ? history : null;
     }
 
     /**
@@ -164,7 +122,6 @@ public class Journey implements Comparable<Journey> {
      */
     public void addStatus(ContainerStatus status) {
         history.add(status);
-        status.setJourney(this);
     }
 
     /**
@@ -261,3 +218,30 @@ public class Journey implements Comparable<Journey> {
     }
 
 }
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+@Entity
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    @Column
+    @Column(nullable = true)
+    @Column(nullable = true)
+    @Column
+    @Column
+    @Column
+    @ManyToOne
+    @ManyToOne
+    @OneToMany(cascade = CascadeType.ALL)
+    private Journey() {
+        history = new LinkedList<ContainerStatus>();
+        id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
+    }

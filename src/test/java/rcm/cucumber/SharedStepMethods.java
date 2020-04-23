@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import io.cucumber.java.en.Given;
 import rcm.model.Client;
 import rcm.model.LogisticsCompany;
-import rcm.model.Password;
+import rcm.model.User;
 import rcm.model.WrongInputException;
 
 public class SharedStepMethods {
@@ -23,14 +23,14 @@ public class SharedStepMethods {
             String refPerson, String email, String password) {
         try {
             holder.setFirstCompany(new LogisticsCompany(name, address, refPerson, email, password));
+            assertEquals(name, holder.getFirstCompany().getName());
+            assertEquals(address, holder.getFirstCompany().getAddress());
+            assertEquals(refPerson, holder.getFirstCompany().getRefPerson());
+            assertEquals(email, holder.getFirstCompany().getEmail());
+            assertEquals(User.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
-        assertEquals(name, holder.getFirstCompany().getName());
-        assertEquals(address, holder.getFirstCompany().getAddress());
-        assertEquals(refPerson, holder.getFirstCompany().getRefPerson());
-        assertEquals(email, holder.getFirstCompany().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
     }
 
     @Given("a second logistics company {string} with address {string} reference person {string} email {string} and password {string}")
@@ -38,14 +38,14 @@ public class SharedStepMethods {
             String refPerson, String email, String password) {
         try {
             holder.setSecondCompany(new LogisticsCompany(name, address, refPerson, email, password));
+            assertEquals(name, holder.getSecondCompany().getName());
+            assertEquals(address, holder.getSecondCompany().getAddress());
+            assertEquals(refPerson, holder.getSecondCompany().getRefPerson());
+            assertEquals(email, holder.getSecondCompany().getEmail());
+            assertEquals(User.SHA1_Hasher(password), holder.getSecondCompany().getPassword());
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
-        assertEquals(name, holder.getSecondCompany().getName());
-        assertEquals(address, holder.getSecondCompany().getAddress());
-        assertEquals(refPerson, holder.getSecondCompany().getRefPerson());
-        assertEquals(email, holder.getSecondCompany().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getSecondCompany().getPassword());
     }
 
     @Given("a first client {string} with address {string} reference person {string} email {string} and password {string}")
@@ -57,7 +57,7 @@ public class SharedStepMethods {
         assertEquals(address, holder.getFirstClient().getAddress());
         assertEquals(refPerson, holder.getFirstClient().getRefPerson());
         assertEquals(email, holder.getFirstClient().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getFirstClient().getPassword());
+        assertEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
     @Given("a second client {string} with address {string} reference person {string} email {string} and password {string}")
@@ -69,7 +69,7 @@ public class SharedStepMethods {
         assertEquals(address, holder.getSecondClient().getAddress());
         assertEquals(refPerson, holder.getSecondClient().getRefPerson());
         assertEquals(email, holder.getSecondClient().getEmail());
-        assertEquals(Password.SHA1_Hasher(password), holder.getSecondClient().getPassword());
+        assertEquals(User.SHA1_Hasher(password), holder.getSecondClient().getPassword());
     }
 
     @Given("a first journey of first client with origin port of {string} destination port of {string} and a content of {string}")
