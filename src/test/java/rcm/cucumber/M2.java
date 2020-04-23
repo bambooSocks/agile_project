@@ -11,10 +11,10 @@ import java.util.List;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.ContainerStatus;
-import rcm.Journey;
-import rcm.LogisticsCompany;
-import rcm.Response;
+import rcm.model.ContainerStatus;
+import rcm.model.Journey;
+import rcm.model.LogisticsCompany;
+import rcm.model.Response;
 
 public class M2 {
 

@@ -2,11 +2,11 @@ package rcm.repository;
 
 import java.io.IOException;
 
-import rcm.Client;
-import rcm.Container;
-import rcm.LogisticsCompany;
-import rcm.Journey;
-import rcm.ContainerStatus;
+import rcm.model.Client;
+import rcm.model.Container;
+import rcm.model.ContainerStatus;
+import rcm.model.Journey;
+import rcm.model.LogisticsCompany;
 
 public interface Repository {
     

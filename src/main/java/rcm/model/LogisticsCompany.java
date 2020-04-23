@@ -1,4 +1,4 @@
-package rcm;
+package rcm.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

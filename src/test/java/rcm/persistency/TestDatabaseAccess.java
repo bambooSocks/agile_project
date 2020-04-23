@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import rcm.Client;
-import rcm.Container;
-import rcm.LogisticsCompany;
-import rcm.WrongInputException;
-import rcm.Journey;
-import rcm.ContainerStatus;
+import rcm.model.Client;
+import rcm.model.Container;
+import rcm.model.ContainerStatus;
+import rcm.model.Journey;
+import rcm.model.LogisticsCompany;
+import rcm.model.WrongInputException;
 import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
 
