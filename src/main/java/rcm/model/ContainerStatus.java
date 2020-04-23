@@ -3,10 +3,8 @@ package rcm.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -20,11 +18,13 @@ public class ContainerStatus {
     private double humidity;
     @Column
     private double atmPressure;
+    @Id
     @ManyToOne
     private Journey journey;
     @Column
     private String location;
 
+    @SuppressWarnings("unused")
     private ContainerStatus() {
 
     }

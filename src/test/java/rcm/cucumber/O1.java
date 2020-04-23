@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import io.cucumber.java.en.Given;
@@ -120,7 +121,7 @@ public class O1 {
 
     @Then("the logistics company successfully adds a container status with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_successfully_adds_a_container_status_with_a_timestamp(Integer hours,
-            Integer minutes, Integer day, Integer month, Integer year) {
+            Integer minutes, Integer day, Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
         assertTrue(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
@@ -128,7 +129,7 @@ public class O1 {
 
     @Then("the logistics company fails to add a container status with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_fails_to_add_a_container_status_with_a_timestamp(Integer hours, Integer minutes,
-            Integer day, Integer month, Integer year) {
+            Integer day, Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
         assertFalse(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class M3 {
     @Given("an initial container status in the journey of {double} degrees, {double} % humidity and {double} bar with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void an_initial_container_status_in_the_journey_of_degrees_humidity_and_bar_with_a_timestamp(
             Double temperature, Double humidity, Double airPressure, Integer hours, Integer minutes, Integer day,
-            Integer month, Integer year) {
+            Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         status = new ContainerStatus(timestamp, temperature, humidity, airPressure, "New York");
         LogisticsCompany company = holder.getFirstJourney().getCompany();
@@ -46,12 +47,12 @@ public class M3 {
     }
 
     @When("the first logistics company enters the given container status")
-    public void the_first_logistics_company_enters_the_given_container_status() {
+    public void the_first_logistics_company_enters_the_given_container_status() throws IOException {
         successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
     }
 
     @When("the second logistics company enters the given container status")
-    public void the_second_logistics_company_enters_the_given_container_status() {
+    public void the_second_logistics_company_enters_the_given_container_status() throws IOException {
         successfulEntry = holder.getSecondCompany().enterStatus(status, holder.getFirstJourney());
     }
 

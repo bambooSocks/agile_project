@@ -33,7 +33,6 @@ public class Container {
      * @implNote should be only called from Logistics Company class
      */
     public Container(LogisticsCompany company) {
-        id = IdGenerator.getInstance().getId(GroupIdType.CONTAINER);
         this.company = company;
         journeyList = new LinkedList<Journey>();
     }

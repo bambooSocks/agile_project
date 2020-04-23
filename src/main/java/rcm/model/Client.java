@@ -2,6 +2,7 @@ package rcm.model;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
@@ -17,6 +18,7 @@ public class Client extends User {
     @ManyToOne
     private LogisticsCompany company;
 
+    @SuppressWarnings("unused")
     private Client() {
         super();
     }
@@ -35,7 +37,6 @@ public class Client extends User {
             throws WrongInputException {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
-        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
     }
 
     /**
@@ -111,10 +112,6 @@ public class Client extends User {
         }
     }
 
-    public boolean closeButton() {
-        // TODO Auto-generated method stub
-        return true;
-    }
 
     /**
      * Requests the history of container statuses from journey
@@ -144,7 +141,13 @@ public class Client extends User {
      * @implNote This method only works if the client is assigned to a company
      */
     public Response requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) {
-        Journey journey = company.createJourney(this, originPort, destinationPort, content);
+        Journey journey;
+        try {
+            journey = company.createJourney(this, originPort, destinationPort, content);
+        } catch (IOException e) {
+            return Response.DATABASE_ERROR;
+
+        }
         if (journey != null) {
             if (company.startJourney(journey, timestamp)) {
                 return Response.SUCCESS;

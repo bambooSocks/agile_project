@@ -43,9 +43,9 @@ public class Journey implements Comparable<Journey> {
     @OneToMany(cascade = CascadeType.ALL)
     private List<ContainerStatus> history;
 
+    @SuppressWarnings("unused")
     private Journey() {
         history = new LinkedList<ContainerStatus>();
-        id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
 
     /**
@@ -64,7 +64,6 @@ public class Journey implements Comparable<Journey> {
         this.content = content;
         this.client = client;
         history = new LinkedList<ContainerStatus>();
-        id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
 
     /**

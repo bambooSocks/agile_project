@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import rcm.repository.Repository;
 
 
 @Entity
@@ -19,7 +23,10 @@ public class LogisticsCompany extends User {
     List<Container> containers;
     @OneToMany(cascade = CascadeType.ALL)
     Set<Client> clients;
-
+    
+    @Transient
+    Repository db;
+    @SuppressWarnings("unused")
     private LogisticsCompany() {
         super();
     }
@@ -33,13 +40,15 @@ public class LogisticsCompany extends User {
      * @param email     Email of the logistics company
      * @param password  Password of the logistics company
      * @throws WrongInputException
+     * @throws IOException 
      */
-    public LogisticsCompany(String name, String address, String refPerson, String email, String password)
-            throws WrongInputException {
+    public LogisticsCompany(Repository db, String name, String address, String refPerson, String email, String password)
+            throws WrongInputException, IOException {
         super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
         clients = new HashSet<Client>();
-        id = IdGenerator.getInstance().getId(GroupIdType.COMPANY);
+        this.db = db;
+        db.createLogisticsCompany(this);
     }
 
     /**
@@ -188,12 +197,14 @@ public class LogisticsCompany extends User {
      * @param email     Email of the client
      * @param password  Password of the client
      * @return created client or null if client is not created
+     * @throws IOException 
      */
-    public Client createClient(String name, String address, String refPerson, String email, String password) {
+    public Client createClient(String name, String address, String refPerson, String email, String password) throws IOException {
         try {
             Client c = new Client(name, address, refPerson, email, password);
             addClient(c);
             c.assignCompany(this);
+            db.createClient(c);
             return c;
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
@@ -220,11 +231,13 @@ public class LogisticsCompany extends User {
      *                        journey
      * @return null if the client is not of the logistics company creating the
      *         journey
+     * @throws IOException 
      */
-    public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
+    public Journey createJourney(Client client, String originPort, String destinationPort, String content) throws IOException {
         if (clients.contains(client)) {
             Journey journey = new Journey(originPort, destinationPort, content, client);
             client.addJourney(journey);
+            db.createJourney(journey);
             return journey;
         } else {
             return null;
@@ -273,10 +286,12 @@ public class LogisticsCompany extends User {
      * Creates a container and links it together with the company
      * 
      * @return A created container
+     * @throws IOException 
      */
-    public Container createContainer() {
+    public Container createContainer() throws IOException {
         Container container = new Container(this);
         addContainer(container);
+        db.createContainer(container);
         return container;
     }
 
@@ -286,11 +301,13 @@ public class LogisticsCompany extends User {
      * @param status  The status to be entered
      * @param journey The journey that the status should be entered to
      * @return Boolean of whether the container status was entered successfully
+     * @throws IOException 
      */
-    public boolean enterStatus(ContainerStatus status, Journey journey) {
+    public boolean enterStatus(ContainerStatus status, Journey journey) throws IOException {
         if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
                 && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
             journey.addStatus(status);
+            db.createContainerStatus(status);
             return true;
         } else {
             return false;

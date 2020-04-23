@@ -2,9 +2,9 @@ package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +13,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.ContainerStatus;
 import rcm.model.Journey;
-import rcm.model.LogisticsCompany;
 import rcm.model.Response;
 
 public class M2 {
@@ -30,7 +29,7 @@ public class M2 {
     }
 
     @Given("the first logistics company has two available containers")
-    public void the_first_logistics_company_has_two_available_containers() {
+    public void the_first_logistics_company_has_two_available_containers() throws IOException {
         holder.getFirstCompany().createContainer();
         holder.getFirstCompany().createContainer();
     }
@@ -52,13 +51,13 @@ public class M2 {
     }
 
     @When("the first logistics company updates containers location")
-    public void the_first_logistics_company_updates_containers_location() {
+    public void the_first_logistics_company_updates_containers_location() throws IOException {
         successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
 
     }
 
     @When("the second logistics company updates containers location")
-    public void the_second_logistics_company_updates_containers_location() {
+    public void the_second_logistics_company_updates_containers_location() throws IOException {
         successfulEntry = holder.getSecondCompany().enterStatus(status, holder.getFirstJourney());
     }
 

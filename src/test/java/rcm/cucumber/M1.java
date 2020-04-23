@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Set;
 
 import io.cucumber.java.en.Then;
@@ -25,7 +26,7 @@ public class M1 {
     ////////////// M1:1////////////////////////////////////////////////
     @When("the company creates a first client {string} with address {string} reference person {string} email {string} and password {string}")
     public void the_company_creates_a_first_client_with_address_reference_person_email_and_password(String name,
-            String address, String refPerson, String email, String password) {
+            String address, String refPerson, String email, String password) throws IOException {
         Client client = holder.getFirstCompany().createClient(name, address, refPerson, email, password);
         holder.setFirstClient(client);
     }

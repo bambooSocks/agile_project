@@ -1,6 +1,7 @@
 package rcm.persistency;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -23,18 +24,23 @@ public class TestDatabaseAccess {
 
         Repository db = new SqliteRepository();
         db.clearDatabase(); // Remove all users from the database to get a fresh database for testing
-        LogisticsCompany lc1 = new LogisticsCompany("Maersk", "Linde Alle", "Peter", "peter@maersk.dk", "Peter12345");
-        Container c1 = new Container(lc1);
-        Client cl1 = new Client("DTU", "Linde Alle 2", "Tom", "tom@dtu.dk", "Tom123456");
-        Journey j1 = new Journey("Copenhagen", "New York", "robots", cl1);
+        LogisticsCompany lc1 = new LogisticsCompany(db,"Maersk", "Linde Alle", "Peter", "peter@maersk.dk", "Peter12345");
+        
+        Client cl1 = lc1.createClient("DTU", "Linde Alle 2", "Tom", "tom@dtu.dk", "Tom123456");
+        Container c1= lc1.createContainer();
+        Journey j1 = lc1.createJourney(cl1, "Copenhagen", "New York", "robots");
+        
+        
         LocalDateTime timestamp = LocalDateTime.of(2020, 4, 22, 15, 0);
         ContainerStatus cs1 = new ContainerStatus(timestamp, 35.0, 20.0, 101.0, "Copenhagen");
+        boolean success = lc1.enterStatus(cs1, j1);
 
-        db.createLogisticsCompany(lc1);
-        db.createContainer(c1);
-        db.createClient(cl1);
-        db.createJourney(j1);
-        db.createContainerStatus(cs1);
+        /*
+         * db.createLogisticsCompany(lc1);
+         * 
+         * db.createContainer(c1); db.createClient(cl1); db.createJourney(j1);
+         * db.createContainerStatus(cs1);
+         */
 
         db = new SqliteRepository();
 
@@ -50,6 +56,8 @@ public class TestDatabaseAccess {
         assertEquals(c1.getId(), dbUser1.getId());
 
         assertEquals("robots", dbUser4.getContent());
+        
+        assertTrue(success);
 
     }
 
