@@ -1,29 +1,30 @@
-import javax.persistence.Column;
+package rcm.model;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
-@Entity
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @ManyToOne
-    @OneToMany(cascade = CascadeType.ALL)
-package rcm.model;
-
+import javax.persistence.CascadeType;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
 
+@Entity
 public class Container {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @ManyToOne
     private LogisticsCompany company;
-    private String location;
+    @OneToMany(cascade = CascadeType.ALL)
     private LinkedList<Journey> journeyList;
+
+    public Container() {
+
+    }
 
     /**
      * Constructor for container
@@ -46,14 +47,6 @@ public class Container {
         return company;
     }
 
-    public void setLocation(String newLocation) {
-        location = newLocation;
-        
-    }
-
-    public String getLocation() {
-        return location;
-    }
 
     /**
      * Checks whether a container is available at given time
@@ -89,9 +82,8 @@ public class Container {
         return journeyList;
     }
 
-}
-
-import javax.persistence.CascadeType;
-    public Container() {
-
+    public int getId() {
+        return id;
     }
+
+}

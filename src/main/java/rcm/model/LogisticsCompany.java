@@ -7,11 +7,22 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+
+
+@Entity
 
 public class LogisticsCompany extends User {
-
+    @OneToMany(cascade = CascadeType.ALL)
     List<Container> containers;
+    @OneToMany(cascade = CascadeType.ALL)
     Set<Client> clients;
+
+    private LogisticsCompany() {
+        super();
+    }
 
     /**
      * Logistics Company constructor
@@ -64,15 +75,6 @@ public class LogisticsCompany extends User {
         return clients;
     }
 
-    public Response updateLocation(Container container, String newLocation) {
-        if (this.containers.contains(container)) {
-            container.setLocation(newLocation);
-
-            return Response.SUCCESS;
-        } else {
-            return Response.LOCATION_NOT_CHANGED;
-        }
-    }
 
     /**
      * Adds a container to the list of all containers associated with the company
@@ -295,22 +297,3 @@ public class LogisticsCompany extends User {
         }
     }
 }
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.PrimaryKeyJoinColumn;
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-@Entity
-    @OneToMany(cascade = CascadeType.ALL)
-    @OneToMany(cascade = CascadeType.ALL)
-    private LogisticsCompany() {
-        super();
-    }

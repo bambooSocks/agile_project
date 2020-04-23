@@ -5,10 +5,21 @@ import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class Client extends User {
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+@Entity
+public class Client extends User {
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Journey> journeyList;
+    @ManyToOne
     private LogisticsCompany company;
+
+    private Client() {
+        super();
+    }
 
     /**
      * Client constructor
@@ -154,18 +165,3 @@ public class Client extends User {
         return journeyList;
     }
 }
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import java.sql.SQLException;
-@Entity
-    @OneToMany(cascade = CascadeType.ALL)
-    @ManyToOne
-    private Client() {
-        super();
-    }

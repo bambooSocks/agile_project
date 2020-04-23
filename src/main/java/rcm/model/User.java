@@ -4,14 +4,30 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.persistence.Column;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
+
+
+@MappedSuperclass 
 public abstract class User {
 
+    
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     protected int id;
+    @Column
     protected String password;
+    @Column
     protected String name;
+    @Column
     protected String address;
+    @Column
     protected String refPerson;
+    @Column
     protected String email;
 
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
@@ -19,6 +35,9 @@ public abstract class User {
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
     private static final String regexAddress = "^[^�!@�$%^&*_+���#�������\\\\/<>?;|=]{2,50}$";
 
+    
+    protected User() {
+    }
     /**
      * User constructor
      * 
@@ -302,31 +321,3 @@ public abstract class User {
         return true;
     }
 }
-
-    }
-        
-    protected User() {
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.GenerationType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-@MappedSuperclass 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column
-    @Column
-    @Column
-    @Column
-    @Column
-    @Column

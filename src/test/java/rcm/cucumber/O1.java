@@ -20,12 +20,6 @@ public class O1 {
         this.holder = holder;
     }
 
-    @Given("the first journey has started at {int}:{int} {int}\\/{int}\\/{int}")
-    public void the_first_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month,
-            Integer year) {
-        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
-    }
 
     @Given("the first journey has ended at {int}:{int} {int}\\/{int}\\/{int}")
     public void the_first_journey_has_ended_at(Integer hours, Integer minutes, Integer day, Integer month,

@@ -41,7 +41,7 @@ public class TestDatabaseAccess {
         Container dbUser1 = db.readContainer(c1.getId());
         Client dbUser2 = db.readClient(cl1.getId());
         LogisticsCompany dbUser3 = db.readLogisticsCompany(lc1.getId());
-        Journey dbUser4 = db.readJourney(j1.getID());
+        Journey dbUser4 = db.readJourney(j1.getId());
 
         assertEquals("Maersk", dbUser3.getName());
 
