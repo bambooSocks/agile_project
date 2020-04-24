@@ -23,7 +23,6 @@ public class LogInView extends JPanel {
     private JLabel lbl1 = new JLabel("Email:");
     private JLabel lbl2 = new JLabel("Password:");
     private JButton b1 = new JButton("Login");
-    private JButton b2 = new JButton("Cancel");
 
     public LogInView(MainViewController mvc) {
 
@@ -51,8 +50,9 @@ public class LogInView extends JPanel {
         panel.add(passwordField, constraints);
 
         // Login Button
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 2;
+        constraints.gridwidth = 1;
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,17 +62,6 @@ public class LogInView extends JPanel {
         b1.addActionListener(mvc);
         b1.setActionCommand("CLIENT"); // or COMPANY depends on the user logged in
         panel.add(b1, constraints);
-
-        // Cancel Button
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        b2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
-            }
-        });
-        panel.add(b2, constraints);
 
 //         set border for the panel
         panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Login Panel"));

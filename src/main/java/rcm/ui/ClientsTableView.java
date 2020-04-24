@@ -27,6 +27,9 @@ class ClientsTopBar extends BaseTopBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("New Client clicked");
+                CreateClientView popup = new CreateClientView();
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
             }
         });
         leftSide.add(newClient);

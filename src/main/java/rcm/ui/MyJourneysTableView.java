@@ -27,6 +27,9 @@ class MyJourneysTopBar extends BaseTopBar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("New Journey clicked");
+                CreateJourneyView popup = new CreateJourneyView();
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
             }
         });
         leftSide.add(newJourney);
