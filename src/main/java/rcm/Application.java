@@ -8,5 +8,4 @@ public class Application {
         MainView mv = new MainView();
         mv.run();
     }
-
 }
