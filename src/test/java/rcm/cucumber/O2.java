@@ -16,8 +16,8 @@ public class O2 {
 
     private SharedObjectHolder holder;
     private boolean loggedIn = false;
-    private boolean access = false;
     private List<Journey> journeys;
+    private List<Journey> sharedJourneys;
 
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
@@ -55,7 +55,7 @@ public class O2 {
     public void the_company_is_logged_in() {
         assertTrue(loggedIn);
     }
-    
+
     @Then("the company is not logged in")
     public void the_company_is_not_logged_in() {
         assertFalse(loggedIn);
@@ -85,7 +85,7 @@ public class O2 {
 
     @When("client with email {string} tries to view containers and data of client with email {string}")
     public void client_with_email_tries_to_view_containers_and_data_of_client_with_email(String email1, String email2) {
-        journeys = holder.getFirstClient().viewClientData(loggedIn, email1, email2, access);
+        journeys = holder.getFirstClient().viewClientData(loggedIn, email1, email2);
     }
 
     @Then("the containers and data can be viewed")
@@ -100,14 +100,18 @@ public class O2 {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @When("first client with email {string} gives access to client with email {string}")
-    public void first_client_with_email_gives_access_to_client_with_email(String email1, String email2) {
-        access = true;
-        journeys = holder.getSecondClient().viewClientData(loggedIn, email1, email2, access);
+    @When("first client with email {string} shares with second client with email {string}")
+    public void first_client_with_email_shares_with_second_client_with_email(String email1, String email2) {
+        sharedJourneys = holder.getSecondClient().shareClientData(loggedIn, email1, email2);
     }
 
-    @Then("they can view the containers and data of the first client")
-    public void they_can_view_the_containers_and_data_of_the_first_client() {
-        assertEquals(holder.getSecondClient().getJourneyList(), journeys);
+    @Then("second client can view the journeys of the first client")
+    public void second_client_can_view_the_journeys_of_the_first_client() {
+        assertEquals(holder.getSecondClient().getSharedJourneyList(), sharedJourneys);
+    }
+
+    @Then("second client cannot view the journeys of the first client")
+    public void second_client_cannot_view_the_journeys_of_the_first_client() {
+        assertEquals(holder.getSecondClient().getSharedJourneyList(), sharedJourneys);
     }
 }
