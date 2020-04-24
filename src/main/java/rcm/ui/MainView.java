@@ -1,43 +1,11 @@
 package rcm.ui;
 
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-class MainViewController implements ActionListener {
+import rcm.Application;
 
-    private MainView mv;
-    
-    public MainViewController(MainView mv) {
-        this.mv = mv;
-    }
-    
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        switch (e.getActionCommand()) {
-        case "LOGOUT":
-            mv.getLogInView().setVisible(true);
-            mv.getClientView().setVisible(false);
-            mv.getCompanyView().setVisible(false);
-            break;
-        case "CLIENT":
-            mv.getLogInView().setVisible(false);
-            mv.getClientView().setVisible(true);
-            mv.getCompanyView().setVisible(false);
-            break;
-        case "COMPANY":
-            mv.getLogInView().setVisible(false);
-            mv.getClientView().setVisible(false);
-            mv.getCompanyView().setVisible(true);
-            break;
-        default:    
-        }
-        
-    }
-    
-}
 
 public class MainView extends JFrame {
 
@@ -46,22 +14,46 @@ public class MainView extends JFrame {
     LogInView lv;
     CompanyTabView co;
     ClientTabView cl;
-    MainViewController mvc;
     
-    public MainView() {
+    Application app;
+    
+    public MainView(Application app) {
         super("Remote Container Management");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        mvc = new MainViewController(this);
+        this.app = app;
+        app.connectMainView(this);
         
-        lv = new LogInView(mvc);
-        co = new CompanyTabView(mvc);
-        cl = new ClientTabView(mvc);
+        lv = new LogInView(app);
+        co = new CompanyTabView(app);
+        cl = new ClientTabView(app);
         
         setLayout(new CardLayout());
         add(lv);
         add(co);
         add(cl);
+    }
+    
+    public void switchCard(ViewCardType vc) {
+        switch (vc) {
+        case LOGIN:
+            lv.setVisible(true);
+            co.setVisible(false);
+            cl.setVisible(false);
+            break;
+        case COMPANY:
+            lv.setVisible(false);
+            co.setVisible(true);
+            cl.setVisible(false);
+            break;
+        case CLIENT:
+            lv.setVisible(false);
+            co.setVisible(false);
+            cl.setVisible(true);
+            break;
+        default:    
+        }
+        
     }
     
     public void run() {

@@ -2,10 +2,12 @@ package rcm.ui;
 
 import javax.swing.JPanel;
 
+import rcm.Application;
+
 class SharedJourneysTopBar extends BaseTopBar {
 
-    public SharedJourneysTopBar(MainViewController mvc) {
-        super(mvc);
+    public SharedJourneysTopBar(Application app) {
+        super(app);
     }
 
     private static final long serialVersionUID = -2448342061117967555L;
@@ -22,8 +24,8 @@ public class SharedJourneysTableView extends BaseTableView {
 
     private static final long serialVersionUID = 1156877669628672936L;
 
-    public SharedJourneysTableView(MainViewController mvc) {
-        super(new SharedJourneysTopBar(mvc));
+    public SharedJourneysTableView(Application app) {
+        super(new SharedJourneysTopBar(app));
     }
     
     @Override

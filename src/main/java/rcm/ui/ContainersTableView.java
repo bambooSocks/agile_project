@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import rcm.Application;
+
 class ContainersTopBar extends BaseTopBar {
     
-    public ContainersTopBar(MainViewController mvc) {
-        super(mvc);
+    public ContainersTopBar(Application app) {
+        super(app);
     }
 
     private static final long serialVersionUID = -6291570981725621141L;
@@ -40,8 +42,8 @@ public class ContainersTableView extends BaseTableView {
 
     private static final long serialVersionUID = -3009522281466857043L;
 
-    public ContainersTableView(MainViewController mvc) {
-        super(new ContainersTopBar(mvc));
+    public ContainersTableView(Application app) {
+        super(new ContainersTopBar(app));
     }
 
     @Override

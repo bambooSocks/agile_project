@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import rcm.Application;
+
 public class LogInView extends JPanel {
 
     private static final long serialVersionUID = -525974348663829648L;
@@ -24,7 +26,7 @@ public class LogInView extends JPanel {
     private JLabel lbl2 = new JLabel("Password:");
     private JButton b1 = new JButton("Login");
 
-    public LogInView(MainViewController mvc) {
+    public LogInView(Application app) {
 
         JPanel panel = new JPanel(new GridBagLayout());
         setPreferredSize(new Dimension(400, 200)); // (width, height)
@@ -56,11 +58,9 @@ public class LogInView extends JPanel {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Login clicked");
+                app.loginUser(emailField.getText(), passwordField.getPassword());
             }
         });
-        b1.addActionListener(mvc);
-        b1.setActionCommand("CLIENT"); // or COMPANY depends on the user logged in
         panel.add(b1, constraints);
 
 //         set border for the panel

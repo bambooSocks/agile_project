@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import rcm.Application;
+
 class ClientsTopBar extends BaseTopBar {
 
-    public ClientsTopBar(MainViewController mvc) {
-        super(mvc);
+    public ClientsTopBar(Application app) {
+        super(app);
     }
 
     private static final long serialVersionUID = -455443009885225672L;
@@ -43,8 +45,8 @@ public class ClientsTableView extends BaseTableView {
 
     private static final long serialVersionUID = -319420806707922265L;
 
-    public ClientsTableView(MainViewController mvc) {
-        super(new ClientsTopBar(mvc));
+    public ClientsTableView(Application app) {
+        super(new ClientsTopBar(app));
         
     }
 

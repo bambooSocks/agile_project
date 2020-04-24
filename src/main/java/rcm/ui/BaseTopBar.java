@@ -14,16 +14,18 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 
+import rcm.Application;
+
 public abstract class BaseTopBar extends JPanel {
 
     private static final long serialVersionUID = 8688699308325627639L;
 
-    private MainViewController mvc;
+    private Application app;
     
-    public BaseTopBar(MainViewController mvc) {
+    public BaseTopBar(Application app) {
         setLayout(new BorderLayout());
 
-        this.mvc = mvc;
+        this.app = app;
         
         add(buildRightSide(), BorderLayout.EAST);
         add(buildLeftSide(), BorderLayout.WEST);
@@ -77,10 +79,9 @@ public abstract class BaseTopBar extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Log out clicked");
+                app.switchMainViewTo(ViewCardType.LOGIN);
             }
         });
-        logOut.addActionListener(mvc);
-        logOut.setActionCommand("LOGOUT");
         popup.add(logOut);
 
         return popup;

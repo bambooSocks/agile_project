@@ -8,10 +8,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import rcm.Application;
+
 class MyJourneysTopBar extends BaseTopBar {
 
-    public MyJourneysTopBar(MainViewController mvc) {
-        super(mvc);
+    public MyJourneysTopBar(Application app) {
+        super(app);
     }
 
     private static final long serialVersionUID = -978144513412923606L;
@@ -44,8 +46,8 @@ public class MyJourneysTableView extends BaseTableView {
 
     private static final long serialVersionUID = -8487746616760043744L;
 
-    public MyJourneysTableView(MainViewController mvc) {
-        super(new MyJourneysTopBar(mvc));
+    public MyJourneysTableView(Application app) {
+        super(new MyJourneysTopBar(app));
     }
 
     @Override
