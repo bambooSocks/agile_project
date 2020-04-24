@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.junit.Test;
 
@@ -29,18 +30,13 @@ public class TestDatabaseAccess {
         Client cl1 = lc1.createClient("DTU", "Linde Alle 2", "Tom", "tom@dtu.dk", "Tom123456");
         Container c1= lc1.createContainer();
         Journey j1 = lc1.createJourney(cl1, "Copenhagen", "New York", "robots");
+        LocalDateTime timestamp = LocalDateTime.of(2019, 4, 22, 15, 0);
+        lc1.startJourney(j1, timestamp);
         
-        
-        LocalDateTime timestamp = LocalDateTime.of(2020, 4, 22, 15, 0);
-        ContainerStatus cs1 = new ContainerStatus(timestamp, 35.0, 20.0, 101.0, "Copenhagen");
-        boolean success = lc1.enterStatus(cs1, j1);
+        LocalDateTime timestamp2 = LocalDateTime.of(2020, 4, 22, 15, 0);
+        ContainerStatus cs1 = new ContainerStatus(timestamp2, 35.0, 20.0, 101.0, "Copenhagen");
 
-        /*
-         * db.createLogisticsCompany(lc1);
-         * 
-         * db.createContainer(c1); db.createClient(cl1); db.createJourney(j1);
-         * db.createContainerStatus(cs1);
-         */
+        boolean success = lc1.enterStatus(cs1, j1);
 
         db = new SqliteRepository();
 
@@ -48,6 +44,9 @@ public class TestDatabaseAccess {
         Client dbUser2 = db.readClient(cl1.getId());
         LogisticsCompany dbUser3 = db.readLogisticsCompany(lc1.getId());
         Journey dbUser4 = db.readJourney(j1.getId());
+        long mili = new Date().getTime();
+        ContainerStatus dbStatus = db.readContainerStatus(j1,timestamp2);
+        
 
         assertEquals("Maersk", dbUser3.getName());
 
@@ -56,6 +55,9 @@ public class TestDatabaseAccess {
         assertEquals(c1.getId(), dbUser1.getId());
 
         assertEquals("robots", dbUser4.getContent());
+        
+        assertEquals(35.0, dbStatus.getTemperature(),0.001);
+        
         
         assertTrue(success);
 

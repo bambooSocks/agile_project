@@ -167,4 +167,9 @@ public class Client extends User {
     public List<Journey> getJourneyList() {
         return journeyList;
     }
+    
+    
+    public LogisticsCompany getCompany() {
+        return company;
+    }
 }

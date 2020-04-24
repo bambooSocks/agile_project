@@ -304,9 +304,10 @@ public class LogisticsCompany extends User {
      * @throws IOException 
      */
     public boolean enterStatus(ContainerStatus status, Journey journey) throws IOException {
-        if (journey != null && journey.getCompany().equals(this) && journey.isStarted()
+        if (journey != null && journey.getCompany().getId()==(this.getId()) && journey.isStarted()
                 && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
             journey.addStatus(status);
+            status.setJourney(journey);
             db.createContainerStatus(status);
             return true;
         } else {

@@ -1,6 +1,7 @@
 package rcm.repository;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -104,11 +105,11 @@ public class SqliteRepository implements Repository {
     }
 
     @Override
-    public ContainerStatus readContainerStatus(int key) throws IOException {
+    public ContainerStatus readContainerStatus(Journey key, LocalDateTime key2) throws IOException {
         try {
             TypedQuery<ContainerStatus> query = em
-                    .createQuery("SELECT u FROM ContainerStatus u WHERE u.id=:key", ContainerStatus.class)
-                    .setParameter("key", key);
+                    .createQuery("SELECT u FROM ContainerStatus u WHERE u.journey=:key AND u.timestamp=:key2", ContainerStatus.class)
+                    .setParameter("key", key).setParameter("key2", key2);
             return query.getSingleResult();
         } catch (NoResultException e) {
             return null;

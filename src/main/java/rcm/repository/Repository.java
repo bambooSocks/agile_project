@@ -1,6 +1,7 @@
 package rcm.repository;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import rcm.model.Client;
 import rcm.model.Container;
@@ -27,7 +28,7 @@ public interface Repository {
     
     void createContainerStatus(ContainerStatus po) throws IOException;
 
-    ContainerStatus readContainerStatus(int i) throws IOException;
+    ContainerStatus readContainerStatus(Journey i, LocalDateTime key2) throws IOException;
     
     
     void createJourney(Journey po) throws IOException;
