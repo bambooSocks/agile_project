@@ -12,19 +12,22 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 public abstract class BaseTopBar extends JPanel {
 
     private static final long serialVersionUID = 8688699308325627639L;
 
-    public BaseTopBar() {
+    private MainViewController mvc;
+    
+    public BaseTopBar(MainViewController mvc) {
         setLayout(new BorderLayout());
 
+        this.mvc = mvc;
+        
         add(buildRightSide(), BorderLayout.EAST);
         add(buildLeftSide(), BorderLayout.WEST);
-
+        setPreferredSize(new Dimension(500, 40));
     }
 
     public abstract JPanel buildLeftSide();
@@ -73,6 +76,8 @@ public abstract class BaseTopBar extends JPanel {
                 System.out.println("Log out clicked");
             }
         });
+        logOut.addActionListener(mvc);
+        logOut.setActionCommand("LOGOUT");
         popup.add(logOut);
 
         return popup;

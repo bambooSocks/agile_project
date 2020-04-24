@@ -4,20 +4,22 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public abstract class BaseTableView extends JPanel {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -9046917894422843234L;
 
-    public BaseTableView() {
-        super(new GridLayout(1, 0));
-
-        final JTable table = new JTable(addData(), addcolumnNames());
-        table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+    public BaseTableView(BaseTopBar topBar) {
+        
+        setLayout(new BorderLayout());
+        add(topBar, BorderLayout.NORTH);
+        
+        final JTable table = new JTable(addData(), addColumnNames());
+        table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
 
         // TODO: impelement double click and right click event according to each table
@@ -32,10 +34,10 @@ public abstract class BaseTableView extends JPanel {
         JScrollPane scrollPane = new JScrollPane(table);
 
         // Add the scroll pane to this panel.
-        add(scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
-    public abstract String[] addcolumnNames();
+    public abstract String[] addColumnNames();
 
     public abstract Object[][] addData();
 }
