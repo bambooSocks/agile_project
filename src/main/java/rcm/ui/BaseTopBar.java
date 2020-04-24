@@ -64,6 +64,9 @@ public abstract class BaseTopBar extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Manage profile clicked");
+                ProfileView popup = new ProfileView();
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
             }
         });
         popup.add(profile);

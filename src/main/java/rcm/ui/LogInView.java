@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class LoginView extends JPanel {
+public class LogInView extends JPanel {
 
     private static final long serialVersionUID = -525974348663829648L;
 
@@ -25,7 +25,7 @@ public class LoginView extends JPanel {
     private JButton b1 = new JButton("Login");
     private JButton b2 = new JButton("Cancel");
 
-    public LoginView(MainViewController mvc) {
+    public LogInView(MainViewController mvc) {
 
         JPanel panel = new JPanel(new GridBagLayout());
         setPreferredSize(new Dimension(400, 200)); // (width, height)
@@ -34,7 +34,7 @@ public class LoginView extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
 
-        // add components to the panel
+        // Email
         constraints.gridx = 0;
         constraints.gridy = 0;
         panel.add(lbl1, constraints);
@@ -42,6 +42,7 @@ public class LoginView extends JPanel {
         constraints.gridx = 1;
         panel.add(emailField, constraints);
 
+        // Password
         constraints.gridx = 0;
         constraints.gridy = 1;
         panel.add(lbl2, constraints);

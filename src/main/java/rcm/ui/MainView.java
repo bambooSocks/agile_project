@@ -18,17 +18,17 @@ class MainViewController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
         case "LOGOUT":
-            mv.getLoginView().setVisible(true);
+            mv.getLogInView().setVisible(true);
             mv.getClientView().setVisible(false);
             mv.getCompanyView().setVisible(false);
             break;
         case "CLIENT":
-            mv.getLoginView().setVisible(false);
+            mv.getLogInView().setVisible(false);
             mv.getClientView().setVisible(true);
             mv.getCompanyView().setVisible(false);
             break;
         case "COMPANY":
-            mv.getLoginView().setVisible(false);
+            mv.getLogInView().setVisible(false);
             mv.getClientView().setVisible(false);
             mv.getCompanyView().setVisible(true);
             break;
@@ -43,7 +43,7 @@ public class MainView extends JFrame {
 
     private static final long serialVersionUID = 4076136046104406648L;
 
-    LoginView lv;
+    LogInView lv;
     CompanyTabView co;
     ClientTabView cl;
     MainViewController mvc;
@@ -54,7 +54,7 @@ public class MainView extends JFrame {
         
         mvc = new MainViewController(this);
         
-        lv = new LoginView(mvc);
+        lv = new LogInView(mvc);
         co = new CompanyTabView(mvc);
         cl = new ClientTabView(mvc);
         
@@ -69,7 +69,7 @@ public class MainView extends JFrame {
         setVisible(true);
     }
 
-    public LoginView getLoginView() {
+    public LogInView getLogInView() {
         return lv;
     }
 
