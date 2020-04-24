@@ -14,6 +14,7 @@ public abstract class User {
     protected String refPerson;
     protected String email;
 
+    private String exceptions = "Please correct the following input: ";
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=0-9]{2,30}$";
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
@@ -31,36 +32,39 @@ public abstract class User {
      */
     public User(String name, String address, String refPerson, String email, String password)
             throws WrongInputException {
-        this.address = address;
 
         if (validateName(name)) {
             this.name = name;
         } else {
-            throw new WrongInputException("The given client name is not valid");
+            exceptions += "name";
         }
 
         if (validateAddress(address)) {
             this.address = address;
         } else {
-            throw new WrongInputException("The given address is not valid");
+            exceptions += " address";
         }
 
         if (validateRefPerson(refPerson)) {
             this.refPerson = refPerson;
         } else {
-            throw new WrongInputException("The given reference name is not valid");
+            exceptions += " reference person";
         }
 
         if (validateEmail(email)) {
             this.email = email;
         } else {
-            throw new WrongInputException("The given email is not valid");
+            exceptions += " email";
         }
 
         if (validatePassword(password)) {
             this.password = SHA1_Hasher(password);
         } else {
-            throw new WrongInputException("The given password is not valid");
+            exceptions += " password";
+        }
+
+        if (exceptions.length() > "Please correct the following input: ".length()) {
+            throw new WrongInputException(exceptions);
         }
     }
 
@@ -202,7 +206,7 @@ public abstract class User {
         if (validateName(newName)) {
             name = newName;
         } else {
-            throw new WrongInputException("The given client name is not valid");
+            throw new WrongInputException("The given client name is not valid.");
         }
     }
 
@@ -215,7 +219,7 @@ public abstract class User {
         if (validateAddress(newAddress)) {
             address = newAddress;
         } else {
-            throw new WrongInputException("The given address is not valid");
+            throw new WrongInputException("The given address is not valid.");
         }
     }
 
@@ -228,7 +232,7 @@ public abstract class User {
         if (validateRefPerson(newRefPerson)) {
             refPerson = newRefPerson;
         } else {
-            throw new WrongInputException("The given reference name is not valid");
+            throw new WrongInputException("The given reference name is not valid.");
         }
     }
 
@@ -241,7 +245,7 @@ public abstract class User {
         if (validateEmail(newEmail)) {
             email = newEmail;
         } else {
-            throw new WrongInputException("The given email is not valid");
+            throw new WrongInputException("The given email is not valid.");
         }
     }
 
@@ -254,7 +258,7 @@ public abstract class User {
         if (validatePassword(newPassword)) {
             password = SHA1_Hasher(newPassword);
         } else {
-            throw new WrongInputException("The given password is not valid");
+            throw new WrongInputException("The given password is not valid.");
         }
     }
 

@@ -109,13 +109,15 @@ public class Client extends User {
      * @return a list of shared journeys of the second client
      */
     public List<Journey> shareClientData(boolean loggedIn, String email1, String email2) {
-        if (email1.equals(email2) && loggedIn) {
-            LinkedList<Client> cl = new LinkedList<Client>();
-            cl.addAll(company.searchByEmail(email2));
-            if (cl.isEmpty()) {
+        if (loggedIn) {
+            LinkedList<Client> cl1 = new LinkedList<Client>();
+            LinkedList<Client> cl2 = new LinkedList<Client>();
+            cl1.addAll(company.searchByEmail(email1));
+            cl2.addAll(company.searchByEmail(email2));
+            if (cl1.isEmpty() || cl2.isEmpty()) {
                 return sharedJourneyList;
             } else {
-                sharedJourneyList.addAll(cl.pop().getJourneyList());
+                sharedJourneyList.addAll(cl1.pop().getJourneyList());
                 return sharedJourneyList;
             }
         } else {
