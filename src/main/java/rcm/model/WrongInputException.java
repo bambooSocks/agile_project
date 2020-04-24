@@ -2,14 +2,7 @@ package rcm.model;
 
 public class WrongInputException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Exception constructor for a wrong input
-     */
-    public WrongInputException() {
-        super("Unexpected behaviour");
-    }
+    private static final long serialVersionUID = -7350310191056291666L;
 
     /**
      * Exception constructor for a wrong input

@@ -94,19 +94,19 @@ Given an empty database
     Then the containers and data can not be viewed
 
   @tag10
-  Scenario: Client gives access to another client
+  Scenario: Successful journey sharing with another client
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
     And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    When first client with email "bananas@chiquita.com" gives access to client with email "Ilovetoeat@hotmail.com"
-    Then they can view the containers and data of the first client
+    When first client with email "bananas@chiquita.com" shares with second client with email "Ilovetoeat@hotmail.com"
+    Then second client can view the journeys of the first client
 
-  @tag10
-  Scenario: Client gives access to non-existent client
+  @tag11
+  Scenario: Unsuccessful journey sharing with another client
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
     And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    When first client with email "bananas@chiquita.com" gives access to client with email "blabla@hotmail.com"
-    Then the containers and data can not be viewed
+    When first client with email "bananas@chiquita.com" shares with second client with email "blabla@hotmail.com"
+    Then second client cannot view the journeys of the first client

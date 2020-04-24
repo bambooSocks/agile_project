@@ -16,6 +16,7 @@ public class Client extends User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Journey> journeyList;
     @ManyToOne
+    private List<Journey> sharedJourneyList;
     private LogisticsCompany company;
 
     @SuppressWarnings("unused")
@@ -37,6 +38,8 @@ public class Client extends User {
             throws WrongInputException {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
+        sharedJourneyList = new LinkedList<Journey>();
+        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
     }
 
     /**
@@ -94,12 +97,10 @@ public class Client extends User {
      * @param loggedIn boolean representing the log-in status of the first client
      * @param email1   Email of the first client
      * @param email2   Email of the second client
-     * @param access   boolean representing whether the second client has consented
-     *                 to be viewed
      * @return a list of journeys of the second client
      */
-    public List<Journey> viewClientData(boolean loggedIn, String email1, String email2, boolean access) {
-        if ((email1.equals(email2) || access) && loggedIn) {
+    public List<Journey> viewClientData(boolean loggedIn, String email1, String email2) {
+        if (email1.equals(email2) && loggedIn) {
             LinkedList<Client> cl = new LinkedList<Client>();
             cl.addAll(company.searchByEmail(email2));
             if (cl.isEmpty()) {
@@ -112,6 +113,33 @@ public class Client extends User {
         }
     }
 
+    /**
+     * Method to share journeys of one client with another client
+     * 
+     * @param loggedIn boolean representing the log-in status of the first client
+     * @param email1   Email of the first client
+     * @param email2   Email of the second client
+     * @return a list of shared journeys of the second client
+     */
+    public List<Journey> shareClientData(boolean loggedIn, String email1, String email2) {
+        if (email1.equals(email2) && loggedIn) {
+            LinkedList<Client> cl = new LinkedList<Client>();
+            cl.addAll(company.searchByEmail(email2));
+            if (cl.isEmpty()) {
+                return sharedJourneyList;
+            } else {
+                sharedJourneyList.addAll(cl.pop().getJourneyList());
+                return sharedJourneyList;
+            }
+        } else {
+            return sharedJourneyList;
+        }
+    }
+
+    public boolean closeButton() {
+        // TODO Auto-generated method stub
+        return true;
+    }
 
     /**
      * Requests the history of container statuses from journey
@@ -162,7 +190,7 @@ public class Client extends User {
     /**
      * Getter for list of journeys
      * 
-     * @return List of Journeys belonging to the clientS
+     * @return List of Journeys belonging to the client
      */
     public List<Journey> getJourneyList() {
         return journeyList;
@@ -171,5 +199,14 @@ public class Client extends User {
     
     public LogisticsCompany getCompany() {
         return company;
+    }
+
+    /**
+     * Getter for List of shared Journeys belonging to the client
+     * 
+     * @return List of shared Journeys belonging to the client
+     */
+    public List<Journey> getSharedJourneyList() {
+        return sharedJourneyList;
     }
 }
