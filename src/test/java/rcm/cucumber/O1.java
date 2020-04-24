@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import rcm.ContainerStatus;
+import rcm.model.ContainerStatus;
 
 public class O1 {
     private SharedObjectHolder holder;
@@ -18,11 +18,6 @@ public class O1 {
 
     public O1(SharedObjectHolder holder) {
         this.holder = holder;
-    }
-
-    @Given("another container of first logistics company")
-    public void another_container_of_first_logistics_company() {
-        holder.setSecondContainer(holder.getFirstCompany().createContainer());
     }
 
     @Given("the first journey has started at {int}:{int} {int}\\/{int}\\/{int}")
@@ -37,21 +32,6 @@ public class O1 {
             Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         holder.getFirstCompany().endJourney(holder.getFirstJourney(), timestamp);
-    }
-
-    @Given("the list of journeys of the container contains the first journey")
-    public void the_list_of_journeys_of_the_container_contains_the_first_journey() {
-        assertTrue(holder.getFirstContainer().getJourneyList().contains(holder.getFirstJourney()));
-    }
-
-    @Given("the last journey of the container list is ended")
-    public void the_last_journey_of_the_container_list_is_ended() {
-        assertTrue(holder.getFirstContainer().getJourneyList().getLast().isEnded());
-    }
-
-    @Given("the last journey of the container list is not ended")
-    public void the_last_journey_of_the_container_list_is_not_ended() {
-        assertFalse(holder.getFirstContainer().getJourneyList().getLast().isEnded());
     }
 
     @Given("the journey has started at {int}:{int} {int}\\/{int}\\/{int}")

@@ -3,10 +3,10 @@ package rcm.cucumber;
 import static org.junit.Assert.assertEquals;
 
 import io.cucumber.java.en.Given;
-import rcm.Client;
-import rcm.LogisticsCompany;
-import rcm.User;
-import rcm.WrongInputException;
+import rcm.model.Client;
+import rcm.model.LogisticsCompany;
+import rcm.model.User;
+import rcm.model.WrongInputException;
 
 public class SharedStepMethods {
 

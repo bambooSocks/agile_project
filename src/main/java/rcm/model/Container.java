@@ -1,4 +1,4 @@
-package rcm;
+package rcm.model;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -29,15 +29,6 @@ public class Container {
      */
     public LogisticsCompany getCompany() {
         return company;
-    }
-
-    /**
-     * Getter for Container ID
-     * 
-     * @return Integer denoting the Container ID
-     */
-    public int getId() {
-        return id;
     }
 
     public void setLocation(String newLocation) {

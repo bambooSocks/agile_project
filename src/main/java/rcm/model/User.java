@@ -1,4 +1,4 @@
-package rcm;
+package rcm.model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

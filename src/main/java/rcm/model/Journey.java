@@ -1,4 +1,4 @@
-package rcm;
+package rcm.model;
 
 import java.util.List;
 import java.time.LocalDateTime;
@@ -36,15 +36,6 @@ public class Journey implements Comparable<Journey> {
         this.client = client;
         history = new LinkedList<ContainerStatus>();
         id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
-    }
-
-    /**
-     * Getter for ID
-     * 
-     * @return Integer of the journey ID
-     */
-    public int getID() {
-        return id;
     }
 
     /**
