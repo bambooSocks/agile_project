@@ -125,20 +125,4 @@ public class ContainerStatus {
         return temperature;
     }
 
-    public double getHumidity() {
-        return humidity;
-    }
-
-    public double getAtmPressure() {
-        return atmPressure;
-    }
-
-    public void setJourney(Journey journey) {
-        this.journey = journey;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
 }

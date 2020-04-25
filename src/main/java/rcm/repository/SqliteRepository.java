@@ -28,10 +28,10 @@ public class SqliteRepository implements Repository {
     }
 
     @Override
-    public LogisticsCompany readLogisticsCompany(int key) throws IOException {
+    public LogisticsCompany readLogisticsCompany(String key) throws IOException {
         try {
             TypedQuery<LogisticsCompany> query = em
-                    .createQuery("SELECT u FROM LogisticsCompany u WHERE u.id=:key", LogisticsCompany.class)
+                    .createQuery("SELECT u FROM LogisticsCompany u WHERE u.email=:key", LogisticsCompany.class)
                     .setParameter("key", key);
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -85,30 +85,10 @@ public class SqliteRepository implements Repository {
     }
 
     @Override
-    public Client readClient(int key) throws IOException {
+    public Client readClient(String key) throws IOException {
         try {
-            TypedQuery<Client> query = em.createQuery("SELECT u FROM Client u WHERE u.id=:key", Client.class)
+            TypedQuery<Client> query = em.createQuery("SELECT u FROM Client u WHERE u.email=:key", Client.class)
                     .setParameter("key", key);
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
-
-    @Override
-    public void createContainerStatus(ContainerStatus po) throws IOException {
-        withinTransaction(() -> {
-            em.persist(po);
-        });
-
-    }
-
-    @Override
-    public ContainerStatus readContainerStatus(Journey key, LocalDateTime key2) throws IOException {
-        try {
-            TypedQuery<ContainerStatus> query = em
-                    .createQuery("SELECT u FROM ContainerStatus u WHERE u.journey=:key AND u.timestamp=:key2", ContainerStatus.class)
-                    .setParameter("key", key).setParameter("key2", key2);
             return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
@@ -133,13 +113,12 @@ public class SqliteRepository implements Repository {
             return null;
         }
     }
-    
+
     @Override
     public void updateCompany(LogisticsCompany logisticsCompany) {
         withinTransaction(() -> {
-        em.merge(logisticsCompany);
+            em.merge(logisticsCompany);
         });
     }
-    
 
 }

@@ -39,13 +39,13 @@ public class Journey implements Comparable<Journey> {
     private Container container;
     @ManyToOne
     private Client client;
-    
+
     @ElementCollection
     private List<ContainerStatus> history;
 
     @SuppressWarnings("unused")
     private Journey() {
-        history = new LinkedList<ContainerStatus>();
+
     }
 
     /**
@@ -120,7 +120,6 @@ public class Journey implements Comparable<Journey> {
     public void setContainer(Container container) {
         this.container = container;
     }
-
 
     /**
      * Adds a new status to the history
@@ -229,7 +228,7 @@ public class Journey implements Comparable<Journey> {
     }
 
     public List<ContainerStatus> getHistory() {
-        
+
         return history;
     }
 

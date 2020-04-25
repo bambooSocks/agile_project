@@ -10,32 +10,24 @@ import rcm.model.Journey;
 import rcm.model.LogisticsCompany;
 
 public interface Repository {
-    
-	void createLogisticsCompany(LogisticsCompany po) throws IOException;
 
-	LogisticsCompany readLogisticsCompany(int i) throws IOException;
-	
-	
-	void createContainer(Container po) throws IOException;
+    void clearDatabase();
+
+    void createLogisticsCompany(LogisticsCompany po) throws IOException;
+
+    LogisticsCompany readLogisticsCompany(String key) throws IOException;
+
+    void createContainer(Container po) throws IOException;
 
     Container readContainer(int i) throws IOException;
-    
-    
+
     void createClient(Client po) throws IOException;
 
-    Client readClient(int i) throws IOException;
-    
-    
-    void createContainerStatus(ContainerStatus po) throws IOException;
+    Client readClient(String key) throws IOException;
 
-    ContainerStatus readContainerStatus(Journey i, LocalDateTime key2) throws IOException;
-    
-    
     void createJourney(Journey po) throws IOException;
 
     Journey readJourney(int i) throws IOException;
-	
-	void clearDatabase();
 
     void updateCompany(LogisticsCompany logisticsCompany);
 

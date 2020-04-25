@@ -1,5 +1,6 @@
 package rcm.model;
 
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 
 
@@ -29,10 +31,13 @@ public abstract class User {
     protected String refPerson;
     @Column
     protected String email;
-
+    @Transient
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    @Transient
     private static final String regexName = "^[A-Z]+[^�!@�$%^&*_+���#�������\\/<>?:;|=0-9]{2,30}$";
+    @Transient
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
+    @Transient
     private static final String regexAddress = "^[^�!@�$%^&*_+���#�������\\\\/<>?;|=]{2,50}$";
 
     

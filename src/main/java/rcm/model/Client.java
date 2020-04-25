@@ -16,15 +16,12 @@ import javax.persistence.OneToMany;
 @Entity
 public class Client extends User {
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name= "CLIENT_ID")
+    @JoinColumn(name = "CLIENT_ID")
     private List<Journey> journeyList;
-    
-    
+
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Journey> sharedJourneyList;
-    
-    
-    
+
     @ManyToOne
     private LogisticsCompany company;
 
@@ -198,8 +195,7 @@ public class Client extends User {
     public List<Journey> getJourneyList() {
         return journeyList;
     }
-    
-    
+
     public LogisticsCompany getCompany() {
         return company;
     }
