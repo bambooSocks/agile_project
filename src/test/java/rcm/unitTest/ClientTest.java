@@ -1,5 +1,6 @@
 package rcm.unitTest;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -26,8 +27,13 @@ public class ClientTest {
     }
 
     @Test
-    public void TestShareClientData() {
+    public void testShareClientData() {
         assertTrue(client2.shareClientData(client1.getEmail(), client2.getEmail()).isEmpty());
         assertTrue(client2.shareClientData("blabla@email.com", "fakeemail@fake.com").isEmpty());
+    }
+    
+    @Test
+    public void testViewClientData() {
+        assertEquals(null, client2.viewClientData("bla@fake.com", "bla@fake.com"));
     }
 }

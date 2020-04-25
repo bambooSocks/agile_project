@@ -121,11 +121,6 @@ public class Client extends User {
         }
     }
 
-    public boolean closeButton() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
     /**
      * Requests the history of container statuses from journey
      * 

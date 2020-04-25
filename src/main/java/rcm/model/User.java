@@ -14,7 +14,7 @@ public class User {
     protected String refPerson;
     protected String email;
 
-    private String exceptions = "Please correct the following input: ";
+    private String exceptions = "Please correct the following input:";
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     private static final String regexName = "^[A-Z]+[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=0-9]{2,30}$";
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
@@ -36,7 +36,7 @@ public class User {
         if (validateName(name)) {
             this.name = name;
         } else {
-            exceptions += "name";
+            exceptions += " name";
         }
 
         if (validateAddress(address)) {
@@ -63,7 +63,7 @@ public class User {
             exceptions += " password";
         }
 
-        if (exceptions.length() > "Please correct the following input: ".length()) {
+        if (exceptions.length() > "Please correct the following input:".length()) {
             throw new WrongInputException(exceptions);
         }
     }
@@ -286,24 +286,14 @@ public class User {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        return result;
+        return id;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id != other.id)
-            return false;
-        return true;
+        return false;
     }
 
     /**
