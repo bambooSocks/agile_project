@@ -27,7 +27,7 @@ public class ClientTest {
 
     @Test
     public void TestShareClientData() {
-        assertTrue(client2.shareClientData(false, client1.getEmail(), client2.getEmail()).isEmpty());
-        assertTrue(client2.shareClientData(true, "blabla@email.com", "fakeemail@fake.com").isEmpty());
+        assertTrue(client2.shareClientData(client1.getEmail(), client2.getEmail()).isEmpty());
+        assertTrue(client2.shareClientData("blabla@email.com", "fakeemail@fake.com").isEmpty());
     }
 }

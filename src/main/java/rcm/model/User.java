@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class User {
+public class User {
 
     protected int id;
     protected String password;
@@ -304,5 +304,25 @@ public abstract class User {
         if (id != other.id)
             return false;
         return true;
+    }
+
+    /**
+     * Method to log in a user
+     * 
+     * @param email    Email of the user
+     * @param password Password of the user
+     * @return true if correct email and password, otherwise return false
+     * @throws WrongInputException
+     */
+    public boolean logInStatus(String email, String password) throws WrongInputException {
+        if (email.equals(getEmail())) {
+            if (SHA1_Hasher(password).equals(getPassword())) {
+                return true;
+            } else {
+                throw new WrongInputException("Your password is incorrect");
+            }
+        } else {
+            return false;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import io.cucumber.java.en.Given;
 import rcm.model.Client;
@@ -11,6 +12,7 @@ import rcm.model.WrongInputException;
 public class SharedStepMethods {
 
     private SharedObjectHolder holder;
+    private boolean loggedIn = false;
 
     public SharedStepMethods(SharedObjectHolder holder) {
         this.holder = holder;
@@ -31,6 +33,16 @@ public class SharedStepMethods {
         }
     }
 
+    @Given("first logistics company is logged-in with email {string} and password {string}")
+    public void first_logistics_company_is_logged_in_with_email_and_password(String email, String password) {
+        try {
+            loggedIn = holder.getFirstCompany().logInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
+        assertTrue(loggedIn);
+    }
+
     @Given("a second logistics company {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_second_logistics_company_with_address_reference_person_email_and_password(String name, String address,
             String refPerson, String email, String password) {
@@ -46,6 +58,16 @@ public class SharedStepMethods {
         }
     }
 
+    @Given("second logistics company is logged-in with email {string} and password {string}")
+    public void second_logistics_company_is_logged_in_with_email_and_password(String email, String password) {
+        try {
+            loggedIn = holder.getSecondCompany().logInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
+        assertTrue(loggedIn);
+    }
+
     @Given("a first client {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_first_client_with_address_reference_person_email_and_password(String name, String address,
             String refPerson, String email, String password) {
@@ -58,6 +80,16 @@ public class SharedStepMethods {
         assertEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
+    @Given("first client is logged-in with email {string} and password {string}")
+    public void first_client_is_logged_in_with_email_and_password(String email, String password) {
+        try {
+            loggedIn = holder.getFirstClient().logInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
+        assertTrue(loggedIn);
+    }
+
     @Given("a second client {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_second_client_with_address_reference_person_email_and_password(String name, String address,
             String refPerson, String email, String password) {
@@ -68,6 +100,16 @@ public class SharedStepMethods {
         assertEquals(refPerson, holder.getSecondClient().getRefPerson());
         assertEquals(email, holder.getSecondClient().getEmail());
         assertEquals(User.SHA1_Hasher(password), holder.getSecondClient().getPassword());
+    }
+
+    @Given("second client is logged-in with email {string} and password {string}")
+    public void second_client_is_logged_in_with_email_and_password(String email, String password) {
+        try {
+            loggedIn = holder.getSecondClient().logInStatus(email, password);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
+        assertTrue(loggedIn);
     }
 
     @Given("a first journey of first client with origin port of {string} destination port of {string} and a content of {string}")
