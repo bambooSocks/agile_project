@@ -8,15 +8,24 @@ import java.util.LinkedList;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
 public class Client extends User {
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name= "CLIENT_ID")
     private List<Journey> journeyList;
-    @ManyToOne
+    
+    
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Journey> sharedJourneyList;
+    
+    
+    
+    @ManyToOne
     private LogisticsCompany company;
 
     @SuppressWarnings("unused")
@@ -39,7 +48,6 @@ public class Client extends User {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         sharedJourneyList = new LinkedList<Journey>();
-        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
     }
 
     /**
@@ -134,11 +142,6 @@ public class Client extends User {
         } else {
             return sharedJourneyList;
         }
-    }
-
-    public boolean closeButton() {
-        // TODO Auto-generated method stub
-        return true;
     }
 
     /**

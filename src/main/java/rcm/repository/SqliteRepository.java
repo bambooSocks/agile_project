@@ -56,7 +56,6 @@ public class SqliteRepository implements Repository {
             em.createQuery("DELETE FROM Container").executeUpdate();
             em.createQuery("DELETE FROM Client").executeUpdate();
             em.createQuery("DELETE FROM Journey").executeUpdate();
-            em.createQuery("DELETE FROM ContainerStatus").executeUpdate();
         });
     }
 
@@ -134,5 +133,13 @@ public class SqliteRepository implements Repository {
             return null;
         }
     }
+    
+    @Override
+    public void updateCompany(LogisticsCompany logisticsCompany) {
+        withinTransaction(() -> {
+        em.merge(logisticsCompany);
+        });
+    }
+    
 
 }

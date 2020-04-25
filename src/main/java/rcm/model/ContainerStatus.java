@@ -3,20 +3,12 @@ package rcm.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.JoinColumn;
+import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
-class StatusId  {
-    LocalDateTime timestamp;
-    int journey;
-}
-@Entity @IdClass(StatusId.class)
+@Embeddable
 public class ContainerStatus {
 
-    @Id
     private LocalDateTime timestamp;
     @Column
     private double temperature;
@@ -24,7 +16,6 @@ public class ContainerStatus {
     private double humidity;
     @Column
     private double atmPressure;
-    @Id
     @ManyToOne
     private Journey journey;
     @Column

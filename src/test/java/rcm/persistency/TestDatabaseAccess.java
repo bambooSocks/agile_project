@@ -45,7 +45,7 @@ public class TestDatabaseAccess {
         LogisticsCompany dbUser3 = db.readLogisticsCompany(lc1.getId());
         Journey dbUser4 = db.readJourney(j1.getId());
         long mili = new Date().getTime();
-        ContainerStatus dbStatus = db.readContainerStatus(j1,timestamp2);
+        ContainerStatus dbStatus = dbUser4.getHistory().get(0);
         
 
         assertEquals("Maersk", dbUser3.getName());

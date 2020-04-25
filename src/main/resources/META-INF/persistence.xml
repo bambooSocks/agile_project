@@ -6,7 +6,6 @@
 		<class>rcm..model.User</class> 
 		<class>rcm.model.Client</class>
 		<class>rcm.model.Location</class>
-		<class>rcm.model.ContainerStatus</class> 
 		<class>rcm.model.LogisticsCompany</class>
 		<class>rcm.model.Journey</class> 
 		<class>rcm.model.Container</class>

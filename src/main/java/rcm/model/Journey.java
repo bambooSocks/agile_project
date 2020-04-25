@@ -4,14 +4,13 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 
@@ -40,7 +39,8 @@ public class Journey implements Comparable<Journey> {
     private Container container;
     @ManyToOne
     private Client client;
-    @OneToMany(cascade = CascadeType.ALL)
+    
+    @ElementCollection
     private List<ContainerStatus> history;
 
     @SuppressWarnings("unused")
@@ -226,6 +226,11 @@ public class Journey implements Comparable<Journey> {
 
     public int getId() {
         return id;
+    }
+
+    public List<ContainerStatus> getHistory() {
+        
+        return history;
     }
 
 }

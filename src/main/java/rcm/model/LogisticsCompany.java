@@ -307,8 +307,8 @@ public class LogisticsCompany extends User {
         if (journey != null && journey.getCompany().getId()==(this.getId()) && journey.isStarted()
                 && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
             journey.addStatus(status);
-            status.setJourney(journey);
-            db.createContainerStatus(status);
+            //status.setJourney(journey);
+            db.updateCompany(this);
             return true;
         } else {
             return false;

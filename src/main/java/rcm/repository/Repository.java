@@ -37,4 +37,6 @@ public interface Repository {
 	
 	void clearDatabase();
 
+    void updateCompany(LogisticsCompany logisticsCompany);
+
 }
