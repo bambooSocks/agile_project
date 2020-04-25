@@ -18,7 +18,8 @@
 #Sample Feature Definition Template
 @tag
 Feature: Journey end
-
+Background:
+Given an empty database
   @tag1
   Scenario: Successful end of a journey
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"

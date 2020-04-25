@@ -18,7 +18,8 @@
 #Sample Feature Definition Template
 @tag
 Feature: Availability of containers based on end-date and start-date of the journey
-
+Background:
+Given an empty database
   @tag1
   Scenario: Succesful start of second journey of container
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"

@@ -2,14 +2,33 @@ package rcm.model;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class Client extends User {
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+@Entity
+public class Client extends User {
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CLIENT_ID")
     private List<Journey> journeyList;
+
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Journey> sharedJourneyList;
+
+    @ManyToOne
     private LogisticsCompany company;
+
+    @SuppressWarnings("unused")
+    private Client() {
+        super();
+    }
 
     /**
      * Client constructor
@@ -26,7 +45,6 @@ public class Client extends User {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
         sharedJourneyList = new LinkedList<Journey>();
-        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
     }
 
     /**
@@ -123,11 +141,6 @@ public class Client extends User {
         }
     }
 
-    public boolean closeButton() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
     /**
      * Requests the history of container statuses from journey
      * 
@@ -156,7 +169,13 @@ public class Client extends User {
      * @implNote This method only works if the client is assigned to a company
      */
     public Response requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) {
-        Journey journey = company.createJourney(this, originPort, destinationPort, content);
+        Journey journey;
+        try {
+            journey = company.createJourney(this, originPort, destinationPort, content);
+        } catch (IOException e) {
+            return Response.DATABASE_ERROR;
+
+        }
         if (journey != null) {
             if (company.startJourney(journey, timestamp)) {
                 return Response.SUCCESS;
@@ -175,6 +194,10 @@ public class Client extends User {
      */
     public List<Journey> getJourneyList() {
         return journeyList;
+    }
+
+    public LogisticsCompany getCompany() {
+        return company;
     }
 
     /**

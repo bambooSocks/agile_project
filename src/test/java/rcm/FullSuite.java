@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import rcm.cucumber.CucumberTest;
+import rcm.persistency.TestDatabaseAccess;
 import rcm.unitTest.*;
 
 @RunWith(Suite.class)
@@ -14,6 +15,7 @@ import rcm.unitTest.*;
     // Unit tests
     JourneyTest.class,
     LogisticsCompanyTest.class,
-    ContainerStatusTest.class
+    ContainerStatusTest.class,
+    TestDatabaseAccess.class
 })
 public class FullSuite { }

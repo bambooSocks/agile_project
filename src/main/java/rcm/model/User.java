@@ -1,24 +1,48 @@
 package rcm.model;
 
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.persistence.Column;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
+
+
+@MappedSuperclass 
 public abstract class User {
 
+    
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     protected int id;
+    @Column
     protected String password;
+    @Column
     protected String name;
+    @Column
     protected String address;
+    @Column
     protected String refPerson;
+    @Column
     protected String email;
-
+    @Transient
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private static final String regexName = "^[A-Z]+[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=0-9]{2,30}$";
+    @Transient
+    private static final String regexName = "^[A-Z]+[^ï¿½!@ï¿½$%^&*_+ï¿½ï¿½ï¿½#ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\/<>?:;|=0-9]{2,30}$";
+    @Transient
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
-    private static final String regexAddress = "^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\\\/<>?;|=]{2,50}$";
+    @Transient
+    private static final String regexAddress = "^[^ï¿½!@ï¿½$%^&*_+ï¿½ï¿½ï¿½#ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\\\/<>?;|=]{2,50}$";
 
+    
+    protected User() {
+    }
     /**
      * User constructor
      * 
@@ -280,25 +304,4 @@ public abstract class User {
         return generatedPassword;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id != other.id)
-            return false;
-        return true;
-    }
 }

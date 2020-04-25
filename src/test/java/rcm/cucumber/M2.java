@@ -1,14 +1,17 @@
 package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import rcm.model.ContainerStatus;
 import rcm.model.Journey;
 import rcm.model.Response;
 
@@ -17,20 +20,26 @@ public class M2 {
     private List<Journey> filteredContent, filteredDestination, filteredOrigin;
     private Response response;
     private SharedObjectHolder holder;
+    protected LocalDateTime timestamp;
+    private ContainerStatus status;
+    private boolean successfulEntry = false;
 
     public M2(SharedObjectHolder holder) {
         this.holder = holder;
     }
 
     @Given("the first logistics company has two available containers")
-    public void the_first_logistics_company_has_two_available_containers() {
+    public void the_first_logistics_company_has_two_available_containers() throws IOException {
         holder.getFirstCompany().createContainer();
         holder.getFirstCompany().createContainer();
     }
 
-    @Given("the container has a location {string}")
-    public void the_container_has_a_location(String location) {
-        holder.getFirstContainer().setLocation(location);
+    @Given("the container entered location {string} at {int}:{int} {int}\\\\/{int}\\\\/{int}")
+    public void the_container_entered_location_at(String location, Integer hours, Integer minutes, Integer day,
+            Integer month, Integer year) {
+        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
+        status = new ContainerStatus(timestamp, 25.0, 50.0, 101.0, location);
+
     }
 
     @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
@@ -38,16 +47,18 @@ public class M2 {
             String originPort, String destinationPort, String content) {
         response = holder.getFirstClient().requestJourney(originPort, destinationPort, content,
                 LocalDateTime.of(2020, 3, 13, 4, 20));
+
     }
 
-    @When("the first logistics company updates containers location to a new location {string}")
-    public void the_first_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getFirstCompany().updateLocation(holder.getFirstContainer(), newLocation);
+    @When("the first logistics company updates containers location")
+    public void the_first_logistics_company_updates_containers_location() throws IOException {
+        successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
+
     }
 
-    @When("the second logistics company updates containers location to a new location {string}")
-    public void the_second_logistics_company_updates_containers_location_to_a_new_location(String newLocation) {
-        response = holder.getSecondCompany().updateLocation(holder.getFirstContainer(), newLocation);
+    @When("the second logistics company updates containers location")
+    public void the_second_logistics_company_updates_containers_location() throws IOException {
+        successfulEntry = holder.getSecondCompany().enterStatus(status, holder.getFirstJourney());
     }
 
     @When("the first client filters his journeys based on the origin port {string}")
@@ -67,15 +78,17 @@ public class M2 {
 
     @Then("the location is changed")
     public void the_location_is_changed() {
-        assertEquals(Response.SUCCESS, response);
-        assertEquals("Atlantic Ocean", holder.getFirstContainer().getLocation());
+        assertTrue(successfulEntry);
+        LocalDateTime t = LocalDateTime.of(2020, 3, 13, 4, 20);
+        ContainerStatus s = new ContainerStatus(t, 25.0, 50.0, 101.0, "New York");
+        assertTrue(holder.getFirstJourney().getStatus().contains(s));
     }
 
     @Then("the location is not changed")
     public void the_location_is_not_changed() {
-
-        assertEquals(Response.LOCATION_NOT_CHANGED, response);
-        assertEquals("Los Angeles", holder.getFirstContainer().getLocation());
+        assertFalse(successfulEntry);
+        assertTrue(holder.getFirstJourney().getStatus().isEmpty());
+        
     }
 
     @Then("an id is created")
