@@ -80,7 +80,11 @@ public class Container {
     public LinkedList<Journey> getJourneyList() {
         return journeyList;
     }
-
+    /**
+     * Getter for the id
+     * 
+     * @return int id for Container 
+     */
     public int getId() {
         return id;
     }

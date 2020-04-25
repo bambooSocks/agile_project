@@ -120,7 +120,11 @@ public class ContainerStatus {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
-
+    /**
+     * Getter for the temperature
+     * 
+     * @return temperature double of the Container Status
+     */
     public double getTemperature() {
         return temperature;
     }

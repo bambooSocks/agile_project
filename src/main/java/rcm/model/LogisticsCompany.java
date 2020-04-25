@@ -34,6 +34,7 @@ public class LogisticsCompany extends User {
     /**
      * Logistics Company constructor
      * 
+     * @param db        database where to store the LogisticsCompany object
      * @param name      Name of the logistics company
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
@@ -308,7 +309,6 @@ public class LogisticsCompany extends User {
         if (journey != null && journey.getCompany().getId() == (this.getId()) && journey.isStarted()
                 && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
             journey.addStatus(status);
-            // status.setJourney(journey);
             db.updateCompany(this);
             return true;
         } else {
