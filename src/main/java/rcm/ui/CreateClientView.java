@@ -39,7 +39,7 @@ public class CreateClientView extends JFrame {
         super("Create Client View");
 
         JPanel panel = new JPanel(new GridBagLayout());
-        setPreferredSize(new Dimension(400, 350)); // (width, height)       // probably need to adjust this 
+        setPreferredSize(new Dimension(400, 350)); // (width, height) // probably need to adjust this
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -52,7 +52,6 @@ public class CreateClientView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.gridwidth = 2;
         panel.add(nameField, constraints);
 
         // Address
@@ -62,7 +61,6 @@ public class CreateClientView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        constraints.gridwidth = 2;
         panel.add(addressField, constraints);
 
         // Reference Person
@@ -72,7 +70,6 @@ public class CreateClientView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
-        constraints.gridwidth = 2;
         panel.add(refPersonField, constraints);
 
         // Email
@@ -82,9 +79,8 @@ public class CreateClientView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 3;
-        constraints.gridwidth = 2;
         panel.add(emailField, constraints);
-        
+
         // New Password
         constraints.gridx = 0;
         constraints.gridy = 4;
@@ -92,9 +88,8 @@ public class CreateClientView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 4;
-        constraints.gridwidth = 2;
         panel.add(passwordField1, constraints);
-        
+
         // Confirm Password
         constraints.gridx = 0;
         constraints.gridy = 5;
@@ -102,13 +97,11 @@ public class CreateClientView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 5;
-        constraints.gridwidth = 2;
         panel.add(passwordField2, constraints);
 
         // Create Button
-        constraints.gridx = 1;
+        constraints.gridx = 0;
         constraints.gridy = 6;
-        constraints.gridwidth = 1;
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,9 +111,8 @@ public class CreateClientView extends JFrame {
         panel.add(b1, constraints);
 
         // Cancel Button
-        constraints.gridx = 2;
+        constraints.gridx = 1;
         constraints.gridy = 6;
-        constraints.gridwidth = 1;
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

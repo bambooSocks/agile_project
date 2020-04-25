@@ -37,22 +37,19 @@ public class Application {
             LogisticsCompany lc = new LogisticsCompany("Oop", "plop", "Doop", "doop@oop.plop", "Pl000p");
             system.add(lc);
             lc.createClient("Bloop", "plop", "Gloop", "gloop@bloop.plop", "Pl000p");
-            
+
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
     }
-    
-    public void loginUser(String email, char[] password) {
-        // TODO: Adrienne min value
-        String pswd = new String(password);
 
+    public void loginUser(String email, char[] password) {
         boolean loginStatus = false;
 
         User loggedInUser = null;
         for (User u : getUsers()) {
             try {
-                loginStatus = u.logInStatus(email, pswd);
+                loginStatus = u.logInStatus(email, new String(password));
                 if (loginStatus) {
                     loggedInUser = u;
                     break;
@@ -61,6 +58,7 @@ public class Application {
                 new ErrorDialog(e.getMessage(), "Login error");
                 return;
             }
+            password = null;
         }
 
         if (!loginStatus) {
@@ -73,9 +71,7 @@ public class Application {
             } else {
                 switchMainViewTo(ViewCardType.COMPANY);
             }
-
         }
-
     }
 
     public void switchMainViewTo(ViewCardType type) {
@@ -91,5 +87,4 @@ public class Application {
     public void connectMainView(MainView mainView) {
         mv = mainView;
     }
-
 }
