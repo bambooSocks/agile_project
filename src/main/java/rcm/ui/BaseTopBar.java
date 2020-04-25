@@ -21,11 +21,17 @@ public abstract class BaseTopBar extends JPanel {
     private static final long serialVersionUID = 8688699308325627639L;
 
     private Application app;
+    private boolean showSearchBar = true;
     
     public BaseTopBar(Application app) {
+        this(app, true);
+    }
+    
+    public BaseTopBar(Application app, boolean showSearchBar) {
         setLayout(new BorderLayout());
 
         this.app = app;
+        this.showSearchBar = showSearchBar;
         
         add(buildRightSide(), BorderLayout.EAST);
         add(buildLeftSide(), BorderLayout.WEST);
@@ -38,10 +44,12 @@ public abstract class BaseTopBar extends JPanel {
         JPanel rightSide = new JPanel(new FlowLayout());
 
         // Search bar
-        JTextField searchBar = new JTextField();
-        searchBar.setPreferredSize(new Dimension(200, 20));
-        rightSide.add(searchBar);
-
+        if (showSearchBar) {
+            JTextField searchBar = new JTextField();
+            searchBar.setPreferredSize(new Dimension(200, 20));
+            rightSide.add(searchBar);
+        }
+        
         // Profile button
         ImageIcon buttonIcon = new ImageIcon("src/main/resources/user.png");
         JButton profileButton = new JButton(buttonIcon);
