@@ -102,7 +102,7 @@ public class CreateClientView extends JFrame {
         // Create Button
         constraints.gridx = 0;
         constraints.gridy = 6;
-        b2.addActionListener(new ActionListener() {
+        b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Create clicked");
@@ -116,14 +116,15 @@ public class CreateClientView extends JFrame {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 dispose();
             }
         });
         panel.add(b2, constraints);
 
-//         set border for the panel
-        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), " "));
+        // set border for the panel
+        panel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
+                        BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
 
         add(panel);
         pack();

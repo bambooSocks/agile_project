@@ -1,6 +1,7 @@
 package rcm.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,10 +10,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import rcm.Application;
 
@@ -45,9 +48,32 @@ public abstract class BaseTopBar extends JPanel {
 
         // Search bar
         if (showSearchBar) {
+            JPanel search = new JPanel(new FlowLayout());
+            search.setBackground(Color.white);
+            search.setSize(new Dimension(200, 16)); // not really working, still kinda tall imo...
+            search.setBorder(new LineBorder(Color.black));
+            
+            ImageIcon image = new ImageIcon("src/main/resources/search_icon.jpg");
+            JLabel magni = new JLabel(image);
+            
             JTextField searchBar = new JTextField();
-            searchBar.setPreferredSize(new Dimension(200, 20));
-            rightSide.add(searchBar);
+            searchBar.setBorder(new LineBorder(Color.white));
+            searchBar.setPreferredSize(new Dimension(150, 20));
+            
+            ImageIcon X = new ImageIcon("src/main/resources/clear.jpg");
+            JButton clearButton = new JButton(X);
+            clearButton.setPreferredSize(new Dimension(16, 16));
+            clearButton.setBorder(null);
+            clearButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    searchBar.setText("");
+                }
+            });
+            search.add(magni);
+            search.add(searchBar);
+            search.add(clearButton);
+            rightSide.add(search);
         }
         
         // Profile button
@@ -73,7 +99,6 @@ public abstract class BaseTopBar extends JPanel {
         profile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Manage profile clicked");
                 ProfileView popup = new ProfileView();
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
@@ -86,7 +111,6 @@ public abstract class BaseTopBar extends JPanel {
         logOut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Log out clicked");
                 app.switchMainViewTo(ViewCardType.LOGIN);
             }
         });

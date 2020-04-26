@@ -22,34 +22,33 @@ public class ProfileView extends JFrame {
 
     private ProfileInfoView piv;
     private PasswordView pv;
-    
-    public void showPIV () {
+
+    public void showPIV() {
         piv.setVisible(true);
         pv.setVisible(false);
     }
-    
-    public void showPV () {
+
+    public void showPV() {
         piv.setVisible(false);
         pv.setVisible(true);
     }
-    
+
     public ProfileView() {
         super("Manage Profile");
         setLayout(new CardLayout());
 
         piv = new ProfileInfoView(this);
         pv = new PasswordView(this);
-        
+
         add(piv);
         add(pv);
-        
+
         pack();
         setVisible(true);
-        
+
         setLocationRelativeTo(null);
     }
 }
-
 
 class ProfileInfoView extends JPanel {
     private static final long serialVersionUID = -4562833393035926979L;
@@ -71,7 +70,7 @@ class ProfileInfoView extends JPanel {
     public ProfileInfoView(ProfileView pv) {
 
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(400, 350)); // (width, height)
+        setSize(new Dimension(400, 300)); // (width, height)
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -158,10 +157,10 @@ class ProfileInfoView extends JPanel {
         add(b3, constraints);
 
 //         set border for the panel
-        setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), " "));
+        setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
+                        BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
     }
-
-    
 }
 
 class PasswordView extends JPanel {
@@ -171,20 +170,18 @@ class PasswordView extends JPanel {
     private JLabel lbl1 = new JLabel("Old Password:");
     private JLabel lbl2 = new JLabel("New Password:");
     private JLabel lbl3 = new JLabel("Confirm Password:");
-    
+
     private JPasswordField passwordField1 = new JPasswordField(10);
     private JPasswordField passwordField2 = new JPasswordField(10);
     private JPasswordField passwordField3 = new JPasswordField(10);
-    
+
     private JButton b1 = new JButton("Save");
     private JButton b2 = new JButton("Cancel");
-    
+
     public PasswordView(ProfileView pv) {
         super();
 
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(350, 350)); // (width, height)
-
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
@@ -243,9 +240,9 @@ class PasswordView extends JPanel {
         });
         add(b2, constraints);
 
-//  set border for the panel
-        setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), " "));
-
-//        setLocationRelativeTo(null);
+        // set border for the panel
+        setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
+                        BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
     }
 }

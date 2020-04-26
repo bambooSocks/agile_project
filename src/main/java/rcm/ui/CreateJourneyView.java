@@ -134,8 +134,10 @@ public class CreateJourneyView extends JFrame {
         });
         panel.add(b2, constraints);
 
-//         set border for the panel
-        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), " "));
+        // set border for the panel
+        panel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
+                        BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
 
         add(panel);
         pack();

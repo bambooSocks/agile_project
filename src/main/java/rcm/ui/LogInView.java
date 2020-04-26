@@ -79,6 +79,9 @@ public class LogInView extends JPanel {
 
 //         set border for the panel
         panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Login Panel"));
+        setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
+                        BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
 
         add(panel);
     }
