@@ -272,7 +272,4 @@ public class LogisticsCompany extends User {
         }
     }
 
-    public Set<Client> getClients() {
-        return clients;
-    }
 }
