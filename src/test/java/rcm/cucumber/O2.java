@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
@@ -16,8 +17,8 @@ public class O2 {
 
     private SharedObjectHolder holder;
     private boolean loggedIn = false;
-    private boolean access = false;
     private List<Journey> journeys;
+    private List<Journey> sharedJourneys;
 
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
@@ -26,7 +27,7 @@ public class O2 {
     @When("first client enters email {string} and password {string}")
     public void first_client_enters_email_and_password(String email, String password) {
         try {
-            loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
+            loggedIn = holder.getFirstClient().logInStatus(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -45,7 +46,7 @@ public class O2 {
     @When("first logistics company enters email {string} and password {string}")
     public void first_logistics_company_enters_email_and_password(String email, String password) {
         try {
-            loggedIn = holder.getFirstCompany().companyLogInStatus(email, password);
+            loggedIn = holder.getFirstCompany().logInStatus(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -55,7 +56,7 @@ public class O2 {
     public void the_company_is_logged_in() {
         assertTrue(loggedIn);
     }
-    
+
     @Then("the company is not logged in")
     public void the_company_is_not_logged_in() {
         assertFalse(loggedIn);
@@ -63,18 +64,9 @@ public class O2 {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Given("first client is logged-in with email {string} and password {string}")
-    public void first_client_is_logged_in_with_email_and_password(String email, String password) {
-        try {
-            loggedIn = holder.getFirstCompany().clientLogInStatus(email, password);
-        } catch (WrongInputException e) {
-            System.err.println(e.getMessage());
-        }
-    }
-
     @Given("a first journey of second client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_first_journey_of_second_client_with_origin_port_of_destination_port_of_and_a_content_of(
-            String originPort, String destinationPort, String content) {
+            String originPort, String destinationPort, String content) throws IOException {
         holder.setFirstJourney(
                 holder.getFirstCompany().createJourney(holder.getSecondClient(), originPort, destinationPort, content));
         assertEquals(holder.getSecondClient(), holder.getFirstJourney().getClient());
@@ -85,7 +77,7 @@ public class O2 {
 
     @When("client with email {string} tries to view containers and data of client with email {string}")
     public void client_with_email_tries_to_view_containers_and_data_of_client_with_email(String email1, String email2) {
-        journeys = holder.getFirstClient().viewClientData(loggedIn, email1, email2, access);
+        journeys = holder.getFirstClient().viewClientData(email1, email2);
     }
 
     @Then("the containers and data can be viewed")
@@ -100,14 +92,18 @@ public class O2 {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @When("first client with email {string} gives access to client with email {string}")
-    public void first_client_with_email_gives_access_to_client_with_email(String email1, String email2) {
-        access = true;
-        journeys = holder.getSecondClient().viewClientData(loggedIn, email1, email2, access);
+    @When("first client with email {string} shares with second client with email {string}")
+    public void first_client_with_email_shares_with_second_client_with_email(String email1, String email2) {
+        sharedJourneys = holder.getSecondClient().shareClientData(email1, email2);
     }
 
-    @Then("they can view the containers and data of the first client")
-    public void they_can_view_the_containers_and_data_of_the_first_client() {
-        assertEquals(holder.getSecondClient().getJourneyList(), journeys);
+    @Then("second client can view the journeys of the first client")
+    public void second_client_can_view_the_journeys_of_the_first_client() {
+        assertEquals(holder.getSecondClient().getSharedJourneyList(), sharedJourneys);
+    }
+
+    @Then("second client cannot view the journeys of the first client")
+    public void second_client_cannot_view_the_journeys_of_the_first_client() {
+        assertEquals(holder.getSecondClient().getSharedJourneyList(), sharedJourneys);
     }
 }

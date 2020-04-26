@@ -4,20 +4,49 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+
 public class Journey implements Comparable<Journey> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column
     private boolean started = false;
+    @Column
     private boolean ended = false;
+    @Column(nullable = true)
     private LocalDateTime startTimestamp;
+    @Column(nullable = true)
     private LocalDateTime endTimestamp;
+
+    @Column
     private String originPort;
+    @Column
     private String destinationPort;
+    @Column
     private String content;
 
+    @ManyToOne
     private Container container;
+    @ManyToOne
     private Client client;
 
+    @ElementCollection
     private List<ContainerStatus> history;
+
+    @SuppressWarnings("unused")
+    private Journey() {
+
+    }
 
     /**
      * Journey constructor
@@ -35,7 +64,6 @@ public class Journey implements Comparable<Journey> {
         this.content = content;
         this.client = client;
         history = new LinkedList<ContainerStatus>();
-        id = IdGenerator.getInstance().getId(GroupIdType.JOURNEY);
     }
 
     /**
@@ -91,18 +119,6 @@ public class Journey implements Comparable<Journey> {
 
     public void setContainer(Container container) {
         this.container = container;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        return false;
     }
 
     /**
@@ -205,6 +221,23 @@ public class Journey implements Comparable<Journey> {
     @Override
     public int compareTo(Journey o) {
         return startTimestamp.compareTo(o.getStartTimestamp());
+    }
+    /**
+     * Getter for the id
+     * 
+     * @return int id for Journey 
+     */
+    public int getId() {
+        return id;
+    }
+    /**
+     * Getter for the history of container statuses
+     * 
+     * @return List of ContainerStatus of the journey
+     */
+    public List<ContainerStatus> getHistory() {
+
+        return history;
     }
 
 }

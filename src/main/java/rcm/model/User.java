@@ -4,20 +4,43 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.persistence.Column;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
+@MappedSuperclass
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected int id;
+    @Column
     protected String password;
+    @Column
     protected String name;
+    @Column
     protected String address;
+    @Column
     protected String refPerson;
+    @Column
     protected String email;
 
+    @Transient
+    private String exceptions = "Please correct the following input:";
+    @Transient
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    @Transient
     private static final String regexName = "^[A-Z]+[^�!@�$%^&*_+���#�������\\/<>?:;|=0-9]{2,30}$";
+    @Transient
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
+    @Transient
     private static final String regexAddress = "^[^�!@�$%^&*_+���#�������\\\\/<>?;|=]{2,50}$";
+
+    protected User() {
+    }
 
     /**
      * User constructor
@@ -31,36 +54,39 @@ public class User {
      */
     public User(String name, String address, String refPerson, String email, String password)
             throws WrongInputException {
-        this.address = address;
 
         if (validateName(name)) {
             this.name = name;
         } else {
-            throw new WrongInputException("The given client name is not valid");
+            exceptions += " name";
         }
 
         if (validateAddress(address)) {
             this.address = address;
         } else {
-            throw new WrongInputException("The given address is not valid");
+            exceptions += " address";
         }
 
         if (validateRefPerson(refPerson)) {
             this.refPerson = refPerson;
         } else {
-            throw new WrongInputException("The given reference name is not valid");
+            exceptions += " reference person";
         }
 
         if (validateEmail(email)) {
             this.email = email;
         } else {
-            throw new WrongInputException("The given email is not valid");
+            exceptions += " email";
         }
 
         if (validatePassword(password)) {
             this.password = SHA1_Hasher(password);
         } else {
-            throw new WrongInputException("The given password is not valid");
+            exceptions += " password";
+        }
+
+        if (exceptions.length() > "Please correct the following input:".length()) {
+            throw new WrongInputException(exceptions);
         }
     }
 
@@ -202,7 +228,7 @@ public class User {
         if (validateName(newName)) {
             name = newName;
         } else {
-            throw new WrongInputException("The given client name is not valid");
+            throw new WrongInputException("The given client name is not valid.");
         }
     }
 
@@ -215,7 +241,7 @@ public class User {
         if (validateAddress(newAddress)) {
             address = newAddress;
         } else {
-            throw new WrongInputException("The given address is not valid");
+            throw new WrongInputException("The given address is not valid.");
         }
     }
 
@@ -228,7 +254,7 @@ public class User {
         if (validateRefPerson(newRefPerson)) {
             refPerson = newRefPerson;
         } else {
-            throw new WrongInputException("The given reference name is not valid");
+            throw new WrongInputException("The given reference name is not valid.");
         }
     }
 
@@ -241,7 +267,7 @@ public class User {
         if (validateEmail(newEmail)) {
             email = newEmail;
         } else {
-            throw new WrongInputException("The given email is not valid");
+            throw new WrongInputException("The given email is not valid.");
         }
     }
 
@@ -254,7 +280,7 @@ public class User {
         if (validatePassword(newPassword)) {
             password = SHA1_Hasher(newPassword);
         } else {
-            throw new WrongInputException("The given password is not valid");
+            throw new WrongInputException("The given password is not valid.");
         }
     }
 
@@ -280,26 +306,24 @@ public class User {
         return generatedPassword;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
+    /**
+     * Method to log in a user
+     * 
+     * @param email    Email of the user
+     * @param password Password of the user
+     * @return true if correct email and password, otherwise return false
+     * @throws WrongInputException
+     */
+    public boolean logInStatus(String email, String password) throws WrongInputException {
+        if (email.equals(getEmail())) {
+            if (SHA1_Hasher(password).equals(getPassword())) {
+                return true;
+            } else {
+                throw new WrongInputException("Your password is incorrect");
+            }
+        } else {
             return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id != other.id)
-            return false;
-        return true;
+        }
     }
 
     /**

@@ -1,10 +1,10 @@
 package rcm.cucumber;
 
-import static org.junit.Assert.assertTrue;
+//import static org.junit.Assert.assertTrue;
 
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
-
+//import io.cucumber.java.en.Then;
+//import io.cucumber.java.en.When;
+/*
 public class O4 {
 
     private boolean closed;
@@ -37,3 +37,4 @@ public class O4 {
     }
 
 }
+*/

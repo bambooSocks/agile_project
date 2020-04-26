@@ -2,13 +2,33 @@ package rcm.model;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class Client extends User {
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
+@Entity
+public class Client extends User {
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CLIENT_ID")
     private List<Journey> journeyList;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Journey> sharedJourneyList;
+
+    @ManyToOne
     private LogisticsCompany company;
+
+    @SuppressWarnings("unused")
+    private Client() {
+        super();
+    }
 
     /**
      * Client constructor
@@ -24,7 +44,7 @@ public class Client extends User {
             throws WrongInputException {
         super(name, address, refPerson, email, password);
         journeyList = new LinkedList<Journey>();
-        id = IdGenerator.getInstance().getId(GroupIdType.CLIENT);
+        sharedJourneyList = new LinkedList<Journey>();
     }
 
     /**
@@ -82,12 +102,10 @@ public class Client extends User {
      * @param loggedIn boolean representing the log-in status of the first client
      * @param email1   Email of the first client
      * @param email2   Email of the second client
-     * @param access   boolean representing whether the second client has consented
-     *                 to be viewed
      * @return a list of journeys of the second client
      */
-    public List<Journey> viewClientData(boolean loggedIn, String email1, String email2, boolean access) {
-        if ((email1.equals(email2) || access) && loggedIn) {
+    public List<Journey> viewClientData(String email1, String email2) {
+        if (email1.equals(email2)) {
             LinkedList<Client> cl = new LinkedList<Client>();
             cl.addAll(company.searchByEmail(email2));
             if (cl.isEmpty()) {
@@ -100,9 +118,25 @@ public class Client extends User {
         }
     }
 
-    public boolean closeButton() {
-        // TODO Auto-generated method stub
-        return true;
+    /**
+     * Method to share journeys of one client with another client
+     * 
+     * @param loggedIn boolean representing the log-in status of the first client
+     * @param email1   Email of the first client
+     * @param email2   Email of the second client
+     * @return a list of shared journeys of the second client
+     */
+    public List<Journey> shareClientData(String email1, String email2) {
+        LinkedList<Client> cl1 = new LinkedList<Client>();
+        LinkedList<Client> cl2 = new LinkedList<Client>();
+        cl1.addAll(company.searchByEmail(email1));
+        cl2.addAll(company.searchByEmail(email2));
+        if (cl1.isEmpty() || cl2.isEmpty()) {
+            return sharedJourneyList;
+        } else {
+            sharedJourneyList.addAll(cl1.pop().getJourneyList());
+            return sharedJourneyList;
+        }
     }
 
     /**
@@ -133,7 +167,13 @@ public class Client extends User {
      * @implNote This method only works if the client is assigned to a company
      */
     public Response requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) {
-        Journey journey = company.createJourney(this, originPort, destinationPort, content);
+        Journey journey;
+        try {
+            journey = company.createJourney(this, originPort, destinationPort, content);
+        } catch (IOException e) {
+            return Response.DATABASE_ERROR;
+
+        }
         if (journey != null) {
             if (company.startJourney(journey, timestamp)) {
                 return Response.SUCCESS;
@@ -148,9 +188,22 @@ public class Client extends User {
     /**
      * Getter for list of journeys
      * 
-     * @return List of Journeys belonging to the clientS
+     * @return List of Journeys belonging to the client
      */
     public List<Journey> getJourneyList() {
         return journeyList;
+    }
+
+    public LogisticsCompany getCompany() {
+        return company;
+    }
+
+    /**
+     * Getter for List of shared Journeys belonging to the client
+     * 
+     * @return List of shared Journeys belonging to the client
+     */
+    public List<Journey> getSharedJourneyList() {
+        return sharedJourneyList;
     }
 }
