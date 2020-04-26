@@ -1,25 +1,47 @@
 package rcm.model;
 
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.persistence.Column;
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
+@MappedSuperclass 
 public class User {
 
+    
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     protected int id;
+    @Column
     protected String password;
+    @Column
     protected String name;
+    @Column
     protected String address;
+    @Column
     protected String refPerson;
+    @Column
     protected String email;
-
     private String exceptions = "Please correct the following input:";
+    @Transient
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-    private static final String regexName = "^[A-Z]+[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\/<>?:;|=0-9]{2,30}$";
+    @Transient
+    private static final String regexName = "^[A-Z]+[^ï¿½!@ï¿½$%^&*_+ï¿½ï¿½ï¿½#ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\/<>?:;|=0-9]{2,30}$";
+    @Transient
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
-    private static final String regexAddress = "^[^±!@£$%^&*_+§¡€#¢§¶•ªº«\\\\/<>?;|=]{2,50}$";
+    @Transient
+    private static final String regexAddress = "^[^ï¿½!@ï¿½$%^&*_+ï¿½ï¿½ï¿½#ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\\\/<>?;|=]{2,50}$";
 
+    
+    protected User() {
+    }
     /**
      * User constructor
      * 
@@ -284,35 +306,4 @@ public class User {
         return generatedPassword;
     }
 
-    @Override
-    public int hashCode() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        return false;
-    }
-
-    /**
-     * Method to log in a user
-     * 
-     * @param email    Email of the user
-     * @param password Password of the user
-     * @return true if correct email and password, otherwise return false
-     * @throws WrongInputException
-     */
-    public boolean logInStatus(String email, String password) throws WrongInputException {
-        if (email.equals(getEmail())) {
-            if (SHA1_Hasher(password).equals(getPassword())) {
-                return true;
-            } else {
-                throw new WrongInputException("Your password is incorrect");
-            }
-        } else {
-            return false;
-        }
-    }
 }

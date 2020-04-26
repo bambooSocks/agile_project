@@ -1,5 +1,7 @@
 @tag
 Feature: Client profile creation
+Background:
+Given an empty database
 
   @tag1
   Scenario: Successful new client profile creation

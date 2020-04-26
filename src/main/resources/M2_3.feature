@@ -1,6 +1,7 @@
 @tag
 Feature: Journey filtering by a keyword
-
+Background:
+Given an empty database
   @tag1
   Scenario: Successful filtering by destination
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"

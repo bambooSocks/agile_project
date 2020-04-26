@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
@@ -65,7 +66,7 @@ public class O2 {
 
     @Given("a first journey of second client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_first_journey_of_second_client_with_origin_port_of_destination_port_of_and_a_content_of(
-            String originPort, String destinationPort, String content) {
+            String originPort, String destinationPort, String content) throws IOException {
         holder.setFirstJourney(
                 holder.getFirstCompany().createJourney(holder.getSecondClient(), originPort, destinationPort, content));
         assertEquals(holder.getSecondClient(), holder.getFirstJourney().getClient());
