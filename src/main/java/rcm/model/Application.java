@@ -162,4 +162,69 @@ public class Application {
         }
     }
 
+    /**
+     * Searches for clients of logged in logistics company by all parameters
+     * 
+     * @param query Query to be searched for
+     * @return Set of clients
+     */
+    public Set<Client> searchForClients(String query) {
+        Set<Client> results = loggedInCompany.searchByName(query);
+        results.addAll(loggedInCompany.searchByAddress(query));
+        results.addAll(loggedInCompany.searchByRefPerson(query));
+        results.addAll(loggedInCompany.searchByEmail(query));
+        try {
+            int id = Integer.parseInt(query);
+            // TODO: Adrienne: implement or delete
+//            results.addAll(loggedInCompany.searchById(id));
+        } catch (NumberFormatException e) {
+        }
+        return results;
+    }
+
+    // TODO: figure out if searching for containers is worth it ...
+
+    /**
+     * Searches for journeys of logged in client by all parameters
+     * 
+     * @param query Query to be searched for
+     * @return Set of journeys
+     */
+    public Set<Journey> searchForJourneys(String query) {
+        @SuppressWarnings("unchecked")
+        Set<Journey> results = (Set<Journey>) loggedInClient.searchByOrigin(query);
+        results.addAll(loggedInClient.searchByDestination(query));
+        results.addAll(loggedInClient.searchByContent(query));
+        try {
+            int id = Integer.parseInt(query);
+            // TODO: Adrienne: implement or delete
+//            results.addAll(loggedInClient.searchById(id));
+        } catch (NumberFormatException e) {
+        }
+        return results;
+    }
+    
+    /**
+     * Searches for shared journeys of logged in client by all parameters
+     * 
+     * @param query Query to be searched for
+     * @return Set of shared journeys
+     */
+    //TODO: Adrienne: switch to use shared journeys
+    public Set<Journey> searchForSharedJourneys(String query) {
+        @SuppressWarnings("unchecked")
+        Set<Journey> results = (Set<Journey>) loggedInClient.searchByOrigin(query);
+        results.addAll(loggedInClient.searchByDestination(query));
+        results.addAll(loggedInClient.searchByContent(query));
+        try {
+            int id = Integer.parseInt(query);
+            // TODO: Adrienne: implement or delete
+//            results.addAll(loggedInClient.searchById(id));
+        } catch (NumberFormatException e) {
+        }
+        return results;
+    }
+
+    
+    
 }

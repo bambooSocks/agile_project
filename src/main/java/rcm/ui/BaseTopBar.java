@@ -48,13 +48,16 @@ public abstract class BaseTopBar extends JPanel {
 
         // Search bar
         if (showSearchBar) {
-            JPanel search = new JPanel(new FlowLayout());
+            FlowLayout searchLayout = new FlowLayout();
+            searchLayout.setVgap(0);
+            JPanel search = new JPanel(searchLayout);
             search.setBackground(Color.white);
-            search.setSize(new Dimension(200, 16)); // not really working, still kinda tall imo...
-            search.setBorder(new LineBorder(Color.black));
+            search.setPreferredSize(new Dimension(200, 22)); // not really working, still kinda tall imo...
+            search.setBorder(new LineBorder(Color.gray));
             
             ImageIcon image = new ImageIcon("src/main/resources/search_icon.jpg");
             JLabel magni = new JLabel(image);
+            magni.setPreferredSize(new Dimension(16, 16));
             
             JTextField searchBar = new JTextField();
             searchBar.setBorder(new LineBorder(Color.white));
@@ -80,6 +83,7 @@ public abstract class BaseTopBar extends JPanel {
         ImageIcon buttonIcon = new ImageIcon("src/main/resources/user.png");
         JButton profileButton = new JButton(buttonIcon);
         profileButton.setPreferredSize(new Dimension(25, 25));
+        profileButton.setBorder(null);
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

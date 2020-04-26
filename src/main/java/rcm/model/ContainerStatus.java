@@ -120,6 +120,7 @@ public class ContainerStatus {
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
+
     /**
      * Getter for the temperature
      * 
