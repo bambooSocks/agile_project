@@ -138,6 +138,19 @@ public class Client extends User {
             return sharedJourneyList;
         }
     }
+    
+    /**
+     * 
+     * @param client    Client the journey is shared with
+     * @param journey   Journey to be shared with the client
+     */
+    public void shareJourney(Client client, Journey journey) {
+        client.addSharedJourney(journey);
+    }
+    
+    private void addSharedJourney(Journey journey) {
+        sharedJourneyList.add(journey);
+    }
 
     /**
      * Requests the history of container statuses from journey
