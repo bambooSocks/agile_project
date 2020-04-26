@@ -145,50 +145,6 @@ public class LogisticsCompany extends User {
     }
 
     /**
-     * Method to log in a logistics company
-     * 
-     * @param email    Email of the logistics company
-     * @param password Password of the logistics company
-     * @return true if correct email and password, otherwise return false
-     * @throws WrongInputException
-     */
-    public boolean companyLogInStatus(String email, String password) throws WrongInputException {
-        if (email.equals(getEmail())) {
-            if (SHA1_Hasher(password).equals(getPassword())) {
-                return true;
-            } else {
-                throw new WrongInputException("Your password is incorrect");
-            }
-        } else {
-            throw new WrongInputException("Please try another email");
-        }
-    }
-
-    /**
-     * Method to log in a client
-     * 
-     * @param email    Email of the client
-     * @param password Password of the client
-     * @return true if correct email and password, otherwise return false
-     * @throws WrongInputException
-     */
-    public boolean clientLogInStatus(String email, String password) throws WrongInputException {
-        Set<Client> emails = searchByEmail(email);
-        String hashKey = SHA1_Hasher(password);
-        if (emails.isEmpty()) {
-            throw new WrongInputException("Please try another email");
-        } else {
-            Set<Client> passed = emails.stream().filter(c -> c.getPassword().equals(hashKey))
-                    .collect(Collectors.toSet());
-            if (passed.isEmpty()) {
-                throw new WrongInputException("Your password is incorrect");
-            } else {
-                return true;
-            }
-        }
-    }
-
-    /**
      * Method to create a client and assign it to a logistics company
      * 
      * @param name      Name of the client

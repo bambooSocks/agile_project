@@ -104,8 +104,8 @@ public class Client extends User {
      * @param email2   Email of the second client
      * @return a list of journeys of the second client
      */
-    public List<Journey> viewClientData(boolean loggedIn, String email1, String email2) {
-        if (email1.equals(email2) && loggedIn) {
+    public List<Journey> viewClientData(String email1, String email2) {
+        if (email1.equals(email2)) {
             LinkedList<Client> cl = new LinkedList<Client>();
             cl.addAll(company.searchByEmail(email2));
             if (cl.isEmpty()) {
@@ -126,17 +126,15 @@ public class Client extends User {
      * @param email2   Email of the second client
      * @return a list of shared journeys of the second client
      */
-    public List<Journey> shareClientData(boolean loggedIn, String email1, String email2) {
-        if (email1.equals(email2) && loggedIn) {
-            LinkedList<Client> cl = new LinkedList<Client>();
-            cl.addAll(company.searchByEmail(email2));
-            if (cl.isEmpty()) {
-                return sharedJourneyList;
-            } else {
-                sharedJourneyList.addAll(cl.pop().getJourneyList());
-                return sharedJourneyList;
-            }
+    public List<Journey> shareClientData(String email1, String email2) {
+        LinkedList<Client> cl1 = new LinkedList<Client>();
+        LinkedList<Client> cl2 = new LinkedList<Client>();
+        cl1.addAll(company.searchByEmail(email1));
+        cl2.addAll(company.searchByEmail(email2));
+        if (cl1.isEmpty() || cl2.isEmpty()) {
+            return sharedJourneyList;
         } else {
+            sharedJourneyList.addAll(cl1.pop().getJourneyList());
             return sharedJourneyList;
         }
     }
