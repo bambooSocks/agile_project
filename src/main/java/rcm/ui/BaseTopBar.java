@@ -17,7 +17,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import rcm.Application;
+import rcm.model.Application;
 
 public abstract class BaseTopBar extends JPanel {
 

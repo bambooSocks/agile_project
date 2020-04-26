@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JTabbedPane;
 
-import rcm.Application;
+import rcm.model.Application;
 
 public class ClientTabView extends JTabbedPane {
     

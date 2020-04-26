@@ -168,25 +168,14 @@ public class Client extends User {
      *         JOURNEY_NOT_STARTED for failing to start journey. The journey is
      *         added to the journeyList. JOURNEY_NOT_CREATED for failing to create
      *         journey
+     * @throws IOException 
      * @implNote This method only works if the client is assigned to a company
      */
-    public Response requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) {
-        Journey journey;
-        try {
-            journey = company.createJourney(this, originPort, destinationPort, content);
-        } catch (IOException e) {
-            return Response.DATABASE_ERROR;
-
-        }
-        if (journey != null) {
-            if (company.startJourney(journey, timestamp)) {
-                return Response.SUCCESS;
-            } else {
-                return Response.JOURNEY_NOT_STARTED;
-            }
-        } else {
-            return Response.JOURNEY_NOT_CREATED;
-        }
+    //TODO: fix java docs
+    public Journey requestAndStartJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) throws IOException {
+        Journey journey = company.createJourney(this, originPort, destinationPort, content);
+        company.startJourney(journey, timestamp);
+        return journey;
     }
 
     /**

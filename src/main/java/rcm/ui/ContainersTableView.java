@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import rcm.Application;
+import rcm.model.Application;
 
 class ContainersTopBar extends BaseTopBar {
     

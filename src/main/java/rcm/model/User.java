@@ -306,23 +306,4 @@ public class User {
         return generatedPassword;
     }
 
-    /**
-     * Method to log in a user
-     * 
-     * @param email    Email of the user
-     * @param password Password of the user
-     * @return true if correct email and password, otherwise return false
-     * @throws WrongInputException
-     */
-    public boolean logInStatus(String email, String password) throws WrongInputException {
-        if (email.equals(getEmail())) {
-            if (SHA1_Hasher(password).equals(getPassword())) {
-                return true;
-            } else {
-                throw new WrongInputException("Your password is incorrect");
-            }
-        } else {
-            return false;
-        }
-    }
 }

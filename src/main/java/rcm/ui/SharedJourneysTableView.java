@@ -2,7 +2,7 @@ package rcm.ui;
 
 import javax.swing.JPanel;
 
-import rcm.Application;
+import rcm.model.Application;
 
 class SharedJourneysTopBar extends BaseTopBar {
 

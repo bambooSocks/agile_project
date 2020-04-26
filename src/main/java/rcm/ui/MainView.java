@@ -4,7 +4,9 @@ import java.awt.CardLayout;
 
 import javax.swing.JFrame;
 
-import rcm.Application;
+import rcm.model.Application;
+import rcm.repository.Repository;
+import rcm.repository.SqliteRepository;
 
 
 public class MainView extends JFrame {
@@ -22,7 +24,6 @@ public class MainView extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         this.app = app;
-        app.connectMainView(this);
         
         lv = new LogInView(app);
         co = new CompanyTabView(app);
@@ -73,4 +74,11 @@ public class MainView extends JFrame {
         return cl;
     }
 
+    public static void main(String[] args) {
+        Repository repo = new SqliteRepository();
+        Application app = new Application(repo);
+        MainView mv = new MainView(app);
+        mv.run();
+    }
+    
 }
