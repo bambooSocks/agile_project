@@ -1,6 +1,5 @@
 package rcm.model;
 
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
@@ -12,12 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-@MappedSuperclass 
+@MappedSuperclass
 public class User {
 
-    
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     protected int id;
     @Column
     protected String password;
@@ -29,6 +27,8 @@ public class User {
     protected String refPerson;
     @Column
     protected String email;
+
+    @Transient
     private String exceptions = "Please correct the following input:";
     @Transient
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
@@ -39,9 +39,9 @@ public class User {
     @Transient
     private static final String regexAddress = "^[^�!@�$%^&*_+���#�������\\\\/<>?;|=]{2,50}$";
 
-    
     protected User() {
     }
+
     /**
      * User constructor
      * 
@@ -306,4 +306,23 @@ public class User {
         return generatedPassword;
     }
 
+    /**
+     * Method to log in a user
+     * 
+     * @param email    Email of the user
+     * @param password Password of the user
+     * @return true if correct email and password, otherwise return false
+     * @throws WrongInputException
+     */
+    public boolean logInStatus(String email, String password) throws WrongInputException {
+        if (email.equals(getEmail())) {
+            if (SHA1_Hasher(password).equals(getPassword())) {
+                return true;
+            } else {
+                throw new WrongInputException("Your password is incorrect");
+            }
+        } else {
+            return false;
+        }
+    }
 }

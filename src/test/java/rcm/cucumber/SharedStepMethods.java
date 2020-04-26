@@ -18,23 +18,23 @@ public class SharedStepMethods {
 
     private SharedObjectHolder holder;
     private boolean loggedIn = false;
-    public Repository db; 
+    public Repository db;
 
     public SharedStepMethods(SharedObjectHolder holder) {
         this.holder = holder;
     }
+
     @Given("an empty database")
     public void an_empty_database() {
         db = new SqliteRepository();
         db.clearDatabase();
-        
     }
 
     @Given("a first logistics company {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_first_logistics_company_with_address_reference_person_email_and_password(String name, String address,
             String refPerson, String email, String password) throws IOException {
         try {
-            holder.setFirstCompany(new LogisticsCompany(db,name, address, refPerson, email, password));
+            holder.setFirstCompany(new LogisticsCompany(db, name, address, refPerson, email, password));
             assertEquals(name, holder.getFirstCompany().getName());
             assertEquals(address, holder.getFirstCompany().getAddress());
             assertEquals(refPerson, holder.getFirstCompany().getRefPerson());
@@ -59,7 +59,7 @@ public class SharedStepMethods {
     public void a_second_logistics_company_with_address_reference_person_email_and_password(String name, String address,
             String refPerson, String email, String password) throws IOException {
         try {
-            holder.setSecondCompany(new LogisticsCompany(db,name, address, refPerson, email, password));
+            holder.setSecondCompany(new LogisticsCompany(db, name, address, refPerson, email, password));
             assertEquals(name, holder.getSecondCompany().getName());
             assertEquals(address, holder.getSecondCompany().getAddress());
             assertEquals(refPerson, holder.getSecondCompany().getRefPerson());
@@ -150,7 +150,6 @@ public class SharedStepMethods {
     public void a_container_of_the_first_logistics_company() throws IOException {
         holder.setFirstContainer(holder.getFirstCompany().createContainer());
     }
-    
 
     @Given("the first journey has started at {int}:{int} {int}\\/{int}\\/{int}")
     public void the_first_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month,
