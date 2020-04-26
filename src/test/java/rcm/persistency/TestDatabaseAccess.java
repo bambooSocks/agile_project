@@ -1,11 +1,13 @@
 package rcm.persistency;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -77,11 +79,30 @@ public class TestDatabaseAccess {
 
     @Test
     public void testUpdate() throws IOException, WrongInputException {
-        Client cl3 = lc1.createClient("Novo Nordisk", "Lyngbyvej 56", "Linea Hansen", "linea@novo.dk", "Password12345");
         dbClient = db.readClient(cl1.getEmail());
         dbClient.updateEmail("client@maersk.dk");
         db.updateCompany(lc1);
         assertEquals("client@maersk.dk", db.readClient(cl1.getEmail()).getEmail());
+
+    }
+    
+    
+    @Test
+    public void testreadAllCompanies() throws IOException, WrongInputException {
+        LogisticsCompany lc2 = new LogisticsCompany(db,"Doprava", "Jedlova 21", "Petr Zeleny", "zelda@novo.dk", "Password12345");
+        List <LogisticsCompany> list = db.readAllLogisticsCompanies();
+        assertTrue(list.contains(lc2)&&list.contains(lc1));
+
+    }
+    
+    
+    
+    @Test
+    public void testSharedJourney() throws IOException, WrongInputException {
+        Client cl3 = lc1.createClient("Brambora", "Lesova 3", "Linea Hansen", "linea2@novo.dk", "Password12345");
+        cl2.shareClientData(cl1.getEmail(),cl2.getEmail());
+        assertTrue(cl2.getSharedJourneyList().contains(j1));
+        assertFalse(cl3.getSharedJourneyList().contains(j1));
 
     }
 

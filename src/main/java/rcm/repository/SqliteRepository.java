@@ -2,6 +2,7 @@ package rcm.repository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +21,9 @@ public class SqliteRepository implements Repository {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("Database");
     EntityManager em = emf.createEntityManager();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void createLogisticsCompany(LogisticsCompany po) throws IOException {
         withinTransaction(() -> {
@@ -27,6 +31,9 @@ public class SqliteRepository implements Repository {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LogisticsCompany readLogisticsCompany(String key) throws IOException {
         try {
@@ -34,6 +41,19 @@ public class SqliteRepository implements Repository {
                     .createQuery("SELECT u FROM LogisticsCompany u WHERE u.email=:key", LogisticsCompany.class)
                     .setParameter("key", key);
             return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<LogisticsCompany> readAllLogisticsCompanies() throws IOException {
+        try {
+            TypedQuery<LogisticsCompany> query = em
+                    .createQuery("SELECT u FROM LogisticsCompany u", LogisticsCompany.class);
+            return query.getResultList();
         } catch (NoResultException e) {
             return null;
         }
@@ -49,6 +69,9 @@ public class SqliteRepository implements Repository {
         public void unitFunction();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clearDatabase() {
         withinTransaction(() -> {
@@ -59,6 +82,9 @@ public class SqliteRepository implements Repository {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void createContainer(Container po) throws IOException {
         withinTransaction(() -> {
@@ -66,6 +92,9 @@ public class SqliteRepository implements Repository {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Container readContainer(int key) throws IOException {
         try {
@@ -77,6 +106,9 @@ public class SqliteRepository implements Repository {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void createClient(Client po) throws IOException {
         withinTransaction(() -> {
@@ -84,6 +116,9 @@ public class SqliteRepository implements Repository {
         });
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Client readClient(String key) throws IOException {
         try {
@@ -95,6 +130,9 @@ public class SqliteRepository implements Repository {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void createJourney(Journey po) throws IOException {
         withinTransaction(() -> {
@@ -103,6 +141,9 @@ public class SqliteRepository implements Repository {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Journey readJourney(int key) throws IOException {
         try {
@@ -114,6 +155,9 @@ public class SqliteRepository implements Repository {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateCompany(LogisticsCompany logisticsCompany) {
         withinTransaction(() -> {
