@@ -1,5 +1,6 @@
 package rcm;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,14 +34,14 @@ public class Application {
 //      system = loadFromDB();
         system = new LinkedList<LogisticsCompany>();
 
-        try {
-            LogisticsCompany lc = new LogisticsCompany("Oop", "plop", "Doop", "doop@oop.plop", "Pl000p");
-            system.add(lc);
-            lc.createClient("Bloop", "plop", "Gloop", "gloop@bloop.plop", "Pl000p");
-
-        } catch (WrongInputException e) {
-            System.err.println(e.getMessage());
-        }
+//        try {
+//            LogisticsCompany lc = new LogisticsCompany(null, "Oop", "plop", "Doop", "doop@oop.plop", "Pl000p");
+//            system.add(lc);
+//            lc.createClient("Bloop", "plop", "Gloop", "gloop@bloop.plop", "Pl000p");
+//
+//        } catch (WrongInputException | IOException e) {
+//            System.err.println(e.getMessage());
+//        }
     }
 
     public void loginUser(String email, char[] password) {
