@@ -119,35 +119,26 @@ public class Client extends User {
     }
 
     /**
-     * Method to share journeys of one client with another client
+     * Method to share a journey with another client
      * 
-     * @param loggedIn boolean representing the log-in status of the first client
-     * @param email1   Email of the first client
-     * @param email2   Email of the second client
-     * @return a list of shared journeys of the second client
+     * @param client  Client the journey is shared with
+     * @param journey Journey to be shared with the client
+     * @return true if journey is successfully shared, otherwise false
      */
-    public List<Journey> shareClientData(String email1, String email2) {
-        LinkedList<Client> cl1 = new LinkedList<Client>();
-        LinkedList<Client> cl2 = new LinkedList<Client>();
-        cl1.addAll(company.searchByEmail(email1));
-        cl2.addAll(company.searchByEmail(email2));
-        if (cl1.isEmpty() || cl2.isEmpty()) {
-            return sharedJourneyList;
+    public boolean shareJourney(Client client, Journey journey) {
+        if (client != null && journey != null) {
+            client.addSharedJourney(journey);
+            return true;
         } else {
-            sharedJourneyList.addAll(cl1.pop().getJourneyList());
-            return sharedJourneyList;
+            return false;
         }
     }
-    
+
     /**
+     * Method to add a shared journey to the list of shared journeys
      * 
-     * @param client    Client the journey is shared with
-     * @param journey   Journey to be shared with the client
+     * @param journey Journey to be added to the list of shared journeys
      */
-    public void shareJourney(Client client, Journey journey) {
-        client.addSharedJourney(journey);
-    }
-    
     private void addSharedJourney(Journey journey) {
         sharedJourneyList.add(journey);
     }
