@@ -128,7 +128,6 @@ public class CreateJourneyView extends JFrame {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 dispose();
             }
         });

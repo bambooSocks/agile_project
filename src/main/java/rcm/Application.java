@@ -44,12 +44,13 @@ public class Application {
     }
 
     public void loginUser(String email, char[] password) {
+        String pswd = new String(password);
         boolean loginStatus = false;
 
         User loggedInUser = null;
         for (User u : getUsers()) {
             try {
-                loginStatus = u.logInStatus(email, new String(password));
+                loginStatus = u.logInStatus(email, pswd);
                 if (loginStatus) {
                     loggedInUser = u;
                     break;
