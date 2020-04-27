@@ -19,6 +19,8 @@ public abstract class BaseTableView extends BaseView {
     @Override
     protected Component buildContent() {
         final JTable table = new JTable(addData(), addColumnNames());
+        
+        
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
 
