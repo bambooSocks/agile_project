@@ -140,7 +140,6 @@ public class SharedStepMethods {
     @Given("a first journey of first client with origin port of {string} destination port of {string} and a content of {string}")
     public void a_first_journey_with_origin_port_of_destination_port_of_and_a_content_of(String originPort,
             String destinationPort, String content) throws IOException {
-        // TODO: Teo: discuss the way we request journeys
         holder.setFirstJourney(holder.getApp().requestNewJourney(originPort, destinationPort, content, null));
         assertEquals(holder.getFirstClient(), holder.getFirstJourney().getClient());
         assertEquals(originPort, holder.getFirstJourney().getOriginPort());

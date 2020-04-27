@@ -82,9 +82,13 @@ public class Application {
      */
     public Client createNewClient(String name, String address, String refPerson, String email, String password)
             throws IOException, WrongInputException {
-        Client c = loggedInCompany.createClient(name, address, refPerson, email, password);
-        repo.createClient(c);
-        return c;
+        if (loggedInCompany != null) {
+            Client c = loggedInCompany.createClient(name, address, refPerson, email, password);
+            repo.createClient(c);
+            return c;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -95,9 +99,13 @@ public class Application {
      * @throws IOException
      */
     public Container createNewContainer() throws IOException {
-        Container c = loggedInCompany.createContainer();
-        repo.createContainer(c);
-        return c;
+        if (loggedInCompany != null) {
+            Container c = loggedInCompany.createContainer();
+            repo.createContainer(c);
+            return c;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -112,9 +120,13 @@ public class Application {
      */
     public Journey requestNewJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp)
             throws IOException {
-        Journey j = loggedInClient.requestJourney(originPort, destinationPort, content, timestamp);
-        repo.createJourney(j);
-        return j;
+        if (loggedInClient != null) {
+            Journey j = loggedInClient.requestJourney(originPort, destinationPort, content, timestamp);
+            repo.createJourney(j);
+            return j;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -146,7 +158,7 @@ public class Application {
      */
     // TODO: maybe switch to Journey id not an object
     public boolean enterNewContainerStatus(Journey journey, ContainerStatus status) throws IOException {
-        if (loggedInCompany.enterStatus(status, journey)) {
+        if (loggedInCompany != null && loggedInCompany.enterStatus(status, journey)) {
             repo.updateCompany(loggedInCompany);
             return true;
         } else {
@@ -163,7 +175,11 @@ public class Application {
      */
     // TODO: maybe switch to Journey id not an object
     public boolean startJourney(Journey journey, LocalDateTime timestamp) {
-        return loggedInCompany.startJourney(journey, timestamp);
+        if (loggedInCompany != null) {
+            return loggedInCompany.startJourney(journey, timestamp);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -175,7 +191,11 @@ public class Application {
      */
     // TODO: maybe switch to Journey id not an object
     public boolean endJourney(Journey journey, LocalDateTime timestamp) {
-        return loggedInCompany.endJourney(journey, timestamp);
+        if (loggedInCompany != null) {
+            return loggedInCompany.endJourney(journey, timestamp);
+        } else {
+            return false;
+        }
     }
 
     /**
