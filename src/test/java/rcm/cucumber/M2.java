@@ -45,8 +45,12 @@ public class M2 {
     @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
     public void the_first_client_requests_to_register_a_journey_with_the_first_logistics_company_with_origin_destination_and_content(
             String originPort, String destinationPort, String content) {
-        response = holder.getFirstClient().requestJourney(originPort, destinationPort, content,
-                LocalDateTime.of(2020, 3, 13, 4, 20));
+        try {
+            holder.getFirstClient().requestAndStartJourney(originPort, destinationPort, content,
+                    LocalDateTime.of(2020, 3, 13, 4, 20));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -93,7 +97,6 @@ public class M2 {
 
     @Then("an id is created")
     public void an_id_is_created() {
-        assertEquals(Response.SUCCESS, response);
         assertTrue(!holder.getFirstClient().getJourneyList().isEmpty());
     }
 

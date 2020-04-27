@@ -16,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import rcm.model.Application;
+import rcm.model.WrongInputException;
 
 public class LogInView extends JPanel {
 
@@ -71,8 +72,12 @@ public class LogInView extends JPanel {
         constraints.gridwidth = 1;
         b1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                app.loginUser(emailField.getText(), passwordField.getPassword());
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    app.logInUser(emailField.getText(), passwordField.getPassword());
+                } catch (WrongInputException e) {
+                    Dialog.ErrorDialog(e.getMessage(), "Login error");
+                }
             }
         });
         panel.add(b1, constraints);

@@ -2,6 +2,7 @@ package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class O2 {
     @When("first client enters email {string} and password {string}")
     public void first_client_enters_email_and_password(String email, String password) {
         try {
-            loggedIn = holder.getFirstClient().logInStatus(email, password);
+            holder.getApp().logInUser(email, password.toCharArray());
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -46,7 +47,7 @@ public class O2 {
     @When("first logistics company enters email {string} and password {string}")
     public void first_logistics_company_enters_email_and_password(String email, String password) {
         try {
-            loggedIn = holder.getFirstCompany().logInStatus(email, password);
+            holder.getApp().logInUser(email, password.toCharArray());
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -54,12 +55,12 @@ public class O2 {
 
     @Then("the company is logged in")
     public void the_company_is_logged_in() {
-        assertTrue(loggedIn);
+        assertNotEquals(null, holder.getApp().getLoggedInCompany());
     }
 
     @Then("the company is not logged in")
     public void the_company_is_not_logged_in() {
-        assertFalse(loggedIn);
+        assertEquals(null, holder.getApp().getLoggedInCompany());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////

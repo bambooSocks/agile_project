@@ -23,13 +23,14 @@ public class Application {
      */
     public Application(Repository repo) {
         this.repo = repo;
+        support = new PropertyChangeSupport(this);
         // TODO: for the Group2
 //      system = loadFromDB();
 
         // begin temporary
         system = new LinkedList<>();
         try {
-            createNewLogisticsCompany("Maersk", "Kbh", "someone", "info@maersk.com", "bigShip123");
+            createNewLogisticsCompany("Maersk", "Kbh", "Someone", "info@maersk.com", "bigShip123");
         } catch (WrongInputException | IOException e) {
             e.printStackTrace();
         }
@@ -53,14 +54,16 @@ public class Application {
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
      * @param password  Password for the account of the logistics company
+     * @return created Logistics Company
      * @throws WrongInputException
      * @throws IOException
      */
-    private void createNewLogisticsCompany(String name, String address, String refPerson, String email, String password)
+    public LogisticsCompany createNewLogisticsCompany(String name, String address, String refPerson, String email, String password)
             throws WrongInputException, IOException {
         LogisticsCompany c = new LogisticsCompany(name, address, refPerson, email, password);
         repo.createLogisticsCompany(c);
         system.add(c);
+        return c;
     }
 
     /**
@@ -71,23 +74,27 @@ public class Application {
      * @param refPerson Reference person of the client
      * @param email     Email of the client
      * @param password  Password for the account of the client
+     * @return created Client
      * @throws IOException
      * @throws WrongInputException
      */
-    public void createNewClient(String name, String address, String refPerson, String email, String password)
+    public Client createNewClient(String name, String address, String refPerson, String email, String password)
             throws IOException, WrongInputException {
         Client c = loggedInCompany.createClient(name, address, refPerson, email, password);
         repo.createClient(c);
+        return c;
     }
 
     /**
      * Creates a container and adds it to the system and database
+     * @return created Container
      * 
      * @throws IOException
      */
-    public void createNewContainer() throws IOException {
+    public Container createNewContainer() throws IOException {
         Container c = loggedInCompany.createContainer();
         repo.createContainer(c);
+        return c;
     }
 
     /**
@@ -97,12 +104,14 @@ public class Application {
      * @param destinationPort Destination port of the journey
      * @param content         Content of the journey
      * @param timestamp       Time stamp when the journey should start
+     * @return requested Journey
      * @throws IOException
      */
-    public void requestNewJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp)
+    public Journey requestNewJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp)
             throws IOException {
         Journey j = loggedInClient.requestAndStartJourney(originPort, destinationPort, content, timestamp);
         repo.createJourney(j);
+        return j;
     }
 
     /**
@@ -162,6 +171,16 @@ public class Application {
         }
     }
 
+    
+    /**
+     * Logs out the user
+     */
+    public void logOut() {
+        loggedInClient = null;
+        loggedInCompany = null;
+        support.firePropertyChange("userLoggedOut", null, null);
+    }
+    
     /**
      * Searches for clients of logged in logistics company by all parameters
      * 
@@ -224,6 +243,16 @@ public class Application {
         }
         return results;
     }
+
+    public LogisticsCompany getLoggedInCompany() {
+        return loggedInCompany;
+    }
+
+    public Client getLoggedInClient() {
+        return loggedInClient;
+    }
+
+
 
     
     

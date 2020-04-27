@@ -2,6 +2,7 @@
 Feature: Client profile creation
 Background:
 Given an empty database
+And new application
 
   @tag1
   Scenario: Successful new client profile creation

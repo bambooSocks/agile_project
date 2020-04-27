@@ -2,6 +2,7 @@
 Feature: Client searching
 Background:
 Given an empty database
+And new application
   @tag1
   Scenario: Successful search using client name
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"

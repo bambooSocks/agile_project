@@ -115,7 +115,7 @@ public abstract class BaseTopBar extends JPanel {
         logOut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                app.switchMainViewTo(ViewCardType.LOGIN);
+                app.logOut();
             }
         });
         popup.add(logOut);

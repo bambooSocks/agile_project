@@ -3,6 +3,7 @@ Feature: Log-ins and permissions
 
   Background: 
     Given an empty database
+    And new application
 
   @tag1
   Scenario: Successful client Log-in

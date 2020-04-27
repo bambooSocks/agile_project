@@ -27,8 +27,12 @@ public class M1 {
     @When("the company creates a first client {string} with address {string} reference person {string} email {string} and password {string}")
     public void the_company_creates_a_first_client_with_address_reference_person_email_and_password(String name,
             String address, String refPerson, String email, String password) throws IOException {
-        Client client = holder.getFirstCompany().createClient(name, address, refPerson, email, password);
-        holder.setFirstClient(client);
+        try {
+            Client client = holder.getApp().createNewClient(name, address, refPerson, email, password);
+            holder.setFirstClient(client);
+        } catch (IOException | WrongInputException e) {
+            e.printStackTrace();
+        }
     }
 
     @Then("an id is automatically generated")

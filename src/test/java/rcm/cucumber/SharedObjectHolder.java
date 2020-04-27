@@ -1,5 +1,6 @@
 package rcm.cucumber;
 
+import rcm.model.Application;
 import rcm.model.Client;
 import rcm.model.Container;
 import rcm.model.Journey;
@@ -7,10 +8,19 @@ import rcm.model.LogisticsCompany;
 
 public class SharedObjectHolder {
 
+    private Application app;
     private LogisticsCompany company1, company2;
     private Client client1, client2;
     private Journey journey1, journey2;
     private Container container1;
+
+    public Application getApp() {
+        return app;
+    }
+
+    public void setApp(Application app) {
+        this.app = app;
+    }
 
     public LogisticsCompany getFirstCompany() {
         return company1;

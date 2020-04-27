@@ -1,7 +1,6 @@
 package rcm.repository;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -11,7 +10,6 @@ import javax.persistence.TypedQuery;
 
 import rcm.model.Client;
 import rcm.model.Container;
-import rcm.model.ContainerStatus;
 import rcm.model.Journey;
 import rcm.model.LogisticsCompany;
 
