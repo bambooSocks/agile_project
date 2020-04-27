@@ -133,12 +133,7 @@ public class Application {
     public boolean enterNewContainerStatus(Journey journey, LocalDateTime timestamp, double temp, double humid,
             double atmPress, String loc) throws IOException {
         ContainerStatus status = new ContainerStatus(timestamp, temp, humid, atmPress, loc);
-        if (loggedInCompany.enterStatus(status, journey)) {
-            repo.updateCompany(loggedInCompany);
-            return true;
-        } else {
-            return false;
-        }
+        return enterNewContainerStatus(journey, status);
     }
 
     /**
@@ -321,11 +316,79 @@ public class Application {
      * @return List of the Container Statuses
      */
     public List<ContainerStatus> requestStatus(Journey journey) {
-        if (loggedInClient != null && loggedInClient.ownsJourney(journey)) {
-            return journey.getStatus();
+        if (loggedInClient != null) {
+            return loggedInClient.requestStatus(journey);
         } else {
             return null;
         }
+    }
+
+    /**
+     * Requests clients of the logged in company
+     * 
+     * @return List of the Clients
+     */
+    public List<Client> requestClients() {
+        if (loggedInCompany != null) {
+            return new LinkedList<>(loggedInCompany.getClients());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Requests containers of the logged in company
+     * 
+     * @return List of the Containers
+     */
+    public List<Container> requestContainers() {
+        if (loggedInCompany != null) {
+            return new LinkedList<>(loggedInCompany.getContainers());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Requests journeys of the logged in client
+     * 
+     * @return List of the Journeys
+     */
+    public List<Journey> requestJourneys() {
+        if (loggedInClient != null) {
+            return new LinkedList<>(loggedInClient.getJourneyList());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Requests shared journeys of the logged in client
+     * 
+     * @return List of the shared Journeys
+     */
+    public List<Journey> requestSharedJourneys() {
+        if (loggedInClient != null) {
+            return new LinkedList<>(loggedInClient.getSharedJourneyList());
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Shares a journey with another client
+     * 
+     * @param client  Client to be shared with
+     * @param journey Journey to be shared
+     * @return Boolean whether it was successfully shared
+     */
+    public boolean shareJourney(Client client, Journey journey) {
+        if (loggedInClient != null) {
+            return loggedInClient.shareJourney(client, journey);
+        } else {
+            return false;
+        }
+
     }
 
 }

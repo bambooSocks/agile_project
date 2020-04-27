@@ -14,6 +14,9 @@ import rcm.unitTest.*;
     CucumberTest.class,
     // Unit tests
     JourneyTest.class,
+    ApplicationTest.class,
+    UserTest.class,
+    ClientTest.class,
     LogisticsCompanyTest.class,
     ContainerStatusTest.class,
     TestDatabaseAccess.class

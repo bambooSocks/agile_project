@@ -254,4 +254,13 @@ public class LogisticsCompany extends User {
         }
     }
 
+    /**
+     * Getter for the containers of the logistics company
+     * 
+     * @return List of Containers
+     */
+    public List<Container> getContainers() {
+        return containers;
+    }
+
 }

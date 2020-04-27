@@ -301,7 +301,6 @@ public class User {
             }
             generatedPassword = sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
         }
         return generatedPassword;
     }
