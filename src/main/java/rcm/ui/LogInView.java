@@ -77,7 +77,9 @@ public class LogInView extends JPanel {
                     app.logInUser(emailField.getText(), passwordField.getPassword());
                 } catch (WrongInputException e) {
                     Dialog.ErrorDialog(e.getMessage(), "Login error");
+                    return;
                 }
+                // TODO: Adrienne: clear text boxes
             }
         });
         panel.add(b1, constraints);

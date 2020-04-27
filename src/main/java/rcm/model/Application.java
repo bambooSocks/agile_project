@@ -142,13 +142,16 @@ public class Application {
     @SuppressWarnings("unchecked")
     public void logInUser(String email, char[] password) throws WrongInputException {
         String pswd = new String(password);
-
+        loggedInCompany = null;
+        loggedInClient = null;
+        
+        
         for (LogisticsCompany c : system) {
             if (c.getEmail().equals(email)) {
                 if (User.SHA1_Hasher(pswd).equals(c.getPassword())) {
                     loggedInCompany = c;
-                    loggedInClient = null;
                     support.firePropertyChange("companyLoggedIn", null, null);
+                    break;
                 } else {
                     throw new WrongInputException("Your password is incorrect");
                 }
@@ -158,8 +161,8 @@ public class Application {
                     Client cl = ((LinkedList<Client>) cs).pop();
                     if (User.SHA1_Hasher(pswd).equals(cl.getPassword())) {
                         loggedInClient = cl;
-                        loggedInCompany = null;
                         support.firePropertyChange("clientLoggedIn", null, null);
+                        break;
                     } else {
                         throw new WrongInputException("Your password is incorrect");
                     }
