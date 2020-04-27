@@ -37,7 +37,6 @@ public class JourneyTest {
         journey = app.requestNewJourney("Rotterdam", "Los Angeles", "tobacco", null);
     }
 
-
     @Test
     public void testGetCompany() throws IOException, WrongInputException {
         assertEquals(null, journey.getCompany());
@@ -46,6 +45,5 @@ public class JourneyTest {
         company.startJourney(journey, LocalDateTime.of(2020, 3, 13, 4, 20));
         assertEquals(company, journey.getCompany());
     }
-
 
 }

@@ -63,7 +63,7 @@ public class TestDatabaseAccess {
         dbClient = repo.readClient(cl1.getEmail());
         LogisticsCompany dbUser3 = repo.readLogisticsCompany(lc1.getEmail());
         Journey dbJourney = repo.readJourney(j1.getId());
-        //TODO: group2 do you need this mili variable?
+        // TODO: group2 do you need this mili variable?
         long mili = new Date().getTime();
         ContainerStatus dbStatus = dbJourney.getHistory().get(0);
 
@@ -83,7 +83,7 @@ public class TestDatabaseAccess {
 
     @Test
     public void testUpdate() throws IOException, WrongInputException {
-        //TODO: group2 do you need this client???
+        // TODO: group2 do you need this client???
         Client cl3 = lc1.createClient("Novo Nordisk", "Lyngbyvej 56", "Linea Hansen", "linea@novo.dk", "Password12345");
         dbClient = repo.readClient(cl1.getEmail());
         dbClient.updateEmail("client@maersk.dk");

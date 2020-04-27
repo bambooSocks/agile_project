@@ -46,7 +46,6 @@ public class Container {
         return company;
     }
 
-
     /**
      * Checks whether a container is available at given time
      * 
@@ -80,10 +79,11 @@ public class Container {
     public LinkedList<Journey> getJourneyList() {
         return journeyList;
     }
+
     /**
      * Getter for the id
      * 
-     * @return int id for Container 
+     * @return int id for Container
      */
     public int getId() {
         return id;

@@ -13,11 +13,11 @@ public class ContainerStatusTest {
     @Test
     public void testHashCode() {
         LocalDateTime timestamp = LocalDateTime.of(2020, 3, 13, 4, 20);
-        ContainerStatus s1 = new ContainerStatus(timestamp, 13.5, 75.0, 1.01,"New York");
-        ContainerStatus s2 = new ContainerStatus(timestamp, 13.5, 75.0, 1.01,"New York");
+        ContainerStatus s1 = new ContainerStatus(timestamp, 13.5, 75.0, 1.01, "New York");
+        ContainerStatus s2 = new ContainerStatus(timestamp, 13.5, 75.0, 1.01, "New York");
 
-        ContainerStatus sn1 = new ContainerStatus(null, 13.5, 75.0, 1.01,"New York");
-        ContainerStatus sn2 = new ContainerStatus(null, 13.5, 75.0, 1.01,"New York");
+        ContainerStatus sn1 = new ContainerStatus(null, 13.5, 75.0, 1.01, "New York");
+        ContainerStatus sn2 = new ContainerStatus(null, 13.5, 75.0, 1.01, "New York");
 
         assertTrue(s1.hashCode() == s2.hashCode());
         assertTrue(s1.equals(s2) && s2.equals(s1));
