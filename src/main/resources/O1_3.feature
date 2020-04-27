@@ -9,10 +9,14 @@ And new application
     And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And a container of the first logistics company
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123"
+    And first client is logged-in with email "info@novonordisk.com" and password "Object123"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And the first journey has started at 4:20 11/3/2020
     And the first journey has ended at 4:20 12/3/2020
+    And first client is logged-in with email "info@novonordisk.com" and password "Object123"
     And a second journey of first client with origin port of "Rotterdam" destination port of "Copenhagen" and a content of "medical goods"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     When the logistics company starts a second journey of the first client with a timestamp 4:20 13/3/2020
     Then the second journey has started
     And the container is not available at 4:25 13/3/2020
@@ -23,9 +27,13 @@ And new application
     And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And a container of the first logistics company
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123"
+    And first client is logged-in with email "info@novonordisk.com" and password "Object123"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And the first journey has started at 4:20 11/3/2020
+    And first client is logged-in with email "info@novonordisk.com" and password "Object123"
     And a second journey of first client with origin port of "Rotterdam" destination port of "Copenhagen" and a content of "medical goods"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     When the logistics company starts a second journey of the first client with a timestamp 4:20 13/3/2020
     Then the second journey failed to start
     And the list of journeys of the container does not contain the second journey
@@ -35,10 +43,14 @@ And new application
     And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And a container of the first logistics company
     And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123"
+    And first client is logged-in with email "info@novonordisk.com" and password "Object123"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And the first journey has started at 4:20 11/3/2020
     And the first journey has ended at 4:20 13/3/2020
+    And first client is logged-in with email "info@novonordisk.com" and password "Object123"
     And a second journey of first client with origin port of "Rotterdam" destination port of "Copenhagen" and a content of "medical goods"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     When the logistics company starts a second journey of the first client with a timestamp 4:20 12/3/2020
     Then the second journey failed to start
     And the list of journeys of the container does not contain the second journey

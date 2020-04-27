@@ -163,16 +163,14 @@ public class Client extends User {
      * @param originPort      the origin port of the journey
      * @param destinationPort the destination port of the journey
      * @param content         content of the container in the journey
-     * @param timestamp       time stamp of the journey start
-     * @return Response.SUCCESS for journey created and added to journeyList
-     *         JOURNEY_NOT_STARTED for failing to start journey. The journey is
-     *         added to the journeyList. JOURNEY_NOT_CREATED for failing to create
-     *         journey
-     * @throws IOException 
+     * @param timestamp       time stamp of the journey start. if passed null the
+     *                        journey will not start
+     * @return created Journey
+     * @throws IOException
      * @implNote This method only works if the client is assigned to a company
      */
-    //TODO: fix java docs
-    public Journey requestAndStartJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) throws IOException {
+    public Journey requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp)
+            throws IOException {
         Journey journey = company.createJourney(this, originPort, destinationPort, content);
         company.startJourney(journey, timestamp);
         return journey;

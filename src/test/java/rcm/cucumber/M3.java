@@ -41,8 +41,7 @@ public class M3 {
             Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         status = new ContainerStatus(timestamp, temperature, humidity, airPressure, "New York");
-        LogisticsCompany company = holder.getFirstJourney().getCompany();
-        successfulEntry = company.enterStatus(status, holder.getFirstJourney());
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
         assertTrue(holder.getFirstJourney().containsStatus(status));
     }
 

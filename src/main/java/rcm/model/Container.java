@@ -59,7 +59,7 @@ public class Container {
         } else {
             Collections.sort(journeyList);
             Journey lastJourney = journeyList.getLast();
-            return lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
+            return timestamp != null && lastJourney.isEnded() && lastJourney.getEndTimestamp().isBefore(timestamp);
         }
     }
 

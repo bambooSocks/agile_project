@@ -46,8 +46,8 @@ public class M2 {
     public void the_first_client_requests_to_register_a_journey_with_the_first_logistics_company_with_origin_destination_and_content(
             String originPort, String destinationPort, String content) {
         try {
-            holder.getFirstClient().requestAndStartJourney(originPort, destinationPort, content,
-                    LocalDateTime.of(2020, 3, 13, 4, 20));
+            holder.setFirstJourney(holder.getApp().requestNewJourney(originPort, destinationPort, content,
+                    LocalDateTime.of(2020, 3, 13, 4, 20)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,13 +56,13 @@ public class M2 {
 
     @When("the first logistics company updates containers location")
     public void the_first_logistics_company_updates_containers_location() throws IOException {
-        successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
 
     }
 
     @When("the second logistics company updates containers location")
     public void the_second_logistics_company_updates_containers_location() throws IOException {
-        successfulEntry = holder.getSecondCompany().enterStatus(status, holder.getFirstJourney());
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
     }
 
     @When("the first client filters his journeys based on the origin port {string}")
@@ -121,7 +121,7 @@ public class M2 {
 
     @Then("the journey doesnt start")
     public void the_journey_doesnt_start() {
-        assertEquals(Response.JOURNEY_NOT_STARTED, response);
+        assertFalse(holder.getFirstJourney().isStarted());
     }
 
 }

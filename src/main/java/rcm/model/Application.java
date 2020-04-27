@@ -29,11 +29,11 @@ public class Application {
 
         // begin temporary
         system = new LinkedList<>();
-        try {
-            createNewLogisticsCompany("Maersk", "Kbh", "Someone", "info@maersk.com", "bigShip123");
-        } catch (WrongInputException | IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            createNewLogisticsCompany("Maersk", "Kbh", "Someone", "info@maersk.com", "bigShip123");
+//        } catch (WrongInputException | IOException e) {
+//            e.printStackTrace();
+//        }
         // end temporary
     }
 
@@ -58,8 +58,8 @@ public class Application {
      * @throws WrongInputException
      * @throws IOException
      */
-    public LogisticsCompany createNewLogisticsCompany(String name, String address, String refPerson, String email, String password)
-            throws WrongInputException, IOException {
+    public LogisticsCompany createNewLogisticsCompany(String name, String address, String refPerson, String email,
+            String password) throws WrongInputException, IOException {
         LogisticsCompany c = new LogisticsCompany(name, address, refPerson, email, password);
         repo.createLogisticsCompany(c);
         system.add(c);
@@ -87,6 +87,7 @@ public class Application {
 
     /**
      * Creates a container and adds it to the system and database
+     * 
      * @return created Container
      * 
      * @throws IOException
@@ -109,7 +110,7 @@ public class Application {
      */
     public Journey requestNewJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp)
             throws IOException {
-        Journey j = loggedInClient.requestAndStartJourney(originPort, destinationPort, content, timestamp);
+        Journey j = loggedInClient.requestJourney(originPort, destinationPort, content, timestamp);
         repo.createJourney(j);
         return j;
     }
@@ -123,13 +124,35 @@ public class Application {
      * @param humid     Humidity inside the container
      * @param atmPress  Atmospheric pressure inside the container
      * @param loc       Location of the container
+     * @return Boolean of whether it was successfully added or not
      * @throws IOException
      */
-    public void enterNewContainerStatus(Journey journey, LocalDateTime timestamp, double temp, double humid,
+    public boolean enterNewContainerStatus(Journey journey, LocalDateTime timestamp, double temp, double humid,
             double atmPress, String loc) throws IOException {
         ContainerStatus status = new ContainerStatus(timestamp, temp, humid, atmPress, loc);
-        loggedInCompany.enterStatus(status, journey);
-        repo.updateCompany(loggedInCompany);
+        if (loggedInCompany.enterStatus(status, journey)) {
+            repo.updateCompany(loggedInCompany);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Enters a new container status adds it to the system and database
+     * 
+     * @param journey Journey the status should be added to
+     * @param status  Container status of the container
+     * @return Boolean of whether it was successfully added or not
+     * @throws IOException
+     */
+    public boolean enterNewContainerStatus(Journey journey, ContainerStatus status) throws IOException {
+        if (loggedInCompany.enterStatus(status, journey)) {
+            repo.updateCompany(loggedInCompany);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -139,13 +162,11 @@ public class Application {
      * @param password Password of the user to be logged in
      * @throws WrongInputException
      */
-    @SuppressWarnings("unchecked")
     public void logInUser(String email, char[] password) throws WrongInputException {
         String pswd = new String(password);
         loggedInCompany = null;
         loggedInClient = null;
-        
-        
+
         for (LogisticsCompany c : system) {
             if (c.getEmail().equals(email)) {
                 if (User.SHA1_Hasher(pswd).equals(c.getPassword())) {
@@ -158,7 +179,7 @@ public class Application {
             } else {
                 Set<Client> cs = c.searchByEmail(email);
                 if (!cs.isEmpty()) {
-                    Client cl = ((LinkedList<Client>) cs).pop();
+                    Client cl = (new LinkedList<>(cs)).pop();
                     if (User.SHA1_Hasher(pswd).equals(cl.getPassword())) {
                         loggedInClient = cl;
                         support.firePropertyChange("clientLoggedIn", null, null);
@@ -174,7 +195,6 @@ public class Application {
         }
     }
 
-    
     /**
      * Logs out the user
      */
@@ -183,7 +203,7 @@ public class Application {
         loggedInCompany = null;
         support.firePropertyChange("userLoggedOut", null, null);
     }
-    
+
     /**
      * Searches for clients of logged in logistics company by all parameters
      * 
@@ -225,14 +245,14 @@ public class Application {
         }
         return results;
     }
-    
+
     /**
      * Searches for shared journeys of logged in client by all parameters
      * 
      * @param query Query to be searched for
      * @return Set of shared journeys
      */
-    //TODO: Adrienne: switch to use shared journeys
+    // TODO: Adrienne: switch to use shared journeys
     public Set<Journey> searchForSharedJourneys(String query) {
         @SuppressWarnings("unchecked")
         Set<Journey> results = (Set<Journey>) loggedInClient.searchByOrigin(query);
@@ -255,8 +275,4 @@ public class Application {
         return loggedInClient;
     }
 
-
-
-    
-    
 }

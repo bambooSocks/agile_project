@@ -18,6 +18,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
     private CompanyTabView co;
     private ClientTabView cl;
 
+    @SuppressWarnings("unused")
     private Application app;
 
     public MainView(Application app) {

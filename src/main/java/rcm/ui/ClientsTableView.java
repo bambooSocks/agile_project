@@ -46,7 +46,7 @@ public class ClientsTableView extends BaseTableView {
 
     public ClientsTableView(Application app) {
         super(new ClientsTopBar(app));
-        
+
     }
 
     @Override

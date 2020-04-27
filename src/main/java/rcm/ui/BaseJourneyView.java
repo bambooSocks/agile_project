@@ -15,11 +15,11 @@ public abstract class BaseJourneyView extends BaseView {
     @Override
     protected Component buildContent() {
         JPanel panel = new JPanel();
-        
+
         // TODO Auto-generated method stub
         return panel;
     }
 
     protected abstract void buildButtons();
-    
+
 }

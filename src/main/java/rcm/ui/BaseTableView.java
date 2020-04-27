@@ -15,7 +15,7 @@ public abstract class BaseTableView extends BaseView {
     public BaseTableView(BaseTopBar topBar) {
         super(topBar);
     }
-    
+
     @Override
     protected Component buildContent() {
         final JTable table = new JTable(addData(), addColumnNames());

@@ -90,7 +90,7 @@ public class CreateJourneyView extends JFrame {
         rGroup.add(r2);
         rBox.add(r1);
         rBox.add(r2);
-        
+
         r1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,7 +98,7 @@ public class CreateJourneyView extends JFrame {
                 // need to input todays date here
             }
         });
-        
+
         r2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,7 +106,7 @@ public class CreateJourneyView extends JFrame {
                 // need to add the date selector here
             }
         });
-        
+
         constraints.gridx = 1;
         constraints.gridy = 3;
         panel.add(rBox, constraints);

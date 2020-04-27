@@ -37,10 +37,11 @@ public class LogisticsCompany extends User {
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
-     * @param password  Password of the logistics company 
-     * @throws WrongInputException 
+     * @param password  Password of the logistics company
+     * @throws WrongInputException
      */
-    public LogisticsCompany(String name, String address, String refPerson, String email, String password) throws WrongInputException {
+    public LogisticsCompany(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
         super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
         clients = new HashSet<Client>();
@@ -147,9 +148,10 @@ public class LogisticsCompany extends User {
      * @param email     Email of the client
      * @param password  Password of the client
      * @return created client or null if client is not created
-     * @throws WrongInputException 
+     * @throws WrongInputException
      */
-    public Client createClient(String name, String address, String refPerson, String email, String password) throws WrongInputException {
+    public Client createClient(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
         Client c = new Client(name, address, refPerson, email, password);
         addClient(c);
         c.assignCompany(this);
@@ -196,7 +198,7 @@ public class LogisticsCompany extends User {
      */
     public boolean startJourney(Journey journey, LocalDateTime timestamp) {
         Container container = getAvailableContainer(timestamp);
-        if (journey != null && !journey.isStarted() && container != null) {
+        if (journey != null && !journey.isStarted() && container != null && timestamp != null) {
             journey.setContainer(container);
             journey.setStartTimestamp(timestamp);
             journey.setStarted();

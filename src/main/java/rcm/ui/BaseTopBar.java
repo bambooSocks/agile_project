@@ -25,17 +25,17 @@ public abstract class BaseTopBar extends JPanel {
 
     private Application app;
     private boolean showSearchBar = true;
-    
+
     public BaseTopBar(Application app) {
         this(app, true);
     }
-    
+
     public BaseTopBar(Application app, boolean showSearchBar) {
         setLayout(new BorderLayout());
 
         this.app = app;
         this.showSearchBar = showSearchBar;
-        
+
         add(buildRightSide(), BorderLayout.EAST);
         add(buildLeftSide(), BorderLayout.WEST);
         setPreferredSize(new Dimension(500, 40));
@@ -54,15 +54,15 @@ public abstract class BaseTopBar extends JPanel {
             search.setBackground(Color.white);
             search.setPreferredSize(new Dimension(200, 22)); // not really working, still kinda tall imo...
             search.setBorder(new LineBorder(Color.gray));
-            
+
             ImageIcon image = new ImageIcon("src/main/resources/search_icon.jpg");
             JLabel magni = new JLabel(image);
             magni.setPreferredSize(new Dimension(16, 16));
-            
+
             JTextField searchBar = new JTextField();
             searchBar.setBorder(new LineBorder(Color.white));
             searchBar.setPreferredSize(new Dimension(150, 20));
-            
+
             ImageIcon X = new ImageIcon("src/main/resources/clear.jpg");
             JButton clearButton = new JButton(X);
             clearButton.setPreferredSize(new Dimension(16, 16));
@@ -78,7 +78,7 @@ public abstract class BaseTopBar extends JPanel {
             search.add(clearButton);
             rightSide.add(search);
         }
-        
+
         // Profile button
         ImageIcon buttonIcon = new ImageIcon("src/main/resources/user.png");
         JButton profileButton = new JButton(buttonIcon);

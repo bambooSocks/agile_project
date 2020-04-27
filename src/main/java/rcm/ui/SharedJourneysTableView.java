@@ -16,7 +16,7 @@ class SharedJourneysTopBar extends BaseTopBar {
     public JPanel buildLeftSide() {
         return new JPanel();
     }
-    
+
 }
 
 //Created table for SharedJourneys: will appear on SharedJourneys tab
@@ -27,7 +27,7 @@ public class SharedJourneysTableView extends BaseTableView {
     public SharedJourneysTableView(Application app) {
         super(new SharedJourneysTopBar(app));
     }
-    
+
     @Override
     public String[] addColumnNames() {
         String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };

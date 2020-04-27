@@ -1,11 +1,9 @@
 package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.List;
 
 import io.cucumber.java.en.Given;
@@ -17,12 +15,16 @@ import rcm.model.WrongInputException;
 public class O2 {
 
     private SharedObjectHolder holder;
-    private boolean loggedIn = false;
     private List<Journey> journeys;
     private boolean sharedJourney;
 
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
+    }
+
+    @Given("user is logged out")
+    public void user_is_logged_out() {
+        holder.getApp().logOut();
     }
 
     @When("first client enters email {string} and password {string}")
@@ -36,12 +38,12 @@ public class O2 {
 
     @Then("the client is logged in")
     public void the_client_is_logged_in() {
-        assertTrue(loggedIn);
+        assertEquals(holder.getFirstClient(), holder.getApp().getLoggedInClient());
     }
 
-    @Then("the client is not logged in")
+    @Then("the client is fnot logged in")
     public void the_client_is_not_logged_in() {
-        assertFalse(loggedIn);
+        assertNotEquals(holder.getFirstClient(), holder.getApp().getLoggedInClient());
     }
 
     @When("first logistics company enters email {string} and password {string}")

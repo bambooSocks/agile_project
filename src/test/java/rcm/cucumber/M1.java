@@ -31,7 +31,7 @@ public class M1 {
             Client client = holder.getApp().createNewClient(name, address, refPerson, email, password);
             holder.setFirstClient(client);
         } catch (IOException | WrongInputException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
         }
     }
 

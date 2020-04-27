@@ -6,6 +6,7 @@ And new application
   @tag1
   Scenario: Successful client profile update
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
     When a client enters new client info "Dole" with address "338 Hwy 82, Orlando, FLorida" reference person "Victor Krum" email "bigyellowbananas@chiquita.com" and password "Corndog12"
@@ -14,6 +15,7 @@ And new application
   @tag2
   Scenario: Unsuccessful client profile update
     Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
     When a client enters new client info "aChiquita7" with address "338 Hwy 82!, Orlando; FLorida" reference person "car7men Rodriguez Jr." email "bigyellowbananas.com" and password "lamepassword"

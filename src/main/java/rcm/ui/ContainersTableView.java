@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import rcm.model.Application;
 
 class ContainersTopBar extends BaseTopBar {
-    
+
     public ContainersTopBar(Application app) {
         super(app);
     }
@@ -55,13 +55,10 @@ public class ContainersTableView extends BaseTableView {
     // TODO: Change addData method according to listener
     @Override
     public Object[][] addData() {
-        Object[][] data = {
-                { "new Integer(1)", "available", "Maersk" },
-                { "new Integer(1)", "available", "Maersk" },
-                { "new Integer(1)", "available", "Maersk" },
-                { "new Integer(1)", "available", "Maersk" },
+        Object[][] data = { { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
+                { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
                 { "new Integer(1)", "available", "Maersk" } };
         return data;
     }
-    
+
 }
