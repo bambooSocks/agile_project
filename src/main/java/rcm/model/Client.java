@@ -185,6 +185,11 @@ public class Client extends User {
         return journeyList;
     }
 
+    /**
+     * Getter for the logistics company of the container used in the journey
+     * 
+     * @return Logistics company object
+     */
     public LogisticsCompany getCompany() {
         return company;
     }
@@ -196,5 +201,15 @@ public class Client extends User {
      */
     public List<Journey> getSharedJourneyList() {
         return sharedJourneyList;
+    }
+
+    /**
+     * Checks whether the client owns the journey
+     * 
+     * @param journey Journey to check for
+     * @return Boolean whether the client owns the journey
+     */
+    public boolean ownsJourney(Journey journey) {
+        return journeyList.contains(journey);
     }
 }

@@ -230,14 +230,5 @@ public class Journey implements Comparable<Journey> {
     public int getId() {
         return id;
     }
-    /**
-     * Getter for the history of container statuses
-     * 
-     * @return List of ContainerStatus of the journey
-     */
-    public List<ContainerStatus> getHistory() {
-
-        return history;
-    }
 
 }

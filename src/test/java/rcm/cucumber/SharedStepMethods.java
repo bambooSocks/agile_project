@@ -179,7 +179,7 @@ public class SharedStepMethods {
     public void the_first_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
+        holder.getApp().startJourney(holder.getFirstJourney(), timestamp);
     }
 
 }

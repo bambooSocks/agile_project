@@ -65,7 +65,7 @@ public class TestDatabaseAccess {
         Journey dbJourney = repo.readJourney(j1.getId());
         // TODO: group2 do you need this mili variable?
         long mili = new Date().getTime();
-        ContainerStatus dbStatus = dbJourney.getHistory().get(0);
+        ContainerStatus dbStatus = dbJourney.getStatus().get(0);
 
         assertEquals("Maersk", dbUser3.getName());
 

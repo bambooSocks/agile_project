@@ -13,7 +13,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.ContainerStatus;
-import rcm.model.LogisticsCompany;
 
 public class M3 {
 
@@ -47,22 +46,22 @@ public class M3 {
 
     @When("the first logistics company enters the given container status")
     public void the_first_logistics_company_enters_the_given_container_status() throws IOException {
-        successfulEntry = holder.getFirstCompany().enterStatus(status, holder.getFirstJourney());
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
     }
 
     @When("the second logistics company enters the given container status")
     public void the_second_logistics_company_enters_the_given_container_status() throws IOException {
-        successfulEntry = holder.getSecondCompany().enterStatus(status, holder.getFirstJourney());
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
     }
 
     @When("the first client requests access to the status")
     public void the_first_client_requests_access_to_the_status() {
-        statusList = holder.getFirstClient().requestStatus(holder.getFirstJourney());
+        statusList = holder.getApp().requestStatus(holder.getFirstJourney());
     }
 
     @When("the second client requests access to the status")
     public void the_second_client_requests_access_to_the_status() {
-        statusList = holder.getSecondClient().requestStatus(holder.getFirstJourney());
+        statusList = holder.getApp().requestStatus(holder.getFirstJourney());
     }
 
     @Then("the journey contains the given status")

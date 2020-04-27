@@ -1,6 +1,5 @@
 package rcm.cucumber;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -13,12 +12,10 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.ContainerStatus;
 import rcm.model.Journey;
-import rcm.model.Response;
 
 public class M2 {
 
     private List<Journey> filteredContent, filteredDestination, filteredOrigin;
-    private Response response;
     private SharedObjectHolder holder;
     protected LocalDateTime timestamp;
     private ContainerStatus status;
@@ -92,7 +89,7 @@ public class M2 {
     public void the_location_is_not_changed() {
         assertFalse(successfulEntry);
         assertTrue(holder.getFirstJourney().getStatus().isEmpty());
-        
+
     }
 
     @Then("an id is created")

@@ -19,7 +19,9 @@ public class Application {
     Client loggedInClient;
 
     /**
+     * Application constructor
      * 
+     * @param repo Repository connected to the database
      */
     public Application(Repository repo) {
         this.repo = repo;
@@ -310,6 +312,20 @@ public class Application {
      */
     public Client getLoggedInClient() {
         return loggedInClient;
+    }
+
+    /**
+     * Requests status for given journey
+     * 
+     * @param journey Journey to get status history out of
+     * @return List of the Container Statuses
+     */
+    public List<ContainerStatus> requestStatus(Journey journey) {
+        if (loggedInClient != null && loggedInClient.ownsJourney(journey)) {
+            return journey.getStatus();
+        } else {
+            return null;
+        }
     }
 
 }

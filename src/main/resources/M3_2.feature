@@ -27,7 +27,7 @@ And new application
     And a container of the first logistics company
     And first client is logged-in with email "info@novonordisk.com" and password "Object123"
     And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods" started at 4:20 13/3/2020
-        And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
+    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar with a timestamp 4:22 13/3/2020
     And second client is logged-in with email "info@chiquita.com" and password "Object123"
     When the second client requests access to the status
