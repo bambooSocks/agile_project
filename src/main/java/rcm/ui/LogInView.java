@@ -74,7 +74,7 @@ public class LogInView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 try {
-                    app.logInUser(emailField.getText(), passwordField.getPassword());
+                    app.logInUser(emailField.getText(), new String(passwordField.getPassword()));
                 } catch (WrongInputException e) {
                     Dialog.ErrorDialog(e.getMessage(), "Login error");
                     return;

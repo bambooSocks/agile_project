@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
+import rcm.model.Application;
 import rcm.model.Client;
 import rcm.model.LogisticsCompany;
 import rcm.model.WrongInputException;
@@ -20,11 +21,13 @@ public class ClientTest {
 
     @Before
     public void init() throws WrongInputException, IOException {
-        Repository db = new SqliteRepository();
-        db.clearDatabase();
-        company1 = new LogisticsCompany(db, "Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou",
+        Repository repo = new SqliteRepository();
+        Application app = new Application(repo);
+        repo.clearDatabase();
+        company1 = app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou",
                 "info@maersk.com", "Agile123");
-        client1 = company1.createClient("Novo Nordisk", "Novo Alle, 2880 Bagsvaerd", "Lars Fruergaard Joergensen",
+        app.logInUser("info@maersk.com", "Agile123");
+        client1 = app.createNewClient("Novo Nordisk", "Novo Alle, 2880 Bagsvaerd", "Lars Fruergaard Joergensen",
                 "info@novonordisk.com", "Agile123");
     }
 

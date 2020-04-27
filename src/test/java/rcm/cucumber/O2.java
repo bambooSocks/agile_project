@@ -30,7 +30,7 @@ public class O2 {
     @When("first client enters email {string} and password {string}")
     public void first_client_enters_email_and_password(String email, String password) {
         try {
-            holder.getApp().logInUser(email, password.toCharArray());
+            holder.getApp().logInUser(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class O2 {
         assertEquals(holder.getFirstClient(), holder.getApp().getLoggedInClient());
     }
 
-    @Then("the client is fnot logged in")
+    @Then("the client is not logged in")
     public void the_client_is_not_logged_in() {
         assertNotEquals(holder.getFirstClient(), holder.getApp().getLoggedInClient());
     }
@@ -49,7 +49,7 @@ public class O2 {
     @When("first logistics company enters email {string} and password {string}")
     public void first_logistics_company_enters_email_and_password(String email, String password) {
         try {
-            holder.getApp().logInUser(email, password.toCharArray());
+            holder.getApp().logInUser(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }

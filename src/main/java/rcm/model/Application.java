@@ -127,6 +127,7 @@ public class Application {
      * @return Boolean of whether it was successfully added or not
      * @throws IOException
      */
+    // TODO: maybe switch to Journey id not an object
     public boolean enterNewContainerStatus(Journey journey, LocalDateTime timestamp, double temp, double humid,
             double atmPress, String loc) throws IOException {
         ContainerStatus status = new ContainerStatus(timestamp, temp, humid, atmPress, loc);
@@ -146,6 +147,7 @@ public class Application {
      * @return Boolean of whether it was successfully added or not
      * @throws IOException
      */
+    // TODO: maybe switch to Journey id not an object
     public boolean enterNewContainerStatus(Journey journey, ContainerStatus status) throws IOException {
         if (loggedInCompany.enterStatus(status, journey)) {
             repo.updateCompany(loggedInCompany);
@@ -156,20 +158,43 @@ public class Application {
     }
 
     /**
+     * Starts a journey with the given time stamp
+     * 
+     * @param journey   Journey to be started
+     * @param timestamp Starting time stamp of the journey
+     * @return Boolean whether the journey was successfully started
+     */
+    // TODO: maybe switch to Journey id not an object
+    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
+        return loggedInCompany.startJourney(journey, timestamp);
+    }
+
+    /**
+     * Ends a journey with the given time stamp
+     * 
+     * @param journey   Journey to be ended
+     * @param timestamp Ending time stamp of the journey
+     * @return Boolean whether the journey was successfully ended
+     */
+    // TODO: maybe switch to Journey id not an object
+    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
+        return loggedInCompany.endJourney(journey, timestamp);
+    }
+
+    /**
      * Logs in a user by email and password
      * 
      * @param email    Email of the user to be logged in
      * @param password Password of the user to be logged in
      * @throws WrongInputException
      */
-    public void logInUser(String email, char[] password) throws WrongInputException {
-        String pswd = new String(password);
+    public void logInUser(String email, String password) throws WrongInputException {
         loggedInCompany = null;
         loggedInClient = null;
 
         for (LogisticsCompany c : system) {
             if (c.getEmail().equals(email)) {
-                if (User.SHA1_Hasher(pswd).equals(c.getPassword())) {
+                if (User.SHA1_Hasher(password).equals(c.getPassword())) {
                     loggedInCompany = c;
                     support.firePropertyChange("companyLoggedIn", null, null);
                     break;
@@ -180,7 +205,7 @@ public class Application {
                 Set<Client> cs = c.searchByEmail(email);
                 if (!cs.isEmpty()) {
                     Client cl = (new LinkedList<>(cs)).pop();
-                    if (User.SHA1_Hasher(pswd).equals(cl.getPassword())) {
+                    if (User.SHA1_Hasher(password).equals(cl.getPassword())) {
                         loggedInClient = cl;
                         support.firePropertyChange("clientLoggedIn", null, null);
                         break;
@@ -267,10 +292,22 @@ public class Application {
         return results;
     }
 
+    /**
+     * Getter for logged in logistics company
+     * 
+     * @return null if no logistics company is logged in, otherwise returns the
+     *         object of the company
+     */
     public LogisticsCompany getLoggedInCompany() {
         return loggedInCompany;
     }
 
+    /**
+     * Getter for logged in client
+     * 
+     * @return null if no client is logged in, otherwise returns the object of the
+     *         client
+     */
     public Client getLoggedInClient() {
         return loggedInClient;
     }

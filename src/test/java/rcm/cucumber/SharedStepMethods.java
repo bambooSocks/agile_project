@@ -52,7 +52,7 @@ public class SharedStepMethods {
     @Given("first logistics company is logged-in with email {string} and password {string}")
     public void first_logistics_company_is_logged_in_with_email_and_password(String email, String password) {
         try {
-            holder.getApp().logInUser(email, password.toCharArray());
+            holder.getApp().logInUser(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -78,7 +78,7 @@ public class SharedStepMethods {
     @Given("second logistics company is logged-in with email {string} and password {string}")
     public void second_logistics_company_is_logged_in_with_email_and_password(String email, String password) {
         try {
-            holder.getApp().logInUser(email, password.toCharArray());
+            holder.getApp().logInUser(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -104,7 +104,7 @@ public class SharedStepMethods {
     @Given("first client is logged-in with email {string} and password {string}")
     public void first_client_is_logged_in_with_email_and_password(String email, String password) {
         try {
-            holder.getApp().logInUser(email, password.toCharArray());
+            holder.getApp().logInUser(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }
@@ -130,7 +130,7 @@ public class SharedStepMethods {
     @Given("second client is logged-in with email {string} and password {string}")
     public void second_client_is_logged_in_with_email_and_password(String email, String password) {
         try {
-            holder.getApp().logInUser(email, password.toCharArray());
+            holder.getApp().logInUser(email, password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
         }

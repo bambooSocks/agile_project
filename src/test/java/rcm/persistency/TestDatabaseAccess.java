@@ -10,6 +10,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
+import rcm.model.Application;
 import rcm.model.Client;
 import rcm.model.Container;
 import rcm.model.ContainerStatus;
@@ -20,7 +21,8 @@ import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
 
 public class TestDatabaseAccess {
-    Repository db;
+    Repository repo;
+    Application app;
     LogisticsCompany lc1;
     Client cl1, cl2;
     Journey j1;
@@ -31,17 +33,19 @@ public class TestDatabaseAccess {
 
     @Before
     public void init() throws WrongInputException, IOException {
-        db = new SqliteRepository();
-        db.clearDatabase(); // Remove all users from the database to get a fresh database for testing
+        repo = new SqliteRepository();
+        app = new Application(repo);
+        repo.clearDatabase(); // Remove all users from the database to get a fresh database for testing
 
-        lc1 = new LogisticsCompany(db, "Maersk", "Linde Alle", "Peter", "peter@maersk.dk", "Password12345");
-        cl1 = lc1.createClient("DTU", "Linde Alle 2", "Tom", "tom@dtu.dk", "Tom123456");
-        cl2 = lc1.createClient("Novo Nordisk", "Lyngbyvej 56", "Linea Hansen", "linea@novo.dk", "Password12345");
-        c1 = lc1.createContainer();
-        j1 = lc1.createJourney(cl1, "Copenhagen", "New York", "robots");
+        lc1 = app.createNewLogisticsCompany("Maersk", "Linde Alle", "Peter", "peter@maersk.dk", "Password12345");
+        app.logInUser("peter@maersk.dk", "Password12345");
+        cl1 = app.createNewClient("DTU", "Linde Alle 2", "Tom", "tom@dtu.dk", "Tom123456");
+        cl2 = app.createNewClient("Novo Nordisk", "Lyngbyvej 56", "Linea Hansen", "linea@novo.dk", "Password12345");
+        c1 = app.createNewContainer();
+        app.logInUser("tom@dtu.dk", "Tom123456");
         timestamp = LocalDateTime.of(2019, 4, 22, 15, 0);
+        j1 = app.requestNewJourney("Copenhagen", "New York", "robots", timestamp);
 
-        lc1.startJourney(j1, timestamp);
         timestamp2 = LocalDateTime.of(2020, 4, 22, 15, 0);
         cs1 = new ContainerStatus(timestamp2, 35.0, 20.0, 101.0, "Copenhagen");
 
@@ -50,14 +54,16 @@ public class TestDatabaseAccess {
     @Test
     public void testDatabase() throws IOException, WrongInputException {
 
-        boolean success = lc1.enterStatus(cs1, j1);
+        app.logInUser("peter@maersk.dk", "Password12345");
+        boolean success = app.enterNewContainerStatus(j1, cs1);
 
-        db = new SqliteRepository();
+        repo = new SqliteRepository();
 
-        Container dbContainer = db.readContainer(c1.getId());
-        dbClient = db.readClient(cl1.getEmail());
-        LogisticsCompany dbUser3 = db.readLogisticsCompany(lc1.getEmail());
-        Journey dbJourney = db.readJourney(j1.getId());
+        Container dbContainer = repo.readContainer(c1.getId());
+        dbClient = repo.readClient(cl1.getEmail());
+        LogisticsCompany dbUser3 = repo.readLogisticsCompany(lc1.getEmail());
+        Journey dbJourney = repo.readJourney(j1.getId());
+        //TODO: group2 do you need this mili variable?
         long mili = new Date().getTime();
         ContainerStatus dbStatus = dbJourney.getHistory().get(0);
 
@@ -77,11 +83,12 @@ public class TestDatabaseAccess {
 
     @Test
     public void testUpdate() throws IOException, WrongInputException {
+        //TODO: group2 do you need this client???
         Client cl3 = lc1.createClient("Novo Nordisk", "Lyngbyvej 56", "Linea Hansen", "linea@novo.dk", "Password12345");
-        dbClient = db.readClient(cl1.getEmail());
+        dbClient = repo.readClient(cl1.getEmail());
         dbClient.updateEmail("client@maersk.dk");
-        db.updateCompany(lc1);
-        assertEquals("client@maersk.dk", db.readClient(cl1.getEmail()).getEmail());
+        repo.updateCompany(lc1);
+        assertEquals("client@maersk.dk", repo.readClient(cl1.getEmail()).getEmail());
 
     }
 
