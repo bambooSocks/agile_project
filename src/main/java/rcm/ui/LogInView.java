@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -56,6 +58,7 @@ public class LogInView extends JPanel {
         panel.add(lbl1, constraints);
 
         constraints.gridx = 1;
+        emailField.addKeyListener(new KeyListener());
         panel.add(emailField, constraints);
 
         // Password
@@ -64,12 +67,14 @@ public class LogInView extends JPanel {
         panel.add(lbl2, constraints);
 
         constraints.gridx = 1;
+        passwordField.addKeyListener(new KeyListener());
         panel.add(passwordField, constraints);
 
         // Login Button
         constraints.gridx = 1;
         constraints.gridy = 3;
         constraints.gridwidth = 1;
+        b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -91,5 +96,16 @@ public class LogInView extends JPanel {
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
 
         add(panel);
+    }
+
+    class KeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+                System.out.println("Enter pressed");
+                b1.doClick();
+            }
+        }
     }
 }

@@ -59,22 +59,22 @@ public class M1 {
 ///////////////////M1:2//////////////////////////////////////////
     @When("a first logistics company searches for name {string}")
     public void a_first_logistics_company_searches_for_name(String name) {
-        searchResults = holder.getFirstCompany().searchByName(name);
+        searchResults = holder.getFirstCompany().searchClientByName(name);
     }
 
     @When("a first logistics company searches for address {string}")
     public void a_first_logistics_company_searches_for_address(String address) {
-        searchResults = holder.getFirstCompany().searchByAddress(address);
+        searchResults = holder.getFirstCompany().searchClientByAddress(address);
     }
 
     @When("a first logistics company searches for reference person {string}")
     public void a_first_logistics_company_searches_for_reference_person(String refPerson) {
-        searchResults = holder.getFirstCompany().searchByRefPerson(refPerson);
+        searchResults = holder.getFirstCompany().searchClientByRefPerson(refPerson);
     }
 
     @When("a first logistics company searches for email {string}")
     public void a_first_logistics_company_searches_for_email(String email) {
-        searchResults = holder.getFirstCompany().searchByEmail(email);
+        searchResults = holder.getFirstCompany().searchClientByEmail(email);
     }
 
     @Then("it exists and the client {string} with address {string} reference person {string} email {string} and password {string} is returned")

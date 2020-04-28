@@ -219,7 +219,7 @@ public class Application {
                     throw new WrongInputException("Your password is incorrect");
                 }
             } else {
-                Set<Client> cs = c.searchByEmail(email);
+                Set<Client> cs = c.searchClientByEmail(email);
                 if (!cs.isEmpty()) {
                     Client cl = (new LinkedList<>(cs)).pop();
                     if (User.SHA1_Hasher(password).equals(cl.getPassword())) {
@@ -253,20 +253,14 @@ public class Application {
      * @return Set of clients
      */
     public Set<Client> searchForClients(String query) {
-        Set<Client> results = loggedInCompany.searchByName(query);
-        results.addAll(loggedInCompany.searchByAddress(query));
-        results.addAll(loggedInCompany.searchByRefPerson(query));
-        results.addAll(loggedInCompany.searchByEmail(query));
-        try {
-            int id = Integer.parseInt(query);
-            // TODO: Adrienne: implement or delete
-//            results.addAll(loggedInCompany.searchById(id));
-        } catch (NumberFormatException e) {
-        }
+        Set<Client> results = loggedInCompany.searchClientByName(query);
+        results.addAll(loggedInCompany.searchClientByAddress(query));
+        results.addAll(loggedInCompany.searchClientByRefPerson(query));
+        results.addAll(loggedInCompany.searchClientByEmail(query));
+        results.addAll(loggedInCompany.searchClientById(query));
+        // TODO: Adrienne make sure the search bar output is always a string (where tho?)
         return results;
     }
-
-    // TODO: figure out if searching for containers is worth it ...
 
     /**
      * Searches for journeys of logged in client by all parameters
@@ -274,38 +268,28 @@ public class Application {
      * @param query Query to be searched for
      * @return Set of journeys
      */
-    public Set<Journey> searchForJourneys(String query) {
-        @SuppressWarnings("unchecked")
-        Set<Journey> results = (Set<Journey>) loggedInClient.searchByOrigin(query);
-        results.addAll(loggedInClient.searchByDestination(query));
-        results.addAll(loggedInClient.searchByContent(query));
-        try {
-            int id = Integer.parseInt(query);
-            // TODO: Adrienne: implement or delete
-//            results.addAll(loggedInClient.searchById(id));
-        } catch (NumberFormatException e) {
-        }
+    public List<Journey> searchForJourneys(String query) {
+        List<Journey> results = loggedInClient.journeySearchByOrigin(query);
+        results.addAll(loggedInClient.journeySearchByDestination(query));
+        results.addAll(loggedInClient.journeySearchByContent(query));
+        results.addAll(loggedInClient.journeySearchById(query));
         return results;
+        // TODO: Adrienne casting to set didn't work so probably still need to filter out doubles in search results
     }
 
+    // TODO: Adrienne haven't added searchForContainers yet
+    
     /**
      * Searches for shared journeys of logged in client by all parameters
      * 
      * @param query Query to be searched for
      * @return Set of shared journeys
      */
-    // TODO: Adrienne: switch to use shared journeys
-    public Set<Journey> searchForSharedJourneys(String query) {
-        @SuppressWarnings("unchecked")
-        Set<Journey> results = (Set<Journey>) loggedInClient.searchByOrigin(query);
-        results.addAll(loggedInClient.searchByDestination(query));
-        results.addAll(loggedInClient.searchByContent(query));
-        try {
-            int id = Integer.parseInt(query);
-            // TODO: Adrienne: implement or delete
-//            results.addAll(loggedInClient.searchById(id));
-        } catch (NumberFormatException e) {
-        }
+    public List<Journey> searchForSharedJourneys(String query) {
+        List<Journey> results = loggedInClient.sharedJourneySearchByOrigin(query);
+        results.addAll(loggedInClient.sharedJourneySearchByDestination(query));
+        results.addAll(loggedInClient.sharedJourneySearchByContent(query));
+        results.addAll(loggedInClient.sharedJourneySearchById(query));
         return results;
     }
 
