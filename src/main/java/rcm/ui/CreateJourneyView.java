@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
@@ -53,6 +54,7 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
+        originField.addKeyListener(new KeyListener());
         panel.add(originField, constraints);
 
         // Destination
@@ -62,6 +64,7 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
+        destinationField.addKeyListener(new KeyListener());
         panel.add(destinationField, constraints);
 
         // Content
@@ -71,6 +74,7 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
+        contentField.addKeyListener(new KeyListener());
         panel.add(contentField, constraints);
 
         // StartDate
@@ -109,11 +113,13 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 3;
+        rBox.addKeyListener(new KeyListener());
         panel.add(rBox, constraints);
 
         // Request Button
         constraints.gridx = 0;
         constraints.gridy = 5;
+        b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,4 +149,13 @@ public class CreateJourneyView extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    class KeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+                b1.doClick();
+            }
+        }
+    }
 }

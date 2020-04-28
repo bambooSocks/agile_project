@@ -103,7 +103,6 @@ public class LogInView extends JPanel {
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                System.out.println("Enter pressed");
                 b1.doClick();
             }
         }
