@@ -8,6 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -85,29 +89,37 @@ public class CreateJourneyView extends JFrame {
         // Radio Buttons
         Box rBox = Box.createVerticalBox();
         ButtonGroup rGroup = new ButtonGroup();
+        final JTextField text = new JTextField(20);
         r1.isSelected();
-        r1.setMnemonic(KeyEvent.VK_B);
+//        r1.setMnemonic(KeyEvent.VK_B);
         r1.setActionCommand("Now");
-        r2.setMnemonic(KeyEvent.VK_B);
+//        r2.setMnemonic(KeyEvent.VK_B);
         r2.setActionCommand("Choose Date");
         rGroup.add(r1);
         rGroup.add(r2);
         rBox.add(r1);
         rBox.add(r2);
+        rBox.add(text);
 
         r1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Now clicked");
-                // need to input todays date here
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                Date obj = new Date();
+                text.setText(sdf.format(obj));
+                // TODO: need to add to the field
+//                System.out.println(sdf.format(obj));
             }
         });
 
         r2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Change Date clicked");
-                // need to add the date selector here
+                // TODO: working here
+                final JFrame f = new JFrame();
+                text.setText(new DatePickerView(f).setPickedDate());
+                f.pack();
+                f.setVisible(true);
             }
         });
 
@@ -131,6 +143,7 @@ public class CreateJourneyView extends JFrame {
         // Cancel Button
         constraints.gridx = 1;
         constraints.gridy = 5;
+        b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,7 +167,11 @@ public class CreateJourneyView extends JFrame {
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                b1.doClick();
+                if (event.getSource() == b2) {
+                    b2.doClick();
+                } else {
+                    b1.doClick();
+                }
             }
         }
     }

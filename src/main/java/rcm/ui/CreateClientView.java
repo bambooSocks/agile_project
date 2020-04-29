@@ -122,6 +122,7 @@ public class CreateClientView extends JFrame {
         // Cancel Button
         constraints.gridx = 1;
         constraints.gridy = 6;
+        b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,7 +146,11 @@ public class CreateClientView extends JFrame {
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                b1.doClick();
+                if (event.getSource() == b2) {
+                    b2.doClick();
+                } else {
+                    b1.doClick();
+                }
             }
         }
     }

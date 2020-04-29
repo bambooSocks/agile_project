@@ -126,6 +126,7 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 0;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
+        b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -154,6 +155,7 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 2;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
+        b3.addKeyListener(new KeyListener());
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -168,13 +170,19 @@ class ProfileInfoView extends JPanel {
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
     }
-    
+
     class KeyListener extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                b2.doClick();
+                if (event.getSource() == b1) {
+                    b1.doClick();
+                } else if (event.getSource() == b3) {
+                    b3.doClick();
+                } else {
+                    b2.doClick();
+                }
             }
         }
     }
@@ -252,10 +260,10 @@ class PasswordView extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 3;
         constraints.gridwidth = 1;
+        b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 pv.showPIV();
             }
         });
@@ -272,7 +280,11 @@ class PasswordView extends JPanel {
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                b1.doClick();
+                if (event.getSource() == b2) {
+                    b2.doClick();
+                } else {
+                    b1.doClick();
+                }
             }
         }
     }

@@ -116,7 +116,13 @@ public abstract class BaseTopBar extends JPanel {
         profile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 ProfileView popup = new ProfileView();
+                // TODO: For testing purposes (Adrienne and Viktor):
+//                EnterStatusView popup = new EnterStatusView;
+//                JourneyShareView popup = new JourneyShareView;
+//                AdvancedSearchView popup = new AdvancedSearchView;
+                
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
