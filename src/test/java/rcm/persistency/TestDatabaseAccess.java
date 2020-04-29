@@ -85,7 +85,7 @@ public class TestDatabaseAccess {
 
     @Test
     public void testUpdate() throws IOException, WrongInputException {
-        dbClient = db.readClient(cl1.getEmail());
+        dbClient = repo.readClient(cl1.getEmail());
         dbClient.updateEmail("client@maersk.dk");
         repo.updateCompany(lc1);
         assertEquals("client@maersk.dk", repo.readClient(cl1.getEmail()).getEmail());
@@ -95,8 +95,8 @@ public class TestDatabaseAccess {
     
     @Test
     public void testreadAllCompanies() throws IOException, WrongInputException {
-        LogisticsCompany lc2 = new LogisticsCompany(db,"Doprava", "Jedlova 21", "Petr Zeleny", "zelda@novo.dk", "Password12345");
-        List <LogisticsCompany> list = db.readAllLogisticsCompanies();
+        LogisticsCompany lc2 = new LogisticsCompany("Doprava", "Jedlova 21", "Petr Zeleny", "zelda@novo.dk", "Password12345");
+        List <LogisticsCompany> list = repo.readAllLogisticsCompanies();
         assertTrue(list.contains(lc2)&&list.contains(lc1));
 
     }
@@ -106,7 +106,7 @@ public class TestDatabaseAccess {
     @Test
     public void testSharedJourney() throws IOException, WrongInputException {
         Client cl3 = lc1.createClient("Brambora", "Lesova 3", "Linea Hansen", "linea2@novo.dk", "Password12345");
-        cl2.shareClientData(cl1.getEmail(),cl2.getEmail());
+//        cl2.shareClientData(cl1.getEmail(),cl2.getEmail());
         assertTrue(cl2.getSharedJourneyList().contains(j1));
         assertFalse(cl3.getSharedJourneyList().contains(j1));
 

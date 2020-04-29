@@ -130,4 +130,22 @@ public class ContainerStatus {
         return temperature;
     }
 
+    /**
+     * Getter for the atmPressure
+     * 
+     * @return atmPressure double of the Container Status
+     */
+    public double getPressure() {
+        return atmPressure;
+    }
+
+    /**
+     * Getter for the humidity
+     * 
+     * @return humidity double of the Container Status
+     */
+    public double getHumidity() {
+        return humidity;
+    }
+
 }
