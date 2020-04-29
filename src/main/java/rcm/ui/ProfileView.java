@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -84,6 +86,7 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.gridwidth = 2;
+        nameField.addKeyListener(new KeyListener());
         add(nameField, constraints);
 
         // Address
@@ -94,6 +97,7 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.gridwidth = 2;
+        addressField.addKeyListener(new KeyListener());
         add(addressField, constraints);
 
         // Reference Person
@@ -104,6 +108,7 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
+        refPersonField.addKeyListener(new KeyListener());
         add(refPersonField, constraints);
 
         // Email
@@ -114,12 +119,14 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 3;
         constraints.gridwidth = 2;
+        emailField.addKeyListener(new KeyListener());
         add(emailField, constraints);
 
         // Change Password Button
         constraints.gridx = 0;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
+        b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,6 +140,7 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
+        b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -147,6 +155,7 @@ class ProfileInfoView extends JPanel {
         constraints.gridx = 2;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
+        b3.addKeyListener(new KeyListener());
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -160,6 +169,22 @@ class ProfileInfoView extends JPanel {
         setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
+    }
+
+    class KeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (event.getSource() == b1) {
+                    b1.doClick();
+                } else if (event.getSource() == b3) {
+                    b3.doClick();
+                } else {
+                    b2.doClick();
+                }
+            }
+        }
     }
 }
 
@@ -193,6 +218,7 @@ class PasswordView extends JPanel {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
+        passwordField1.addKeyListener(new KeyListener());
         add(passwordField1, constraints);
 
         // New Password
@@ -202,6 +228,7 @@ class PasswordView extends JPanel {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
+        passwordField2.addKeyListener(new KeyListener());
         add(passwordField2, constraints);
 
         // Confirm Password
@@ -211,12 +238,14 @@ class PasswordView extends JPanel {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
+        passwordField3.addKeyListener(new KeyListener());
         add(passwordField3, constraints);
 
         // Save Button
         constraints.gridx = 0;
         constraints.gridy = 3;
         constraints.gridwidth = 1;
+        b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -231,10 +260,10 @@ class PasswordView extends JPanel {
         constraints.gridx = 1;
         constraints.gridy = 3;
         constraints.gridwidth = 1;
+        b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 pv.showPIV();
             }
         });
@@ -244,5 +273,19 @@ class PasswordView extends JPanel {
         setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
+    }
+
+    class KeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (event.getSource() == b2) {
+                    b2.doClick();
+                } else {
+                    b1.doClick();
+                }
+            }
+        }
     }
 }

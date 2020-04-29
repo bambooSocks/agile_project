@@ -71,7 +71,7 @@ public class Client extends User {
      * @param destination Destination to be searched for
      * @return a list of journeys with the required destination
      */
-    public List<Journey> searchByDestination(String destination) {
+    public List<Journey> journeySearchByDestination(String destination) {
         return journeyList.stream().filter(j -> j.getDestinationPort().equals(destination))
                 .collect(Collectors.toList());
     }
@@ -82,7 +82,7 @@ public class Client extends User {
      * @param origin Origin to be searched for
      * @return a list of journeys with the required origin
      */
-    public List<Journey> searchByOrigin(String origin) {
+    public List<Journey> journeySearchByOrigin(String origin) {
         return journeyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
     }
 
@@ -92,8 +92,18 @@ public class Client extends User {
      * @param content Container contents to be searched for
      * @return a list of journeys with the required container contents
      */
-    public List<Journey> searchByContent(String content) {
+    public List<Journey> journeySearchByContent(String content) {
         return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search journeys by id
+     * 
+     * @param id Journey id to be searched for
+     * @return a list of journeys with the required id
+     */
+    public List<Journey> journeySearchById(String id) {
+        return journeyList.stream().filter(j -> Integer.toString(j.getId()).equals(id)).collect(Collectors.toList());
     }
 
     /**
@@ -107,7 +117,7 @@ public class Client extends User {
     public List<Journey> viewClientData(String email1, String email2) {
         if (email1.equals(email2)) {
             LinkedList<Client> cl = new LinkedList<Client>();
-            cl.addAll(company.searchByEmail(email2));
+            cl.addAll(company.searchClientByEmail(email2));
             if (cl.isEmpty()) {
                 return null;
             } else {
@@ -141,6 +151,48 @@ public class Client extends User {
      */
     private void addSharedJourney(Journey journey) {
         sharedJourneyList.add(journey);
+    }
+
+    /**
+     * Method to search shared journeys using destination
+     * 
+     * @param destination Destination to be searched for
+     * @return a list of shared journeys with the required destination
+     */
+    public List<Journey> sharedJourneySearchByDestination(String destination) {
+        return sharedJourneyList.stream().filter(j -> j.getDestinationPort().equals(destination))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search shared journeys using Origin
+     * 
+     * @param origin Origin to be searched for
+     * @return a list of shared journeys with the required origin
+     */
+    public List<Journey> sharedJourneySearchByOrigin(String origin) {
+        return sharedJourneyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search shared journeys by container contents
+     * 
+     * @param content Container contents to be searched for
+     * @return a list of shared journeys with the required container contents
+     */
+    public List<Journey> sharedJourneySearchByContent(String content) {
+        return sharedJourneyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search shared journeys by id
+     * 
+     * @param id Journey id to be searched for
+     * @return a list of shared journeys with the required id
+     */
+    public List<Journey> sharedJourneySearchById(String id) {
+        return sharedJourneyList.stream().filter(j -> Integer.toString(j.getId()).equals(id))
+                .collect(Collectors.toList());
     }
 
     /**

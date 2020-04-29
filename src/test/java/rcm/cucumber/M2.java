@@ -64,17 +64,17 @@ public class M2 {
 
     @When("the first client filters his journeys based on the origin port {string}")
     public void the_first_client_filters_his_journeys_based_on_the_origin_port(String origin) {
-        filteredOrigin = holder.getFirstClient().searchByOrigin(origin);
+        filteredOrigin = holder.getFirstClient().journeySearchByOrigin(origin);
     }
 
     @When("the first client filters his journeys based on the destination {string}")
     public void the_first_client_filters_his_journeys_based_on_the_destination(String destination) {
-        filteredDestination = holder.getFirstClient().searchByDestination(destination);
+        filteredDestination = holder.getFirstClient().journeySearchByDestination(destination);
     }
 
     @When("the first client filters his journeys based on the content {string}")
     public void the_first_client_filters_his_journeys_based_on_the_content(String content) {
-        filteredContent = holder.getFirstClient().searchByContent(content);
+        filteredContent = holder.getFirstClient().journeySearchByContent(content);
     }
 
     @Then("the location is changed")

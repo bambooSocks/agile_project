@@ -6,7 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -53,6 +58,7 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
+        originField.addKeyListener(new KeyListener());
         panel.add(originField, constraints);
 
         // Destination
@@ -62,6 +68,7 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
+        destinationField.addKeyListener(new KeyListener());
         panel.add(destinationField, constraints);
 
         // Content
@@ -71,6 +78,7 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
+        contentField.addKeyListener(new KeyListener());
         panel.add(contentField, constraints);
 
         // StartDate
@@ -81,39 +89,49 @@ public class CreateJourneyView extends JFrame {
         // Radio Buttons
         Box rBox = Box.createVerticalBox();
         ButtonGroup rGroup = new ButtonGroup();
+        final JTextField text = new JTextField(20);
         r1.isSelected();
-        r1.setMnemonic(KeyEvent.VK_B);
+//        r1.setMnemonic(KeyEvent.VK_B);
         r1.setActionCommand("Now");
-        r2.setMnemonic(KeyEvent.VK_B);
+//        r2.setMnemonic(KeyEvent.VK_B);
         r2.setActionCommand("Choose Date");
         rGroup.add(r1);
         rGroup.add(r2);
         rBox.add(r1);
         rBox.add(r2);
+        rBox.add(text);
 
         r1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Now clicked");
-                // need to input todays date here
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                Date obj = new Date();
+                text.setText(sdf.format(obj));
+                // TODO: need to add to the field
+//                System.out.println(sdf.format(obj));
             }
         });
 
         r2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Change Date clicked");
-                // need to add the date selector here
+                // TODO: working here
+                final JFrame f = new JFrame();
+                text.setText(new DatePickerView(f).setPickedDate());
+                f.pack();
+                f.setVisible(true);
             }
         });
 
         constraints.gridx = 1;
         constraints.gridy = 3;
+        rBox.addKeyListener(new KeyListener());
         panel.add(rBox, constraints);
 
         // Request Button
         constraints.gridx = 0;
         constraints.gridy = 5;
+        b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,6 +143,7 @@ public class CreateJourneyView extends JFrame {
         // Cancel Button
         constraints.gridx = 1;
         constraints.gridy = 5;
+        b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,4 +162,17 @@ public class CreateJourneyView extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    class KeyListener extends KeyAdapter {
+
+        @Override
+        public void keyPressed(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (event.getSource() == b2) {
+                    b2.doClick();
+                } else {
+                    b1.doClick();
+                }
+            }
+        }
+    }
 }

@@ -95,7 +95,7 @@ public class LogisticsCompany extends User {
      * @param p Search criteria
      * @return Set of clients that meet filter requirements
      */
-    private Set<Client> applyFilter(Predicate<Client> p) {
+    private Set<Client> applyClientFilter(Predicate<Client> p) {
         return clients.stream().filter(p).collect(Collectors.toSet());
     }
 
@@ -105,8 +105,8 @@ public class LogisticsCompany extends User {
      * @param name Search criteria
      * @return Set of clients that have a matching name
      */
-    public Set<Client> searchByName(String name) {
-        return applyFilter(c -> c.getName().equals(name));
+    public Set<Client> searchClientByName(String name) {
+        return applyClientFilter(c -> c.getName().equals(name));
     }
 
     /**
@@ -115,8 +115,8 @@ public class LogisticsCompany extends User {
      * @param address Search criteria
      * @return Set of clients that have a matching address
      */
-    public Set<Client> searchByAddress(String address) {
-        return applyFilter(c -> c.getAddress().equals(address));
+    public Set<Client> searchClientByAddress(String address) {
+        return applyClientFilter(c -> c.getAddress().equals(address));
     }
 
     /**
@@ -125,8 +125,8 @@ public class LogisticsCompany extends User {
      * @param refPerson Search criteria
      * @return Set of clients that have a matching reference person
      */
-    public Set<Client> searchByRefPerson(String refPerson) {
-        return applyFilter(c -> c.getRefPerson().equals(refPerson));
+    public Set<Client> searchClientByRefPerson(String refPerson) {
+        return applyClientFilter(c -> c.getRefPerson().equals(refPerson));
     }
 
     /**
@@ -135,8 +135,18 @@ public class LogisticsCompany extends User {
      * @param email Search criteria
      * @return Set of clients that have a matching email
      */
-    public Set<Client> searchByEmail(String email) {
-        return applyFilter(c -> c.getEmail().equals(email));
+    public Set<Client> searchClientByEmail(String email) {
+        return applyClientFilter(c -> c.getEmail().equals(email));
+    }
+
+    /**
+     * Method to search clients by id
+     * 
+     * @param id Search criteria
+     * @return Set of clients that have a matching id
+     */
+    public Set<Client> searchClientById(String id) {
+        return applyClientFilter(c -> Integer.toString(c.getId()).equals(id));
     }
 
     /**
@@ -262,5 +272,4 @@ public class LogisticsCompany extends User {
     public List<Container> getContainers() {
         return containers;
     }
-
 }

@@ -24,7 +24,7 @@ public class ApplicationTest {
     private Application app;
     private String propertyName;
     private Journey journey;
-    private Client client;
+    private Client client, client2;
     private Container container;
 
     @Before
@@ -36,9 +36,12 @@ public class ApplicationTest {
         app.logInUser("info@maersk.com", "Agile123");
         container = app.createNewContainer();
         client = app.createNewClient("Novo Nordisk", "Kbh", "Someone else", "info@novonordisk.com", "Object123");
+        client2 = app.createNewClient("Dole", "Florida", "Someone completely different", "dole@bananas.com",
+                "Object123");
         app.logInUser("info@novonordisk.com", "Object123");
         journey = app.requestNewJourney("Copenhagen", "Rotterdam", "medical tools",
                 LocalDateTime.of(2020, 3, 13, 4, 20));
+        app.shareJourney(client2, journey);
         app.logOut();
     }
 
@@ -66,21 +69,40 @@ public class ApplicationTest {
         ContainerStatus status = new ContainerStatus(LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01,
                 "Copenhagen");
         assertTrue(journey.containsStatus(status));
+        app.logOut();
     }
 
     @Test
-    public void testSearchForClients() {
-        fail("Not yet implemented");
+    public void testSearchForClients() throws WrongInputException, IOException {
+        app.logInUser("info@maersk.com", "Agile123");
+        Client client1 = client;
+        assertTrue(app.searchForClients("Novo Nordisk").contains(client1));
+        assertTrue(app.searchForClients("Kbh").contains(client1));
+        assertTrue(app.searchForClients("Someone else").contains(client1));
+        assertTrue(app.searchForClients("info@novonordisk.com").contains(client1));
+        assertTrue(app.searchForClients(Integer.toString(client1.getId())).contains(client1));
+        app.logOut();
     }
 
     @Test
-    public void testSearchForJourneys() {
-        fail("Not yet implemented");
+    public void testSearchForJourneys() throws WrongInputException {
+        app.logInUser("info@novonordisk.com", "Object123");
+        Journey journey1 = journey;
+        assertTrue(app.searchForJourneys("Copenhagen").contains(journey1));
+        assertTrue(app.searchForJourneys("Rotterdam").contains(journey1));
+        assertTrue(app.searchForJourneys("medical tools").contains(journey1));
+        assertTrue(app.searchForJourneys(Integer.toString(journey1.getId())).contains(journey1));
+        app.logOut();
     }
 
     @Test
-    public void testSearchForSharedJourneys() {
-        fail("Not yet implemented");
+    public void testSearchForSharedJourneys() throws WrongInputException {
+        app.logInUser("dole@bananas.com", "Object123");
+        assertEquals(app.requestSharedJourneys(), app.searchForSharedJourneys("Copenhagen"));
+        assertEquals(app.requestSharedJourneys(), app.searchForSharedJourneys("Rotterdam"));
+        assertEquals(app.requestSharedJourneys(), app.searchForSharedJourneys("medical tools"));
+        assertEquals(app.requestSharedJourneys(), app.searchForSharedJourneys(Integer.toString(journey.getId())));
+        app.logOut();
     }
 
     @Test
