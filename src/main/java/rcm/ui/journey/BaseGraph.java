@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.journey;
 
 import java.awt.Color;
 import java.awt.Dimension;

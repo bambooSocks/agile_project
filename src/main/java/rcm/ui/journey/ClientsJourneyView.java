@@ -1,10 +1,11 @@
-package rcm.ui;
+package rcm.ui.journey;
 
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -16,7 +17,7 @@ public class ClientsJourneyView extends BaseJourneyView {
     private static final long serialVersionUID = -6993300655884720698L;
 
     public ClientsJourneyView(Application app) {
-        super(new JourneyTopBar(app));
+        super(app, new JourneyTopBar(app));
     }
 
     @Override
@@ -37,7 +38,5 @@ public class ClientsJourneyView extends BaseJourneyView {
 
         return rightPanel;
     }
-
-
 
 }

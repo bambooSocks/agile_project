@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.journey;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import rcm.model.Application;
+import rcm.ui.BaseTopBar;
 
 public class JourneyTopBar extends BaseTopBar {
 

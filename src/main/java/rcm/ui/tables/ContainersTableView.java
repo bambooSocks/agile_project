@@ -1,14 +1,16 @@
-package rcm.ui;
+package rcm.ui.tables;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import rcm.model.Application;
+import rcm.ui.BaseTopBar;
 
 class ContainersTopBar extends BaseTopBar {
 
@@ -43,22 +45,28 @@ public class ContainersTableView extends BaseTableView {
     private static final long serialVersionUID = -3009522281466857043L;
 
     public ContainersTableView(Application app) {
-        super(new ContainersTopBar(app));
+        super(app, new ContainersTopBar(app));
     }
-
-    @Override
-    public String[] addColumnNames() {
-        String[] columnNames = { "ID", "Current state", "Last Client" };
-        return columnNames;
-    }
-
-    // TODO: Change addData method according to listener
-    @Override
-    public Object[][] addData() {
-        Object[][] data = { { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
-                { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
-                { "new Integer(1)", "available", "Maersk" } };
-        return data;
-    }
+//
+//    @Override
+//    public String[] addColumnNames() {
+//        String[] columnNames = { "ID", "Current state", "Last Client" };
+//        return columnNames;
+//    }
+//
+//    // TODO: Change addData method according to listener
+//    @Override
+//    public Object[][] addData() {
+//        Object[][] data = { { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
+//                { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
+//                { "new Integer(1)", "available", "Maersk" } };
+//        return data;
+//    }
+//
+//    @Override
+//    public void propertyChange(PropertyChangeEvent evt) {
+//        // TODO Auto-generated method stub
+//        
+//    }
 
 }

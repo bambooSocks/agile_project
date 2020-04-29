@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import rcm.model.Application;
 import rcm.model.WrongInputException;
+import rcm.ui.popup.Dialog;
 
 public class LogInView extends JPanel {
 

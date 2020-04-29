@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.popup;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import rcm.ui.ProfileInfoView.KeyListener;
+import rcm.ui.popup.ProfileInfoView.KeyListener;
 
 public class EnterStatusView extends JFrame {
 

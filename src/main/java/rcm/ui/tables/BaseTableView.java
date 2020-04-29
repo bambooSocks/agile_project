@@ -1,7 +1,11 @@
-package rcm.ui;
+package rcm.ui.tables;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import rcm.model.Application;
+import rcm.ui.BaseTopBar;
+import rcm.ui.BaseView;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,15 +15,15 @@ import java.awt.event.MouseEvent;
 public abstract class BaseTableView extends BaseView {
 
     private static final long serialVersionUID = -9046917894422843234L;
-
-    public BaseTableView(BaseTopBar topBar) {
-        super(topBar);
+    protected JTable table;
+    
+    public BaseTableView(Application app, BaseTopBar topBar) {
+        super(app, topBar);
     }
 
     @Override
     protected Component buildContent() {
-        final JTable table = new JTable(addData(), addColumnNames());
-        
+        table = new JTable();
         
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
@@ -31,12 +35,9 @@ public abstract class BaseTableView extends BaseView {
                 System.out.println("Select row");
             }
         });
-
+        
         // Create the scroll pane and add the table to it.
         return new JScrollPane(table);
     }
 
-    public abstract String[] addColumnNames();
-
-    public abstract Object[][] addData();
 }

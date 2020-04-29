@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.journey;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -17,12 +17,16 @@ import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import rcm.model.Application;
+import rcm.ui.BaseTopBar;
+import rcm.ui.BaseView;
+
 public abstract class BaseJourneyView extends BaseView {
 
     private static final long serialVersionUID = -7158594990405366048L;
 
-    protected BaseJourneyView(BaseTopBar topBar) {
-        super(topBar);
+    protected BaseJourneyView(Application app, BaseTopBar topBar) {
+        super(app, topBar);
     }
 
     @Override

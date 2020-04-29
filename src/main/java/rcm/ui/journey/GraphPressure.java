@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.journey;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Day;

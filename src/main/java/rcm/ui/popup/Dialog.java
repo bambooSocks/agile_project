@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.popup;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

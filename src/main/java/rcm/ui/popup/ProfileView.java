@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.popup;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;

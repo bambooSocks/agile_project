@@ -18,12 +18,9 @@ import rcm.repository.Repository;
 
 public class LogisticsCompany extends User {
     @OneToMany(cascade = CascadeType.ALL)
-    List<Container> containers;
+    private List<Container> containers;
     @OneToMany(cascade = CascadeType.ALL)
-    Set<Client> clients;
-
-    @Transient
-    Repository db;
+    private Set<Client> clients;
 
     @SuppressWarnings("unused")
     private LogisticsCompany() {

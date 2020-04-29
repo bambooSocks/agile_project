@@ -82,5 +82,7 @@ public class FakeData {
         app.enterNewContainerStatus(j7, new ContainerStatus(LocalDateTime.of(2020, 4, 27, 15, 0), 35.0, 20.0, 121.0, "Antarctida"));
         app.enterNewContainerStatus(j6, new ContainerStatus(LocalDateTime.of(2020, 4, 22, 15, 0), 35.0, 6.0, 106.0, "Copenhagen"));
         app.enterNewContainerStatus(j6, new ContainerStatus(LocalDateTime.of(2020, 4, 23, 15, 0), 35.0, 5.0, 107.0, "Copenhagen"));
+        
+        app.logOut();
     }
 }

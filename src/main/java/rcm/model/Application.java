@@ -400,4 +400,12 @@ public class Application {
 
     }
 
+    public void companyTabChanged() {
+        support.firePropertyChange("companyTabChanged", null, null);
+    }
+
+    public void clientTabChanged() {
+        support.firePropertyChange("clientTabChanged", null, null);
+    }
+
 }

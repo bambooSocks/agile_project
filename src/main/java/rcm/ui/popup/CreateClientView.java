@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.popup;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;

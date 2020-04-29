@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import rcm.model.Application;
+import rcm.ui.popup.ProfileView;
 
 public abstract class BaseTopBar extends JPanel {
 

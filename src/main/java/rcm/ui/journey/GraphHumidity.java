@@ -1,4 +1,4 @@
-package rcm.ui;
+package rcm.ui.journey;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.time.Day;
@@ -17,13 +17,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 
-public class GraphTemperature extends BaseGraph {
-
+public class GraphHumidity extends BaseGraph {
 
     @Override
     public XYDataset createDataset() {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
-        TimeSeries series = new TimeSeries("Temperature in Celsius");
+        TimeSeries series = new TimeSeries("Humidity");
 
         series.add(new Day(1, 1, 2017), 56.9);
         series.add(new Day(2, 1, 2017), 58.9);
@@ -40,7 +39,8 @@ public class GraphTemperature extends BaseGraph {
 
     @Override
     public JFreeChart createChart(XYDataset dataset) {
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("Temperature", "Date", "Temperature (Celsius)", dataset);
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Humidity %", "Date", "Humidity",
+                dataset);
 
         XYPlot plot = (XYPlot) chart.getPlot();
 
@@ -59,8 +59,8 @@ public class GraphTemperature extends BaseGraph {
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 
-        renderer.setSeriesPaint(0, Color.RED);
-        chart.setTitle(new TextTitle("Temperature of the container during the journey",
+        renderer.setSeriesPaint(0, Color.CYAN);
+        chart.setTitle(new TextTitle("Humidity of the container during the journey",
                 new Font("Serif", java.awt.Font.BOLD, 18)));
 
         return chart;

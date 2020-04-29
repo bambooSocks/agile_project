@@ -1,9 +1,9 @@
-package rcm.ui;
+package rcm.ui.popup;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class AdvancedSearchView {
+public class JourneyShareView {
 
 //  add this to each field/button:
 //  "field name".addKeyListener(new KeyListener());
