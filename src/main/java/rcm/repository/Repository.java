@@ -1,6 +1,8 @@
 package rcm.repository;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import rcm.model.Client;
 import rcm.model.Container;
@@ -8,7 +10,12 @@ import rcm.model.Journey;
 import rcm.model.LogisticsCompany;
 
 public interface Repository {
-
+    /**
+     * Method to remove all objects from the database, does not change the structure
+     * 
+     * 
+     * 
+     */
     void clearDatabase();
 
     /**
@@ -81,5 +88,11 @@ public interface Repository {
      * @param logisticsCompany LogisticsCompany to be updated
      */
     void updateCompany(LogisticsCompany logisticsCompany);
+    /**
+     * getter for LogisticsCompanies from the database
+     * 
+     * @return list of all LogisticsCompanies in the database
+     */
+    List<LogisticsCompany> readAllLogisticsCompanies() throws IOException;
 
 }
