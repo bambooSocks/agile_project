@@ -119,9 +119,9 @@ public abstract class BaseTopBar extends JPanel {
                 
                 ProfileView popup = new ProfileView();
                 // TODO: For testing purposes (Adrienne and Viktor):
-//                EnterStatusView popup = new EnterStatusView;
-//                JourneyShareView popup = new JourneyShareView;
-//                AdvancedSearchView popup = new AdvancedSearchView;
+//                EnterStatusView popup = new EnterStatusView();
+//                JourneyShareView popup = new JourneyShareView();
+//                AdvancedSearchView popup = new AdvancedSearchView();
                 
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
