@@ -1,5 +1,6 @@
 package rcm.ui;
 
+import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JTabbedPane;
@@ -25,7 +26,7 @@ public class CompanyTabView extends JTabbedPane {
         setMnemonicAt(0, KeyEvent.VK_1);
         addTab("Containers", new ContainersTableView(app));
         setMnemonicAt(1, KeyEvent.VK_2);
-
+        
         setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 

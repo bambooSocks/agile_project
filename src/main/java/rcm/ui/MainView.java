@@ -1,5 +1,6 @@
 package rcm.ui;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -17,6 +18,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
     private LogInView lv;
     private CompanyTabView co;
     private ClientTabView cl;
+    private MenuBar menuBar;
 
     @SuppressWarnings("unused")
     private Application app;
@@ -31,16 +33,18 @@ public class MainView extends JFrame implements PropertyChangeListener {
         lv = new LogInView(app);
         co = new CompanyTabView(app);
         cl = new ClientTabView(app);
-
+        menuBar = new MenuBar();
         setLayout(new CardLayout());
         add(lv);
         add(co);
         add(cl);
+        setJMenuBar(menuBar);
     }
 
     public void run() {
         pack();
         setVisible(true);
+        menuBar.setVisible(false);
     }
 
     @Override
@@ -50,16 +54,19 @@ public class MainView extends JFrame implements PropertyChangeListener {
             lv.setVisible(true);
             co.setVisible(false);
             cl.setVisible(false);
+            menuBar.setVisible(false);
             break;
         case "companyLoggedIn":
             lv.setVisible(false);
             co.setVisible(true);
             cl.setVisible(false);
+            menuBar.setVisible(true);
             break;
         case "clientLoggedIn":
             lv.setVisible(false);
             co.setVisible(false);
             cl.setVisible(true);
+            menuBar.setVisible(true);
             break;
         default:
         }
