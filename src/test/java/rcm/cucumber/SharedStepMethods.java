@@ -29,7 +29,7 @@ public class SharedStepMethods {
     }
 
     @Given("new application")
-    public void new_application() {
+    public void new_application() throws IOException {
         holder.setApp(new Application(repo));
     }
 

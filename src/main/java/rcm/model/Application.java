@@ -22,27 +22,13 @@ public class Application {
      * Application constructor
      * 
      * @param repo Repository connected to the database
+     * @throws IOException 
      */
-    public Application(Repository repo) {
+    public Application(Repository repo) throws IOException {
         this.repo = repo;
         support = new PropertyChangeSupport(this);
-        // TODO: for the Group2
-//      system = loadFromDB();
-
-        // begin temporary
-        system = new LinkedList<>();
-        /*
-         * try {
-         * 
-         * LogisticsCompany lc = createNewLogisticsCompany("Oop", "plop", "Doop",
-         * "a@b.company", "Pl000p"); system.add(lc); lc.createClient("Bloop", "plop",
-         * "Gloop", "a@b.client", "Pl000p");
-         * 
-         * createNewLogisticsCompany("Maersk", "Kbh", "Someone", "info@maersk.com",
-         * "bigShip123"); } catch (WrongInputException | IOException e) {
-         * e.printStackTrace(); }
-         */
-//         end temporary
+       
+        system = repo.readAllLogisticsCompanies();
     }
 
     /**
