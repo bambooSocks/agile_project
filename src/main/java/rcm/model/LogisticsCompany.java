@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import javax.persistence.CascadeType;
@@ -103,7 +104,9 @@ public class LogisticsCompany extends User {
      * @return Set of clients that have a matching name
      */
     public Set<Client> searchClientByName(String name) {
-        return applyClientFilter(c -> c.getName().equals(name));
+        String regexSearch = "(" + name + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getName())).find());
     }
 
     /**
@@ -113,7 +116,9 @@ public class LogisticsCompany extends User {
      * @return Set of clients that have a matching address
      */
     public Set<Client> searchClientByAddress(String address) {
-        return applyClientFilter(c -> c.getAddress().equals(address));
+        String regexSearch = "(" + address + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getAddress())).find());
     }
 
     /**
@@ -123,8 +128,9 @@ public class LogisticsCompany extends User {
      * @return Set of clients that have a matching reference person
      */
     public Set<Client> searchClientByRefPerson(String refPerson) {
-        return applyClientFilter(c -> c.getRefPerson().equals(refPerson));
-    }
+        String regexSearch = "(" + refPerson + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getRefPerson())).find());    }
 
     /**
      * Method to search clients by email
@@ -133,8 +139,9 @@ public class LogisticsCompany extends User {
      * @return Set of clients that have a matching email
      */
     public Set<Client> searchClientByEmail(String email) {
-        return applyClientFilter(c -> c.getEmail().equals(email));
-    }
+        String regexSearch = "(" + email + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getEmail())).find());    }
 
     /**
      * Method to search clients by id

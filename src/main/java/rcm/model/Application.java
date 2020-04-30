@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -245,8 +246,6 @@ public class Application {
         results.addAll(loggedInCompany.searchClientByRefPerson(query));
         results.addAll(loggedInCompany.searchClientByEmail(query));
         results.addAll(loggedInCompany.searchClientById(query));
-        // TODO: Adrienne make sure the search bar output is always a string (where
-        // tho?)
         return results;
     }
 
@@ -256,14 +255,14 @@ public class Application {
      * @param query Query to be searched for
      * @return Set of journeys
      */
-    public List<Journey> searchForJourneys(String query) {
-        List<Journey> results = loggedInClient.journeySearchByOrigin(query);
-        results.addAll(loggedInClient.journeySearchByDestination(query));
-        results.addAll(loggedInClient.journeySearchByContent(query));
-        results.addAll(loggedInClient.journeySearchById(query));
+    public Set<Journey> searchForJourneys(String query) {
+        // TODO: Adrienne change to set first here and below
+        List<Journey> resultList = loggedInClient.journeySearchByOrigin(query);
+        resultList.addAll(loggedInClient.journeySearchByDestination(query));
+        resultList.addAll(loggedInClient.journeySearchByContent(query));
+        resultList.addAll(loggedInClient.journeySearchById(query));
+        Set<Journey> results = new HashSet<Journey>(resultList);
         return results;
-        // TODO: Adrienne casting to set didn't work so probably still need to filter
-        // out doubles in search results
     }
 
     /**
@@ -272,11 +271,12 @@ public class Application {
      * @param query Query to be searched for
      * @return Set of shared journeys
      */
-    public List<Journey> searchForSharedJourneys(String query) {
-        List<Journey> results = loggedInClient.sharedJourneySearchByOrigin(query);
-        results.addAll(loggedInClient.sharedJourneySearchByDestination(query));
-        results.addAll(loggedInClient.sharedJourneySearchByContent(query));
-        results.addAll(loggedInClient.sharedJourneySearchById(query));
+    public Set<Journey> searchForSharedJourneys(String query) {
+        List<Journey> resultList = loggedInClient.sharedJourneySearchByOrigin(query);
+        resultList.addAll(loggedInClient.sharedJourneySearchByDestination(query));
+        resultList.addAll(loggedInClient.sharedJourneySearchByContent(query));
+        resultList.addAll(loggedInClient.sharedJourneySearchById(query));
+        Set<Journey> results = new HashSet<Journey>(resultList);
         return results;
     }
 

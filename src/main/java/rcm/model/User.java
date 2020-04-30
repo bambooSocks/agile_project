@@ -33,11 +33,11 @@ public class User {
     @Transient
     private static final String regexEmail = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
     @Transient
-    private static final String regexName = "^[A-Z]+[^�!@�$%^&*_+���#�������\\/<>?:;|=0-9]{2,30}$";
+    private static final String regexName = "^[A-Z]+[^!@$%^&*_+#\\/<>?:;|=0-9]{2,30}$";
     @Transient
     private static final String regexPassword = "^(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%])*(?=.*[A-Z]).{6,16}$";
     @Transient
-    private static final String regexAddress = "^[^�!@�$%^&*_+���#�������\\\\/<>?;|=]{2,50}$";
+    private static final String regexAddress = "^[^!@$%^&*_+#\\/<>?:;|=]{2,50}$";
 
     protected User() {
     }

@@ -3,6 +3,7 @@ package rcm.unitTest;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +26,8 @@ public class LogisticsCompanyTest {
         Repository repo = new SqliteRepository();
         app = new Application(repo);
         repo.clearDatabase();
-        company1 = app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou", "info@maersk.com",
-                "Agile123");
+        company1 = app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou",
+                "info@maersk.com", "Agile123");
         company2 = app.createNewLogisticsCompany("Hamburg Sud", "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany",
                 "Dr. Arnt Vespermann", "info@hamburgsud-line.com", "Agile123");
         app.logInUser("info@maersk.com", "Agile123");
@@ -42,6 +43,23 @@ public class LogisticsCompanyTest {
         app.logInUser("info@maersk.com", "Agile123");
         assertEquals(null, company1.createJourney(client2, "Nordhavn", "Rotterdam", "remoulade"));
         assertNotEquals(null, company1.createJourney(client1, "Nordhavn", "Rotterdam", "remoulade"));
+        app.logOut();
     }
 
+    @Test
+    public void TestPartialStringSearch() throws WrongInputException {
+        app.logInUser("info@maersk.com", "Agile123");
+        Set<Client> result;
+        result = company1.searchClientByName("Novo");
+        assertTrue(result.contains(client1));
+        result = company1.searchClientByName("OrDisk");
+        assertTrue(result.contains(client1));
+        result = company1.searchClientByAddress("lLe");
+        assertTrue(result.contains(client1));
+        result = company1.searchClientByRefPerson("Lars fru");
+        assertTrue(result.contains(client1));
+        result = company1.searchClientByEmail("iNfO");
+        assertTrue(result.contains(client1));
+        app.logOut();
+    }
 }
