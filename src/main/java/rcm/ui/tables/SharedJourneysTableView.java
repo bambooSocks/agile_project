@@ -48,11 +48,11 @@ public class SharedJourneysTableView extends BaseTableView {
 //                { "new Integer(1)", "Shenzen", "Rotterdam", "tobacco", "13/03/2020 4:20", "13/04/2020 4:20" } };
 //        return data;
 //    }
-//
-//    @Override
-//    public void propertyChange(PropertyChangeEvent evt) {
-//        // TODO Auto-generated method stub
-//        
-//    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

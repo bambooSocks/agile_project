@@ -22,12 +22,11 @@ public class Application {
      * Application constructor
      * 
      * @param repo Repository connected to the database
-     * @throws IOException 
+     * @throws IOException
      */
     public Application(Repository repo) throws IOException {
         this.repo = repo;
         support = new PropertyChangeSupport(this);
-       
         system = repo.readAllLogisticsCompanies();
     }
 
@@ -124,33 +123,31 @@ public class Application {
     /**
      * Enters a new container status adds it to the system and database
      * 
-     * @param journey   Journey the status should be added to
-     * @param timestamp Time stamp of the status
-     * @param temp      Temperature inside the container
-     * @param humid     Humidity inside the container
-     * @param atmPress  Atmospheric pressure inside the container
-     * @param loc       Location of the container
+     * @param journey_id Journey id the status should be added to
+     * @param timestamp  Time stamp of the status
+     * @param temp       Temperature inside the container
+     * @param humid      Humidity inside the container
+     * @param atmPress   Atmospheric pressure inside the container
+     * @param loc        Location of the container
      * @return Boolean of whether it was successfully added or not
      * @throws IOException
      */
-    // TODO: maybe switch to Journey id not an object
-    public boolean enterNewContainerStatus(Journey journey, LocalDateTime timestamp, double temp, double humid,
+    public boolean enterNewContainerStatus(int journey_id, LocalDateTime timestamp, double temp, double humid,
             double atmPress, String loc) throws IOException {
         ContainerStatus status = new ContainerStatus(timestamp, temp, humid, atmPress, loc);
-        return enterNewContainerStatus(journey, status);
+        return enterNewContainerStatus(journey_id, status);
     }
 
     /**
      * Enters a new container status adds it to the system and database
      * 
-     * @param journey Journey the status should be added to
-     * @param status  Container status of the container
+     * @param journey_id Journey id the status should be added to
+     * @param status     Container status of the container
      * @return Boolean of whether it was successfully added or not
      * @throws IOException
      */
-    // TODO: maybe switch to Journey id not an object
-    public boolean enterNewContainerStatus(Journey journey, ContainerStatus status) throws IOException {
-        if (loggedInCompany != null && loggedInCompany.enterStatus(status, journey)) {
+    public boolean enterNewContainerStatus(int journey_id, ContainerStatus status) throws IOException {
+        if (loggedInCompany != null && loggedInCompany.enterStatus(status, getJourneyById(journey_id))) {
             repo.updateCompany(loggedInCompany);
             return true;
         } else {
@@ -161,14 +158,13 @@ public class Application {
     /**
      * Starts a journey with the given time stamp
      * 
-     * @param journey   Journey to be started
-     * @param timestamp Starting time stamp of the journey
+     * @param journey_id Journey id to be started
+     * @param timestamp  Starting time stamp of the journey
      * @return Boolean whether the journey was successfully started
      */
-    // TODO: maybe switch to Journey id not an object
-    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
+    public boolean startJourney(int journey_id, LocalDateTime timestamp) {
         if (loggedInCompany != null) {
-            return loggedInCompany.startJourney(journey, timestamp);
+            return loggedInCompany.startJourney(getJourneyById(journey_id), timestamp);
         } else {
             return false;
         }
@@ -177,14 +173,13 @@ public class Application {
     /**
      * Ends a journey with the given time stamp
      * 
-     * @param journey   Journey to be ended
-     * @param timestamp Ending time stamp of the journey
+     * @param journey_id Journey id to be ended
+     * @param timestamp  Ending time stamp of the journey
      * @return Boolean whether the journey was successfully ended
      */
-    // TODO: maybe switch to Journey id not an object
-    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
+    public boolean endJourney(int journey_id, LocalDateTime timestamp) {
         if (loggedInCompany != null) {
-            return loggedInCompany.endJourney(journey, timestamp);
+            return loggedInCompany.endJourney(getJourneyById(journey_id), timestamp);
         } else {
             return false;
         }
@@ -308,12 +303,12 @@ public class Application {
     /**
      * Requests status for given journey
      * 
-     * @param journey Journey to get status history out of
+     * @param journey_id Journey id to get status history out of
      * @return List of the Container Statuses
      */
-    public List<ContainerStatus> requestStatus(Journey journey) {
+    public List<ContainerStatus> requestStatus(int journey_id) {
         if (loggedInClient != null) {
-            return loggedInClient.requestStatus(journey);
+            return loggedInClient.requestStatus(getJourneyById(journey_id));
         } else {
             return null;
         }
@@ -374,17 +369,51 @@ public class Application {
     /**
      * Shares a journey with another client
      * 
-     * @param client  Client to be shared with
-     * @param journey Journey to be shared
+     * @param client_id  Client id to be shared with
+     * @param journey_id Journey id to be shared
      * @return Boolean whether it was successfully shared
      */
-    public boolean shareJourney(Client client, Journey journey) {
+    public boolean shareJourney(int client_id, int journey_id) {
         if (loggedInClient != null) {
-            return loggedInClient.shareJourney(client, journey);
+            return loggedInClient.shareJourney(getClientById(client_id), getJourneyById(journey_id));
         } else {
             return false;
         }
 
+    }
+
+    private List<Client> getAllClients() {
+        List<Client> clients = new LinkedList<>();
+        for (LogisticsCompany c : system) {
+            clients.addAll(c.getClients());
+        }
+        return clients;
+    }
+
+    private List<Journey> getAllJourneys() {
+        List<Journey> journeys = new LinkedList<>();
+        for (Client c : getAllClients()) {
+            journeys.addAll(c.getJourneyList());
+        }
+        return journeys;
+    }
+
+    private Client getClientById(int id) {
+        for (Client c : getAllClients()) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    private Journey getJourneyById(int id) {
+        for (Journey j : getAllJourneys()) {
+            if (j.getId() == id) {
+                return j;
+            }
+        }
+        return null;
     }
 
     public void companyTabChanged() {

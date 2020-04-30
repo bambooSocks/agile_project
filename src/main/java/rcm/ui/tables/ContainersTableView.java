@@ -62,11 +62,11 @@ public class ContainersTableView extends BaseTableView {
 //                { "new Integer(1)", "available", "Maersk" } };
 //        return data;
 //    }
-//
-//    @Override
-//    public void propertyChange(PropertyChangeEvent evt) {
-//        // TODO Auto-generated method stub
-//        
-//    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

@@ -47,13 +47,12 @@ class ClientsTopBar extends BaseTopBar {
 
 }
 
-public class ClientsTableView extends BaseTableView implements PropertyChangeListener {
+public class ClientsTableView extends BaseTableView {
 
     private static final long serialVersionUID = -319420806707922265L;
 
     public ClientsTableView(Application app) {
         super(app, new ClientsTopBar(app));
-        app.addObserver(this);
     }
 
     public void updateTableModel() {

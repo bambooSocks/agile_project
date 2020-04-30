@@ -1,7 +1,5 @@
 package rcm.ui;
 
-import rcm.FakeData;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -9,6 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import rcm.FakeData;
 import rcm.model.Application;
 import rcm.model.WrongInputException;
 import rcm.repository.Repository;
@@ -75,10 +74,13 @@ public class MainView extends JFrame implements PropertyChangeListener {
         }
     }
 
-    public static void main(String[] args) throws IOException, WrongInputException {
+    public static void main(String[] args) throws IOException {
         Repository repo = new SqliteRepository();
         Application app = new Application(repo);
-        FakeData.setupFakeApp(app);
+        try {
+            FakeData.setupFakeApp(app);
+        } catch (WrongInputException e) {
+        }
         MainView mv = new MainView(app);
         mv.run();
     }

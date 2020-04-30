@@ -11,14 +11,16 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
 
-public abstract class BaseTableView extends BaseView {
+public abstract class BaseTableView extends BaseView implements PropertyChangeListener {
 
     private static final long serialVersionUID = -9046917894422843234L;
     protected JTable table;
     
     public BaseTableView(Application app, BaseTopBar topBar) {
         super(app, topBar);
+        app.addObserver(this);
     }
 
     @Override

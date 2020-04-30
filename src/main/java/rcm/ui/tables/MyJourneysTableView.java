@@ -45,7 +45,7 @@ class MyJourneysTopBar extends BaseTopBar {
 }
 
 //Created table for MyJourneys: will appear on MyJourneys tab
-public class MyJourneysTableView extends BaseTableView implements PropertyChangeListener {
+public class MyJourneysTableView extends BaseTableView {
 
     private static final long serialVersionUID = -8487746616760043744L;
 

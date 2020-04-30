@@ -41,7 +41,7 @@ public class ApplicationTest {
         app.logInUser("info@novonordisk.com", "Object123");
         journey = app.requestNewJourney("Copenhagen", "Rotterdam", "medical tools",
                 LocalDateTime.of(2020, 3, 13, 4, 20));
-        app.shareJourney(client2, journey);
+        app.shareJourney(client2.getId(), journey.getId());
         app.logOut();
     }
 
@@ -65,7 +65,7 @@ public class ApplicationTest {
     public void testEnterNewContainerStatusJourneyLocalDateTimeDoubleDoubleDoubleString()
             throws WrongInputException, IOException {
         app.logInUser("info@maersk.com", "Agile123");
-        app.enterNewContainerStatus(journey, LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01, "Copenhagen");
+        app.enterNewContainerStatus(journey.getId(), LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01, "Copenhagen");
         ContainerStatus status = new ContainerStatus(LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01,
                 "Copenhagen");
         assertTrue(journey.containsStatus(status));
@@ -110,12 +110,12 @@ public class ApplicationTest {
         ContainerStatus status = new ContainerStatus(LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01,
                 "Copenhagen");
         app.logInUser("info@maersk.com", "Agile123");
-        app.enterNewContainerStatus(journey, status);
+        app.enterNewContainerStatus(journey.getId(), status);
         app.logInUser("info@novonordisk.com", "Object123");
-        assertNotEquals(null, app.requestStatus(journey));
-        assertTrue(app.requestStatus(journey).contains(status));
+        assertNotEquals(null, app.requestStatus(journey.getId()));
+        assertTrue(app.requestStatus(journey.getId()).contains(status));
         app.logOut();
-        assertEquals(null, app.requestStatus(journey));
+        assertEquals(null, app.requestStatus(journey.getId()));
     }
 
     @Test
@@ -149,9 +149,9 @@ public class ApplicationTest {
     public void testRequestSharedJourneys() throws IOException, WrongInputException {
         app.logInUser("info@maersk.com", "Agile123");
         Client client2 = app.createNewClient("Chiquita", "USA", "Someone", "bananas@chiquita.com", "Object123");
-        assertFalse(app.shareJourney(client2, journey));
+        assertFalse(app.shareJourney(client2.getId(), journey.getId()));
         app.logInUser("info@novonordisk.com", "Object123");
-        assertTrue(app.shareJourney(client2, journey));
+        assertTrue(app.shareJourney(client2.getId(), journey.getId()));
         app.logInUser("bananas@chiquita.com", "Object123");
         assertNotEquals(null, app.requestSharedJourneys());
         assertTrue(app.requestSharedJourneys().contains(journey));

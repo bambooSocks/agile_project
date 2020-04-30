@@ -53,13 +53,13 @@ public class M2 {
 
     @When("the first logistics company updates containers location")
     public void the_first_logistics_company_updates_containers_location() throws IOException {
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
 
     }
 
     @When("the second logistics company updates containers location")
     public void the_second_logistics_company_updates_containers_location() throws IOException {
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
     }
 
     @When("the first client filters his journeys based on the origin port {string}")

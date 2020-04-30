@@ -40,28 +40,28 @@ public class M3 {
             Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         status = new ContainerStatus(timestamp, temperature, humidity, airPressure, "New York");
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
         assertTrue(holder.getFirstJourney().containsStatus(status));
     }
 
     @When("the first logistics company enters the given container status")
     public void the_first_logistics_company_enters_the_given_container_status() throws IOException {
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
     }
 
     @When("the second logistics company enters the given container status")
     public void the_second_logistics_company_enters_the_given_container_status() throws IOException {
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney(), status);
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
     }
 
     @When("the first client requests access to the status")
     public void the_first_client_requests_access_to_the_status() {
-        statusList = holder.getApp().requestStatus(holder.getFirstJourney());
+        statusList = holder.getApp().requestStatus(holder.getFirstJourney().getId());
     }
 
     @When("the second client requests access to the status")
     public void the_second_client_requests_access_to_the_status() {
-        statusList = holder.getApp().requestStatus(holder.getFirstJourney());
+        statusList = holder.getApp().requestStatus(holder.getFirstJourney().getId());
     }
 
     @Then("the journey contains the given status")

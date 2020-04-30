@@ -57,7 +57,7 @@ public class TestDatabaseAccess {
     public void testDatabase() throws IOException, WrongInputException {
 
         app.logInUser("peter@maersk.dk", "Password12345");
-        boolean success = app.enterNewContainerStatus(j1, cs1);
+        boolean success = app.enterNewContainerStatus(j1.getId(), cs1);
 
         repo = new SqliteRepository();
 
