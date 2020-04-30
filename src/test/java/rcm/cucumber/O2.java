@@ -5,10 +5,12 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import rcm.model.Client;
 import rcm.model.Journey;
 import rcm.model.WrongInputException;
 
@@ -17,6 +19,7 @@ public class O2 {
     private SharedObjectHolder holder;
     private List<Journey> journeys;
     private boolean sharedJourney;
+    private Set<Client> clients;
 
     public O2(SharedObjectHolder holder) {
         this.holder = holder;
@@ -92,5 +95,19 @@ public class O2 {
     @Then("second client can view the journey of the first client")
     public void second_client_can_view_the_journey_of_the_first_client() {
         assertTrue(sharedJourney);
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @When("first logistics company views its client list of {string} and {string}")
+    public void first_logistics_company_views_its_client_list_of_and(String name1, String name2) {
+        clients = holder.getFirstCompany().searchClientByName(name1);
+        Set<Client> client2 = holder.getFirstCompany().searchClientByName(name2);  
+        clients.addAll(client2);
+    }
+
+    @Then("it can see both clients and their data")
+    public void it_can_see_both_clients_and_their_data() {
+        assertEquals(holder.getFirstCompany().getClients(), clients);
     }
 }

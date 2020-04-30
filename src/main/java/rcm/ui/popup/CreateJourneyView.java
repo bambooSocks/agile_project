@@ -27,6 +27,8 @@ public class CreateJourneyView extends JFrame {
     private JTextField originField = new JTextField(10);
     private JTextField destinationField = new JTextField(10);
     private JTextField contentField = new JTextField(10);
+    private JTextField date = new JTextField(10);
+
 
     private JLabel lbl1 = new JLabel("Origin:");
     private JLabel lbl2 = new JLabel("Destination:");
@@ -85,37 +87,32 @@ public class CreateJourneyView extends JFrame {
         panel.add(lbl4, constraints);
 
         // Radio Buttons
-        Box rBox = Box.createVerticalBox();
+        Box rBox = Box.createHorizontalBox();
         ButtonGroup rGroup = new ButtonGroup();
-        final JTextField text = new JTextField(20);
         r1.isSelected();
-//        r1.setMnemonic(KeyEvent.VK_B);
         r1.setActionCommand("Now");
-//        r2.setMnemonic(KeyEvent.VK_B);
         r2.setActionCommand("Choose Date");
         rGroup.add(r1);
         rGroup.add(r2);
         rBox.add(r1);
         rBox.add(r2);
-        rBox.add(text);
 
         r1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                 Date obj = new Date();
-                text.setText(sdf.format(obj));
-                // TODO: need to add to the field
-//                System.out.println(sdf.format(obj));
+                date.setText(sdf.format(obj));
+                // TODO: need to add to the field automatically
             }
         });
 
         r2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: working here
                 final JFrame f = new JFrame();
-                text.setText(new DatePickerView(f).setPickedDate());
+                date.setText(new DatePickerView(f).setPickedDate());
+                // TODO: still having an empty frame come up in the corner
                 f.pack();
                 f.setVisible(true);
             }
@@ -123,8 +120,13 @@ public class CreateJourneyView extends JFrame {
 
         constraints.gridx = 1;
         constraints.gridy = 3;
-        rBox.addKeyListener(new KeyListener());
         panel.add(rBox, constraints);
+        
+        
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        date.addKeyListener(new KeyListener());
+        panel.add(date,constraints);
 
         // Request Button
         constraints.gridx = 0;
@@ -134,6 +136,7 @@ public class CreateJourneyView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Request clicked");
+                // TODO: connect to model
             }
         });
         panel.add(b1, constraints);

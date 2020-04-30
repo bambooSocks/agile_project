@@ -1,88 +1,40 @@
 @tag
-Feature: Log-ins and permissions
+Feature: Logging in
 
   Background: 
     Given an empty database
     And new application
-
-  @tag1
-  Scenario: Successful client Log-in
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
+    And a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
     And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
     And user is logged out
+
+  @tag1
+  Scenario: Successful client Log-in
     When first client enters email "bananas@chiquita.com" and password "Object123"
     Then the client is logged in
 
   @tag2
   Scenario: Failed client Log-in - wrong email
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And user is logged out
     When first client enters email "blabla@chiquita.com" and password "Object123"
     Then the client is not logged in
 
   @tag3
   Scenario: Failed client Log-in - wrong password
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And user is logged out
     When first client enters email "bananas@chiquita.com" and password "Corndog12"
     Then the client is not logged in
 
   @tag4
   Scenario: Successful company Log-in
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     When first logistics company enters email "info@maersk.com" and password "Agile123"
     Then the company is logged in
 
   @tag5
   Scenario: Failed company Log-in - wrong email
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     When first logistics company enters email "bla@maersk.com" and password "Agile123"
     Then the company is not logged in
 
   @tag6
   Scenario: Failed company Log-in - wrong password
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
     When first logistics company enters email "info@maersk.com" and password "wrongpassword123"
     Then the company is not logged in
-
-  @tag7
-  Scenario: Client can view own journeys
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And user is logged out
-    When client with email "bananas@chiquita.com" tries to view containers and data of client with email "bananas@chiquita.com"
-    Then the containers and data can be viewed
-
-  @tag8
-  Scenario: Client cannot view others journeys
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And user is logged out
-    When client with email "bananas@chiquita.com" tries to view containers and data of client with email "Ilovetoeat@hotmail.com"
-    Then the containers and data can not be viewed
-
-  @tag9
-  Scenario: Successful journey sharing with another client
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    When first client shares journey with second client
-    Then second client can view the journey of the first client

@@ -32,12 +32,9 @@ public class Application {
         // begin temporary
         system = new LinkedList<>();
 //        try {
-//            
 //          LogisticsCompany lc = createNewLogisticsCompany("Oop", "plop", "Doop", "a@b.company", "Pl000p");
 //          system.add(lc);
 //          lc.createClient("Bloop", "plop", "Gloop", "a@b.client", "Pl000p");
-          
-//            createNewLogisticsCompany("Maersk", "Kbh", "Someone", "info@maersk.com", "bigShip123");
 //        } catch (WrongInputException | IOException e) {
 //            e.printStackTrace();
 //        }
@@ -263,7 +260,8 @@ public class Application {
         results.addAll(loggedInCompany.searchClientByRefPerson(query));
         results.addAll(loggedInCompany.searchClientByEmail(query));
         results.addAll(loggedInCompany.searchClientById(query));
-        // TODO: Adrienne make sure the search bar output is always a string (where tho?)
+        // TODO: Adrienne make sure the search bar output is always a string (where
+        // tho?)
         return results;
     }
 
@@ -279,11 +277,10 @@ public class Application {
         results.addAll(loggedInClient.journeySearchByContent(query));
         results.addAll(loggedInClient.journeySearchById(query));
         return results;
-        // TODO: Adrienne casting to set didn't work so probably still need to filter out doubles in search results
+        // TODO: Adrienne casting to set didn't work so probably still need to filter
+        // out doubles in search results
     }
 
-    // TODO: Adrienne haven't added searchForContainers yet
-    
     /**
      * Searches for shared journeys of logged in client by all parameters
      * 

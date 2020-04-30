@@ -106,7 +106,7 @@ public class TestDatabaseAccess {
     @Test
     public void testSharedJourney() throws IOException, WrongInputException {
         Client cl3 = lc1.createClient("Brambora", "Lesova 3", "Linea Hansen", "linea2@novo.dk", "Password12345");
-//        cl2.shareClientData(cl1.getEmail(),cl2.getEmail());
+        cl1.shareJourney(cl2,j1);
         assertTrue(cl2.getSharedJourneyList().contains(j1));
         assertFalse(cl3.getSharedJourneyList().contains(j1));
 
