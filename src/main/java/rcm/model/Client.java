@@ -149,7 +149,7 @@ public class Client extends User {
      * 
      * @param journey Journey to be added to the list of shared journeys
      */
-    private void addSharedJourney(Journey journey) {
+    public void addSharedJourney(Journey journey) {
         sharedJourneyList.add(journey);
     }
 

@@ -55,29 +55,30 @@ public class ClientsTableView extends BaseTableView {
         super(app, new ClientsTopBar(app));
     }
 
+    @Override
     public void updateTableModel() {
 
         if (app.getLoggedInCompany() != null) {
-        
+
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
             tableModel.setRowCount(0);
-        
+
             String[] columnNames = { "ID", "Name", "Address", "Reference person", "Email" };
             tableModel.setColumnIdentifiers(columnNames);
-        
+
             List<Client> clients = app.requestClients();
-            
+
             for (int i = 0; i < clients.size(); i++) {
                 Client c = clients.get(i);
-                Object[] rowData = new Object[5];
-                rowData[0] = c.getId();
-                rowData[1] = c.getName();
-                rowData[2] = c.getAddress();
-                rowData[3] = c.getRefPerson();
-                rowData[4] = c.getEmail();
+                int dataId = c.getId();
+                String dataName = c.getName();
+                String dataAddress = c.getAddress();
+                String dataRefPerson = c.getRefPerson();
+                String dataEmail = c.getEmail();
+                Object[] rowData = { dataId, dataName, dataAddress, dataRefPerson, dataEmail };
                 tableModel.addRow(rowData);
             }
-            
+
             table.setModel(tableModel);
             tableModel.fireTableDataChanged();
         }

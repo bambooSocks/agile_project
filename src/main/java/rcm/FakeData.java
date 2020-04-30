@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import rcm.model.Application;
+import rcm.model.Client;
 import rcm.model.ContainerStatus;
 import rcm.model.Journey;
 import rcm.model.WrongInputException;
@@ -23,8 +24,8 @@ public class FakeData {
                 "christiam@3maersk.dk", "Password12345");
 
         app.logInUser("peter@3plogistics.dk", "Password12345");
-        app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
-        app.createNewClient("Novozymes", "Smorumvej 43", "William Andersen", "linea@novozymes.dk",
+        Client c1= app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
+        Client c2= app.createNewClient("Novozymes", "Smorumvej 43", "William Andersen", "linea@novozymes.dk",
                 "Password12345");
         for (int i = 0; i < 8; i++) {
             app.createNewContainer();
@@ -37,10 +38,13 @@ public class FakeData {
             app.createNewContainer();
         }
 
+        //client 1
         app.logInUser("tom@cbs.dk", "Password12345");
         Journey j1 = app.requestNewJourney("Copenhagen", "New York", "bananas", null);
         Journey j3 = app.requestNewJourney("Rotterdam", "London", "cocaine", null);
-
+        app.shareJourney(c2,j1);
+        
+        //client 2
         app.logInUser("linea@novozymes.dk", "Password12345");
         Journey j2 = app.requestNewJourney("Pearl Harbor", "Tokyo", "robots", null);
         Journey j4 = app.requestNewJourney("Hong Kong", "New York", "people", null);

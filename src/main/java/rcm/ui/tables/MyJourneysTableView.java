@@ -6,11 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
+import rcm.model.Client;
+import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.CreateJourneyView;
 
@@ -41,12 +47,12 @@ class MyJourneysTopBar extends BaseTopBar {
 
         return leftSide;
     }
-    
+
 }
 
-//Created table for MyJourneys: will appear on MyJourneys tab
 public class MyJourneysTableView extends BaseTableView {
 
+    static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
     private static final long serialVersionUID = -8487746616760043744L;
 
     public MyJourneysTableView(Application app) {
@@ -54,27 +60,35 @@ public class MyJourneysTableView extends BaseTableView {
         app.addObserver(this);
     }
 
-//    @Override
-//    public String[] addColumnNames() {
-//        String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };
-//        return columnNames;
-//    }
-//
-//    // TODO: Change addData method according to listener
-//    @Override
-//    public Object[][] addData() {
-//        Object[][] data = {
-//                { "new Integer(1)", "Rio de Janeiro", "Rotterdam", "tobacco", "13/03/2020 4:20", "13/04/2020 4:20" },
-//                { "new Integer(1)", "Rio de Janeiro", "Rotterdam", "tobacco", "13/03/2020 4:20", "13/04/2020 4:20" },
-//                { "new Integer(1)", "Rio de Janeiro", "Rotterdam", "tobacco", "13/03/2020 4:20", "13/04/2020 4:20" },
-//                { "new Integer(1)", "Rio de Janeiro", "Rotterdam", "tobacco", "13/03/2020 4:20", "13/04/2020 4:20" },
-//                { "new Integer(1)", "Rio de Janeiro", "Rotterdam", "tobacco", "13/03/2020 4:20", "13/04/2020 4:20" } };
-//        return data;
-//    }
+    @Override
+    public void updateTableModel() {
+        if (app.getLoggedInClient() != null) {
 
-    private void updateTableModel() {
-        // TODO Auto-generated method stub
-        
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+            tableModel.setRowCount(0);
+
+            String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };
+            tableModel.setColumnIdentifiers(columnNames);
+
+            List<Journey> journeys = app.requestJourneys();
+
+            for (int i = 0; i < journeys.size(); i++) {
+                Journey j = journeys.get(i);
+                int dataId = j.getId();
+                String dataOrigin = j.getOriginPort();
+                String dataDestination = j.getDestinationPort();
+                String dataContent = j.getContent();
+                String dataStartDate = ((j.getStartTimestamp() != null) ? j.getStartTimestamp().format(formatter)
+                        : "Not Started yet");
+                String dataEndDate = ((j.getEndTimestamp() != null) ? j.getEndTimestamp().format(formatter)
+                        : "Not Ended yet");
+                Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate };
+                tableModel.addRow(rowData);
+            }
+
+            table.setModel(tableModel);
+            tableModel.fireTableDataChanged();
+        }
     }
 
     @Override
@@ -89,6 +103,5 @@ public class MyJourneysTableView extends BaseTableView {
             break;
         }
     }
-
 
 }

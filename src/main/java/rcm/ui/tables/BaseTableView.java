@@ -41,5 +41,7 @@ public abstract class BaseTableView extends BaseView implements PropertyChangeLi
         // Create the scroll pane and add the table to it.
         return new JScrollPane(table);
     }
+    
+    public abstract void updateTableModel();
 
 }

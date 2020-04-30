@@ -77,12 +77,22 @@ public class MainView extends JFrame implements PropertyChangeListener {
     public static void main(String[] args) throws IOException {
         Repository repo = new SqliteRepository();
         Application app = new Application(repo);
+        // test data loading
         try {
             FakeData.setupFakeApp(app);
-        } catch (WrongInputException e) {
+        } catch (WrongInputException | IOException e) {
+            System.out.println(e.getMessage());
         }
         MainView mv = new MainView(app);
         mv.run();
+//        try {
+//            app.logInUser("peter@3plogistics.dk", "Password12345");
+//        } catch (WrongInputException e) {
+//        }
+        try {
+            app.logInUser("tom@cbs.dk", "Password12345");
+        } catch (WrongInputException e) {
+        }
     }
 
 }

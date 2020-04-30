@@ -5,11 +5,17 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
+import rcm.model.Client;
+import rcm.model.Container;
+import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 
 class ContainersTopBar extends BaseTopBar {
@@ -46,27 +52,46 @@ public class ContainersTableView extends BaseTableView {
 
     public ContainersTableView(Application app) {
         super(app, new ContainersTopBar(app));
+        app.addObserver(this);
     }
-//
-//    @Override
-//    public String[] addColumnNames() {
-//        String[] columnNames = { "ID", "Current state", "Last Client" };
-//        return columnNames;
-//    }
-//
-//    // TODO: Change addData method according to listener
-//    @Override
-//    public Object[][] addData() {
-//        Object[][] data = { { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
-//                { "new Integer(1)", "available", "Maersk" }, { "new Integer(1)", "available", "Maersk" },
-//                { "new Integer(1)", "available", "Maersk" } };
-//        return data;
-//    }
+
+    public void updateTableModel() {
+
+        if (app.getLoggedInCompany() != null) {
+
+            DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+            tableModel.setRowCount(0);
+
+            String[] columnNames = { "ID", "Current state"};
+            tableModel.setColumnIdentifiers(columnNames);
+
+            List<Container> containers = app.requestContainers();
+
+            for (int i = 0; i < containers.size(); i++) {
+                Container c = containers.get(i);
+                int dataId = c.getId();
+                String dataState = ((c.isAvailable(LocalDateTime.now())) ? "available" : "not available right now");
+//                String dataLastJourney = ((c.getJourneyList() != null)) ? String.valueOf(c.getJourneyList().getLast().getId()) : "none";
+                Object[] rowData = {dataId, dataState};
+                tableModel.addRow(rowData);
+            }
+
+            table.setModel(tableModel);
+            tableModel.fireTableDataChanged();
+        }
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        // TODO Auto-generated method stub
-        
+        switch (evt.getPropertyName()) {
+        case "companyTabChanged":
+        case "companyLoggedIn":
+            updateTableModel();
+            break;
+
+        default:
+            break;
+        }
     }
 
 }
