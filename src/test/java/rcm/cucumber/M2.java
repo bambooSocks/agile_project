@@ -1,6 +1,8 @@
 package rcm.cucumber;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -36,29 +38,31 @@ public class M2 {
             Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         status = new ContainerStatus(timestamp, 25.0, 50.0, 101.0, location);
-
     }
 
-    @When("the first client requests to register a journey with the first logistics company with origin {string}, destination {string} and content {string}")
-    public void the_first_client_requests_to_register_a_journey_with_the_first_logistics_company_with_origin_destination_and_content(
-            String originPort, String destinationPort, String content) {
+    @When("the client requests to register a journey with origin {string}, destination {string} and content {string}")
+    public void the_client_requests_to_register_a_journey_with_origin_destination_and_content(String originPort,
+            String destinationPort, String content) {
         try {
-            holder.setFirstJourney(holder.getApp().requestNewJourney(originPort, destinationPort, content,
-                    LocalDateTime.of(2020, 3, 13, 4, 20)));
+            holder.setFirstJourney(holder.getApp().requestNewJourney(originPort, destinationPort, content));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    @When("the first logistics company updates containers location")
-    public void the_first_logistics_company_updates_containers_location() throws IOException {
+    @When("the logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_logistics_company_updates_containers_location_to_at(String loc, Integer hours, Integer minutes,
+            Integer day, Integer month, Integer year) throws IOException {
+        ContainerStatus status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0,
+                1.01, loc);
         successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
-
     }
 
-    @When("the second logistics company updates containers location")
-    public void the_second_logistics_company_updates_containers_location() throws IOException {
+    @When("the second logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_second_logistics_company_updates_containers_location_to_at(String loc, Integer hours,
+            Integer minutes, Integer day, Integer month, Integer year) throws IOException {
+        ContainerStatus status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0,
+                1.01, loc);
         successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
     }
 
@@ -81,7 +85,7 @@ public class M2 {
     public void the_location_is_changed() {
         assertTrue(successfulEntry);
         LocalDateTime t = LocalDateTime.of(2020, 3, 13, 4, 20);
-        ContainerStatus s = new ContainerStatus(t, 25.0, 50.0, 101.0, "New York");
+        ContainerStatus s = new ContainerStatus(t, 5.0, 60.0, 1.01, "New York");
         assertTrue(holder.getFirstJourney().getStatus().contains(s));
     }
 
@@ -90,11 +94,6 @@ public class M2 {
         assertFalse(successfulEntry);
         assertTrue(holder.getFirstJourney().getStatus().isEmpty());
 
-    }
-
-    @Then("an id is created")
-    public void an_id_is_created() {
-        assertTrue(!holder.getFirstClient().getJourneyList().isEmpty());
     }
 
     @Then("the first journey is listed")
@@ -116,9 +115,15 @@ public class M2 {
         assertTrue(filteredContent.contains(holder.getSecondJourney()));
     }
 
-    @Then("the journey doesnt start")
-    public void the_journey_doesnt_start() {
-        assertFalse(holder.getFirstJourney().isStarted());
+    @Then("the journey is created")
+    public void the_journey_is_created() {
+        assertNotEquals(null, holder.getFirstJourney());
+        assertFalse(holder.getApp().requestJourneys().isEmpty());
+    }
+
+    @Then("the journey is not created")
+    public void the_journey_is_not_created() {
+        assertEquals(null, holder.getFirstJourney());
     }
 
 }

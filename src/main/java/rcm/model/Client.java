@@ -210,25 +210,6 @@ public class Client extends User {
     }
 
     /**
-     * Requests the company to create a journey
-     * 
-     * @param originPort      the origin port of the journey
-     * @param destinationPort the destination port of the journey
-     * @param content         content of the container in the journey
-     * @param timestamp       time stamp of the journey start. if passed null the
-     *                        journey will not start
-     * @return created Journey
-     * @throws IOException
-     * @implNote This method only works if the client is assigned to a company
-     */
-    public Journey requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp)
-            throws IOException {
-        Journey journey = company.createJourney(this, originPort, destinationPort, content);
-        company.startJourney(journey, timestamp);
-        return journey;
-    }
-
-    /**
      * Getter for list of journeys
      * 
      * @return List of Journeys belonging to the client

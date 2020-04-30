@@ -11,12 +11,8 @@ import java.util.HashSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
-import rcm.repository.Repository;
 
 @Entity
-
 public class LogisticsCompany extends User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Container> containers;
@@ -154,25 +150,6 @@ public class LogisticsCompany extends User {
     }
 
     /**
-     * Method to create a client and assign it to a logistics company
-     * 
-     * @param name      Name of the client
-     * @param address   Address of the client
-     * @param refPerson Reference person of the client
-     * @param email     Email of the client
-     * @param password  Password of the client
-     * @return created client or null if client is not created
-     * @throws WrongInputException
-     */
-    public Client createClient(String name, String address, String refPerson, String email, String password)
-            throws WrongInputException {
-        Client c = new Client(name, address, refPerson, email, password);
-        addClient(c);
-        c.assignCompany(this);
-        return c;
-    }
-
-    /**
      * Method to add a client to the client set
      * 
      * @param client Client to be added to the client set
@@ -181,26 +158,6 @@ public class LogisticsCompany extends User {
         clients.add(client);
     }
 
-    /**
-     * Creates a journey for a given client and links them together
-     * 
-     * @param client          The client requesting a new journey
-     * @param originPort      The origin port of the journey
-     * @param destinationPort The destination port of the journey
-     * @param content         The content of the container transported in the
-     *                        journey
-     * @return null if the client is not of the logistics company creating the
-     *         journey
-     */
-    public Journey createJourney(Client client, String originPort, String destinationPort, String content) {
-        if (clients.contains(client)) {
-            Journey journey = new Journey(originPort, destinationPort, content, client);
-            client.addJourney(journey);
-            return journey;
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Starts a given journey with given time stamp

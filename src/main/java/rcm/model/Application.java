@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import rcm.repository.Repository;
 
@@ -15,9 +16,11 @@ public class Application {
 
     private List<LogisticsCompany> system;
     private Repository repo;
+
     private PropertyChangeSupport support;
-    LogisticsCompany loggedInCompany;
-    Client loggedInClient;
+
+    private LogisticsCompany loggedInCompany;
+    private Client loggedInClient;
 
     /**
      * Application constructor
@@ -75,12 +78,50 @@ public class Application {
     public Client createNewClient(String name, String address, String refPerson, String email, String password)
             throws IOException, WrongInputException {
         if (loggedInCompany != null) {
-            Client c = loggedInCompany.createClient(name, address, refPerson, email, password);
-            repo.createClient(c);
-            return c;
+            List<String> errors = validateUser(name, address, refPerson, email, password);
+            if (errors.isEmpty()) {
+                Client c = new Client(name, address, refPerson, email, password);
+                loggedInCompany.addClient(c);
+                c.assignCompany(loggedInCompany);
+                repo.createClient(c);
+                return c;
+            } else {
+                throw new WrongInputException("Please correct the following input: " + String.join(" ", errors));
+            }
         } else {
             return null;
         }
+    }
+
+    private List<String> validateUser(String name, String address, String refPerson, String email, String password) {
+        List<String> errors = new LinkedList<>();
+        if (!User.validateName(name)) {
+            errors.add("name");
+        }
+
+        if (!User.validateAddress(address)) {
+            errors.add("address");
+        }
+
+        if (!User.validateRefPerson(refPerson)) {
+            errors.add("reference person");
+        }
+
+        if (!User.validateEmail(email) || getAllEmails().contains(email)) {
+            errors.add("email");
+        }
+
+        if (!User.validatePassword(password)) {
+            errors.add("password");
+        }
+
+        return errors;
+    }
+
+    private List<String> getAllEmails() {
+        List<String> emails = system.stream().map(c -> c.getEmail()).collect(Collectors.toList());
+        emails.addAll(getAllClients().stream().map(c -> c.getEmail()).collect(Collectors.toList()));
+        return emails;
     }
 
     /**
@@ -110,12 +151,13 @@ public class Application {
      * @return requested Journey
      * @throws IOException
      */
-    public Journey requestNewJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp)
+    public Journey requestNewJourney(String originPort, String destinationPort, String content)
             throws IOException {
         if (loggedInClient != null) {
-            Journey j = loggedInClient.requestJourney(originPort, destinationPort, content, timestamp);
-            repo.createJourney(j);
-            return j;
+            Journey journey = new Journey(originPort, destinationPort, content, loggedInClient);
+            loggedInClient.addJourney(journey);
+            repo.createJourney(journey);
+            return journey;
         } else {
             return null;
         }

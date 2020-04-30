@@ -21,20 +21,6 @@ public class O1 {
         this.holder = holder;
     }
 
-
-    @Given("the first journey has ended at {int}:{int} {int}\\/{int}\\/{int}")
-    public void the_first_journey_has_ended_at(Integer hours, Integer minutes, Integer day, Integer month,
-            Integer year) {
-        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        holder.getApp().endJourney(holder.getFirstJourney().getId(), timestamp);
-    }
-
-    @Given("the journey has started at {int}:{int} {int}\\/{int}\\/{int}")
-    public void the_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
-        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        holder.getApp().startJourney(holder.getFirstJourney().getId(), timestamp);
-    }
-
     @When("the logistics company starts a first journey of the first client with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_starts_a_journey_with_a_timestamp(Integer hours, Integer minutes, Integer day,
             Integer month, Integer year) {

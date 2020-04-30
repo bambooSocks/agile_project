@@ -52,42 +52,12 @@ public class User {
      * @param password  Password of the user
      * @throws WrongInputException
      */
-    public User(String name, String address, String refPerson, String email, String password)
-            throws WrongInputException {
-
-        if (validateName(name)) {
-            this.name = name;
-        } else {
-            exceptions += " name";
-        }
-
-        if (validateAddress(address)) {
-            this.address = address;
-        } else {
-            exceptions += " address";
-        }
-
-        if (validateRefPerson(refPerson)) {
-            this.refPerson = refPerson;
-        } else {
-            exceptions += " reference person";
-        }
-
-        if (validateEmail(email)) {
-            this.email = email;
-        } else {
-            exceptions += " email";
-        }
-
-        if (validatePassword(password)) {
-            this.password = SHA1_Hasher(password);
-        } else {
-            exceptions += " password";
-        }
-
-        if (exceptions.length() > "Please correct the following input:".length()) {
-            throw new WrongInputException(exceptions);
-        }
+    public User(String name, String address, String refPerson, String email, String password) {
+        this.name = name;
+        this.address = address;
+        this.refPerson = refPerson;
+        this.email = email;
+        this.password = SHA1_Hasher(password);
     }
 
     /**
@@ -150,7 +120,7 @@ public class User {
      * @param name Name of the User
      * @return true if valid name, otherwise return false
      */
-    private static boolean validateName(String name) {
+    public static boolean validateName(String name) {
         Matcher matcherName = Pattern.compile(regexName).matcher(name);
         if (matcherName.matches()) {
             return true;
@@ -165,7 +135,7 @@ public class User {
      * @param address Address of the User
      * @return true if valid address, otherwise return false
      */
-    private static boolean validateAddress(String address) {
+    public static boolean validateAddress(String address) {
         Matcher matcherAddress = Pattern.compile(regexAddress).matcher(address);
         if (matcherAddress.matches()) {
             return true;
@@ -180,7 +150,7 @@ public class User {
      * @param refPerson Reference Person of the User
      * @return true if valid reference person, otherwise return false
      */
-    private static boolean validateRefPerson(String refPerson) {
+    public static boolean validateRefPerson(String refPerson) {
         Matcher matcherRefPerson = Pattern.compile(regexName).matcher(refPerson);
         if (matcherRefPerson.matches()) {
             return true;
@@ -195,7 +165,7 @@ public class User {
      * @param email Email of the user
      * @return true if valid email, otherwise return false
      */
-    private static boolean validateEmail(String email) {
+    public static boolean validateEmail(String email) {
         Matcher matcherEmail = Pattern.compile(regexEmail).matcher(email);
         if (matcherEmail.matches()) {
             return true;
@@ -210,7 +180,7 @@ public class User {
      * @param password Password of the user
      * @return true if valid password, otherwise return false
      */
-    private static boolean validatePassword(String password) {
+    public static boolean validatePassword(String password) {
         Matcher matcherPassword = Pattern.compile(regexPassword).matcher(password);
         if (matcherPassword.matches()) {
             return true;
