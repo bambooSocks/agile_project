@@ -7,9 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import rcm.FakeData;
 import rcm.model.Application;
-import rcm.model.WrongInputException;
 import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
 
@@ -20,7 +18,8 @@ public class MainView extends JFrame implements PropertyChangeListener {
     private LogInView lv;
     private CompanyTabView co;
     private ClientTabView cl;
-    private MenuBar menuBar;
+    private MenuBarClient menuBarcl;
+    private MenuBarCompany menuBarco;
 
     @SuppressWarnings("unused")
     private Application app;
@@ -35,18 +34,19 @@ public class MainView extends JFrame implements PropertyChangeListener {
         lv = new LogInView(app);
         co = new CompanyTabView(app);
         cl = new ClientTabView(app);
-        menuBar = new MenuBar();
+        menuBarcl = new MenuBarClient();
+        menuBarco = new MenuBarCompany();
         setLayout(new CardLayout());
         add(lv);
         add(co);
         add(cl);
-        setJMenuBar(menuBar);
     }
 
     public void run() {
         pack();
         setVisible(true);
-        menuBar.setVisible(false);
+        menuBarco.setVisible(false);
+        menuBarcl.setVisible(false);
     }
 
     @Override
@@ -56,19 +56,22 @@ public class MainView extends JFrame implements PropertyChangeListener {
             lv.setVisible(true);
             co.setVisible(false);
             cl.setVisible(false);
-            menuBar.setVisible(false);
+            menuBarco.setVisible(false);
+            menuBarcl.setVisible(false);
             break;
         case "companyLoggedIn":
             lv.setVisible(false);
             co.setVisible(true);
             cl.setVisible(false);
-            menuBar.setVisible(true);
+            setJMenuBar(menuBarco);
+            menuBarco.setVisible(true);
             break;
         case "clientLoggedIn":
             lv.setVisible(false);
             co.setVisible(false);
             cl.setVisible(true);
-            menuBar.setVisible(true);
+            setJMenuBar(menuBarcl);
+            menuBarcl.setVisible(true);
             break;
         default:
         }
@@ -77,22 +80,8 @@ public class MainView extends JFrame implements PropertyChangeListener {
     public static void main(String[] args) throws IOException {
         Repository repo = new SqliteRepository();
         Application app = new Application(repo);
-        // test data loading
-        try {
-            FakeData.setupFakeApp(app);
-        } catch (WrongInputException | IOException e) {
-            System.out.println(e.getMessage());
-        }
         MainView mv = new MainView(app);
         mv.run();
-//        try {
-//            app.logInUser("peter@3plogistics.dk", "Password12345");
-//        } catch (WrongInputException e) {
-//        }
-        try {
-            app.logInUser("tom@cbs.dk", "Password12345");
-        } catch (WrongInputException e) {
-        }
     }
 
 }

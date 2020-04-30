@@ -42,7 +42,7 @@ public class FakeData {
         app.logInUser("tom@cbs.dk", "Password12345");
         Journey j1 = app.requestNewJourney("Copenhagen", "New York", "bananas", null);
         Journey j3 = app.requestNewJourney("Rotterdam", "London", "cocaine", null);
-        app.shareJourney(c2,j1);
+        app.shareJourney(c2.getId(),j1.getId());
         
         //client 2
         app.logInUser("linea@novozymes.dk", "Password12345");
