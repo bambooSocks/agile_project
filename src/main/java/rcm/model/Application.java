@@ -134,6 +134,7 @@ public class Application {
     public Container createNewContainer() throws IOException {
         if (loggedInCompany != null) {
             Container c = new Container(loggedInCompany);
+            loggedInCompany.addContainer(c);
             repo.createContainer(c);
             return c;
         } else {
@@ -151,8 +152,7 @@ public class Application {
      * @return requested Journey
      * @throws IOException
      */
-    public Journey requestNewJourney(String originPort, String destinationPort, String content)
-            throws IOException {
+    public Journey requestNewJourney(String originPort, String destinationPort, String content) throws IOException {
         if (loggedInClient != null) {
             Journey journey = new Journey(originPort, destinationPort, content, loggedInClient);
             loggedInClient.addJourney(journey);
@@ -190,12 +190,16 @@ public class Application {
      * @throws IOException
      */
     public boolean enterNewContainerStatus(int journey_id, ContainerStatus status) throws IOException {
-        if (loggedInCompany != null && loggedInCompany.enterStatus(getJourneyById(journey_id), status)) {
-            repo.updateCompany(loggedInCompany);
-            return true;
-        } else {
-            return false;
+        if (loggedInCompany != null) {
+            Journey journey = getJourneyById(journey_id);
+            if (journey != null && journey.getCompany() == loggedInCompany && journey.isStarted()
+                    && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
+                journey.addStatus(status);
+                repo.updateCompany(loggedInCompany);
+                return true;
+            }
         }
+        return false;
     }
 
     /**

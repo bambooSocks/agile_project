@@ -49,6 +49,15 @@ public class M3 {
         successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
     }
 
+    @When("the logistics company enters status {double} degrees, {double} % humidity and {double} bar with timestamp {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_logistics_company_enters_status_degrees_humidity_and_bar_with_timestamp(Double temperature,
+            Double humidity, Double airPressure, Integer hours, Integer minutes, Integer day, Integer month,
+            Integer year) throws IOException {
+        status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), temperature, humidity,
+                airPressure, "New York");
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
+    }
+
     @When("the second logistics company enters the given container status")
     public void the_second_logistics_company_enters_the_given_container_status() throws IOException {
         successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
@@ -64,13 +73,13 @@ public class M3 {
         statusList = holder.getApp().requestStatus(holder.getFirstJourney().getId());
     }
 
-    @Then("the journey contains the given status")
-    public void the_journey_contains_the_given_status() {
+    @Then("the journey contains the status")
+    public void the_journey_contains_the_status() {
         assertTrue(holder.getFirstJourney().containsStatus(status));
     }
 
-    @Then("the journey does not contain the given status")
-    public void the_journey_does_not_contain_the_given_status() {
+    @Then("the journey does not contain the status")
+    public void the_journey_does_not_contain_the_status() {
         assertFalse(holder.getFirstJourney().containsStatus(status));
     }
 
@@ -99,8 +108,7 @@ public class M3 {
             Double humidity, Double airPressure, Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        ContainerStatus _status = new ContainerStatus(timestamp, temperature, humidity, airPressure,"New York");
+        ContainerStatus _status = new ContainerStatus(timestamp, temperature, humidity, airPressure, "New York");
         assertTrue(statusList.contains(_status));
     }
-
 }

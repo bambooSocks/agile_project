@@ -14,6 +14,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.ContainerStatus;
 import rcm.model.Journey;
+import rcm.model.WrongInputException;
 
 public class M2 {
 
@@ -22,6 +23,7 @@ public class M2 {
     protected LocalDateTime timestamp;
     private ContainerStatus status;
     private boolean successfulEntry = false;
+    private int journeyId;
 
     public M2(SharedObjectHolder holder) {
         this.holder = holder;
@@ -52,10 +54,13 @@ public class M2 {
 
     @When("the logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_updates_containers_location_to_at(String loc, Integer hours, Integer minutes,
-            Integer day, Integer month, Integer year) throws IOException {
+            Integer day, Integer month, Integer year) throws IOException, WrongInputException {
         ContainerStatus status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0,
                 1.01, loc);
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getApp().requestJourneys().get(0).getId(), status);
+        journeyId = holder.getFirstJourney().getId();
+        successfulEntry = holder.getApp().enterNewContainerStatus(journeyId, status);
+        
+       
     }
 
     @When("the second logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")

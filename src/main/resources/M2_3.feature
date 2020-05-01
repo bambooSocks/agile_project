@@ -2,29 +2,18 @@
 Feature: Journey filtering by a keyword
 
   Background: 
-    Given a logged in logistics company with client
+    Given a logistics company with two containers and a logged in client with two journeys 
 
   @tag1
   Scenario: Successful filtering by destination
-    And the first logistics company has two available containers
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "oranges"
-    And a second journey of first client with origin port of "Copenhagen" destination port of "Amsterdam" and a content of "oranges"
-    When the first client filters his journeys based on the destination "Rotterdam"
+    When the first client filters his journeys based on the destination "New York"
     Then the first journey is listed
 
   Scenario: Successful filtering by origin
-    And the first logistics company has two available containers
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "oranges"
-    And a second journey of first client with origin port of "Copenhagen" destination port of "Rotterdam" and a content of "oranges"
+
     When the first client filters his journeys based on the origin port "Copenhagen"
     Then the second journey is listed
 
   Scenario: Successful filtering by content
-    And the first logistics company has two available containers
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "oranges"
-    And a second journey of first client with origin port of "Copenhagen" destination port of "Rotterdam" and a content of "oranges"
-    When the first client filters his journeys based on the content "oranges"
+    When the first client filters his journeys based on the content "Kinder eggs"
     Then both journeys are listed
