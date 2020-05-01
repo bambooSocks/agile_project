@@ -29,8 +29,8 @@ public class M2 {
 
     @Given("the first logistics company has two available containers")
     public void the_first_logistics_company_has_two_available_containers() throws IOException {
-        holder.getFirstCompany().createContainer();
-        holder.getFirstCompany().createContainer();
+        holder.getApp().createNewContainer();
+        holder.getApp().createNewContainer();
     }
 
     @Given("the container entered location {string} at {int}:{int} {int}\\\\/{int}\\\\/{int}")
@@ -55,7 +55,7 @@ public class M2 {
             Integer day, Integer month, Integer year) throws IOException {
         ContainerStatus status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0,
                 1.01, loc);
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
+        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getApp().requestJourneys().get(0).getId(), status);
     }
 
     @When("the second logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")
@@ -73,12 +73,12 @@ public class M2 {
 
     @When("the first client filters his journeys based on the destination {string}")
     public void the_first_client_filters_his_journeys_based_on_the_destination(String destination) {
-        filteredDestination = holder.getFirstClient().journeySearchByDestination(destination);
+        filteredDestination = holder.getApp().getLoggedInClient().journeySearchByDestination(destination);
     }
 
     @When("the first client filters his journeys based on the content {string}")
     public void the_first_client_filters_his_journeys_based_on_the_content(String content) {
-        filteredContent = holder.getFirstClient().journeySearchByContent(content);
+        filteredContent = holder.getApp().getLoggedInClient().journeySearchByContent(content);
     }
 
     @Then("the location is changed")

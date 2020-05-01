@@ -198,24 +198,13 @@ public class LogisticsCompany extends User {
     }
 
     /**
-     * Creates a container and links it together with the company
-     * 
-     * @return A created container
-     */
-    public Container createContainer() {
-        Container container = new Container(this);
-        addContainer(container);
-        return container;
-    }
-
-    /**
      * Enters a new container status to the given journey
      * 
      * @param status  The status to be entered
      * @param journey The journey that the status should be entered to
      * @return Boolean of whether the container status was entered successfully
      */
-    public boolean enterStatus(ContainerStatus status, Journey journey) {
+    public boolean enterStatus(Journey journey, ContainerStatus status) {
         if (journey != null && journey.getCompany().getId() == (this.getId()) && journey.isStarted()
                 && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
             journey.addStatus(status);

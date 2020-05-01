@@ -46,11 +46,10 @@ public class TestDatabaseAccess {
         c1 = app.createNewContainer();
         app.logInUser("tom@dtu.dk", "Tom123456");
         timestamp = LocalDateTime.of(2019, 4, 22, 15, 0);
-        j1 = app.requestNewJourney("Copenhagen", "New York", "robots", timestamp);
+        j1 = app.requestNewJourney("Copenhagen", "New York", "robots");
 
         timestamp2 = LocalDateTime.of(2020, 4, 22, 15, 0);
         cs1 = new ContainerStatus(timestamp2, 35.0, 20.0, 101.0, "Copenhagen");
-
     }
 
     @Test
@@ -68,19 +67,12 @@ public class TestDatabaseAccess {
         // TODO: group2 do you need this mili variable?
         long mili = new Date().getTime();
         ContainerStatus dbStatus = dbJourney.getStatus().get(0);
-
         assertEquals("Maersk", dbUser3.getName());
-
         assertEquals("DTU", dbClient.getName());
-
         assertEquals(c1.getId(), dbContainer.getId());
-
         assertEquals("robots", dbJourney.getContent());
-
         assertEquals(35.0, dbStatus.getTemperature(), 0.001);
-
         assertTrue(success);
-
     }
 
     @Test
@@ -89,7 +81,6 @@ public class TestDatabaseAccess {
         dbClient.updateEmail("client@maersk.dk");
         repo.updateCompany(lc1);
         assertEquals("client@maersk.dk", repo.readClient(cl1.getEmail()).getEmail());
-
     }
     
     
@@ -98,18 +89,15 @@ public class TestDatabaseAccess {
         LogisticsCompany lc2 = new LogisticsCompany("Doprava", "Jedlova 21", "Petr Zeleny", "zelda@novo.dk", "Password12345");
         List <LogisticsCompany> list = repo.readAllLogisticsCompanies();
         assertTrue(list.contains(lc2)&&list.contains(lc1));
-
     }
     
     
     
     @Test
     public void testSharedJourney() throws IOException, WrongInputException {
-        Client cl3 = lc1.createClient("Brambora", "Lesova 3", "Linea Hansen", "linea2@novo.dk", "Password12345");
+        Client cl3 = app.createNewClient("Brambora", "Lesova 3", "Linea Hansen", "linea2@novo.dk", "Password12345");
         cl1.shareJourney(cl2,j1);
         assertTrue(cl2.getSharedJourneyList().contains(j1));
         assertFalse(cl3.getSharedJourneyList().contains(j1));
-
     }
-
 }

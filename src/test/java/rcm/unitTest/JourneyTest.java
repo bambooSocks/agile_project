@@ -34,7 +34,7 @@ public class JourneyTest {
         client = app.createNewClient("Novo Nordisk", "Novo Alle, 2880 Bagsvaerd", "Lars Fruergaard Joergensen",
                 "info@novonordisk.com", "Agile123");
         app.logInUser("info@novonordisk.com", "Agile123");
-        journey = app.requestNewJourney("Rotterdam", "Los Angeles", "tobacco", null);
+        journey = app.requestNewJourney("Rotterdam", "Los Angeles", "tobacco");
     }
 
     @Test

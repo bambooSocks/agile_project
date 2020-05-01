@@ -2,11 +2,7 @@
 Feature: Logging in
 
   Background: 
-    Given an empty database
-    And new application
-    And a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
+    Given a logged in logistics company with client
     And user is logged out
 
   @tag1
@@ -26,7 +22,7 @@ Feature: Logging in
 
   @tag4
   Scenario: Successful company Log-in
-    When first logistics company enters email "info@maersk.com" and password "Agile123"
+    When first logistics company enters email "bigboats@maersk.com" and password "Agile123"
     Then the company is logged in
 
   @tag5

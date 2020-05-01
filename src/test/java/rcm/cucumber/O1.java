@@ -25,21 +25,21 @@ public class O1 {
     public void the_logistics_company_starts_a_journey_with_a_timestamp(Integer hours, Integer minutes, Integer day,
             Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        successfulJourneyStart = holder.getFirstCompany().startJourney(holder.getFirstJourney(), timestamp);
+        successfulJourneyStart = holder.getApp().getLoggedInCompany().startJourney(holder.getFirstJourney(), timestamp);
     }
 
     @When("the logistics company starts a second journey of the first client with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_starts_a_second_journey_of_the_first_client_with_a_timestamp(Integer hours,
             Integer minutes, Integer day, Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        successfulJourneyStart = holder.getFirstCompany().startJourney(holder.getSecondJourney(), timestamp);
+        successfulJourneyStart = holder.getApp().getLoggedInCompany().startJourney(holder.getSecondJourney(), timestamp);
     }
 
     @When("the logistics company ends the first journey with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_ends_the_first_journey_with_a_timestamp(Integer hours, Integer minutes,
             Integer day, Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        successfulJourneyEnd = holder.getFirstCompany().endJourney(holder.getFirstJourney(), timestamp);
+        successfulJourneyEnd = holder.getApp().getLoggedInCompany().endJourney(holder.getFirstJourney(), timestamp);
     }
 
     @Then("the first journey has started")
@@ -110,7 +110,7 @@ public class O1 {
             Integer minutes, Integer day, Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
-        assertTrue(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
+        assertTrue(holder.getApp().getLoggedInCompany().enterStatus(holder.getFirstJourney(), status));
     }
 
     @Then("the logistics company fails to add a container status with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
@@ -118,6 +118,6 @@ public class O1 {
             Integer day, Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
-        assertFalse(holder.getFirstCompany().enterStatus(status, holder.getFirstJourney()));
+        assertFalse(holder.getApp().getLoggedInCompany().enterStatus(holder.getFirstJourney(), status));
     }
 }

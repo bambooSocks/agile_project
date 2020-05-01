@@ -45,20 +45,20 @@ public class TestDB2 {
         }
 
         app.logInUser("tom@cbs.dk", "Password12345");
-        Journey j1 = app.requestNewJourney("Copenhagen", "New York", "bananas", null);
-        Journey j3 = app.requestNewJourney("Rotterdam", "London", "cocaine", null);
+        Journey j1 = app.requestNewJourney("Copenhagen", "New York", "bananas");
+        Journey j3 = app.requestNewJourney("Rotterdam", "London", "cocaine");
 
         app.logInUser("linea@novozymes.dk", "Password12345");
-        Journey j2 = app.requestNewJourney("Pearl Harbor", "Tokyo", "robots", null);
-        Journey j4 = app.requestNewJourney("Hong Kong", "New York", "people", null);
+        Journey j2 = app.requestNewJourney("Pearl Harbor", "Tokyo", "robots");
+        Journey j4 = app.requestNewJourney("Hong Kong", "New York", "people");
 
         app.logInUser("linea@dtu.dk", "Password12345");
-        Journey j5 = app.requestNewJourney("Los Angeles", "Rio de Janeiro", "furniture", null);
-        Journey j7 = app.requestNewJourney("Rome", "Beijing", "toys", null);
+        Journey j5 = app.requestNewJourney("Los Angeles", "Rio de Janeiro", "furniture");
+        Journey j7 = app.requestNewJourney("Rome", "Beijing", "toys");
 
         app.logInUser("dave@netto.dk", "Password12345");
-        Journey j6 = app.requestNewJourney("Copenhagen", "Cairo", "cars", null);
-        app.requestNewJourney("New Dili", "New York", "steel", null);
+        Journey j6 = app.requestNewJourney("Copenhagen", "Cairo", "cars");
+        app.requestNewJourney("New Dili", "New York", "steel");
 
         app.logInUser("peter@3plogistics.dk", "Password12345");
         app.startJourney(j1.getId(), LocalDateTime.of(2019, 4, 22, 15, 0));

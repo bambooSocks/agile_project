@@ -133,7 +133,7 @@ public class Application {
      */
     public Container createNewContainer() throws IOException {
         if (loggedInCompany != null) {
-            Container c = loggedInCompany.createContainer();
+            Container c = new Container(loggedInCompany);
             repo.createContainer(c);
             return c;
         } else {
@@ -190,7 +190,7 @@ public class Application {
      * @throws IOException
      */
     public boolean enterNewContainerStatus(int journey_id, ContainerStatus status) throws IOException {
-        if (loggedInCompany != null && loggedInCompany.enterStatus(status, getJourneyById(journey_id))) {
+        if (loggedInCompany != null && loggedInCompany.enterStatus(getJourneyById(journey_id), status)) {
             repo.updateCompany(loggedInCompany);
             return true;
         } else {

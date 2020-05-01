@@ -39,8 +39,7 @@ public class ApplicationTest {
         client2 = app.createNewClient("Dole", "Florida", "Someone completely different", "dole@bananas.com",
                 "Object123");
         app.logInUser("info@novonordisk.com", "Object123");
-        journey = app.requestNewJourney("Copenhagen", "Rotterdam", "medical tools",
-                LocalDateTime.of(2020, 3, 13, 4, 20));
+        journey = app.requestNewJourney("Copenhagen", "Rotterdam", "medical tools");
         app.shareJourney(client2.getId(), journey.getId());
         app.logOut();
     }
@@ -65,7 +64,8 @@ public class ApplicationTest {
     public void testEnterNewContainerStatusJourneyLocalDateTimeDoubleDoubleDoubleString()
             throws WrongInputException, IOException {
         app.logInUser("info@maersk.com", "Agile123");
-        app.enterNewContainerStatus(journey.getId(), LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01, "Copenhagen");
+        app.enterNewContainerStatus(journey.getId(), LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01,
+                "Copenhagen");
         ContainerStatus status = new ContainerStatus(LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01,
                 "Copenhagen");
         assertTrue(journey.containsStatus(status));

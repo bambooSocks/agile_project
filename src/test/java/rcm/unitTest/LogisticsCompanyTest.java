@@ -41,8 +41,8 @@ public class LogisticsCompanyTest {
     @Test
     public void TestWrongClientCreatingJourney() throws IOException, WrongInputException {
         app.logInUser("info@maersk.com", "Agile123");
-        assertEquals(null, company1.createJourney(client2, "Nordhavn", "Rotterdam", "remoulade"));
-        assertNotEquals(null, company1.createJourney(client1, "Nordhavn", "Rotterdam", "remoulade"));
+        assertEquals(null,app.requestNewJourney("Nordhavn", "Rotterdam", "remoulade"));
+        assertNotEquals(null, app.requestNewJourney("Nordhavn", "Rotterdam", "remoulade"));
         app.logOut();
     }
 
