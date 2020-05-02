@@ -29,7 +29,6 @@ public class CreateJourneyView extends JFrame {
     private JTextField contentField = new JTextField(10);
     private JTextField date = new JTextField(10);
 
-
     private JLabel lbl1 = new JLabel("Origin:");
     private JLabel lbl2 = new JLabel("Destination:");
     private JLabel lbl3 = new JLabel("Content:");
@@ -89,7 +88,6 @@ public class CreateJourneyView extends JFrame {
         // Radio Buttons
         Box rBox = Box.createHorizontalBox();
         ButtonGroup rGroup = new ButtonGroup();
-        r1.isSelected();
         r1.setActionCommand("Now");
         r2.setActionCommand("Choose Date");
         rGroup.add(r1);
@@ -110,23 +108,20 @@ public class CreateJourneyView extends JFrame {
         r2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                final JFrame f = new JFrame();
-                date.setText(new DatePickerView(f).setPickedDate());
-                // TODO: still having an empty frame come up in the corner
-                f.pack();
-                f.setVisible(true);
+                date.setText(new DatePickerView().setPickedDate());
             }
         });
+
+        r1.doClick();
 
         constraints.gridx = 1;
         constraints.gridy = 3;
         panel.add(rBox, constraints);
-        
-        
+
         constraints.gridx = 1;
         constraints.gridy = 4;
         date.addKeyListener(new KeyListener());
-        panel.add(date,constraints);
+        panel.add(date, constraints);
 
         // Request Button
         constraints.gridx = 0;

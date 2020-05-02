@@ -4,17 +4,20 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class DatePickerView {
+public class DatePickerView extends JDialog {
+
+    private static final long serialVersionUID = -8323341876021134520L;
+
     private int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);
     private int year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);;
     private JLabel l = new JLabel("", JLabel.CENTER);
     private String day = "";
-    private JDialog d;
     private JButton[] button = new JButton[49];
 
-    public DatePickerView(JFrame parent) {
-        d = new JDialog();
-        d.setModal(true);
+    public DatePickerView() {
+
+        setTitle("Date Picker");
+        setModal(true);
         String[] header = { "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat" };
         JPanel p1 = new JPanel(new GridLayout(7, 7));
         p1.setPreferredSize(new Dimension(430, 120));
@@ -28,8 +31,7 @@ public class DatePickerView {
                 button[x].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         day = button[selection].getActionCommand();
-                        d.dispose();
-                        //TODO: when a date is picked an empty frame pops up - get rid of
+                        dispose();
                     }
                 });
             if (x < 7) {
@@ -61,12 +63,12 @@ public class DatePickerView {
         });
         p2.add(next);
 
-        d.add(p1, BorderLayout.CENTER);
-        d.add(p2, BorderLayout.SOUTH);
-        d.pack();
-        d.setLocationRelativeTo(parent);
+        add(p1, BorderLayout.CENTER);
+        add(p2, BorderLayout.SOUTH);
+        pack();
+        setLocationRelativeTo(null);
         displayDate();
-        d.setVisible(true);
+        setVisible(true);
     }
 
     public void displayDate() {
@@ -80,7 +82,6 @@ public class DatePickerView {
         for (int x = 6 + dayOfWeek, day = 1; day <= daysInMonth; x++, day++)
             button[x].setText("" + day);
         l.setText(sdf.format(cal.getTime()));
-        d.setTitle("Date Picker");
     }
 
     public String setPickedDate() {

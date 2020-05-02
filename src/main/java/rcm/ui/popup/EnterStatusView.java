@@ -8,21 +8,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import rcm.ui.popup.ProfileInfoView.KeyListener;
+public class EnterStatusView extends JDialog {
 
-public class EnterStatusView extends JFrame {
-
-//  add this to each field/button:
-//  "field name".addKeyListener(new KeyListener());
-    private static final long serialVersionUID = 120614387649860592L;
+    private static final long serialVersionUID = 905381235747598544L;
 
     private JTextField tempField = new JTextField(10);
     private JTextField humidityField = new JTextField(10);
@@ -36,13 +35,18 @@ public class EnterStatusView extends JFrame {
     private JLabel lbl4 = new JLabel("Location:");
     private JLabel lbl5 = new JLabel("Time:");
 
-    private JButton b1 = new JButton("Enter");
-    private JButton b2 = new JButton("Cancel");
+    private ImageIcon nowIcon = new ImageIcon("src/main/resources/now_icon.jpg");
+    private JButton b1 = new JButton(nowIcon);
+    private JButton b2 = new JButton("Enter");
+    private JButton b3 = new JButton("Cancel");
 
     public EnterStatusView() {
 
-        setLayout(new GridBagLayout());
-        setSize(new Dimension(400, 300)); // (width, height)
+        setTitle("Enter Status");
+        setModal(true);
+
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setPreferredSize(new Dimension(400, 300)); // (width, height)
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -51,102 +55,119 @@ public class EnterStatusView extends JFrame {
         // Temperature
         constraints.gridx = 0;
         constraints.gridy = 0;
-        add(lbl1, constraints);
+        panel.add(lbl1, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.gridwidth = 2;
         tempField.addKeyListener(new KeyListener());
-        add(tempField, constraints);
+        panel.add(tempField, constraints);
 
         // Humidity
         constraints.gridx = 0;
         constraints.gridy = 1;
-        add(lbl2, constraints);
+        panel.add(lbl2, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        constraints.gridwidth = 2;
         humidityField.addKeyListener(new KeyListener());
-        add(humidityField, constraints);
+        panel.add(humidityField, constraints);
 
         // Atmospheric Pressure
         constraints.gridx = 0;
         constraints.gridy = 2;
-        add(lbl3, constraints);
+        panel.add(lbl3, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 2;
-        constraints.gridwidth = 2;
         atmPressureField.addKeyListener(new KeyListener());
-        add(atmPressureField, constraints);
+        panel.add(atmPressureField, constraints);
 
         // Location
         constraints.gridx = 0;
         constraints.gridy = 3;
-        add(lbl4, constraints);
+        panel.add(lbl4, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 3;
-        constraints.gridwidth = 2;
         locationField.addKeyListener(new KeyListener());
-        add(locationField, constraints);
+        panel.add(locationField, constraints);
 
         // Time
         constraints.gridx = 0;
         constraints.gridy = 4;
-        add(lbl5, constraints);
+        panel.add(lbl5, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 4;
-        constraints.gridwidth = 2;
         timeField.addKeyListener(new KeyListener());
-        add(timeField, constraints);
+        panel.add(timeField, constraints);
 
-        // Enter Button
-        constraints.gridx = 0;
-        constraints.gridy = 5;
-        constraints.gridwidth = 1;
+        // Now button
         b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Enter clicked");
-                // TODO: save entered data
-                setVisible(false);
+                System.out.println("Now clicked");
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                Date obj = new Date();
+                timeField.setText(sdf.format(obj));
             }
         });
-        add(b1, constraints);
 
-        // Cancel Button
-        constraints.gridx = 1;
+        b1.setMargin(new Insets(0, 0, 0, 0));
+        b1.setBounds(74, 0, 19, 19);
+        timeField.add(b1);
+
+        // Enter Button
+        constraints.gridx = 0;
         constraints.gridy = 5;
-        constraints.gridwidth = 1;
         b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
-                setVisible(false);
+                System.out.println("Enter clicked");
+                // TODO: save entered data
+                dispose();
             }
         });
-        add(b2, constraints);
-    }
+        panel.add(b2, constraints);
 
-    // set border for the panel
-//        setBorder(BorderFactory
-//                .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
-//                 BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
-//}
+        // Cancel Button
+        constraints.gridx = 1;
+        constraints.gridy = 5;
+        b3.addKeyListener(new KeyListener());
+        b3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Cancel clicked");
+                dispose();
+            }
+        });
+        panel.add(b3, constraints);
+
+        // set border for the panel
+        panel.setBorder(BorderFactory
+                .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
+                        BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
+
+        add(panel);
+        pack();
+        setLocationRelativeTo(null);
+    }
 
     class KeyListener extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent event) {
-//      if (event.getSource() == b2) {
-//          b2.doClick();
-//      } else {
-//      b1.doClick();
+            if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (event.getSource() == b1) {
+                    b1.doClick();
+                } else if (event.getSource() == b3) {
+                    b3.doClick();
+                } else {
+                    b2.doClick();
+                }
+            }
         }
     }
 }
