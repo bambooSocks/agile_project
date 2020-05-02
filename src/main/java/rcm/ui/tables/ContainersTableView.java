@@ -13,9 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
-import rcm.model.Client;
 import rcm.model.Container;
-import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 
 class ContainersTopBar extends BaseTopBar {
@@ -49,20 +47,22 @@ class ContainersTopBar extends BaseTopBar {
 public class ContainersTableView extends BaseTableView {
 
     private static final long serialVersionUID = -3009522281466857043L;
+    private Container pane;
 
     public ContainersTableView(Application app) {
         super(app, new ContainersTopBar(app));
         app.addObserver(this);
     }
 
-    public void updateTableModel() {
+    public void updateTableModel(Container pane) {
 
         if (app.getLoggedInCompany() != null) {
+            this.pane = pane;
 
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
             tableModel.setRowCount(0);
 
-            String[] columnNames = { "ID", "Current state"};
+            String[] columnNames = { "ID", "Current state" };
             tableModel.setColumnIdentifiers(columnNames);
 
             List<Container> containers = app.requestContainers();
@@ -72,7 +72,7 @@ public class ContainersTableView extends BaseTableView {
                 int dataId = c.getId();
                 String dataState = ((c.isAvailable(LocalDateTime.now())) ? "available" : "not available right now");
 //                String dataLastJourney = ((c.getJourneyList() != null)) ? String.valueOf(c.getJourneyList().getLast().getId()) : "none";
-                Object[] rowData = {dataId, dataState};
+                Object[] rowData = { dataId, dataState };
                 tableModel.addRow(rowData);
             }
 
@@ -86,12 +86,18 @@ public class ContainersTableView extends BaseTableView {
         switch (evt.getPropertyName()) {
         case "companyTabChanged":
         case "companyLoggedIn":
-            updateTableModel();
+            updateTableModel(pane);
             break;
 
         default:
             break;
         }
+    }
+
+    @Override
+    public void updateTableModel() {
+        // TODO Auto-generated method stub
+
     }
 
 }

@@ -5,7 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
 import java.util.List;
 
 import javax.swing.JButton;
@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
 import rcm.model.Client;
+
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.CreateClientView;
 
@@ -47,7 +48,7 @@ class ClientsTopBar extends BaseTopBar {
 
 }
 
-public class ClientsTableView extends BaseTableView {
+public class ClientsTableView extends BaseTableView implements ActionListener {
 
     private static final long serialVersionUID = -319420806707922265L;
 
@@ -95,6 +96,12 @@ public class ClientsTableView extends BaseTableView {
         default:
             break;
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        // TODO Auto-generated method stub
+
     }
 
 }

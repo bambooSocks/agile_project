@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.swing.JPanel;
+
 import rcm.repository.Repository;
 
 public class Application {
@@ -479,6 +481,18 @@ public class Application {
 
     public void clientTabChanged() {
         support.firePropertyChange("clientTabChanged", null, null);
+    }
+
+    public void switchCards(String command) {
+        support.firePropertyChange(command, null, null);
+    }
+
+    public void showJourney(int id) {
+        support.firePropertyChange("showJourney", null, id);
+    }
+    
+    public void showSharedJourney(int id) {
+        support.firePropertyChange("showSharedJourney", null, id);
     }
 
 }

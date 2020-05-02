@@ -2,22 +2,25 @@ package rcm.ui.tables;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.time.LocalDateTime;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
-import rcm.model.Client;
 import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
+
 import rcm.ui.popup.CreateJourneyView;
 
 class MyJourneysTopBar extends BaseTopBar {
@@ -32,7 +35,6 @@ class MyJourneysTopBar extends BaseTopBar {
     public JPanel buildLeftSide() {
         JPanel leftSide = new JPanel(new FlowLayout());
 
-        // New Journey button
         JButton newJourney = new JButton("New Journey");
         newJourney.setPreferredSize(new Dimension(150, 30));
         newJourney.addActionListener(new ActionListener() {
@@ -54,6 +56,9 @@ public class MyJourneysTableView extends BaseTableView {
 
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
     private static final long serialVersionUID = -8487746616760043744L;
+    protected JPopupMenu popupMenu;
+    protected JMenuItem itemViewJourney;
+    protected JMenuItem menuShareJourney;
 
     public MyJourneysTableView(Application app) {
         super(app, new MyJourneysTopBar(app));
@@ -62,6 +67,7 @@ public class MyJourneysTableView extends BaseTableView {
 
     @Override
     public void updateTableModel() {
+
         if (app.getLoggedInClient() != null) {
 
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
@@ -86,8 +92,34 @@ public class MyJourneysTableView extends BaseTableView {
                 tableModel.addRow(rowData);
             }
 
+            popupMenu = new JPopupMenu();
+            itemViewJourney = new JMenuItem("View Journey");
+            menuShareJourney = new JMenuItem("Share Journey");
+
+            popupMenu.add(itemViewJourney);
+            popupMenu.add(menuShareJourney);
+
+            table.setComponentPopupMenu(popupMenu);
+
             table.setModel(tableModel);
+
+            itemViewJourney.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                    app.showJourney(id);
+                }
+            });
+
+            menuShareJourney.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("share journey");
+                }
+            });
+
             tableModel.fireTableDataChanged();
+
         }
     }
 

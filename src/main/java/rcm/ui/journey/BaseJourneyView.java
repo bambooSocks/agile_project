@@ -24,6 +24,7 @@ import rcm.ui.BaseView;
 public abstract class BaseJourneyView extends BaseView {
 
     private static final long serialVersionUID = -7158594990405366048L;
+    protected int journeyID=-1;
 
     protected BaseJourneyView(Application app, BaseTopBar topBar) {
         super(app, topBar);
@@ -238,6 +239,14 @@ public abstract class BaseJourneyView extends BaseView {
                 TitledBorder.CENTER, TitledBorder.TOP));
         panel.add(spTable);
         return panel;
+    }
+
+    public int getJourneyID() {
+        return journeyID;
+    }
+
+    public void setJourneyID(int journeyID) {
+        this.journeyID = journeyID;
     }
 
 }

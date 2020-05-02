@@ -1,6 +1,7 @@
 package rcm.ui;
 
 import java.awt.CardLayout;
+import java.awt.Container;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -8,8 +9,10 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import rcm.model.Application;
+import rcm.model.WrongInputException;
 import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
+import rcm.ui.tables.MyJourneysTableView;
 
 public class MainView extends JFrame implements PropertyChangeListener {
 
@@ -23,6 +26,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
 
     @SuppressWarnings("unused")
     private Application app;
+    private Container pane;
 
     public MainView(Application app) {
         super("Remote Container Management");
@@ -31,9 +35,12 @@ public class MainView extends JFrame implements PropertyChangeListener {
         this.app = app;
         app.addObserver(this);
         
+        pane = getContentPane();
+
         lv = new LogInView(app);
         co = new CompanyTabView(app);
         cl = new ClientTabView(app);
+
         menuBarcl = new MenuBarClient();
         menuBarco = new MenuBarCompany();
         setLayout(new CardLayout());
@@ -81,7 +88,13 @@ public class MainView extends JFrame implements PropertyChangeListener {
         Repository repo = new SqliteRepository();
         Application app = new Application(repo);
         MainView mv = new MainView(app);
+
+        try {
+            app.logInUser("linea@novozymes.dk", "Password12345");
+        } catch (WrongInputException e) {
+        }
         mv.run();
+
     }
 
 }

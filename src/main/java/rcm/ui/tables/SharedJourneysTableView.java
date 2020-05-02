@@ -1,10 +1,14 @@
 package rcm.ui.tables;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
@@ -27,10 +31,12 @@ class SharedJourneysTopBar extends BaseTopBar {
 }
 
 public class SharedJourneysTableView extends BaseTableView {
-    
+
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
     private static final long serialVersionUID = 1156877669628672936L;
-
+    protected JMenuItem itemViewSharedJourney;
+    protected JPopupMenu popupMenu;
+    
     public SharedJourneysTableView(Application app) {
         super(app, new SharedJourneysTopBar(app));
         app.addObserver(this);
@@ -38,7 +44,6 @@ public class SharedJourneysTableView extends BaseTableView {
 
     @Override
     public void updateTableModel() {
-
         if (app.getLoggedInClient() != null) {
 
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
@@ -48,7 +53,13 @@ public class SharedJourneysTableView extends BaseTableView {
             tableModel.setColumnIdentifiers(columnNames);
 
             List<Journey> journeys = app.requestSharedJourneys();
-
+            
+            if (journeys==null) {
+                System.out.println("shared journey list is null");
+            } else {
+                System.out.println("shared journey list is not null");
+            }
+            
             for (int i = 0; i < journeys.size(); i++) {
                 Journey j = journeys.get(i);
                 int dataId = j.getId();
@@ -62,8 +73,24 @@ public class SharedJourneysTableView extends BaseTableView {
                 Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate };
                 tableModel.addRow(rowData);
             }
+            
+            popupMenu = new JPopupMenu();
+            itemViewSharedJourney = new JMenuItem("View Shared Journey");
+
+            popupMenu.add(itemViewSharedJourney);
+
+            table.setComponentPopupMenu(popupMenu);
 
             table.setModel(tableModel);
+            
+            itemViewSharedJourney.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                    app.showSharedJourney(id);
+                }
+            });
+            
             tableModel.fireTableDataChanged();
         }
     }

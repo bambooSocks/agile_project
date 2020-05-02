@@ -25,7 +25,7 @@ public abstract class BaseTopBar extends JPanel {
 
     private static final long serialVersionUID = 8688699308325627639L;
 
-    private Application app;
+    protected Application app;
     private boolean showSearchBar = true;
     private JButton searchButton;
 
