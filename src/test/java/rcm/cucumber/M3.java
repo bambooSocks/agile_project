@@ -27,13 +27,6 @@ public class M3 {
         this.holder = holder;
     }
 
-    @Given("a container status of {double} degrees, {double} % humidity and {double} bar with timestamp {int}:{int} {int}\\/{int}\\/{int}")
-    public void a_container_status_of_degrees_humidity_and_bar_with_timestamp(Double temperature, Double humidity,
-            Double airPressure, Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
-        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        status = new ContainerStatus(timestamp, temperature, humidity, airPressure, "New York");
-    }
-
     @Given("an initial container status in the journey of {double} degrees, {double} % humidity and {double} bar with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void an_initial_container_status_in_the_journey_of_degrees_humidity_and_bar_with_a_timestamp(
             Double temperature, Double humidity, Double airPressure, Integer hours, Integer minutes, Integer day,
@@ -44,22 +37,12 @@ public class M3 {
         assertTrue(holder.getFirstJourney().containsStatus(status));
     }
 
-    @When("the first logistics company enters the given container status")
-    public void the_first_logistics_company_enters_the_given_container_status() throws IOException {
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
-    }
-
     @When("the logistics company enters status {double} degrees, {double} % humidity and {double} bar with timestamp {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_enters_status_degrees_humidity_and_bar_with_timestamp(Double temperature,
             Double humidity, Double airPressure, Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) throws IOException {
         status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), temperature, humidity,
                 airPressure, "New York");
-        successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
-    }
-
-    @When("the second logistics company enters the given container status")
-    public void the_second_logistics_company_enters_the_given_container_status() throws IOException {
         successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
     }
 

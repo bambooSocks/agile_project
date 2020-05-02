@@ -43,11 +43,6 @@ public class M1 {
         }
     }
 
-    @Then("an id is automatically generated")
-    public void an_id_is_automatically_generated() {
-        assertNotEquals(null, holder.getFirstClient().getId());
-    }
-
     @Then("a new client {string} with address {string} reference person {string} email {string} and password {string} belongs to the company")
     public void a_new_client_with_address_reference_person_email_and_password_belongs_to_the_company(String name,
             String address, String refPerson, String email, String password) {

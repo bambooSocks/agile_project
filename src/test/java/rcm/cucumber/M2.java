@@ -29,26 +29,12 @@ public class M2 {
         this.holder = holder;
     }
 
-    @Given("the first logistics company has two available containers")
-    public void the_first_logistics_company_has_two_available_containers() throws IOException {
-        holder.getApp().createNewContainer();
-        holder.getApp().createNewContainer();
-    }
-
-    @Given("the container entered location {string} at {int}:{int} {int}\\\\/{int}\\\\/{int}")
-    public void the_container_entered_location_at(String location, Integer hours, Integer minutes, Integer day,
-            Integer month, Integer year) {
-        LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
-        status = new ContainerStatus(timestamp, 25.0, 50.0, 101.0, location);
-    }
-
     @When("the client requests to register a journey with origin {string}, destination {string} and content {string}")
     public void the_client_requests_to_register_a_journey_with_origin_destination_and_content(String originPort,
             String destinationPort, String content) {
         try {
             holder.setFirstJourney(holder.getApp().requestNewJourney(originPort, destinationPort, content));
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
