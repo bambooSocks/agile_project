@@ -5,7 +5,7 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/main/resources/M3_1.feature", strict = true)
+@CucumberOptions(features = "src/main/resources", strict = true)
 
 public class CucumberTest {
 

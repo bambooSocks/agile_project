@@ -3,7 +3,7 @@ Feature: Viewing and sharing journeys
 
   Background: 
     Given a logged in logistics company with container and client with journey
-    And a second client "Dole" with address "4 Privit Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
+    And a second client "Dole" with address "4 Privet Drive, Little Whinging" reference person "Dudley Dursley" email "Ilovetoeat@hotmail.com" and password "Object123"
 
   @tag1
   Scenario: Client can view own journeys

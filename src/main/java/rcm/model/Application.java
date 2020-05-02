@@ -210,10 +210,17 @@ public class Application {
      */
     public boolean startJourney(int journey_id, LocalDateTime timestamp) {
         if (loggedInCompany != null) {
-            return loggedInCompany.startJourney(getJourneyById(journey_id), timestamp);
-        } else {
-            return false;
+            Journey journey = getJourneyById(journey_id);
+            Container container = loggedInCompany.getAvailableContainer(timestamp);
+            if (journey != null && !journey.isStarted() && container != null && timestamp != null) {
+                journey.setContainer(container);
+                journey.setStartTimestamp(timestamp);
+                journey.setStarted();
+                journey.getContainer().addJourney(journey);
+                return true;
+            }
         }
+        return false;
     }
 
     /**
@@ -225,10 +232,15 @@ public class Application {
      */
     public boolean endJourney(int journey_id, LocalDateTime timestamp) {
         if (loggedInCompany != null) {
-            return loggedInCompany.endJourney(getJourneyById(journey_id), timestamp);
-        } else {
-            return false;
+            Journey journey = getJourneyById(journey_id);
+            if (journey != null && !journey.isEnded() && journey.isStarted()
+                    && journey.isValidEndTimestamp(timestamp)) {
+                journey.setEndTimestamp(timestamp);
+                journey.setEnded();
+                return true;
+            }
         }
+        return false;
     }
 
     /**

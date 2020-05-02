@@ -5,10 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import io.cucumber.core.backend.Container;
 import io.cucumber.java.en.Given;
 import rcm.model.Application;
 import rcm.model.Client;
+import rcm.model.Container;
 import rcm.model.Journey;
 import rcm.model.User;
 import rcm.model.WrongInputException;
@@ -85,6 +85,19 @@ public class SharedStepMethods {
 
     }
 
+    @Given("a logged in logistics company with a container and client with two journeys")
+    public void a_logged_in_logistics_company_with_a_container_and_client_with_two_journeys()
+            throws IOException, WrongInputException {
+        a_logged_in_logistics_company_with_client();
+        Container c = holder.getApp().createNewContainer();
+        holder.setFirstContainer(c);
+        holder.getApp().logInUser("bananas@chiquita.com", "Object123");
+        Journey journey = holder.getApp().requestNewJourney("Rome", "New York", "Kinder eggs");
+        holder.setFirstJourney(journey);
+        Journey journey2 = holder.getApp().requestNewJourney("Copenhagen", "Stockholm", "Kinder eggs");
+        holder.setSecondJourney(journey2);
+        holder.getApp().logInUser("bigboats@maersk.com", "Agile123");
+    }
     @Given("another logged in logistics company")
     public void another_logged_in_logistics_company() throws WrongInputException, IOException {
         holder.setSecondCompany(holder.getApp().createNewLogisticsCompany("Hamburg Sud", "Hamburg", "Willy Wonka",
@@ -106,8 +119,8 @@ public class SharedStepMethods {
         holder.getApp().logInUser("bigboats@maersk.com", "Agile123");
     }
 
-    @Given("the first journey has ended at {int}:{int} {int}\\/{int}\\/{int}")
-    public void the_first_journey_has_ended_at(Integer hours, Integer minutes, Integer day, Integer month,
+    @Given("the journey has ended at {int}:{int} {int}\\/{int}\\/{int}")
+    public void the_journey_has_ended_at(Integer hours, Integer minutes, Integer day, Integer month,
             Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         holder.getApp().endJourney(holder.getFirstJourney().getId(), timestamp);
@@ -256,6 +269,22 @@ public class SharedStepMethods {
         assertEquals(content, holder.getSecondJourney().getContent());
     }
 
+    @Given("another client is now logged in")
+    public void another_client_is_now_logged_in() throws IOException {
+        try {
+            Client client = holder.getApp().createNewClient("Dole", "California", "Banana Woman", "info@dole.com", "Object123");
+            holder.setSecondClient(client);
+            assertEquals("Dole", holder.getSecondClient().getName());
+            assertEquals("California", holder.getSecondClient().getAddress());
+            assertEquals("Banana Woman", holder.getSecondClient().getRefPerson());
+            assertEquals("info@dole.com", holder.getSecondClient().getEmail());
+            assertEquals(User.SHA1_Hasher("Object123"), holder.getSecondClient().getPassword());
+            holder.getApp().logInUser("info@dole.com", "Object123");
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     @Given("a container of the first logistics company")
     public void a_container_of_the_first_logistics_company() throws IOException {
         holder.setFirstContainer(holder.getApp().createNewContainer());
@@ -266,5 +295,12 @@ public class SharedStepMethods {
             Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         holder.getApp().startJourney(holder.getFirstJourney().getId(), timestamp);
+    }
+    
+    @Given("the client is now logged in")
+    public void the_client_is_now_logged_in() throws WrongInputException {
+       
+        holder.getApp().logInUser("bananas@chiquita.com", "Object123");
+        
     }
 }

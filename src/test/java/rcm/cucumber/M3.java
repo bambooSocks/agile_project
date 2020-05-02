@@ -63,13 +63,8 @@ public class M3 {
         successfulEntry = holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status);
     }
 
-    @When("the first client requests access to the status")
-    public void the_first_client_requests_access_to_the_status() {
-        statusList = holder.getApp().requestStatus(holder.getFirstJourney().getId());
-    }
-
-    @When("the second client requests access to the status")
-    public void the_second_client_requests_access_to_the_status() {
+    @When("the client requests access to the status")
+    public void the_client_requests_access_to_the_status() {
         statusList = holder.getApp().requestStatus(holder.getFirstJourney().getId());
     }
 

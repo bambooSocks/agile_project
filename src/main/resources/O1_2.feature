@@ -2,59 +2,36 @@
 Feature: Journey end
 
   Background: 
-    Given a logged in logistics company with client
+    Given a logged in logistics company with container and client with journey
 
   @tag1
   Scenario: Successful end of a journey
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods" started at 4:20 12/3/2020
-    And first logistics company is logged-in with email "bigboats@maersk.com" and password "Agile123"
-    When the logistics company ends the first journey with a timestamp 4:20 13/3/2020
-    Then the first journey has ended
-    And the ending timestamp of the first journey is 4:20 13/3/2020
-    And the logistics company fails to add a container status with a timestamp 4:22 13/3/2020
+    Given the journey has started at 4:20 12/3/2020
+    When the logistics company ends the journey with timestamp 4:20 13/3/2020
+    Then the journey has ended
+    And the ending timestamp of the journey is 4:20 13/3/2020
+    And the logistics company fails to add a container status with timestamp 4:22 13/3/2020
 
   Scenario: Failed to end the journey because it is already ended
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods" started at 4:20 12/3/2020
-    And first logistics company is logged-in with email "bigboats@maersk.com" and password "Agile123"
-    And the first journey has ended at 4:20 13/3/2020
-    When the logistics company ends the first journey with a timestamp 4:20 14/3/2020
-    Then the first journey failed to end
-    And the ending timestamp of the first journey is 4:20 13/3/2020
+    Given the journey has started at 4:20 12/3/2020
+    And the journey has ended at 4:20 13/3/2020
+    When the logistics company ends the journey with timestamp 4:20 14/3/2020
+    Then the journey failed to end
+    And the ending timestamp of the journey is 4:20 13/3/2020
 
   Scenario: Failed to end the journey because it was not started
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And first logistics company is logged-in with email "bigboats@maersk.com" and password "Agile123"
-    When the logistics company ends the first journey with a timestamp 4:20 14/3/2020
-    Then the first journey failed to end
+    When the logistics company ends the journey with timestamp 4:20 14/3/2020
+    Then the journey failed to end
 
   Scenario: Failed to end the journey because the end timestamp is before the start timestamp
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And first logistics company is logged-in with email "bigboats@maersk.com" and password "Agile123"
-    And the first journey has started at 4:20 13/3/2020
-    When the logistics company ends the first journey with a timestamp 4:20 12/3/2020
-    Then the first journey failed to end
-    And the logistics company successfully adds a container status with a timestamp 4:22 13/3/2020
+    Given the journey has started at 4:20 13/3/2020
+    When the logistics company ends the journey with timestamp 4:20 12/3/2020
+    Then the journey failed to end
+    And the logistics company successfully adds a container status with timestamp 4:22 13/3/2020
 
   Scenario: Failed to end the journey because the end timestamp is before some of the status timestamps
-    And a container of the first logistics company
-    And first client is logged-in with email "bananas@chiquita.com" and password "Object123"
-    And a first journey of first client with origin port of "Shenzhen" destination port of "Rotterdam" and a content of "medical goods"
-    And first logistics company is logged-in with email "bigboats@maersk.com" and password "Agile123"
-    And the first journey has started at 4:20 12/3/2020
+    Given the journey has started at 4:20 12/3/2020
     And an initial container status in the journey of 5.0 degrees, 80.0 % humidity and 1.01 bar with a timestamp 4:20 14/3/2020
-    When the logistics company ends the first journey with a timestamp 4:20 13/3/2020
-    Then the first journey failed to end
-    And the logistics company successfully adds a container status with a timestamp 4:22 13/3/2020
-
-  Scenario: Failed to end the journey because the journey is missing
-    When the logistics company ends the first journey with a timestamp 4:20 12/3/2020
-    Then the first journey failed to end
-    And the logistics company fails to add a container status with a timestamp 4:22 13/3/2020
+    When the logistics company ends the journey with timestamp 4:20 13/3/2020
+    Then the journey failed to end
+    And the logistics company successfully adds a container status with timestamp 4:22 13/3/2020

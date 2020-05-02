@@ -126,7 +126,8 @@ public class LogisticsCompany extends User {
     public Set<Client> searchClientByRefPerson(String refPerson) {
         String regexSearch = "(" + refPerson + ")";
         Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-        return applyClientFilter(c -> (pattern.matcher(c.getRefPerson())).find());    }
+        return applyClientFilter(c -> (pattern.matcher(c.getRefPerson())).find());
+    }
 
     /**
      * Method to search clients by email
@@ -137,7 +138,8 @@ public class LogisticsCompany extends User {
     public Set<Client> searchClientByEmail(String email) {
         String regexSearch = "(" + email + ")";
         Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-        return applyClientFilter(c -> (pattern.matcher(c.getEmail())).find());    }
+        return applyClientFilter(c -> (pattern.matcher(c.getEmail())).find());
+    }
 
     /**
      * Method to search clients by id
@@ -156,45 +158,6 @@ public class LogisticsCompany extends User {
      */
     public void addClient(Client client) {
         clients.add(client);
-    }
-
-
-    /**
-     * Starts a given journey with given time stamp
-     * 
-     * @param journey   The journey to be stared
-     * @param timestamp The time stamp to be set as starting time stamp of the
-     *                  journey
-     * @return Boolean of whether the journey was started successfully
-     */
-    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
-        Container container = getAvailableContainer(timestamp);
-        if (journey != null && !journey.isStarted() && container != null && timestamp != null) {
-            journey.setContainer(container);
-            journey.setStartTimestamp(timestamp);
-            journey.setStarted();
-            journey.getContainer().addJourney(journey);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Ends a given journey with given time stamp
-     * 
-     * @param journey   The journey to be ended
-     * @param timestamp The time stamp to be set as ending time stamp of the journey
-     * @return Boolean of whether the journey was ended successfully
-     */
-    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
-        if (journey != null && !journey.isEnded() && journey.isStarted() && journey.isValidEndTimestamp(timestamp)) {
-            journey.setEndTimestamp(timestamp);
-            journey.setEnded();
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**

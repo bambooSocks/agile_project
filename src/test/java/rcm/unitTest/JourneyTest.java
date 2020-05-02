@@ -42,7 +42,7 @@ public class JourneyTest {
         assertEquals(null, journey.getCompany());
         app.logInUser("info@maersk.com", "Agile123");
         app.createNewContainer();
-        company.startJourney(journey, LocalDateTime.of(2020, 3, 13, 4, 20));
+        app.startJourney(journey.getId(), LocalDateTime.of(2020, 3, 13, 4, 20));
         assertEquals(company, journey.getCompany());
     }
 
