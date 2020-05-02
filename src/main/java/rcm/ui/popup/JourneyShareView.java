@@ -20,7 +20,7 @@ public class JourneyShareView extends JDialog {
 
     private static final long serialVersionUID = -6276216260193469897L;
 
-    private JTextField client = new JTextField(10);
+    private JTextField client = new JTextField(20);
 
     private JLabel lbl1 = new JLabel("Share with:");
 
@@ -33,10 +33,10 @@ public class JourneyShareView extends JDialog {
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(400, 300)); // (width, height)
+        panel.setPreferredSize(new Dimension(375, 150)); // (width, height)
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.insets = new Insets(10, 10, 10, 10);
 
         // Share TextField
@@ -46,12 +46,14 @@ public class JourneyShareView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
+        constraints.gridwidth = 2;
         client.addKeyListener(new KeyListener());
         panel.add(client, constraints);
 
         // OK Button
-        constraints.gridx = 0;
+        constraints.gridx = 1;
         constraints.gridy = 1;
+        constraints.gridwidth = 1;
         b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
@@ -64,7 +66,7 @@ public class JourneyShareView extends JDialog {
         panel.add(b1, constraints);
 
         // Cancel Button
-        constraints.gridx = 1;
+        constraints.gridx = 2;
         constraints.gridy = 1;
         b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {

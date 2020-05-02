@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
@@ -21,15 +22,15 @@ public class AdvancedSearchView extends JDialog {
 
     private static final long serialVersionUID = -7175406337438643480L;
 
-    private JTextField search = new JTextField(10);
+    private JTextField search = new JTextField(15);
 
     private JLabel lbl1 = new JLabel("Search:");
-    private JLabel lbl2 = new JLabel("Filters:");
+    private JLabel lbl2 = new JLabel("Filter by:");
 
-    private JCheckBox cb1 = new JCheckBox("by Name");
-    private JCheckBox cb2 = new JCheckBox("by Address");
-    private JCheckBox cb3 = new JCheckBox("by Reference Person");
-    private JCheckBox cb4 = new JCheckBox("by Email");
+    private JCheckBox cb1 = new JCheckBox("Name");
+    private JCheckBox cb2 = new JCheckBox("Address");
+    private JCheckBox cb3 = new JCheckBox("Reference Person");
+    private JCheckBox cb4 = new JCheckBox("Email");
 
     private JButton b1 = new JButton("Search");
     private JButton b2 = new JButton("Cancel");
@@ -59,31 +60,27 @@ public class AdvancedSearchView extends JDialog {
         // Checkboxes
         constraints.gridx = 0;
         constraints.gridy = 1;
+        constraints.anchor = GridBagConstraints.NORTHWEST;
         panel.add(lbl2, constraints);
-        
+
+        Box cbBox = Box.createVerticalBox();
+        cbBox.add(cb1);
+        cbBox.add(cb2);
+        cbBox.add(cb3);
+        cbBox.add(cb4);
+
+        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 1;
         cb1.addKeyListener(new KeyListener());
-        panel.add(cb1, constraints);
-
-        constraints.gridx = 1;
-        constraints.gridy = 2;
         cb2.addKeyListener(new KeyListener());
-        panel.add(cb2, constraints);
-
-        constraints.gridx = 1;
-        constraints.gridy = 3;
         cb3.addKeyListener(new KeyListener());
-        panel.add(cb3, constraints);
-
-        constraints.gridx = 1;
-        constraints.gridy = 4;
         cb4.addKeyListener(new KeyListener());
-        panel.add(cb4, constraints);
+        panel.add(cbBox, constraints);
 
         // Search Button
         constraints.gridx = 0;
-        constraints.gridy = 5;
+        constraints.gridy = 2;
         b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
@@ -97,7 +94,7 @@ public class AdvancedSearchView extends JDialog {
 
         // Cancel Button
         constraints.gridx = 1;
-        constraints.gridy = 5;
+        constraints.gridy = 2;
         b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override

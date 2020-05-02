@@ -15,13 +15,14 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class CreateJourneyView extends JFrame {
+public class CreateJourneyView extends JDialog {
+
     private static final long serialVersionUID = 1242136189691358210L;
 
     private JTextField originField = new JTextField(10);
@@ -41,12 +42,15 @@ public class CreateJourneyView extends JFrame {
     private JButton b2 = new JButton("Cancel");
 
     public CreateJourneyView() {
-        super("Create Journey View");
+
+        setTitle("Create New Journey");
+        setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        setPreferredSize(new Dimension(400, 350)); // (width, height) // probably need to adjust this
+        panel.setPreferredSize(new Dimension(400, 350)); // (width, height)
 
         GridBagConstraints constraints = new GridBagConstraints();
+        // TODO: Decide east or west
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
 
@@ -101,7 +105,6 @@ public class CreateJourneyView extends JFrame {
                 SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
                 Date obj = new Date();
                 date.setText(sdf.format(obj));
-                // TODO: need to add to the field automatically
             }
         });
 

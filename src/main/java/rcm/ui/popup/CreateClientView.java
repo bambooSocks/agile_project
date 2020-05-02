@@ -11,13 +11,14 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class CreateClientView extends JFrame {
+public class CreateClientView extends JDialog {
+
     private static final long serialVersionUID = 1044408338796977511L;
 
     private JTextField nameField = new JTextField(10);
@@ -38,10 +39,12 @@ public class CreateClientView extends JFrame {
     private JButton b2 = new JButton("Cancel");
 
     public CreateClientView() {
-        super("Create Client View");
+
+        setTitle("Create New Client");
+        setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        setPreferredSize(new Dimension(400, 350)); // (width, height) // probably need to adjust this
+        panel.setPreferredSize(new Dimension(400, 350)); // (width, height) // probably need to adjust this
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;

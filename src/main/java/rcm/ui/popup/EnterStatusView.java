@@ -50,7 +50,7 @@ public class EnterStatusView extends JDialog {
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(10, 30, 10, 30);
+        constraints.insets = new Insets(10, 10, 10, 10);
 
         // Temperature
         constraints.gridx = 0;
