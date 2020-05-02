@@ -87,7 +87,6 @@ public class MainView extends JFrame implements PropertyChangeListener {
         Repository repo = new SqliteRepository();
         Application app = new Application(repo);
         MainView mv = new MainView(app);
-
         try {
 //            FakeData.setupFakeApp(app);
             // Company user

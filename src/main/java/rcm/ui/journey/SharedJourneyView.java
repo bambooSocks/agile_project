@@ -46,7 +46,7 @@ public class SharedJourneyView extends BaseJourneyView {
     private static final long serialVersionUID = -6993300655884720698L;
 
     public SharedJourneyView(Application app) {
-        super(app, new MyJourneyTopBar(app));
+        super(app, new SharedJourneyTopBar(app));
     }
 
     @Override
