@@ -55,7 +55,7 @@ public class M2 {
     @When("the logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_updates_containers_location_to_at(String loc, Integer hours, Integer minutes,
             Integer day, Integer month, Integer year) throws IOException, WrongInputException {
-        ContainerStatus status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0,
+        status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0,
                 1.01, loc);
         journeyId = holder.getFirstJourney().getId();
         successfulEntry = holder.getApp().enterNewContainerStatus(journeyId, status);

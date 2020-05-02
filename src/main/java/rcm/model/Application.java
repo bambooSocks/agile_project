@@ -148,7 +148,6 @@ public class Application {
      * @param originPort      Origin port of the journey
      * @param destinationPort Destination port of the journey
      * @param content         Content of the journey
-     * @param timestamp       Time stamp when the journey should start
      * @return requested Journey
      * @throws IOException
      */

@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.ContainerStatus;
@@ -110,7 +109,7 @@ public class O1 {
             Integer minutes, Integer day, Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
-        assertTrue(holder.getApp().getLoggedInCompany().enterStatus(holder.getFirstJourney(), status));
+        assertTrue(holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status));
     }
 
     @Then("the logistics company fails to add a container status with a timestamp {int}:{int} {int}\\/{int}\\/{int}")
@@ -118,6 +117,6 @@ public class O1 {
             Integer day, Integer month, Integer year) throws IOException {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         ContainerStatus status = new ContainerStatus(timestamp, 5.0, 80.0, 1.01, "New York");
-        assertFalse(holder.getApp().getLoggedInCompany().enterStatus(holder.getFirstJourney(), status));
+        assertFalse(holder.getApp().enterNewContainerStatus(holder.getFirstJourney().getId(), status));
     }
 }
