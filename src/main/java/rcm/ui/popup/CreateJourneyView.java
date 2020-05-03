@@ -14,6 +14,7 @@ import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -36,8 +37,8 @@ public class CreateJourneyView extends JDialog {
     private JLabel lbl4 = new JLabel("Start Date:");
 
     private JRadioButton r1 = new JRadioButton("Now");
-    private JRadioButton r2 = new JRadioButton("Choose Date");
-
+    ImageIcon image = new ImageIcon("src/main/resources/calendar_icon.png");
+    private JRadioButton r2 = new JRadioButton(image);
     private JButton b1 = new JButton("Request");
     private JButton b2 = new JButton("Cancel");
 
@@ -93,7 +94,7 @@ public class CreateJourneyView extends JDialog {
         Box rBox = Box.createHorizontalBox();
         ButtonGroup rGroup = new ButtonGroup();
         r1.setActionCommand("Now");
-        r2.setActionCommand("Choose Date");
+        r2.setActionCommand("Choose");
         rGroup.add(r1);
         rGroup.add(r2);
         rBox.add(r1);

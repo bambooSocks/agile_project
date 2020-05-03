@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
+import rcm.FakeData;
 import rcm.model.Application;
 import rcm.model.WrongInputException;
 import rcm.repository.Repository;
@@ -90,11 +91,13 @@ public class MainView extends JFrame implements PropertyChangeListener {
         MainView mv = new MainView(app);
 
         try {
-            app.logInUser("linea@novozymes.dk", "Password12345");
+//            FakeData.setupFakeApp(app);
+            // Company user
+//            app.logInUser("peter@3plogistics.dk", "Password12345");
+            // Client user
+            app.logInUser("linea@novozymes.dk", "Password12345");         
         } catch (WrongInputException e) {
         }
         mv.run();
-
     }
-
 }

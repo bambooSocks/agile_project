@@ -22,6 +22,7 @@ import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 
 import rcm.ui.popup.CreateJourneyView;
+import rcm.ui.popup.JourneyShareView;
 
 class MyJourneysTopBar extends BaseTopBar {
 
@@ -49,7 +50,6 @@ class MyJourneysTopBar extends BaseTopBar {
 
         return leftSide;
     }
-
 }
 
 public class MyJourneysTableView extends BaseTableView {
@@ -114,12 +114,13 @@ public class MyJourneysTableView extends BaseTableView {
             menuShareJourney.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    System.out.println("share journey");
+                  JourneyShareView popup = new JourneyShareView();
+                  popup.setLocationRelativeTo(null);
+                  popup.setVisible(true);
                 }
             });
-
+            
             tableModel.fireTableDataChanged();
-
         }
     }
 
@@ -135,5 +136,4 @@ public class MyJourneysTableView extends BaseTableView {
             break;
         }
     }
-
 }

@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import rcm.model.Application;
+import rcm.ui.popup.EnterStatusView;
 import rcm.ui.popup.ProfileView;
 
 public abstract class BaseTopBar extends JPanel {
@@ -55,7 +56,7 @@ public abstract class BaseTopBar extends JPanel {
             searchLayout.setVgap(0);
             JPanel search = new JPanel(searchLayout);
             search.setBackground(Color.white);
-            search.setPreferredSize(new Dimension(200, 22)); // not really working, still kinda tall imo...
+            search.setPreferredSize(new Dimension(200, 22));
             search.setBorder(new LineBorder(Color.gray));
 
             ImageIcon image = new ImageIcon("src/main/resources/search_icon.jpg");
@@ -120,8 +121,8 @@ public abstract class BaseTopBar extends JPanel {
                 
                 ProfileView popup = new ProfileView();
                 // TODO: For testing purposes (Adrienne and Viktor):
-//                EnterStatusView popup = new EnterStatusView();
-//                JourneyShareView popup = new JourneyShareView();
+//                EnterStatusView popup = new EnterStatusView();      // in place (need to double check)
+//                JourneyShareView popup = new JourneyShareView();      // in place
 //                AdvancedSearchView popup = new AdvancedSearchView();
                 
                 popup.setLocationRelativeTo(null);

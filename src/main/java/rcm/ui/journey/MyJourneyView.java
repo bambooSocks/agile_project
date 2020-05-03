@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 
 import rcm.model.Application;
 import rcm.ui.BaseTopBar;
+import rcm.ui.popup.JourneyShareView;
 
 class MyJourneyTopBar extends BaseTopBar {
-
 
     private static final long serialVersionUID = 1L;
 
@@ -61,6 +61,9 @@ public class MyJourneyView extends BaseJourneyView {
 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Shared journey clicked");
+                JourneyShareView popup = new JourneyShareView();
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
             }
         });
         rightPanel.add(shareJourney);

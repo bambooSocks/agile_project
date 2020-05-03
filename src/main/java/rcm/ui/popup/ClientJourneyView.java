@@ -111,7 +111,7 @@ public class ClientJourneyView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 final JFrame f = new JFrame();
-                date.setText(new DatePickerView(f).setPickedDate());
+                date.setText(new DatePickerView().setPickedDate());
                 // TODO: still having an empty frame come up in the corner
                 f.pack();
                 f.setVisible(true);

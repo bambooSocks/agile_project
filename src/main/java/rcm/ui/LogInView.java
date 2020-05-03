@@ -85,7 +85,8 @@ public class LogInView extends JPanel {
                     Dialog.ErrorDialog(e.getMessage(), "Login error");
                     return;
                 }
-                // TODO: Adrienne: clear text boxes
+                emailField.setText("");
+                passwordField.setText("");
             }
         });
         panel.add(b1, constraints);

@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import rcm.model.Application;
+import rcm.ui.popup.EnterStatusView;
 
 public class CompanyJourneyView extends BaseJourneyView {
 
@@ -32,9 +33,12 @@ public class CompanyJourneyView extends BaseJourneyView {
 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Enter Status clicked");
+                EnterStatusView popup = new EnterStatusView();
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
             }
         });
-        
+
         JButton startJourney = new JButton("Start Journey");
         startJourney.setFont(new Font("Serif", Font.PLAIN, 14));
         startJourney.setPreferredSize(new Dimension(150, 30));
@@ -44,7 +48,7 @@ public class CompanyJourneyView extends BaseJourneyView {
                 System.out.println("Start journey clicked");
             }
         });
-        
+
         JButton endJourney = new JButton("End Journey");
         endJourney.setFont(new Font("Serif", Font.PLAIN, 14));
         endJourney.setPreferredSize(new Dimension(150, 30));
@@ -54,7 +58,7 @@ public class CompanyJourneyView extends BaseJourneyView {
                 System.out.println("End journey clicked");
             }
         });
-        
+
         rightPanel.add(enterStatus);
         rightPanel.add(startJourney);
         rightPanel.add(endJourney);
