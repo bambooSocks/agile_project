@@ -62,22 +62,22 @@ public class M1 {
 ///////////////////M1:2//////////////////////////////////////////
     @When("a logistics company searches for name {string}")
     public void a_logistics_company_searches_for_name(String name) {
-        searchResults = holder.getFirstCompany().searchClientByName(name);
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByName(name);
     }
 
     @When("a logistics company searches for address {string}")
     public void a_logistics_company_searches_for_address(String address) {
-        searchResults = holder.getFirstCompany().searchClientByAddress(address);
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByAddress(address);
     }
 
     @When("a logistics company searches for reference person {string}")
     public void a_logistics_company_searches_for_reference_person(String refPerson) {
-        searchResults = holder.getFirstCompany().searchClientByRefPerson(refPerson);
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByRefPerson(refPerson);
     }
 
     @When("a logistics company searches for email {string}")
     public void a_logistics_company_searches_for_email(String email) {
-        searchResults = holder.getFirstCompany().searchClientByEmail(email);
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByEmail(email);
     }
 
     @Then("the client of the logistics company is returned")
@@ -97,11 +97,31 @@ public class M1 {
             String address, String refPerson, String email, String password) {
         failed = false;
         try {
-            holder.getFirstClient().updateName(name);
-            holder.getFirstClient().updateAddress(address);
-            holder.getFirstClient().updateRefPerson(refPerson);
-            holder.getFirstClient().updateEmail(email);
-            holder.getFirstClient().updatePassword(password);
+            holder.getApp().getLoggedInClient().updateName(name);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInClient().updateAddress(address);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInClient().updateRefPerson(refPerson);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInClient().updateEmail(email);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInClient().updatePassword(password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
             failed = true;
@@ -130,11 +150,31 @@ public class M1 {
             String address, String refPerson, String email, String password) {
         failed = false;
         try {
-            holder.getFirstCompany().updateName(name);
-            holder.getFirstCompany().updateAddress(address);
-            holder.getFirstCompany().updateRefPerson(refPerson);
-            holder.getFirstCompany().updateEmail(email);
-            holder.getFirstCompany().updatePassword(password);
+            holder.getApp().getLoggedInCompany().updateName(name);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInCompany().updateAddress(address);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInCompany().updateRefPerson(refPerson);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInCompany().updateEmail(email);
+        } catch (WrongInputException e) {
+            System.err.println(e.getMessage());
+            failed = true;
+        }
+        try {
+            holder.getApp().getLoggedInCompany().updatePassword(password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
             failed = true;

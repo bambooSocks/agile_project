@@ -41,25 +41,7 @@ public class LogisticsCompanyTest {
     @Test
     public void TestWrongClientCreatingJourney() throws IOException, WrongInputException {
         app.logInUser("info@maersk.com", "Agile123");
-        assertEquals(null,app.requestNewJourney("Nordhavn", "Rotterdam", "remoulade"));
-        assertNotEquals(null, app.requestNewJourney("Nordhavn", "Rotterdam", "remoulade"));
-        app.logOut();
-    }
-
-    @Test
-    public void TestPartialStringSearch() throws WrongInputException {
-        app.logInUser("info@maersk.com", "Agile123");
-        Set<Client> result;
-        result = company1.searchClientByName("Novo");
-        assertTrue(result.contains(client1));
-        result = company1.searchClientByName("OrDisk");
-        assertTrue(result.contains(client1));
-        result = company1.searchClientByAddress("lLe");
-        assertTrue(result.contains(client1));
-        result = company1.searchClientByRefPerson("Lars fru");
-        assertTrue(result.contains(client1));
-        result = company1.searchClientByEmail("iNfO");
-        assertTrue(result.contains(client1));
+        assertEquals(null, app.requestNewJourney("Nordhavn", "Rotterdam", "remoulade"));
         app.logOut();
     }
 }

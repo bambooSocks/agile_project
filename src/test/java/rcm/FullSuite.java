@@ -15,7 +15,6 @@ import rcm.unitTest.*;
     // Unit tests
     JourneyTest.class,
     ApplicationTest.class,
-    UserTest.class,
     ClientTest.class,
     LogisticsCompanyTest.class,
     ContainerStatusTest.class,

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.swing.JPanel;
-
 import rcm.repository.Repository;
 
 public class Application {
@@ -315,13 +313,11 @@ public class Application {
      * @return Set of journeys
      */
     public Set<Journey> searchForJourneys(String query) {
-        // TODO: Adrienne change to set first here and below
-        List<Journey> resultList = loggedInClient.journeySearchByOrigin(query);
+        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.journeySearchByOrigin(query));
         resultList.addAll(loggedInClient.journeySearchByDestination(query));
         resultList.addAll(loggedInClient.journeySearchByContent(query));
         resultList.addAll(loggedInClient.journeySearchById(query));
-        Set<Journey> results = new HashSet<Journey>(resultList);
-        return results;
+        return resultList;
     }
 
     /**
@@ -331,12 +327,11 @@ public class Application {
      * @return Set of shared journeys
      */
     public Set<Journey> searchForSharedJourneys(String query) {
-        List<Journey> resultList = loggedInClient.sharedJourneySearchByOrigin(query);
+        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.sharedJourneySearchByOrigin(query));
         resultList.addAll(loggedInClient.sharedJourneySearchByDestination(query));
         resultList.addAll(loggedInClient.sharedJourneySearchByContent(query));
         resultList.addAll(loggedInClient.sharedJourneySearchById(query));
-        Set<Journey> results = new HashSet<Journey>(resultList);
-        return results;
+        return resultList;
     }
 
     /**
@@ -490,7 +485,7 @@ public class Application {
     public void showJourney(int id) {
         support.firePropertyChange("showJourney", null, id);
     }
-    
+
     public void showSharedJourney(int id) {
         support.firePropertyChange("showSharedJourney", null, id);
     }

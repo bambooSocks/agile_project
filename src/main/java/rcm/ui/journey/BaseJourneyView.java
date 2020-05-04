@@ -32,7 +32,7 @@ public abstract class BaseJourneyView extends BaseView {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(720, 800);
+        return new Dimension(720, 550);
     }
 
     @Override
@@ -97,6 +97,7 @@ public abstract class BaseJourneyView extends BaseView {
 
         JScrollPane scroll = new JScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
         return (scroll);
     }
 

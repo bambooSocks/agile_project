@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.ContainerStatus;
@@ -31,22 +30,16 @@ public class M2 {
 
     @When("the client requests to register a journey with origin {string}, destination {string} and content {string}")
     public void the_client_requests_to_register_a_journey_with_origin_destination_and_content(String originPort,
-            String destinationPort, String content) {
-        try {
-            holder.setFirstJourney(holder.getApp().requestNewJourney(originPort, destinationPort, content));
-        } catch (IOException e) {
-        }
+            String destinationPort, String content) throws IOException {
+        holder.setFirstJourney(holder.getApp().requestNewJourney(originPort, destinationPort, content));
     }
 
     @When("the logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")
     public void the_logistics_company_updates_containers_location_to_at(String loc, Integer hours, Integer minutes,
             Integer day, Integer month, Integer year) throws IOException, WrongInputException {
-        status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0,
-                1.01, loc);
+        status = new ContainerStatus(LocalDateTime.of(year, month, day, hours, minutes), 5.0, 60.0, 1.01, loc);
         journeyId = holder.getFirstJourney().getId();
         successfulEntry = holder.getApp().enterNewContainerStatus(journeyId, status);
-        
-       
     }
 
     @When("the second logistics company updates containers location to {string} at {int}:{int} {int}\\/{int}\\/{int}")
@@ -84,7 +77,6 @@ public class M2 {
     public void the_location_is_not_changed() {
         assertFalse(successfulEntry);
         assertTrue(holder.getFirstJourney().getStatus().isEmpty());
-
     }
 
     @Then("the first journey is listed")
@@ -116,5 +108,4 @@ public class M2 {
     public void the_journey_is_not_created() {
         assertEquals(null, holder.getFirstJourney());
     }
-
 }

@@ -3,7 +3,7 @@ Feature: Client searching
 
   Background: 
     Given a logged in logistics company with client
-    
+
   @tag1
   Scenario: Successful search using client name
     When a logistics company searches for name "Chiquita"
@@ -43,3 +43,23 @@ Feature: Client searching
   Scenario: Failed search using email
     When a logistics company searches for email "fakeEmail@chiquita.com"
     Then no client is returned
+
+  @tag9
+  Scenario: Successful search using partial name
+    When a logistics company searches for name "iQuit"
+    Then the client of the logistics company is returned
+
+  @tag10
+  Scenario: Successful search using partial address
+    When a logistics company searches for address "aMi"
+    Then the client of the logistics company is returned
+
+  @tag11
+  Scenario: Successful search using partial reference person
+    When a logistics company searches for reference person "aNaNa"
+    Then the client of the logistics company is returned
+
+  @tag12
+  Scenario: Successful search using partial email
+    When a logistics company searches for email "iQuita."
+    Then the client of the logistics company is returned

@@ -68,7 +68,6 @@ public class SharedStepMethods {
         holder.setFirstJourney(journey);
         holder.getApp().createNewContainer();
         holder.getApp().logInUser("bigboats@maersk.com", "Agile123");
-
     }
 
     @Given("a logistics company with two containers and a logged in client with two journeys")
@@ -82,7 +81,6 @@ public class SharedStepMethods {
         holder.setFirstJourney(journey);
         Journey journey2 = holder.getApp().requestNewJourney("Copenhagen", "Stockholm", "Kinder eggs");
         holder.setSecondJourney(journey2);
-
     }
 
     @Given("a logged in logistics company with a container and client with two journeys")
@@ -130,44 +128,35 @@ public class SharedStepMethods {
     public void the_journey_has_started_at(Integer hours, Integer minutes, Integer day, Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         holder.getApp().startJourney(holder.getFirstJourney().getId(), timestamp);
-
     }
 
     @Given("a second client {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_second_client_with_address_reference_person_email_and_password(String name, String address,
-            String refPerson, String email, String password) throws IOException {
-        try {
-            Client client = holder.getApp().createNewClient(name, address, refPerson, email, password);
-            holder.setSecondClient(client);
-            assertEquals(name, holder.getSecondClient().getName());
-            assertEquals(address, holder.getSecondClient().getAddress());
-            assertEquals(refPerson, holder.getSecondClient().getRefPerson());
-            assertEquals(email, holder.getSecondClient().getEmail());
-            assertEquals(User.SHA1_Hasher(password), holder.getSecondClient().getPassword());
-        } catch (WrongInputException e) {
-        }
+            String refPerson, String email, String password) throws IOException, WrongInputException {
+        Client client = holder.getApp().createNewClient(name, address, refPerson, email, password);
+        holder.setSecondClient(client);
+        assertEquals(name, holder.getSecondClient().getName());
+        assertEquals(address, holder.getSecondClient().getAddress());
+        assertEquals(refPerson, holder.getSecondClient().getRefPerson());
+        assertEquals(email, holder.getSecondClient().getEmail());
+        assertEquals(User.SHA1_Hasher(password), holder.getSecondClient().getPassword());
     }
 
     @Given("another client is now logged in")
-    public void another_client_is_now_logged_in() throws IOException {
-        try {
-            Client client = holder.getApp().createNewClient("Dole", "California", "Banana Woman", "info@dole.com",
-                    "Object123");
-            holder.setSecondClient(client);
-            assertEquals("Dole", holder.getSecondClient().getName());
-            assertEquals("California", holder.getSecondClient().getAddress());
-            assertEquals("Banana Woman", holder.getSecondClient().getRefPerson());
-            assertEquals("info@dole.com", holder.getSecondClient().getEmail());
-            assertEquals(User.SHA1_Hasher("Object123"), holder.getSecondClient().getPassword());
-            holder.getApp().logInUser("info@dole.com", "Object123");
-        } catch (WrongInputException e) {
-        }
+    public void another_client_is_now_logged_in() throws IOException, WrongInputException {
+        Client client = holder.getApp().createNewClient("Dole", "California", "Banana Woman", "info@dole.com",
+                "Object123");
+        holder.setSecondClient(client);
+        assertEquals("Dole", holder.getSecondClient().getName());
+        assertEquals("California", holder.getSecondClient().getAddress());
+        assertEquals("Banana Woman", holder.getSecondClient().getRefPerson());
+        assertEquals("info@dole.com", holder.getSecondClient().getEmail());
+        assertEquals(User.SHA1_Hasher("Object123"), holder.getSecondClient().getPassword());
+        holder.getApp().logInUser("info@dole.com", "Object123");
     }
 
     @Given("the client is now logged in")
     public void the_client_is_now_logged_in() throws WrongInputException {
-
         holder.getApp().logInUser("bananas@chiquita.com", "Object123");
-
     }
 }
