@@ -82,18 +82,15 @@ public class M2 {
     @Then("the first journey is listed")
     public void the_first_journey_is_listed() {
         assertTrue(filteredDestination.contains(holder.getFirstJourney()));
-        assertTrue(filteredDestination.size() == 1);
     }
 
     @Then("the second journey is listed")
     public void the_second_journey_is_listed() {
         assertTrue(filteredOrigin.contains(holder.getSecondJourney()));
-        assertTrue(filteredOrigin.size() == 1);
     }
 
     @Then("both journeys are listed")
     public void both_journeys_are_listed() {
-        assertTrue(filteredContent.size() == 2);
         assertTrue(filteredContent.contains(holder.getFirstJourney()));
         assertTrue(filteredContent.contains(holder.getSecondJourney()));
     }

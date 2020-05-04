@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import rcm.cucumber.CucumberTest;
+import rcm.persistency.TestDB2;
 import rcm.persistency.TestDatabaseAccess;
 import rcm.unitTest.*;
 
@@ -18,6 +19,7 @@ import rcm.unitTest.*;
     ClientTest.class,
     LogisticsCompanyTest.class,
     ContainerStatusTest.class,
-    TestDatabaseAccess.class
+    TestDatabaseAccess.class,
+    TestDB2.class
 })
 public class FullSuite { }
