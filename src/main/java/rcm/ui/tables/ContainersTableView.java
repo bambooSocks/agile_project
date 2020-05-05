@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import rcm.model.Application;
 import rcm.model.Container;
 import rcm.ui.BaseTopBar;
+import rcm.ui.popup.Dialog;
 
 class ContainersTopBar extends BaseTopBar {
 
@@ -55,7 +56,7 @@ public class ContainersTableView extends BaseTableView {
         super(app, new ContainersTopBar(app));
         app.addObserver(this);
     }
-    
+
     public void updateTableModel(Container pane) {
 
         if (app.getLoggedInCompany() != null) {
@@ -86,12 +87,16 @@ public class ContainersTableView extends BaseTableView {
 
             itemViewContainer.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                    app.showContainer(id);
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        app.showContainer(id);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a container first", "No container chosen");
+                    }
                 }
             });
-            
+
             tableModel.fireTableDataChanged();
         }
     }
@@ -107,7 +112,6 @@ public class ContainersTableView extends BaseTableView {
             break;
         }
     }
-
 
     public void updateTableModel() {
         // TODO Auto-generated method stub

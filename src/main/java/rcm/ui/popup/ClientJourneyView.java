@@ -29,7 +29,6 @@ public class ClientJourneyView extends JFrame {
     private JTextField contentField = new JTextField(10);
     private JTextField date = new JTextField(10);
 
-
     private JLabel lbl1 = new JLabel("Origin:");
     private JLabel lbl2 = new JLabel("Destination:");
     private JLabel lbl3 = new JLabel("Content:");
@@ -121,12 +120,11 @@ public class ClientJourneyView extends JFrame {
         constraints.gridx = 1;
         constraints.gridy = 3;
         panel.add(rBox, constraints);
-        
-        
+
         constraints.gridx = 1;
         constraints.gridy = 4;
         date.addKeyListener(new KeyListener());
-        panel.add(date,constraints);
+        panel.add(date, constraints);
 
         // Request Button
         constraints.gridx = 0;

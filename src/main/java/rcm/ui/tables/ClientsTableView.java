@@ -19,6 +19,7 @@ import rcm.model.Client;
 
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.CreateClientView;
+import rcm.ui.popup.Dialog;
 
 class ClientsTopBar extends BaseTopBar {
 
@@ -90,9 +91,13 @@ public class ClientsTableView extends BaseTableView implements ActionListener {
 
             itemViewContainer.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                    app.showClient(id);
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        app.showClient(id);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a client first", "No client chosen");
+                    }               
                 }
             });
 

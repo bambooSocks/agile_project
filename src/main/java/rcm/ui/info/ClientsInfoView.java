@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import rcm.model.Application;
 import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
+import rcm.ui.popup.Dialog;
 
 class ClientsInfoTopBar extends BaseTopBar {
 
@@ -103,9 +104,13 @@ public class ClientsInfoView extends BaseInfoView {
 
             itemViewJourney.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                    app.showCompanyJourney(id);
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        app.showCompanyJourney(id);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
+                    }
                 }
             });
 
