@@ -36,7 +36,7 @@ class ClientsTopBar extends BaseTopBar {
         newClient.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateClientView popup = new CreateClientView();
+                CreateClientView popup = new CreateClientView(app);
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
@@ -90,9 +90,9 @@ public class ClientsTableView extends BaseTableView implements ActionListener {
         switch (evt.getPropertyName()) {
         case "companyTabChanged":
         case "companyLoggedIn":
+        case "newClientCreated":
             updateTableModel();
             break;
-
         default:
             break;
         }

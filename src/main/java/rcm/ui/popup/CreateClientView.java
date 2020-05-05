@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,6 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import rcm.model.Application;
+import rcm.model.WrongInputException;
 
 public class CreateClientView extends JDialog {
 
@@ -38,7 +42,7 @@ public class CreateClientView extends JDialog {
     private JButton b1 = new JButton("Create");
     private JButton b2 = new JButton("Cancel");
 
-    public CreateClientView() {
+    public CreateClientView(Application app) {
 
         setTitle("Create New Client");
         setModal(true);
@@ -116,7 +120,19 @@ public class CreateClientView extends JDialog {
         b1.addKeyListener(new KeyListener());
         b1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent evt) {
+                if (!passwordField1.getPassword().equals(passwordField2.getPassword())) {
+                    Dialog.ErrorDialog("The passwords don't match", "Password error");
+                } else {
+                    try {
+                        app.createNewClient(nameField.getText(), addressField.getText(), refPersonField.getText(),
+                                emailField.getText(), new String(passwordField1.getPassword()));
+                    } catch (IOException e) {
+                        Dialog.ErrorDialog("Something went wrong with the database", "Database error");
+                    } catch (WrongInputException e) {
+                        Dialog.ErrorDialog(e.getMessage(), "Input error");
+                    }
+                }
                 System.out.println("Create clicked");
             }
         });
@@ -145,7 +161,7 @@ public class CreateClientView extends JDialog {
     }
 
     class KeyListener extends KeyAdapter {
-
+        
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
