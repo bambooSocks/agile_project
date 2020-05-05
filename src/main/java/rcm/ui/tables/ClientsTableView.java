@@ -9,7 +9,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
@@ -80,7 +82,20 @@ public class ClientsTableView extends BaseTableView implements ActionListener {
                 tableModel.addRow(rowData);
             }
 
+            JPopupMenu popupMenu = new JPopupMenu();
+            JMenuItem itemViewContainer = new JMenuItem("View Client");
+            popupMenu.add(itemViewContainer);
+            table.setComponentPopupMenu(popupMenu);
             table.setModel(tableModel);
+
+            itemViewContainer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                    app.showClient(id);
+                }
+            });
+
             tableModel.fireTableDataChanged();
         }
     }

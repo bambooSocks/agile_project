@@ -116,6 +116,14 @@ public class Journey implements Comparable<Journey> {
     public Container getContainer() {
         return container;
     }
+    
+    public boolean checkContainerById(int container_id) {
+        if (container != null && container.getId() == container_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void setContainer(Container container) {
         this.container = container;

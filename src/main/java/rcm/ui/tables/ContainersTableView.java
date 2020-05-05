@@ -9,7 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
@@ -53,7 +55,7 @@ public class ContainersTableView extends BaseTableView {
         super(app, new ContainersTopBar(app));
         app.addObserver(this);
     }
-
+    
     public void updateTableModel(Container pane) {
 
         if (app.getLoggedInCompany() != null) {
@@ -76,7 +78,20 @@ public class ContainersTableView extends BaseTableView {
                 tableModel.addRow(rowData);
             }
 
+            JPopupMenu popupMenu = new JPopupMenu();
+            JMenuItem itemViewContainer = new JMenuItem("View Container");
+            popupMenu.add(itemViewContainer);
+            table.setComponentPopupMenu(popupMenu);
             table.setModel(tableModel);
+
+            itemViewContainer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                    app.showContainer(id);
+                }
+            });
+            
             tableModel.fireTableDataChanged();
         }
     }
@@ -88,13 +103,12 @@ public class ContainersTableView extends BaseTableView {
         case "companyLoggedIn":
             updateTableModel(pane);
             break;
-
         default:
             break;
         }
     }
 
-    @Override
+
     public void updateTableModel() {
         // TODO Auto-generated method stub
 

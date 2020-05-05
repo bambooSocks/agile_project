@@ -13,7 +13,6 @@ import rcm.model.Application;
 import rcm.model.WrongInputException;
 import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
-import rcm.ui.tables.MyJourneysTableView;
 
 public class MainView extends JFrame implements PropertyChangeListener {
 

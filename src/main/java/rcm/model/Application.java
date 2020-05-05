@@ -407,6 +407,14 @@ public class Application {
         }
     }
 
+    public List<Journey> requestContainersJourneys(int container_id) {
+        return getAllJourneys().stream().filter(j -> j.checkContainerById(container_id)).collect(Collectors.toList());
+    }
+
+    public List<Journey> requestClientsJourneys(int client_id) {
+        return getAllJourneys().stream().filter(j -> j.getClient().getId() == client_id).collect(Collectors.toList());
+    }
+
     /**
      * Requests shared journeys of the logged in client
      * 
@@ -490,4 +498,16 @@ public class Application {
         support.firePropertyChange("showSharedJourney", null, id);
     }
 
+    public void showCompanyJourney(int id) {
+        support.firePropertyChange("showCompanyJourney", null, id);
+    }
+
+    public void showContainer(int id) {
+        support.firePropertyChange("showContainer", null, id);
+    }
+
+    public void showClient(int id) {
+        support.firePropertyChange("showClient", null, id);
+
+    }
 }
