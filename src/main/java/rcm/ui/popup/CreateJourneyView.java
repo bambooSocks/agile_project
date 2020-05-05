@@ -26,10 +26,10 @@ public class CreateJourneyView extends JDialog {
 
     private static final long serialVersionUID = 1242136189691358210L;
 
-    private JTextField originField = new JTextField(10);
-    private JTextField destinationField = new JTextField(10);
-    private JTextField contentField = new JTextField(10);
-    private JTextField date = new JTextField(10);
+    private JTextField originField = new JTextField(12);
+    private JTextField destinationField = new JTextField(12);
+    private JTextField contentField = new JTextField(12);
+    private JTextField dateTimeField = new JTextField(12);
 
     private JLabel lbl1 = new JLabel("Origin:");
     private JLabel lbl2 = new JLabel("Destination:");
@@ -50,6 +50,8 @@ public class CreateJourneyView extends JDialog {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setPreferredSize(new Dimension(400, 350)); // (width, height)
 
+        KeyListener kl = new KeyListener();
+
         GridBagConstraints constraints = new GridBagConstraints();
         // TODO: Decide east or west
         constraints.anchor = GridBagConstraints.WEST;
@@ -62,7 +64,7 @@ public class CreateJourneyView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        originField.addKeyListener(new KeyListener());
+        originField.addKeyListener(kl);
         panel.add(originField, constraints);
 
         // Destination
@@ -72,7 +74,7 @@ public class CreateJourneyView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        destinationField.addKeyListener(new KeyListener());
+        destinationField.addKeyListener(kl);
         panel.add(destinationField, constraints);
 
         // Content
@@ -82,7 +84,7 @@ public class CreateJourneyView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
-        contentField.addKeyListener(new KeyListener());
+        contentField.addKeyListener(kl);
         panel.add(contentField, constraints);
 
         // StartDate
@@ -100,19 +102,21 @@ public class CreateJourneyView extends JDialog {
         rBox.add(r1);
         rBox.add(r2);
 
+        r1.addKeyListener(kl);
         r1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 Date obj = new Date();
-                date.setText(sdf.format(obj));
+                dateTimeField.setText(sdf.format(obj));
             }
         });
 
+        r2.addKeyListener(kl);
         r2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                date.setText(new DatePickerView().setPickedDate());
+                dateTimeField.setText(new DatePickerView().setPickedDate());
             }
         });
 
@@ -124,13 +128,13 @@ public class CreateJourneyView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 4;
-        date.addKeyListener(new KeyListener());
-        panel.add(date, constraints);
+        dateTimeField.addKeyListener(kl);
+        panel.add(dateTimeField, constraints);
 
         // Request Button
         constraints.gridx = 0;
         constraints.gridy = 5;
-        b1.addKeyListener(new KeyListener());
+        b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -143,7 +147,7 @@ public class CreateJourneyView extends JDialog {
         // Cancel Button
         constraints.gridx = 1;
         constraints.gridy = 5;
-        b2.addKeyListener(new KeyListener());
+        b2.addKeyListener(kl);
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,6 +173,10 @@ public class CreateJourneyView extends JDialog {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
                 if (event.getSource() == b2) {
                     b2.doClick();
+                } if (event.getSource() == r1) {
+                    r1.doClick();
+                } if (event.getSource() == r2) {
+                    r2.doClick();
                 } else {
                     b1.doClick();
                 }
