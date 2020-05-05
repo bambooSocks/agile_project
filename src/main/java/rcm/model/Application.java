@@ -84,6 +84,7 @@ public class Application {
                 loggedInCompany.addClient(c);
                 c.assignCompany(loggedInCompany);
                 repo.createClient(c);
+                support.firePropertyChange("newClientCreated", null, null);
                 return c;
             } else {
                 throw new WrongInputException("Please correct the following input: " + String.join(" ", errors));
