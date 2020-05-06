@@ -57,10 +57,15 @@ public class Application {
      */
     public LogisticsCompany createNewLogisticsCompany(String name, String address, String refPerson, String email,
             String password) throws WrongInputException, IOException {
-        LogisticsCompany c = new LogisticsCompany(name, address, refPerson, email, password);
-        repo.createLogisticsCompany(c);
-        system.add(c);
-        return c;
+        List<String> errors = validateUser(name, address, refPerson, email, password);
+        if (errors.isEmpty()) {
+            LogisticsCompany c = new LogisticsCompany(name, address, refPerson, email, password);
+            repo.createLogisticsCompany(c);
+            system.add(c);
+            return c;
+        } else {
+            throw new WrongInputException("Please correct the following input: " + String.join(" ", errors));
+        }
     }
 
     /**
