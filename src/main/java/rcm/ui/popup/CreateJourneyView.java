@@ -173,10 +173,6 @@ public class CreateJourneyView extends JDialog {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
                 if (event.getSource() == b2) {
                     b2.doClick();
-                } if (event.getSource() == r1) {
-                    r1.doClick();
-                } if (event.getSource() == r2) {
-                    r2.doClick();
                 } else {
                     b1.doClick();
                 }

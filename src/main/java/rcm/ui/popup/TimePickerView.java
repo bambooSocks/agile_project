@@ -45,6 +45,7 @@ public class TimePickerView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
+        timeField.setHorizontalAlignment(SwingConstants.RIGHT);
         timeField.addKeyListener(kl);
         panel.add(timeField, constraints);
 
@@ -61,7 +62,7 @@ public class TimePickerView extends JDialog {
         });
 
         b1.setMargin(new Insets(0, 0, 0, 0));
-        b1.setBounds(74, 0, 19, 19);
+        b1.setBounds(0, 0, 19, 19);
         timeField.add(b1);
 
         // Enter Button
@@ -72,8 +73,10 @@ public class TimePickerView extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Enter clicked");
-                time = timeField.getText();
-                dispose();
+                if (!timeField.getText().isBlank()) {
+                    time = timeField.getText();
+                    dispose();
+                }
             }
         });
         panel.add(b2, constraints);
@@ -100,7 +103,7 @@ public class TimePickerView extends JDialog {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-    
+
     public String getTime() {
         return time;
     }
@@ -110,9 +113,7 @@ public class TimePickerView extends JDialog {
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                if (event.getSource() == b1) {
-                    b1.doClick();
-                } else if (event.getSource() == b3) {
+                if (event.getSource() == b3) {
                     b3.doClick();
                 } else {
                     b2.doClick();

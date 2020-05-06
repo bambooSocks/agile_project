@@ -53,8 +53,6 @@ public class MainView extends JFrame implements PropertyChangeListener {
     public void run() {
         pack();
         setVisible(true);
-        menuBarco.setVisible(false);
-        menuBarcl.setVisible(false);
     }
 
     @Override
