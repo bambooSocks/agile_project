@@ -17,6 +17,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
+import rcm.model.Client;
 import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.Dialog;
@@ -121,6 +122,7 @@ public class ClientsInfoView extends BaseInfoView {
     @Override
     public JPanel buildInfoPanel() {
         JPanel infoPanel = new JPanel();
+        Client client = app.getClientById(client_id);
         // TODO: change for proper code
         infoPanel.add(new JLabel("" + client_id));
         return infoPanel;

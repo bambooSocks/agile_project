@@ -465,7 +465,7 @@ public class Application {
         return journeys;
     }
 
-    private Client getClientById(int id) {
+    public Client getClientById(int id) {
         for (Client c : getAllClients()) {
             if (c.getId() == id) {
                 return c;
@@ -474,7 +474,7 @@ public class Application {
         return null;
     }
 
-    private Journey getJourneyById(int id) {
+    public Journey getJourneyById(int id) {
         for (Journey j : getAllJourneys()) {
             if (j.getId() == id) {
                 return j;
