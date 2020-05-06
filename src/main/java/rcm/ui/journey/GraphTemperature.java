@@ -75,7 +75,7 @@ public class GraphTemperature extends BaseGraph {
         XYPlot plot = (XYPlot) chart.getPlot();
 
         DateAxis dateAxis = (DateAxis) plot.getDomainAxis();
-        dateAxis.setDateFormatOverride(new SimpleDateFormat("HH:mm MM-dd-yy z"));
+        dateAxis.setDateFormatOverride(new SimpleDateFormat("HH:mm dd/MM/yy"));
         plot.setDomainAxis(dateAxis);
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();

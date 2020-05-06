@@ -52,7 +52,7 @@ public class GraphPressure extends BaseGraph {
             int d = date.getDayOfMonth();
             int m = date.getMonthValue();
             int y = date.getYear();
-            double value = s.getTemperature();
+            double value = s.getPressure();
             series.add(new Minute(min, h, d, m, y), value);
         }
 
@@ -74,7 +74,7 @@ public class GraphPressure extends BaseGraph {
         XYPlot plot = (XYPlot) chart.getPlot();
 
         DateAxis dateAxis = (DateAxis) plot.getDomainAxis();
-        dateAxis.setDateFormatOverride(new SimpleDateFormat("HH:mm MM-dd-yy z"));
+        dateAxis.setDateFormatOverride(new SimpleDateFormat("HH:mm dd/MM/yy"));
         plot.setDomainAxis(dateAxis);
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();

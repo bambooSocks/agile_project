@@ -53,7 +53,7 @@ public class GraphHumidity extends BaseGraph {
             int d = date.getDayOfMonth();
             int m = date.getMonthValue();
             int y = date.getYear();
-            double value = s.getTemperature();
+            double value = s.getHumidity();
             series.add(new Minute(min, h, d, m, y), value);
         }
 
@@ -74,7 +74,7 @@ public class GraphHumidity extends BaseGraph {
 
         DateAxis dateAxis = (DateAxis) plot.getDomainAxis();
 
-        dateAxis.setDateFormatOverride(new SimpleDateFormat("HH:mm MM-dd-yy z"));
+        dateAxis.setDateFormatOverride(new SimpleDateFormat("HH:mm dd/MM/yy"));
         plot.setDomainAxis(dateAxis);
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();

@@ -50,7 +50,7 @@ public class SharedJourneysTableView extends BaseTableView {
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
             tableModel.setRowCount(0);
 
-            String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };
+            String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date", "Owner" };
             tableModel.setColumnIdentifiers(columnNames);
 
             List<Journey> journeys = app.requestSharedJourneys();
@@ -65,7 +65,8 @@ public class SharedJourneysTableView extends BaseTableView {
                         : "Not Started yet");
                 String dataEndDate = ((j.getEndTimestamp() != null) ? j.getEndTimestamp().format(formatter)
                         : "Not Ended yet");
-                Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate };
+                String owner = j.getClient().getName();
+                Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate, owner };
                 tableModel.addRow(rowData);
             }
 
