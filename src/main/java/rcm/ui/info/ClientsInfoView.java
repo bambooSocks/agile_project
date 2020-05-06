@@ -1,8 +1,12 @@
 package rcm.ui.info;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -45,7 +49,6 @@ class ClientsInfoTopBar extends BaseTopBar {
         leftSide.add(backButton, BorderLayout.WEST);
         return leftSide;
     }
-
 }
 
 public class ClientsInfoView extends BaseInfoView {
@@ -121,15 +124,75 @@ public class ClientsInfoView extends BaseInfoView {
 
     @Override
     public JPanel buildInfoPanel() {
-        JPanel infoPanel = new JPanel();
+        JPanel infoPanel = new JPanel(new GridBagLayout());
         Client client = app.getClientById(client_id);
-        // TODO: change for proper code
-        infoPanel.add(new JLabel("" + client_id));
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.insets = new Insets(5, 5, 5, 5);
+        JLabel labelId, labelName, labelAddress, labelRefPerson, labelEmail, testID, testName, testAddress,
+                testRefPerson, testEmail;
+
+        labelId = new JLabel("Client: ");
+        labelId.setFont(new Font("", Font.BOLD, 20));
+        labelName = new JLabel("Name: ");
+        labelName.setFont(new Font("Serif", Font.BOLD, 16));
+        labelAddress = new JLabel("Address: ");
+        labelAddress.setFont(new Font("Serif", Font.BOLD, 16));
+        labelRefPerson = new JLabel("Reference Person: ");
+        labelRefPerson.setFont(new Font("Serif", Font.BOLD, 16));
+        labelEmail = new JLabel("Email: ");
+        labelEmail.setFont(new Font("Serif", Font.BOLD, 16));
+
+        testID = new JLabel(Integer.toString(client_id));
+        testID.setFont(new Font("Serif", Font.ITALIC, 20));
+        testID.setForeground(new Color(255, 0, 0));
+        testName = new JLabel();
+        testName.setText(client.getName());
+        
+        testName.setFont(new Font("Serif", Font.ITALIC, 16));
+        testAddress = new JLabel(client.getAddress());
+        testAddress.setFont(new Font("Serif", Font.ITALIC, 16));
+        testRefPerson = new JLabel(client.getRefPerson());
+        testRefPerson.setFont(new Font("Serif", Font.ITALIC, 16));
+        testEmail = new JLabel(client.getEmail());
+        testEmail.setFont(new Font("Serif", Font.ITALIC, 16));
+
+        // Add the labels.
+        c.gridx = 0;
+        c.gridy = 0;
+        infoPanel.add(labelId, c);
+        c.gridx = 1;
+        c.gridy = 0;
+        infoPanel.add(testID, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        infoPanel.add(labelName, c);
+        c.gridx = 1;
+        c.gridy = 1;
+        infoPanel.add(testName, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        infoPanel.add(labelAddress, c);
+        c.gridx = 1;
+        c.gridy = 2;
+        infoPanel.add(testAddress, c);
+        c.gridx = 2;
+        c.gridy = 1;
+        infoPanel.add(labelRefPerson, c);
+        c.gridx = 3;
+        c.gridy = 1;
+        infoPanel.add(testRefPerson, c);
+        c.gridx = 2;
+        c.gridy = 2;
+        infoPanel.add(labelEmail, c);
+        c.gridx = 3;
+        c.gridy = 2;
+        infoPanel.add(testEmail, c);
+
         return infoPanel;
     }
 
     public void setClientID(int id) {
         client_id = id;
     }
-
 }
