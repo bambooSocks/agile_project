@@ -55,12 +55,6 @@ public class SharedJourneysTableView extends BaseTableView {
 
             List<Journey> journeys = app.requestSharedJourneys();
 
-            if (journeys == null) {
-                System.out.println("shared journey list is null");
-            } else {
-                System.out.println("shared journey list is not null");
-            }
-
             for (int i = 0; i < journeys.size(); i++) {
                 Journey j = journeys.get(i);
                 int dataId = j.getId();

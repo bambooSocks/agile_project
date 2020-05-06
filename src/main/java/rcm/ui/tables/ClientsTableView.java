@@ -51,7 +51,7 @@ class ClientsTopBar extends BaseTopBar {
 
 }
 
-public class ClientsTableView extends BaseTableView implements ActionListener {
+public class ClientsTableView extends BaseTableView {
 
     private static final long serialVersionUID = -319420806707922265L;
 
@@ -97,7 +97,7 @@ public class ClientsTableView extends BaseTableView implements ActionListener {
                         app.showClient(id);
                     } catch (Exception e) {
                         Dialog.WarningDialog("Please choose a client first", "No client chosen");
-                    }               
+                    }
                 }
             });
 
@@ -116,12 +116,6 @@ public class ClientsTableView extends BaseTableView implements ActionListener {
         default:
             break;
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        // TODO Auto-generated method stub
-
     }
 
 }

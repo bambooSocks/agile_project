@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -18,16 +20,29 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
+import rcm.model.ContainerStatus;
+import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 import rcm.ui.BaseView;
 
 public abstract class BaseJourneyView extends BaseView {
 
     private static final long serialVersionUID = -7158594990405366048L;
-    protected int journeyID=-1;
+    protected int journeyID = -1;
+    protected Journey j;
+    protected List<ContainerStatus> statuses;
+    static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+    protected BaseGraph tempGraph, pressureGraph, humidityGraph;
+    protected JPanel dateLabelsPanel;
+    protected JPanel contentLabelsPanel;
+
+
 
     protected BaseJourneyView(Application app, BaseTopBar topBar) {
         super(app, topBar);
+        j = app.getJourneyById(journeyID);
+        statuses = app.requestStatus(journeyID);
+
     }
 
     @Override
@@ -49,7 +64,8 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.gridy = 0;
         cMain.gridheight = 2;
         cMain.ipady = 10;
-        panel.add(buildLabelsJourney(), cMain);
+        contentLabelsPanel = new JPanel();
+        panel.add(contentLabelsPanel, cMain);
 
         cMain.gridwidth = 2;
         cMain.gridx = 3;
@@ -62,7 +78,8 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.gridx = 1;
         cMain.gridy = 0;
         cMain.gridwidth = 1;
-        panel.add(buildDateLabelsJourney(), cMain);
+        dateLabelsPanel = new JPanel();
+        panel.add(dateLabelsPanel, cMain);
 
         cMain.gridx = 1;
         cMain.gridy = 2;
@@ -74,26 +91,29 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.gridy = 3;
         cMain.gridwidth = 6;
         cMain.weightx = 0.5;
-        panel.add(buildTemperatureGraph(), cMain);
+        tempGraph=new GraphTemperature(app, journeyID);
+        panel.add(tempGraph, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 4;
         cMain.gridwidth = 6;
         cMain.weightx = 0.5;
-        panel.add(buildPressureGraph(), cMain);
+        pressureGraph=new GraphPressure(app, journeyID);
+        panel.add(pressureGraph, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 5;
         cMain.gridwidth = 6;
         cMain.weightx = 0.5;
-        panel.add(buildHumidityGraph(), cMain);
-
-        cMain.gridx = 0;
-        cMain.gridy = 6;
-        cMain.gridwidth = 6;
-        cMain.ipady = 110;
-        cMain.weightx = 0.0;
-        panel.add(buildLocationTable(), cMain);
+        humidityGraph = new GraphHumidity(app, journeyID);
+        panel.add(humidityGraph, cMain);
+//
+//        cMain.gridx = 0;
+//        cMain.gridy = 6;
+//        cMain.gridwidth = 6;
+//        cMain.ipady = 110;
+//        cMain.weightx = 0.0;
+//        panel.add(buildLocationTable(), cMain);
 
         JScrollPane scroll = new JScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -101,7 +121,7 @@ public abstract class BaseJourneyView extends BaseView {
         return (scroll);
     }
 
-    private Component buildDateLabelsJourney() {
+    protected JPanel buildDateLabelsJourney() {
         JPanel rightSide = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 5, 5, 5);
@@ -112,10 +132,19 @@ public abstract class BaseJourneyView extends BaseView {
         label5.setFont(new Font("Serif", Font.BOLD, 16));
         label6 = new JLabel("End Date: ");
         label6.setFont(new Font("Serif", Font.BOLD, 16));
+        if (j.getStartTimestamp() == null) {
+            startDate = new JLabel("not started yet");
+        } else {
+            startDate = new JLabel(j.getStartTimestamp().format(formatter));
+        }
 
-        startDate = new JLabel("13/03/2020 4:20 pm ");
         startDate.setFont(new Font("Serif", Font.ITALIC, 16));
-        endDate = new JLabel("10/05/2020 4:20 pm ");
+        if (j.getEndTimestamp() == null) {
+            endDate = new JLabel("not ended yet");
+        } else {
+            endDate = new JLabel(j.getEndTimestamp().format(formatter));
+        }
+
         endDate.setFont(new Font("Serif", Font.ITALIC, 16));
 
         c.gridx = 0;
@@ -136,24 +165,21 @@ public abstract class BaseJourneyView extends BaseView {
 
     protected abstract JPanel buildRightButton();
 
-    private GraphTemperature buildTemperatureGraph() {
-        GraphTemperature graphTemperature = new GraphTemperature();
-        return graphTemperature;
-    }
 
-    private GraphPressure buildPressureGraph() {
-        GraphPressure graphPressure = new GraphPressure();
+
+    protected GraphPressure buildPressureGraph() {
+        GraphPressure graphPressure = new GraphPressure(app, journeyID);
 
         return graphPressure;
     }
 
-    private GraphHumidity buildHumidityGraph() {
-        GraphHumidity graphHumidity = new GraphHumidity();
+    protected GraphHumidity buildHumidityGraph() {
+        GraphHumidity graphHumidity = new GraphHumidity(app, journeyID);
 
         return graphHumidity;
     }
 
-    private JPanel buildLabelsJourney() {
+    protected JPanel buildLabelsJourney() {
         JPanel leftSide = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -170,14 +196,22 @@ public abstract class BaseJourneyView extends BaseView {
         labelContent = new JLabel("Content: ");
         labelContent.setFont(new Font("Serif", Font.BOLD, 16));
 
-        testID = new JLabel("# 1234");
+        testID = new JLabel(String.valueOf(journeyID));
         testID.setFont(new Font("Serif", Font.ITALIC, 20));
         testID.setForeground(new Color(255, 0, 0));
-        testOrigin = new JLabel("Rio de Janeiro ");
+        
+        if (j != null) {
+            testOrigin = new JLabel(j.getOriginPort());
+            testDestination = new JLabel(j.getDestinationPort());
+            testContent = new JLabel(j.getContent());
+        } else {
+            testOrigin = new JLabel("unknown");
+            testDestination = new JLabel("unknown");
+            testContent = new JLabel("unknown");
+        }
+        
         testOrigin.setFont(new Font("Serif", Font.ITALIC, 16));
-        testDestination = new JLabel("Rotterdam ");
         testDestination.setFont(new Font("Serif", Font.ITALIC, 16));
-        testContent = new JLabel("Tobacco ");
         testContent.setFont(new Font("Serif", Font.ITALIC, 16));
 
         // Add the labels.
@@ -209,27 +243,23 @@ public abstract class BaseJourneyView extends BaseView {
         return leftSide;
     }
 
-    private Component buildLocationTable() {
+    protected Component buildLocationTable() {
 
-        String[] columnNames = { "Date and Time", "Location" };
+        JTable table = new JTable();
 
-        Object[][] data = { { "13/03/2020 4:20", "Shenzen" }, { "13/03/2020 4:20", "Hong Kong" },
-                { "13/03/2020 4:20", "Instambul" }, { "13/03/2020 4:20", "Rotterdam" },
-                { "13/03/2020 4:20", "Rotterdam" }, { "13/03/2020 4:20", "Rotterdam" },
-                { "13/03/2020 4:20", "Rotterdam" }, { "13/03/2020 4:20", "Rotterdam" },
-                { "13/03/2020 4:20", "Rotterdam" }, { "13/03/2020 4:20", "Rotterdam" },
-                { "13/03/2020 4:20", "Rotterdam" } };
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        tableModel.setRowCount(0);
 
-        JTable table = new JTable(data, columnNames);
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames) {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
+        String[] columnNames = { "Date and Time", "Location", "Temperature C", "Atm Pressure", "Humidity %" };
+        tableModel.setColumnIdentifiers(columnNames);
+        for (ContainerStatus s : statuses) {
+            String date = s.getTimestamp().format(formatter);
+            String temp = String.valueOf(s.getTemperature());
+            String humidity = String.valueOf(s.getPressure());
+            String pressure = String.valueOf(s.getHumidity());
+            Object[] rowData = { date, temp, humidity, pressure };
+            tableModel.addRow(rowData);
+        }
 
         table.setModel(tableModel);
         table.setModel(tableModel);

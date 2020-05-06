@@ -475,7 +475,7 @@ public class Application {
         return null;
     }
 
-    private Journey getJourneyById(int id) {
+    public Journey getJourneyById(int id) {
         for (Journey j : getAllJourneys()) {
             if (j.getId() == id) {
                 return j;

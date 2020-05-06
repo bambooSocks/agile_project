@@ -1,8 +1,15 @@
 package rcm.ui.journey;
 
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.data.time.Day;
+import org.jfree.data.time.Minute;
 import org.jfree.data.xy.XYDataset;
+
+import rcm.model.Application;
+import rcm.model.ContainerStatus;
+import rcm.model.Journey;
+
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
@@ -16,22 +23,45 @@ import org.jfree.chart.title.TextTitle;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class GraphTemperature extends BaseGraph {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5061875398113958353L;
 
-    @Override
-    public XYDataset createDataset() {
+    public GraphTemperature(Application app, int id) {
+        super(app, id);
+    }
+
+    private XYDataset createDataset() {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         TimeSeries series = new TimeSeries("Temperature in Celsius");
 
-        series.add(new Day(1, 1, 2017), 56.9);
-        series.add(new Day(2, 1, 2017), 58.9);
-        series.add(new Day(3, 1, 2017), 57.9);
-        series.add(new Day(4, 1, 2017), 57.9);
-        series.add(new Day(5, 1, 2017), 57.3);
-        series.add(new Day(6, 1, 2017), 58.8);
-        series.add(new Day(7, 1, 2017), 57.8);
+        List<ContainerStatus> statuses = app.requestStatus(id);
+
+        System.out.println(id);
+        System.out.println(statuses);
+        for (ContainerStatus s : statuses) {
+            LocalDateTime date = s.getTimestamp();
+            int min = date.getMinute();
+            int h = date.getHour();
+            int d = date.getDayOfMonth();
+            int m = date.getMonthValue();
+            int y = date.getYear();
+            double value = s.getTemperature();
+            series.add(new Minute(min, h, d, m, y), value);
+        }
+//        series.add(new Minute(50,22,1,1,2017), 56.9);
+//        series.add(new Minute(50,22,2,1,2017), 58.9);
+//        series.add(new Minute(50,22,3,1,2017), 60.9);
+//        series.add(new Minute(0,8,3,1,2017), 58.9);
 
         dataset.addSeries(series);
 
@@ -39,10 +69,14 @@ public class GraphTemperature extends BaseGraph {
     }
 
     @Override
-    public JFreeChart createChart(XYDataset dataset) {
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("Temperature", "Date", "Temperature (Celsius)", dataset);
+    public JFreeChart createChart() {
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Temperature", "Date", "Temperature (Celsius)", createDataset());
 
         XYPlot plot = (XYPlot) chart.getPlot();
+
+        DateAxis dateAxis = (DateAxis) plot.getDomainAxis();
+        dateAxis.setDateFormatOverride(new SimpleDateFormat("HH:mm MM-dd-yy z"));
+        plot.setDomainAxis(dateAxis);
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 

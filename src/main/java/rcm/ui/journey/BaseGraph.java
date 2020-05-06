@@ -14,27 +14,33 @@ import org.jfree.data.xy.XYDataset;
 import rcm.model.Application;
 
 public abstract class BaseGraph extends JPanel {
-    protected Application app;
 
-    public BaseGraph() {
- 
+    private static final long serialVersionUID = 9059820726277444630L;
+    protected Application app;
+    protected int id;
+    private ChartPanel chartPanel;
+
+    public BaseGraph(Application app, int id) {
+        this.app = app;
+        this.id = id;
         initUI();
 
     }
 
     private void initUI() {
-
-        XYDataset dataset = createDataset();
-        JFreeChart chart = createChart(dataset);
-
-        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel = new ChartPanel(null);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         chartPanel.setBackground(new Color(220, 220, 220));
         chartPanel.setPreferredSize(new Dimension(650, 400));
         add(chartPanel);
     }
 
-    public abstract XYDataset createDataset();
+    public void updateGraph(int id) {
+        this.id = id;
+        JFreeChart chart = createChart();
+        chartPanel.setChart(chart);
+    }
 
-    public abstract JFreeChart createChart(XYDataset dataset);
+    public abstract JFreeChart createChart();
+
 }
