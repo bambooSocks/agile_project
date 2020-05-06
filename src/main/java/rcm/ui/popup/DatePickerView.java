@@ -13,6 +13,7 @@ public class DatePickerView extends JDialog {
     private JLabel l = new JLabel("", JLabel.CENTER);
     private String day = "";
     private JButton[] button = new JButton[49];
+    private String time = "";
 
     public DatePickerView() {
 
@@ -31,6 +32,7 @@ public class DatePickerView extends JDialog {
                 button[x].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent ae) {
                         day = button[selection].getActionCommand();
+                        time = new TimePickerView().getTime();
                         dispose();
                     }
                 });
@@ -90,6 +92,6 @@ public class DatePickerView extends JDialog {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.set(year, month, Integer.parseInt(day));
-        return sdf.format(cal.getTime());
+        return sdf.format(cal.getTime()) + " " + time;
     }
 }
