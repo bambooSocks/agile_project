@@ -102,7 +102,8 @@ public class MyJourneysTableView extends BaseTableView {
 
             table.setComponentPopupMenu(popupMenu);
 
-            table.setModel(tableModel);
+            table.setModel(tableModel );
+            table.setEnabled(false);
 
             itemViewJourney.addActionListener(new ActionListener() {
                 @Override

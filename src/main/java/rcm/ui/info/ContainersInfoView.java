@@ -107,6 +107,7 @@ public class ContainersInfoView extends BaseInfoView {
             popupMenu.add(itemViewJourney);
             table.setComponentPopupMenu(popupMenu);
             table.setModel(tableModel);
+            table.setEnabled(false);
 
             itemViewJourney.addActionListener(new ActionListener() {
                 @Override

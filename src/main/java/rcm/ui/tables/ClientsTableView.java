@@ -88,6 +88,7 @@ public class ClientsTableView extends BaseTableView {
             popupMenu.add(itemViewContainer);
             table.setComponentPopupMenu(popupMenu);
             table.setModel(tableModel);
+            table.setEnabled(false);
 
             itemViewContainer.addActionListener(new ActionListener() {
                 @Override

@@ -100,7 +100,6 @@ public class ClientsInfoView extends BaseInfoView {
                 Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate };
                 tableModel.addRow(rowData);
             }
-
             popupMenu = new JPopupMenu();
             itemViewJourney = new JMenuItem("View Journey");
             popupMenu.add(itemViewJourney);
@@ -118,7 +117,6 @@ public class ClientsInfoView extends BaseInfoView {
                     }
                 }
             });
-
             tableModel.fireTableDataChanged();
         }
     }

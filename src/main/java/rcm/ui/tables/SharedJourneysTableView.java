@@ -78,6 +78,7 @@ public class SharedJourneysTableView extends BaseTableView {
             table.setComponentPopupMenu(popupMenu);
 
             table.setModel(tableModel);
+            table.setEnabled(false);
 
             itemViewSharedJourney.addActionListener(new ActionListener() {
                 @Override

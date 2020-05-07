@@ -289,6 +289,7 @@ public abstract class BaseJourneyView extends BaseView {
         }
 
         table.setModel(tableModel);
+        table.setEnabled(false);
         tableModel.fireTableDataChanged();
     }
 
