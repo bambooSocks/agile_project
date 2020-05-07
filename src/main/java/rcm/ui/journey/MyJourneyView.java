@@ -12,6 +12,7 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import rcm.model.Application;
 import rcm.ui.BaseTopBar;
@@ -84,6 +85,7 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
             tempGraph.updateGraph(journeyID);
             pressureGraph.updateGraph(journeyID);
             humidityGraph.updateGraph(journeyID);
+            updateLocationTable(locationTable, app, journeyID);
             break;
         default:
             break;

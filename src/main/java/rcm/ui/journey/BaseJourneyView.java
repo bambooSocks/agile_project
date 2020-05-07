@@ -34,6 +34,7 @@ public abstract class BaseJourneyView extends BaseView {
     protected List<ContainerStatus> statuses;
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
     protected BaseGraph tempGraph, pressureGraph, humidityGraph;
+    protected JTable locationTable;
     protected UpdatablePanel dateLabelsPanel;
     protected UpdatablePanel contentLabelsPanel;
 
@@ -99,7 +100,7 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.gridx = 1;
         cMain.gridy = 2;
         JLabel titleStatus = new JLabel("CONTAINER STATUS");
-        titleStatus.setFont(new Font("Serif", Font.PLAIN, 18));
+        titleStatus.setFont(new Font("Times New Roman", Font.PLAIN, 18));
         panel.add(titleStatus, cMain);
 
         cMain.gridx = 0;
@@ -122,13 +123,14 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.weightx = 0.5;
         humidityGraph = new GraphHumidity(app, journeyID);
         panel.add(humidityGraph, cMain);
-//
-//        cMain.gridx = 0;
-//        cMain.gridy = 6;
-//        cMain.gridwidth = 6;
-//        cMain.ipady = 110;
-//        cMain.weightx = 0.0;
-//        panel.add(buildLocationTable(), cMain);
+
+        cMain.gridx = 0;
+        cMain.gridy = 6;
+        cMain.gridwidth = 6;
+        cMain.ipady = 110;
+        cMain.weightx = 0.0;
+        JPanel tablePanel = buildLocationTable();
+        panel.add(tablePanel, cMain);
 
         JScrollPane scroll = new JScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -144,23 +146,23 @@ public abstract class BaseJourneyView extends BaseView {
         JLabel label5, label6, startDate, endDate;
 
         label5 = new JLabel("Start Date: ");
-        label5.setFont(new Font("Serif", Font.BOLD, 16));
+        label5.setFont(new Font("Times New Roman", Font.BOLD, 16));
         label6 = new JLabel("End Date: ");
-        label6.setFont(new Font("Serif", Font.BOLD, 16));
+        label6.setFont(new Font("Times New Roman", Font.BOLD, 16));
         if (j.getStartTimestamp() == null) {
             startDate = new JLabel("not started yet");
         } else {
             startDate = new JLabel(j.getStartTimestamp().format(formatter));
         }
 
-        startDate.setFont(new Font("Serif", Font.ITALIC, 16));
+        startDate.setFont(new Font("Times New Roman", Font.ITALIC, 16));
         if (j.getEndTimestamp() == null) {
             endDate = new JLabel("not ended yet");
         } else {
             endDate = new JLabel(j.getEndTimestamp().format(formatter));
         }
 
-        endDate.setFont(new Font("Serif", Font.ITALIC, 16));
+        endDate.setFont(new Font("Times New Roman", Font.ITALIC, 16));
 
         c.gridx = 0;
         c.gridy = 0;
@@ -203,16 +205,16 @@ public abstract class BaseJourneyView extends BaseView {
                 testContent;
 
         labelTitle = new JLabel("Journey: ");
-        labelTitle.setFont(new Font("Serif", Font.BOLD, 20));
+        labelTitle.setFont(new Font("Times New Roman", Font.BOLD, 20));
         labelOrigin = new JLabel("Origin: ");
-        labelOrigin.setFont(new Font("Serif", Font.BOLD, 16));
+        labelOrigin.setFont(new Font("Times New Roman", Font.BOLD, 16));
         labelDestination = new JLabel("Destination: ");
-        labelDestination.setFont(new Font("Serif", Font.BOLD, 16));
+        labelDestination.setFont(new Font("Times New Roman", Font.BOLD, 16));
         labelContent = new JLabel("Content: ");
-        labelContent.setFont(new Font("Serif", Font.BOLD, 16));
+        labelContent.setFont(new Font("Times New Roman", Font.BOLD, 16));
 
         testID = new JLabel(String.valueOf(journeyID));
-        testID.setFont(new Font("Serif", Font.ITALIC, 20));
+        testID.setFont(new Font("Times New Roman", Font.ITALIC, 20));
         testID.setForeground(new Color(255, 0, 0));
         
         if (j != null) {
@@ -225,9 +227,9 @@ public abstract class BaseJourneyView extends BaseView {
             testContent = new JLabel("unknown");
         }
         
-        testOrigin.setFont(new Font("Serif", Font.ITALIC, 16));
-        testDestination.setFont(new Font("Serif", Font.ITALIC, 16));
-        testContent.setFont(new Font("Serif", Font.ITALIC, 16));
+        testOrigin.setFont(new Font("Times New Roman", Font.ITALIC, 16));
+        testDestination.setFont(new Font("Times New Roman", Font.ITALIC, 16));
+        testContent.setFont(new Font("Times New Roman", Font.ITALIC, 16));
 
         // Add the labels.
         c.gridx = 0;
@@ -258,33 +260,36 @@ public abstract class BaseJourneyView extends BaseView {
         return leftSide;
     }
 
-    protected Component buildLocationTable() {
-
-        JTable table = new JTable();
-
-        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
-        tableModel.setRowCount(0);
-
-        String[] columnNames = { "Date and Time", "Location", "Temperature C", "Atm Pressure", "Humidity %" };
-        tableModel.setColumnIdentifiers(columnNames);
-        for (ContainerStatus s : statuses) {
-            String date = s.getTimestamp().format(formatter);
-            String temp = String.valueOf(s.getTemperature());
-            String humidity = String.valueOf(s.getPressure());
-            String pressure = String.valueOf(s.getHumidity());
-            Object[] rowData = { date, temp, humidity, pressure };
-            tableModel.addRow(rowData);
-        }
-
-        table.setModel(tableModel);
-        table.setModel(tableModel);
-        table.setPreferredScrollableViewportSize(new Dimension(600, 160));
-        JScrollPane spTable = new JScrollPane(table);
+    protected JPanel buildLocationTable() {
+        locationTable = new JTable();
+        locationTable.setPreferredScrollableViewportSize(new Dimension(600, 160));
+        JScrollPane spTable = new JScrollPane(locationTable);
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Location tracking",
                 TitledBorder.CENTER, TitledBorder.TOP));
         panel.add(spTable);
         return panel;
+        
+    }
+    protected void updateLocationTable(JTable table, Application app, int id) {
+        
+        DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
+        tableModel.setRowCount(0);
+
+        String[] columnNames = { "Date and Time", "Location"};
+        tableModel.setColumnIdentifiers(columnNames);
+
+        statuses = app.requestStatus(id);
+        
+        for (ContainerStatus s : statuses) {
+            String date = s.getTimestamp().format(formatter);
+            String location = s.getLocation();
+            Object[] rowData = { date, location };
+            tableModel.addRow(rowData);
+        }
+
+        table.setModel(tableModel);
+        tableModel.fireTableDataChanged();
     }
 
     public int getJourneyID() {

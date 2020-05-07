@@ -57,10 +57,9 @@ public class ContainersTableView extends BaseTableView {
         app.addObserver(this);
     }
 
-    public void updateTableModel(Container pane) {
+    public void updateTableModel() {
 
         if (app.getLoggedInCompany() != null) {
-            this.pane = pane;
 
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
             tableModel.setRowCount(0);
@@ -106,16 +105,11 @@ public class ContainersTableView extends BaseTableView {
         switch (evt.getPropertyName()) {
         case "companyTabChanged":
         case "companyLoggedIn":
-            updateTableModel(pane);
+            updateTableModel();
             break;
         default:
             break;
         }
-    }
-
-    public void updateTableModel() {
-        // TODO Auto-generated method stub
-
     }
 
 }

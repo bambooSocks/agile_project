@@ -39,8 +39,6 @@ public class GraphTemperature extends BaseGraph {
 
         List<ContainerStatus> statuses = app.requestStatus(id);
 
-        System.out.println(id);
-        System.out.println(statuses);
         for (ContainerStatus s : statuses) {
             LocalDateTime date = s.getTimestamp();
             int min = date.getMinute();
@@ -51,10 +49,6 @@ public class GraphTemperature extends BaseGraph {
             double value = s.getTemperature();
             series.add(new Minute(min, h, d, m, y), value);
         }
-//        series.add(new Minute(50,22,1,1,2017), 56.9);
-//        series.add(new Minute(50,22,2,1,2017), 58.9);
-//        series.add(new Minute(50,22,3,1,2017), 60.9);
-//        series.add(new Minute(0,8,3,1,2017), 58.9);
 
         dataset.addSeries(series);
 
@@ -63,7 +57,8 @@ public class GraphTemperature extends BaseGraph {
 
     @Override
     public JFreeChart createChart() {
-        JFreeChart chart = ChartFactory.createTimeSeriesChart("Temperature", "Date", "Temperature (Celsius)", createDataset());
+        JFreeChart chart = ChartFactory.createTimeSeriesChart("Temperature", "Date", "Temperature (Celsius)",
+                createDataset());
 
         XYPlot plot = (XYPlot) chart.getPlot();
 

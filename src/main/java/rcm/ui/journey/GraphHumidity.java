@@ -33,7 +33,6 @@ public class GraphHumidity extends BaseGraph {
         super(app, id);
     }
 
-
     private XYDataset createDataset() {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         TimeSeries series = new TimeSeries("Humidity");
@@ -49,10 +48,6 @@ public class GraphHumidity extends BaseGraph {
             double value = s.getHumidity();
             series.add(new Minute(min, h, d, m, y), value);
         }
-
-//        series.add(new Minute(50,22,2,1,2017), 58.9);
-//        series.add(new Minute(50,22,3,1,2017), 60.9);
-//        series.add(new Minute(0,8,3,1,2017), 58.9);
 
         dataset.addSeries(series);
 

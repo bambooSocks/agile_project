@@ -148,4 +148,13 @@ public class ContainerStatus {
         return humidity;
     }
 
+    /**
+     * Getter for the location
+     * 
+     * @return location string of the Container Status
+     */
+    public String getLocation() {
+        return location;
+    }
+
 }
