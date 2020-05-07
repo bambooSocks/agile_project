@@ -80,7 +80,6 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
         switch (evt.getPropertyName()) {
         case "showJourney":
             j = app.getJourneyById(journeyID);
-            dateLabelsPanel.updatePanel();
             contentLabelsPanel.updatePanel();
             tempGraph.updateGraph(journeyID);
             pressureGraph.updateGraph(journeyID);

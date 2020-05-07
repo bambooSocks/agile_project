@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -35,7 +36,6 @@ public abstract class BaseJourneyView extends BaseView {
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
     protected BaseGraph tempGraph, pressureGraph, humidityGraph;
     protected JTable locationTable;
-    protected UpdatablePanel dateLabelsPanel;
     protected UpdatablePanel contentLabelsPanel;
 
 
@@ -46,7 +46,8 @@ public abstract class BaseJourneyView extends BaseView {
         statuses = app.requestStatus(journeyID);
 
     }
-
+    
+    // TODO: see if we neet this or not
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(720, 550);
@@ -60,10 +61,13 @@ public abstract class BaseJourneyView extends BaseView {
 
         GridBagConstraints cMain = new GridBagConstraints();
         cMain.insets = new Insets(10, 20, 10, 10);
-        cMain.fill = GridBagConstraints.HORIZONTAL;
-
+        Border eBorder = BorderFactory.createEtchedBorder();
+        panel.setBorder(BorderFactory.createTitledBorder(eBorder, "Journey Details"));
+        cMain.fill = GridBagConstraints.WEST;
+        cMain.weightx=1.0;
         cMain.gridx = 0;
         cMain.gridy = 0;
+        cMain.gridwidth = 4;
         cMain.gridheight = 2;
         cMain.ipady = 10;
         contentLabelsPanel = new UpdatablePanel() {
@@ -74,59 +78,52 @@ public abstract class BaseJourneyView extends BaseView {
                 return buildLabelsJourney();
             }
         };
+        contentLabelsPanel.setBorder(BorderFactory.createTitledBorder(eBorder, ""));
         panel.add(contentLabelsPanel, cMain);
-
-        cMain.gridwidth = 2;
-        cMain.gridx = 3;
+        cMain.fill = GridBagConstraints.EAST;
+        cMain.gridwidth = 1;
+        cMain.gridx = 4;
         cMain.gridy = 0;
         cMain.weighty = 0;
         cMain.gridheight = 1;
         panel.add(buildRightButton(), cMain);
 
-        cMain.anchor = GridBagConstraints.LAST_LINE_END;
-        cMain.gridx = 1;
-        cMain.gridy = 0;
-        cMain.gridwidth = 1;
-        dateLabelsPanel = new UpdatablePanel() {
-            private static final long serialVersionUID = 5467971044762088127L;
-
-            @Override
-            public JPanel buildContent() {
-                return buildDateLabelsJourney();
-            }
-        };
-        panel.add(dateLabelsPanel, cMain);
-
-        cMain.gridx = 1;
+        cMain.gridx = 0;
         cMain.gridy = 2;
+        cMain.gridwidth=3;
+        cMain.fill = GridBagConstraints.HORIZONTAL;
+        cMain.weightx = 1.0;
         JLabel titleStatus = new JLabel("CONTAINER STATUS");
-        titleStatus.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        titleStatus.setFont(new Font("", Font.PLAIN, 18));
+        titleStatus.setHorizontalAlignment(JLabel.CENTER);
         panel.add(titleStatus, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 3;
-        cMain.gridwidth = 6;
-        cMain.weightx = 0.5;
+        cMain.gridwidth = 3;
         tempGraph=new GraphTemperature(app, journeyID);
+        tempGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
+//        Dimension panelSize = panel.getSize();
+//        tempGraph.getChartPanel().setSize(panelSize);
         panel.add(tempGraph, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 4;
-        cMain.gridwidth = 6;
-        cMain.weightx = 0.5;
+        cMain.gridwidth = 3;
         pressureGraph=new GraphPressure(app, journeyID);
+        pressureGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
         panel.add(pressureGraph, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 5;
-        cMain.gridwidth = 6;
-        cMain.weightx = 0.5;
+        cMain.gridwidth = 3;
         humidityGraph = new GraphHumidity(app, journeyID);
+        humidityGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
         panel.add(humidityGraph, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 6;
-        cMain.gridwidth = 6;
+        cMain.gridwidth = 2;
         cMain.ipady = 110;
         cMain.weightx = 0.0;
         JPanel tablePanel = buildLocationTable();
@@ -136,48 +133,6 @@ public abstract class BaseJourneyView extends BaseView {
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         return (scroll);
-    }
-
-    protected JPanel buildDateLabelsJourney() {
-        JPanel rightSide = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(5, 5, 5, 5);
-        c.anchor = GridBagConstraints.LAST_LINE_START;
-        JLabel label5, label6, startDate, endDate;
-
-        label5 = new JLabel("Start Date: ");
-        label5.setFont(new Font("Times New Roman", Font.BOLD, 16));
-        label6 = new JLabel("End Date: ");
-        label6.setFont(new Font("Times New Roman", Font.BOLD, 16));
-        if (j.getStartTimestamp() == null) {
-            startDate = new JLabel("not started yet");
-        } else {
-            startDate = new JLabel(j.getStartTimestamp().format(formatter));
-        }
-
-        startDate.setFont(new Font("Times New Roman", Font.ITALIC, 16));
-        if (j.getEndTimestamp() == null) {
-            endDate = new JLabel("not ended yet");
-        } else {
-            endDate = new JLabel(j.getEndTimestamp().format(formatter));
-        }
-
-        endDate.setFont(new Font("Times New Roman", Font.ITALIC, 16));
-
-        c.gridx = 0;
-        c.gridy = 0;
-        rightSide.add(label5, c);
-        c.gridx = 1;
-        c.gridy = 0;
-        rightSide.add(startDate, c);
-        c.gridx = 0;
-        c.gridy = 1;
-        rightSide.add(label6, c);
-        c.gridx = 1;
-        c.gridy = 1;
-        rightSide.add(endDate, c);
-
-        return rightSide;
     }
 
     protected abstract JPanel buildRightButton();
@@ -202,19 +157,19 @@ public abstract class BaseJourneyView extends BaseView {
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(5, 5, 5, 5);
         JLabel labelTitle, labelOrigin, labelDestination, labelContent, testID, testOrigin, testDestination,
-                testContent;
+                testContent, label5, label6, startDate, endDate;
 
         labelTitle = new JLabel("Journey: ");
-        labelTitle.setFont(new Font("Times New Roman", Font.BOLD, 20));
+        labelTitle.setFont(new Font("", Font.BOLD, 16));
         labelOrigin = new JLabel("Origin: ");
-        labelOrigin.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        labelOrigin.setFont(new Font("", Font.BOLD, 14));
         labelDestination = new JLabel("Destination: ");
-        labelDestination.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        labelDestination.setFont(new Font("", Font.BOLD, 14));
         labelContent = new JLabel("Content: ");
-        labelContent.setFont(new Font("Times New Roman", Font.BOLD, 16));
+        labelContent.setFont(new Font("", Font.BOLD, 14));
 
         testID = new JLabel(String.valueOf(journeyID));
-        testID.setFont(new Font("Times New Roman", Font.ITALIC, 20));
+        testID.setFont(new Font("", Font.ITALIC, 16));
         testID.setForeground(new Color(255, 0, 0));
         
         if (j != null) {
@@ -227,10 +182,27 @@ public abstract class BaseJourneyView extends BaseView {
             testContent = new JLabel("unknown");
         }
         
-        testOrigin.setFont(new Font("Times New Roman", Font.ITALIC, 16));
-        testDestination.setFont(new Font("Times New Roman", Font.ITALIC, 16));
-        testContent.setFont(new Font("Times New Roman", Font.ITALIC, 16));
+        testOrigin.setFont(new Font("", Font.ITALIC, 14));
+        testDestination.setFont(new Font("", Font.ITALIC, 14));
+        testContent.setFont(new Font("", Font.ITALIC, 14));
 
+        label5 = new JLabel("Start Date: ");
+        label5.setFont(new Font("", Font.BOLD, 14));
+        label6 = new JLabel("End Date: ");
+        label6.setFont(new Font("", Font.BOLD, 14));
+        if (j.getStartTimestamp() == null) {
+            startDate = new JLabel("not started yet");
+        } else {
+            startDate = new JLabel(j.getStartTimestamp().format(formatter));
+        }
+        
+        startDate.setFont(new Font("", Font.ITALIC, 14));
+        if (j.getEndTimestamp() == null) {
+            endDate = new JLabel("not ended yet");
+        } else {
+            endDate = new JLabel(j.getEndTimestamp().format(formatter));
+        }
+        endDate.setFont(new Font("", Font.ITALIC, 14));
         // Add the labels.
         c.gridx = 0;
         c.gridy = 0;
@@ -256,6 +228,21 @@ public abstract class BaseJourneyView extends BaseView {
         c.gridx = 1;
         c.gridy = 3;
         leftSide.add(testContent, c);
+        c.gridx = 2;
+        c.gridy = 1;
+        leftSide.add(label5, c);
+        c.gridx = 3;
+        c.gridy = 1;
+        leftSide.add(startDate, c);
+        c.gridx = 2;
+        c.gridy = 2;
+        leftSide.add(label6, c);
+        c.gridx = 3;
+        c.gridy = 2;
+        leftSide.add(endDate, c);
+        
+
+
 
         return leftSide;
     }

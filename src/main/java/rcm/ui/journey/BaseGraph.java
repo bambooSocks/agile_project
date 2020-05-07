@@ -28,18 +28,21 @@ public abstract class BaseGraph extends JPanel {
 
     private void initUI() {
         chartPanel = new ChartPanel(null);
-        chartPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        chartPanel.setBackground(new Color(220, 220, 220));
-        chartPanel.setPreferredSize(new Dimension(650, 400));
-        add(chartPanel);
+        getChartPanel().setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        getChartPanel().setBackground(new Color(220, 220, 220));
+        add(getChartPanel());
     }
 
     public void updateGraph(int id) {
         this.id = id;
         JFreeChart chart = createChart();
-        chartPanel.setChart(chart);
+        getChartPanel().setChart(chart);
     }
 
     public abstract JFreeChart createChart();
+
+    public ChartPanel getChartPanel() {
+        return chartPanel;
+    }
 
 }

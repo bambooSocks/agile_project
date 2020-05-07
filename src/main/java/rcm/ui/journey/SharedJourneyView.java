@@ -18,7 +18,6 @@ import rcm.ui.BaseTopBar;
 
 class SharedJourneyTopBar extends BaseTopBar {
 
-
     private static final long serialVersionUID = 1L;
 
     public SharedJourneyTopBar(Application app) {
@@ -64,7 +63,6 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
         switch (evt.getPropertyName()) {
         case "showSharedJourney":
             j = app.getJourneyById(journeyID);
-            dateLabelsPanel.updatePanel();
             contentLabelsPanel.updatePanel();
             tempGraph.updateGraph(journeyID);
             pressureGraph.updateGraph(journeyID);
@@ -75,5 +73,5 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
             break;
         }
     }
-    
+
 }
