@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -408,43 +409,73 @@ public class Application {
      * Searches for clients of logged in logistics company by all parameters
      * 
      * @param query Query to be searched for
-     * @return Set of clients
+     * @return List of clients
      */
-    public Set<Client> searchForClients(String query) {
+    public List<Client> searchForClients(String query) {
         Set<Client> results = loggedInCompany.searchClientByName(query);
         results.addAll(loggedInCompany.searchClientByAddress(query));
         results.addAll(loggedInCompany.searchClientByRefPerson(query));
         results.addAll(loggedInCompany.searchClientByEmail(query));
         results.addAll(loggedInCompany.searchClientById(query));
-        return results;
+        return new ArrayList<>(results);
     }
 
     /**
      * Searches for journeys of logged in client by all parameters
      * 
      * @param query Query to be searched for
-     * @return Set of journeys
+     * @return List of journeys
      */
-    public Set<Journey> searchForJourneys(String query) {
+    public List<Journey> searchForJourneys(String query) {
         Set<Journey> resultList = new HashSet<Journey>(loggedInClient.searchJourneyByOrigin(query));
         resultList.addAll(loggedInClient.searchJourneyByDestination(query));
         resultList.addAll(loggedInClient.searchJourneyByContent(query));
-        resultList.addAll(loggedInClient.journeySearchById(query));
-        return resultList;
+        resultList.addAll(loggedInClient.searchJourneyById(query));
+        return new ArrayList<>(resultList);
     }
 
     /**
      * Searches for shared journeys of logged in client by all parameters
      * 
      * @param query Query to be searched for
-     * @return Set of shared journeys
+     * @return List of shared journeys
      */
-    public Set<Journey> searchForSharedJourneys(String query) {
+    public List<Journey> searchForSharedJourneys(String query) {
         Set<Journey> resultList = new HashSet<Journey>(loggedInClient.searchSharedJourneyByOrigin(query));
         resultList.addAll(loggedInClient.searchSharedJourneyByDestination(query));
         resultList.addAll(loggedInClient.searchSharedJourneyByContent(query));
         resultList.addAll(loggedInClient.searchSharedJourneyById(query));
-        return resultList;
+        return new ArrayList<>(resultList);
+    }
+    
+    /**
+     * Searches for shared journeys of logged in client by all parameters
+     * 
+     * @param query Query to be searched for
+     * @return List of shared journeys
+     */
+    public List<Journey> searchForClientsJourneys(int client_id, String query) {
+        Client client = getClientById(client_id);
+        Set<Journey> resultList = new HashSet<Journey>(client.searchJourneyByOrigin(query));
+        resultList.addAll(client.searchJourneyByDestination(query));
+        resultList.addAll(client.searchJourneyByContent(query));
+        resultList.addAll(client.searchJourneyById(query));
+        return new ArrayList<>(resultList);
+    }
+    
+    /**
+     * Searches for shared journeys of logged in client by all parameters
+     * 
+     * @param query Query to be searched for
+     * @return List of shared journeys
+     */
+    public List<Journey> searchForContainersJourneys(int container_id, String query) {
+        Container container = getContainerById(container_id);
+        Set<Journey> resultList = new HashSet<Journey>(container.searchJourneyByOrigin(query));
+        resultList.addAll(container.searchJourneyByDestination(query));
+        resultList.addAll(container.searchJourneyByContent(query));
+        resultList.addAll(container.searchJourneyById(query));
+        return new ArrayList<>(resultList);
     }
 
     /**
@@ -656,6 +687,16 @@ public class Application {
      * @param change The change name
      */
     public void fireChange(String change) {
-        fireChange(change, null);
+        support.firePropertyChange(change, null, null);
+    }
+
+    /**
+     * Informs the presentation layer about change inside the system
+     * 
+     * @param change The change name
+     * @param query  The query related to the change
+     */
+    public void fireChange(String change, String query) {
+        support.firePropertyChange(change, null, query);
     }
 }

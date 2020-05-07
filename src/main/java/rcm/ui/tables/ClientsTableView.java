@@ -24,7 +24,7 @@ import rcm.ui.popup.Dialog;
 class ClientsTopBar extends BaseTopBar {
 
     public ClientsTopBar(Application app) {
-        super(app);
+        super(app, "searchClients");
     }
 
     private static final long serialVersionUID = -455443009885225672L;
@@ -54,7 +54,8 @@ class ClientsTopBar extends BaseTopBar {
 public class ClientsTableView extends BaseTableView {
 
     private static final long serialVersionUID = -319420806707922265L;
-
+    private List<Client> clients;
+    
     public ClientsTableView(Application app) {
         super(app, new ClientsTopBar(app));
     }
@@ -69,8 +70,6 @@ public class ClientsTableView extends BaseTableView {
 
             String[] columnNames = { "ID", "Name", "Address", "Reference person", "Email" };
             tableModel.setColumnIdentifiers(columnNames);
-
-            List<Client> clients = app.requestClients();
 
             for (int i = 0; i < clients.size(); i++) {
                 Client c = clients.get(i);
@@ -112,6 +111,11 @@ public class ClientsTableView extends BaseTableView {
         case "companyTabChanged":
         case "companyLoggedIn":
         case "newClientCreated":
+            clients = app.requestClients();
+            updateTableModel();
+            break;
+        case "searchClients":
+            clients = app.searchForClients((String) evt.getNewValue());
             updateTableModel();
             break;
         default:

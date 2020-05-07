@@ -28,7 +28,7 @@ import rcm.ui.popup.JourneyShareView;
 class MyJourneysTopBar extends BaseTopBar {
 
     public MyJourneysTopBar(Application app) {
-        super(app);
+        super(app, "searchMyJourney");
     }
 
     private static final long serialVersionUID = -978144513412923606L;
@@ -42,7 +42,7 @@ class MyJourneysTopBar extends BaseTopBar {
         newJourney.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateJourneyView popup = new CreateJourneyView();
+                CreateJourneyView popup = new CreateJourneyView(app);
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
@@ -60,6 +60,7 @@ public class MyJourneysTableView extends BaseTableView {
     protected JPopupMenu popupMenu;
     protected JMenuItem itemViewJourney;
     protected JMenuItem menuShareJourney;
+    private List<Journey> journeys;
 
     public MyJourneysTableView(Application app) {
         super(app, new MyJourneysTopBar(app));
@@ -76,8 +77,6 @@ public class MyJourneysTableView extends BaseTableView {
 
             String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };
             tableModel.setColumnIdentifiers(columnNames);
-
-            List<Journey> journeys = app.requestJourneys();
 
             for (int i = 0; i < journeys.size(); i++) {
                 Journey j = journeys.get(i);
@@ -135,9 +134,14 @@ public class MyJourneysTableView extends BaseTableView {
         switch (evt.getPropertyName()) {
         case "clientTabChanged":
         case "clientLoggedIn":
+        case "newJourney":
+            journeys = app.requestJourneys();
             updateTableModel();
             break;
-
+        case "searchMyJourney":
+            journeys = app.requestJourneys();
+            updateTableModel();
+            break;
         default:
             break;
         }

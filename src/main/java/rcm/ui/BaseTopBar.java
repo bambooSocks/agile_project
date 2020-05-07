@@ -28,16 +28,18 @@ public abstract class BaseTopBar extends JPanel {
     protected Application app;
     private boolean showSearchBar = true;
     private JButton searchButton;
+    private String searchCommand;
 
-    public BaseTopBar(Application app) {
-        this(app, true);
+    public BaseTopBar(Application app, String searchCommand) {
+        this(app, searchCommand, true);
     }
 
-    public BaseTopBar(Application app, boolean showSearchBar) {
+    public BaseTopBar(Application app, String searchCommand, boolean showSearchBar) {
         setLayout(new BorderLayout());
 
         this.app = app;
         this.showSearchBar = showSearchBar;
+        this.searchCommand = searchCommand;
 
         add(buildRightSide(), BorderLayout.EAST);
         add(buildLeftSide(), BorderLayout.WEST);
@@ -63,18 +65,18 @@ public abstract class BaseTopBar extends JPanel {
             searchButton.setPreferredSize(new Dimension(16, 16));
             searchButton.setBorder(null);
             searchButton.addKeyListener(new KeyListener());
-            searchButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Search started");
-                }
-            });
 
             JTextField searchBar = new JTextField();
             searchBar.setBorder(new LineBorder(Color.white));
             searchBar.setPreferredSize(new Dimension(150, 20));
             searchBar.addKeyListener(new KeyListener());
 
+            searchButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    app.fireChange(searchCommand, searchBar.getText());
+                }
+            });
 
             ImageIcon X = new ImageIcon("src/main/resources/clear.jpg");
             JButton clearButton = new JButton(X);
@@ -84,6 +86,7 @@ public abstract class BaseTopBar extends JPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     searchBar.setText("");
+                    app.fireChange(searchCommand, "");
                 }
             });
 //            search.add(magni);
@@ -117,13 +120,13 @@ public abstract class BaseTopBar extends JPanel {
         profile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 ProfileView popup = new ProfileView(app);
                 // TODO: For testing purposes (Adrienne and Viktor):
 //                EnterStatusView popup = new EnterStatusView();      // in place (need to double check)
 //                JourneyShareView popup = new JourneyShareView();      // in place
 //                AdvancedSearchView popup = new AdvancedSearchView();
-                
+
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
@@ -142,7 +145,7 @@ public abstract class BaseTopBar extends JPanel {
 
         return popup;
     }
-    
+
     class KeyListener extends KeyAdapter {
 
         @Override

@@ -31,7 +31,7 @@ class ClientsInfoTopBar extends BaseTopBar {
     private static final long serialVersionUID = 3449416620350309737L;
 
     public ClientsInfoTopBar(Application app) {
-        super(app, true);
+        super(app, "clientsInfoSearch");
     }
 
     @Override
@@ -58,21 +58,10 @@ public class ClientsInfoView extends BaseInfoView {
     private int client_id = -1;
     protected JPopupMenu popupMenu;
     protected JMenuItem itemViewJourney;
+    private List<Journey> journeys;
 
     public ClientsInfoView(Application app) {
         super(app, new ClientsInfoTopBar(app));
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()) {
-        case "showClient":
-            updateTableModel();
-            infoPanel.updatePanel();
-            break;
-        default:
-            break;
-        }
     }
 
     @Override
@@ -84,8 +73,6 @@ public class ClientsInfoView extends BaseInfoView {
 
             String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };
             tableModel.setColumnIdentifiers(columnNames);
-
-            List<Journey> journeys = app.requestClientsJourneys(client_id);
 
             for (int i = 0; i < journeys.size(); i++) {
                 Journey j = journeys.get(i);
@@ -191,5 +178,23 @@ public class ClientsInfoView extends BaseInfoView {
 
     public void setClientID(int id) {
         client_id = id;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+        case "showClient":
+            journeys = app.requestClientsJourneys(client_id);
+            updateTableModel();
+            infoPanel.updatePanel();
+            break;
+        case "clientsInfoSearch":
+            journeys = app.searchForClientsJourneys(client_id, (String) evt.getNewValue());
+            updateTableModel();
+            infoPanel.updatePanel();
+            break;
+        default:
+            break;
+        }
     }
 }

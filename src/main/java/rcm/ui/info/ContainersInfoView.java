@@ -32,7 +32,7 @@ class ContainersInfoTopBar extends BaseTopBar {
     private static final long serialVersionUID = 3449416620350309737L;
 
     public ContainersInfoTopBar(Application app) {
-        super(app, true);
+        super(app, "containersInfoSearch");
     }
 
     @Override
@@ -59,21 +59,10 @@ public class ContainersInfoView extends BaseInfoView {
     private int container_id = -1;
     protected JPopupMenu popupMenu;
     protected JMenuItem itemViewJourney;
+    private List<Journey> journeys;
 
     public ContainersInfoView(Application app) {
         super(app, new ContainersInfoTopBar(app));
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()) {
-        case "showContainer":
-            updateTableModel();
-            infoPanel.updatePanel();
-            break;
-        default:
-            break;
-        }
     }
 
     @Override
@@ -85,8 +74,6 @@ public class ContainersInfoView extends BaseInfoView {
 
             String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };
             tableModel.setColumnIdentifiers(columnNames);
-
-            List<Journey> journeys = app.requestContainersJourneys(container_id);
 
             for (int i = 0; i < journeys.size(); i++) {
                 Journey j = journeys.get(i);
@@ -142,7 +129,7 @@ public class ContainersInfoView extends BaseInfoView {
         testID = new JLabel(Integer.toString(container_id));
         testID.setFont(new Font("", Font.ITALIC, 20));
         testID.setForeground(new Color(255, 0, 0));
-        testState = new JLabel((container.isAvailable(LocalDateTime.now())) ? "available" : "not available right now");        
+        testState = new JLabel((container.isAvailable(LocalDateTime.now())) ? "available" : "not available right now");
         testState.setFont(new Font("", Font.ITALIC, 16));
 
         // Add the labels.
@@ -164,5 +151,23 @@ public class ContainersInfoView extends BaseInfoView {
 
     public void setContainerID(int id) {
         container_id = id;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+        case "showContainer":
+            journeys = app.requestContainersJourneys(container_id);
+            updateTableModel();
+            infoPanel.updatePanel();
+            break;
+        case "containersInfoSearch":
+            journeys = app.searchForContainersJourneys(container_id, (String) evt.getNewValue());
+            updateTableModel();
+            infoPanel.updatePanel();
+            break;
+        default:
+            break;
+        }
     }
 }

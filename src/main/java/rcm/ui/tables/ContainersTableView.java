@@ -23,7 +23,7 @@ import rcm.ui.popup.Dialog;
 class ContainersTopBar extends BaseTopBar {
 
     public ContainersTopBar(Application app) {
-        super(app);
+        super(app, null, false);
     }
 
     private static final long serialVersionUID = -6291570981725621141L;

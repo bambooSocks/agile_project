@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,6 +22,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import rcm.model.Application;
 
 public class CreateJourneyView extends JDialog {
 
@@ -42,7 +45,7 @@ public class CreateJourneyView extends JDialog {
     private JButton b1 = new JButton("Request");
     private JButton b2 = new JButton("Cancel");
 
-    public CreateJourneyView() {
+    public CreateJourneyView(Application app) {
 
         setTitle("Create New Journey");
         setModal(true);
@@ -93,6 +96,7 @@ public class CreateJourneyView extends JDialog {
         panel.add(lbl4, constraints);
 
         // Radio Buttons
+        // TODO: Adrienne move to a separate popup
         Box rBox = Box.createHorizontalBox();
         ButtonGroup rGroup = new ButtonGroup();
         r1.setActionCommand("Now");
@@ -137,9 +141,13 @@ public class CreateJourneyView extends JDialog {
         b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Request clicked");
-                // TODO: connect to model
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    app.requestNewJourney(originField.getText(), destinationField.getText(), contentField.getText());
+                    app.fireChange("newJourney");
+                } catch (IOException e) {
+                    Dialog.ErrorDialog("Something went wrong with the database", "Database error");
+                }
             }
         });
         panel.add(b1, constraints);

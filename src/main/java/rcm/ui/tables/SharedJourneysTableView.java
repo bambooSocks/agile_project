@@ -19,7 +19,7 @@ import rcm.ui.popup.Dialog;
 class SharedJourneysTopBar extends BaseTopBar {
 
     public SharedJourneysTopBar(Application app) {
-        super(app);
+        super(app, "searchSharedJourney");
     }
 
     private static final long serialVersionUID = -2448342061117967555L;
@@ -37,6 +37,7 @@ public class SharedJourneysTableView extends BaseTableView {
     private static final long serialVersionUID = 1156877669628672936L;
     protected JMenuItem itemViewSharedJourney;
     protected JPopupMenu popupMenu;
+    private List<Journey> journeys;
 
     public SharedJourneysTableView(Application app) {
         super(app, new SharedJourneysTopBar(app));
@@ -53,8 +54,6 @@ public class SharedJourneysTableView extends BaseTableView {
             String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date", "Owner" };
             tableModel.setColumnIdentifiers(columnNames);
 
-            List<Journey> journeys = app.requestSharedJourneys();
-
             for (int i = 0; i < journeys.size(); i++) {
                 Journey j = journeys.get(i);
                 int dataId = j.getId();
@@ -66,7 +65,8 @@ public class SharedJourneysTableView extends BaseTableView {
                 String dataEndDate = ((j.getEndTimestamp() != null) ? j.getEndTimestamp().format(formatter)
                         : "Not Ended yet");
                 String owner = j.getClient().getName();
-                Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate, owner };
+                Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate,
+                        owner };
                 tableModel.addRow(rowData);
             }
 
@@ -101,9 +101,14 @@ public class SharedJourneysTableView extends BaseTableView {
         switch (evt.getPropertyName()) {
         case "clientTabChanged":
         case "clientLoggedIn":
+        case "newJourney":
+            journeys = app.requestSharedJourneys();
             updateTableModel();
             break;
-
+        case "searchSharedJourney":
+            journeys = app.searchForSharedJourneys((String) evt.getNewValue());
+            updateTableModel();
+            break;
         default:
             break;
         }

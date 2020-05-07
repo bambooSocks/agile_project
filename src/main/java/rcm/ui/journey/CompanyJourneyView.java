@@ -21,7 +21,7 @@ class CompanyJourneyTopBar extends BaseTopBar {
     private static final long serialVersionUID = 6993300655884720698L;
 
     public CompanyJourneyTopBar(Application app) {
-        super(app, false);
+        super(app, null, false);
     }
 
     @Override

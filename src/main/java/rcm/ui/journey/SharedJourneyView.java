@@ -21,7 +21,7 @@ class SharedJourneyTopBar extends BaseTopBar {
     private static final long serialVersionUID = 1L;
 
     public SharedJourneyTopBar(Application app) {
-        super(app, false);
+        super(app, null, false);
     }
 
     @Override

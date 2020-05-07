@@ -108,7 +108,7 @@ public class Client extends User {
      * @param id Journey id to be searched for
      * @return a list of journeys with the required id
      */
-    public List<Journey> journeySearchById(String id) {
+    public List<Journey> searchJourneyById(String id) {
         return journeyList.stream().filter(j -> Integer.toString(j.getId()).equals(id)).collect(Collectors.toList());
     }
 
