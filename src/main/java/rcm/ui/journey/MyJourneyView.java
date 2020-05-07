@@ -59,7 +59,7 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
         JPanel rightPanel = new JPanel(new GridLayout(3, 1));
 
         JButton shareJourney = new JButton("Share Journey");
-        shareJourney.setFont(new Font("Serif", Font.PLAIN, 14));
+        shareJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         shareJourney.setPreferredSize(new Dimension(150, 30));
         shareJourney.addActionListener(new ActionListener() {
 

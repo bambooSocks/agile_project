@@ -49,6 +49,7 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
 
     public SharedJourneyView(Application app) {
         super(app, new SharedJourneyTopBar(app));
+        app.addObserver(this);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
             tempGraph.updateGraph(journeyID);
             pressureGraph.updateGraph(journeyID);
             humidityGraph.updateGraph(journeyID);
+            updateLocationTable(locationTable, app, journeyID);
             break;
         default:
             break;

@@ -28,7 +28,7 @@ class CompanyJourneyTopBar extends BaseTopBar {
     public JPanel buildLeftSide() {
         JPanel topSide = new JPanel(new BorderLayout());
         JButton backButton = new JButton(" < ");
-        backButton.setFont(new Font("Serif", Font.BOLD, 12));
+        backButton.setFont(new Font("Times New Roman", Font.BOLD, 12));
         backButton.setPreferredSize(new Dimension(50, 30));
         backButton.addActionListener(new ActionListener() {
 
@@ -47,6 +47,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
 
     public CompanyJourneyView(Application app) {
         super(app, new CompanyJourneyTopBar(app));
+        app.addObserver(this);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
 
         // TODO: Switch to button?
         JButton enterStatus = new JButton("Enter Status");
-        enterStatus.setFont(new Font("Serif", Font.BOLD, 14));
+        enterStatus.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         enterStatus.setPreferredSize(new Dimension(150, 30));
         enterStatus.addActionListener(new ActionListener() {
 
@@ -68,7 +69,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         });
 
         JButton startJourney = new JButton("Start Journey");
-        startJourney.setFont(new Font("Serif", Font.PLAIN, 14));
+        startJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         startJourney.setPreferredSize(new Dimension(150, 30));
         startJourney.addActionListener(new ActionListener() {
 
@@ -78,7 +79,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         });
 
         JButton endJourney = new JButton("End Journey");
-        endJourney.setFont(new Font("Serif", Font.PLAIN, 14));
+        endJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         endJourney.setPreferredSize(new Dimension(150, 30));
         endJourney.addActionListener(new ActionListener() {
 
@@ -105,6 +106,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
             tempGraph.updateGraph(journeyID);
             pressureGraph.updateGraph(journeyID);
             humidityGraph.updateGraph(journeyID);
+            updateLocationTable(locationTable, app, journeyID);
             break;
         default:
             break;
