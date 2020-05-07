@@ -64,6 +64,7 @@ public class ContainersInfoView extends BaseInfoView {
         switch (evt.getPropertyName()) {
         case "showContainer":
             updateTableModel();
+            infoPanel.updatePanel();
             break;
         default:
             break;

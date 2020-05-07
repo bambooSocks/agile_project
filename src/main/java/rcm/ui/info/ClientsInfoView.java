@@ -68,6 +68,7 @@ public class ClientsInfoView extends BaseInfoView {
         switch (evt.getPropertyName()) {
         case "showClient":
             updateTableModel();
+            infoPanel.updatePanel();
             break;
         default:
             break;
