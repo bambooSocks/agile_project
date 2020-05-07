@@ -426,9 +426,9 @@ public class Application {
      * @return Set of journeys
      */
     public Set<Journey> searchForJourneys(String query) {
-        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.journeySearchByOrigin(query));
-        resultList.addAll(loggedInClient.journeySearchByDestination(query));
-        resultList.addAll(loggedInClient.journeySearchByContent(query));
+        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.searchJourneyByOrigin(query));
+        resultList.addAll(loggedInClient.searchJourneyByDestination(query));
+        resultList.addAll(loggedInClient.searchJourneyByContent(query));
         resultList.addAll(loggedInClient.journeySearchById(query));
         return resultList;
     }

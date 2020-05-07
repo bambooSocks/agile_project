@@ -10,6 +10,9 @@ import javax.persistence.CascadeType;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Entity
 public class Container {
@@ -89,4 +92,41 @@ public class Container {
         return id;
     }
 
+    /**
+     * Method to search journeys using destination
+     * 
+     * @param destination Destination to be searched for
+     * @return a list of journeys with the required destination
+     */
+    public List<Journey> searchJourneyByDestination(String destination) {
+        String regexSearch = "(" + destination + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getDestinationPort())).find())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search journeys using Origin
+     * 
+     * @param origin Origin to be searched for
+     * @return a list of journeys with the required origin
+     */
+    public List<Journey> searchJourneyByOrigin(String origin) {
+        String regexSearch = "(" + origin + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getOriginPort())).find())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search journeys by container contents
+     * 
+     * @param content Container contents to be searched for
+     * @return a list of journeys with the required container contents
+     */
+    public List<Journey> searchJourneyByContent(String content) {
+        String regexSearch = "(" + content + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getContent())).find()).collect(Collectors.toList());
+    }
 }

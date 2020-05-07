@@ -1,6 +1,7 @@
 package rcm.model;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.LinkedList;
 
@@ -69,8 +70,10 @@ public class Client extends User {
      * @param destination Destination to be searched for
      * @return a list of journeys with the required destination
      */
-    public List<Journey> journeySearchByDestination(String destination) {
-        return journeyList.stream().filter(j -> j.getDestinationPort().equals(destination))
+    public List<Journey> searchJourneyByDestination(String destination) {
+        String regexSearch = "(" + destination + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getDestinationPort())).find())
                 .collect(Collectors.toList());
     }
 
@@ -80,8 +83,11 @@ public class Client extends User {
      * @param origin Origin to be searched for
      * @return a list of journeys with the required origin
      */
-    public List<Journey> journeySearchByOrigin(String origin) {
-        return journeyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
+    public List<Journey> searchJourneyByOrigin(String origin) {
+        String regexSearch = "(" + origin + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getOriginPort())).find())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -90,8 +96,10 @@ public class Client extends User {
      * @param content Container contents to be searched for
      * @return a list of journeys with the required container contents
      */
-    public List<Journey> journeySearchByContent(String content) {
-        return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
+    public List<Journey> searchJourneyByContent(String content) {
+        String regexSearch = "(" + content + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getContent())).find()).collect(Collectors.toList());
     }
 
     /**
