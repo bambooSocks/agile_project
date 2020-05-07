@@ -20,6 +20,7 @@ import rcm.ui.tables.SharedJourneysTableView;
 
 public class ClientTabView extends JTabbedPane implements PropertyChangeListener {
     final static String TABLEPANEL = "Table Panel";
+    final static String SHAREDTABLEPANEL = "Shared Table Panel";
     final static String JOURNEYPANEL = "Journey Panel";
     final static String SHAREDJOURNEYPANEL = "Shared Journey Panel";
     private Application app;
@@ -63,7 +64,7 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
         sharedJourneyCards.setLayout(new CardLayout());
         sharedJourneyView = new SharedJourneyView(app);
         sharedJourneysTableView = new SharedJourneysTableView(app);
-        sharedJourneyCards.add(sharedJourneysTableView, TABLEPANEL);
+        sharedJourneyCards.add(sharedJourneysTableView, SHAREDTABLEPANEL);
         sharedJourneyCards.add(sharedJourneyView, SHAREDJOURNEYPANEL);
         return sharedJourneyCards;
     }
@@ -85,6 +86,7 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
             journeysTableView.setVisible(false);
             break;
         case "showSharedJourney":
+            sharedJourneyView.setJourneyID((int) evt.getNewValue());
             sharedJourneyView.setVisible(true);
             sharedJourneysTableView.setVisible(false);
             break;
