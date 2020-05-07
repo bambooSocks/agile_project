@@ -440,10 +440,10 @@ public class Application {
      * @return Set of shared journeys
      */
     public Set<Journey> searchForSharedJourneys(String query) {
-        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.sharedJourneySearchByOrigin(query));
-        resultList.addAll(loggedInClient.sharedJourneySearchByDestination(query));
-        resultList.addAll(loggedInClient.sharedJourneySearchByContent(query));
-        resultList.addAll(loggedInClient.sharedJourneySearchById(query));
+        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.searchSharedJourneyByOrigin(query));
+        resultList.addAll(loggedInClient.searchSharedJourneyByDestination(query));
+        resultList.addAll(loggedInClient.searchSharedJourneyByContent(query));
+        resultList.addAll(loggedInClient.searchSharedJourneyById(query));
         return resultList;
     }
 

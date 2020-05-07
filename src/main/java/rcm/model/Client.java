@@ -165,8 +165,10 @@ public class Client extends User {
      * @param destination Destination to be searched for
      * @return a list of shared journeys with the required destination
      */
-    public List<Journey> sharedJourneySearchByDestination(String destination) {
-        return sharedJourneyList.stream().filter(j -> j.getDestinationPort().equals(destination))
+    public List<Journey> searchSharedJourneyByDestination(String destination) {
+        String regexSearch = "(" + destination + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return sharedJourneyList.stream().filter(j -> (pattern.matcher(j.getDestinationPort())).find())
                 .collect(Collectors.toList());
     }
 
@@ -176,8 +178,11 @@ public class Client extends User {
      * @param origin Origin to be searched for
      * @return a list of shared journeys with the required origin
      */
-    public List<Journey> sharedJourneySearchByOrigin(String origin) {
-        return sharedJourneyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
+    public List<Journey> searchSharedJourneyByOrigin(String origin) {
+        String regexSearch = "(" + origin + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return sharedJourneyList.stream().filter(j -> (pattern.matcher(j.getOriginPort())).find())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -186,8 +191,11 @@ public class Client extends User {
      * @param content Container contents to be searched for
      * @return a list of shared journeys with the required container contents
      */
-    public List<Journey> sharedJourneySearchByContent(String content) {
-        return sharedJourneyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
+    public List<Journey> searchSharedJourneyByContent(String content) {
+        String regexSearch = "(" + content + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return sharedJourneyList.stream().filter(j -> (pattern.matcher(j.getContent())).find())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -196,7 +204,7 @@ public class Client extends User {
      * @param id Journey id to be searched for
      * @return a list of shared journeys with the required id
      */
-    public List<Journey> sharedJourneySearchById(String id) {
+    public List<Journey> searchSharedJourneyById(String id) {
         return sharedJourneyList.stream().filter(j -> Integer.toString(j.getId()).equals(id))
                 .collect(Collectors.toList());
     }
