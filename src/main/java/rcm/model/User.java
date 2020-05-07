@@ -70,12 +70,30 @@ public class User {
     }
 
     /**
+     * Setter for user name
+     * 
+     * @param name of the user
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * Getter for user address
      * 
      * @return address of the user
      */
     public String getAddress() {
         return address;
+    }
+
+    /**
+     * Setter for user address
+     * 
+     * @param address of the user
+     */
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     /**
@@ -88,12 +106,30 @@ public class User {
     }
 
     /**
+     * Setter for user reference person
+     * 
+     * @param reference person of the user
+     */
+    public void setRefPerson(String refPerson) {
+        this.refPerson = refPerson;
+    }
+
+    /**
      * Getter for user email
      * 
      * @return email of the user
      */
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Setter for user email
+     * 
+     * @param email of the user
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -112,6 +148,15 @@ public class User {
      */
     public String getPassword() {
         return password;
+    }
+
+    /**
+     * Setter for user password
+     * 
+     * @param password of the user
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -190,71 +235,6 @@ public class User {
     }
 
     /**
-     * Method to update user name
-     * 
-     * @param newName New name of the user
-     */
-    public void updateName(String newName) throws WrongInputException {
-        if (validateName(newName)) {
-            name = newName;
-        } else {
-            throw new WrongInputException("The given client name is not valid.");
-        }
-    }
-
-    /**
-     * Method to update user address
-     * 
-     * @param newAddress New address of the user
-     */
-    public void updateAddress(String newAddress) throws WrongInputException {
-        if (validateAddress(newAddress)) {
-            address = newAddress;
-        } else {
-            throw new WrongInputException("The given address is not valid.");
-        }
-    }
-
-    /**
-     * Method to update user reference person
-     * 
-     * @param newRefPerson New reference person of the user
-     */
-    public void updateRefPerson(String newRefPerson) throws WrongInputException {
-        if (validateRefPerson(newRefPerson)) {
-            refPerson = newRefPerson;
-        } else {
-            throw new WrongInputException("The given reference name is not valid.");
-        }
-    }
-
-    /**
-     * Method to update user email
-     * 
-     * @param newEmail New email of the user
-     */
-    public void updateEmail(String newEmail) throws WrongInputException {
-        if (validateEmail(newEmail)) {
-            email = newEmail;
-        } else {
-            throw new WrongInputException("The given email is not valid.");
-        }
-    }
-
-    /**
-     * Method to update user password
-     * 
-     * @param newEmail New password of the user
-     */
-    public void updatePassword(String newPassword) throws WrongInputException {
-        if (validatePassword(newPassword)) {
-            password = SHA1_Hasher(newPassword);
-        } else {
-            throw new WrongInputException("The given password is not valid.");
-        }
-    }
-
-    /**
      * Method to convert a cleartext password into a hashkey
      * 
      * @param passwordToHash Cleartext password entered by the user
@@ -274,5 +254,4 @@ public class User {
         }
         return generatedPassword;
     }
-
 }

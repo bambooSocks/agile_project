@@ -96,6 +96,7 @@ public class ApplicationTest {
         ContainerStatus status = new ContainerStatus(LocalDateTime.of(2020, 3, 14, 4, 20), 13.5, 75.0, 1.01,
                 "Copenhagen");
         app.startJourney(journey.getId(), LocalDateTime.of(2020, 3, 13, 4, 20));
+        app.endJourney(journey.getId(), LocalDateTime.of(2020, 3, 13, 5, 20));
         app.enterNewContainerStatus(journey.getId(), status);
         assertEquals(null, app.requestStatus(journey.getId()));
     }
@@ -165,8 +166,10 @@ public class ApplicationTest {
 
     @Test
     public void testRequestSharedJourneys() throws IOException, WrongInputException {
-        app.logInUser("info@maersk.com", "Agile123");
         Client client2 = app.createNewClient("Chiquita", "USA", "Someone", "bananas@chiquita.com", "Object123");
+        assertEquals(null, client2);
+        app.logInUser("info@maersk.com", "Agile123");
+        client2 = app.createNewClient("Chiquita", "USA", "Someone", "bananas@chiquita.com", "Object123");
         assertFalse(app.shareJourney(client2.getId(), journey.getId()));
         app.logInUser("info@novonordisk.com", "Object123");
         assertTrue(app.shareJourney(client2.getId(), journey.getId()));

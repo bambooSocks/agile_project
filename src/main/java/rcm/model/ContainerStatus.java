@@ -23,43 +23,26 @@ public class ContainerStatus {
 
     @SuppressWarnings("unused")
     private ContainerStatus() {
-
     }
 
     /**
-     * 
      * Container status constructor
      * 
-     * 
-     * 
      * @param timestamp   LocalDateTime with at least minute precision denoting the
-     * 
      *                    time at which the measurement took place
-     * 
      * @param temperature Double of the temperature in the container at the given
-     * 
      *                    time
-     * 
      * @param humidity    Double of the humidity in the container at the given time
-     * 
      * @param atmPressure Double of the air pressure in the container at the given
-     * 
      *                    time
-     * 
      */
     public ContainerStatus(LocalDateTime timestamp, double temperature, double humidity, double atmPressure,
             String location) {
-
         this.timestamp = timestamp;
-
         this.temperature = temperature;
-
         this.humidity = humidity;
-
         this.atmPressure = atmPressure;
-
         this.location = location;
-
     }
 
     /**
@@ -147,5 +130,4 @@ public class ContainerStatus {
     public double getHumidity() {
         return humidity;
     }
-
 }

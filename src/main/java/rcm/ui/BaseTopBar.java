@@ -19,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import rcm.model.Application;
-import rcm.ui.popup.EnterStatusView;
 import rcm.ui.popup.ProfileView;
 
 public abstract class BaseTopBar extends JPanel {
@@ -119,7 +118,7 @@ public abstract class BaseTopBar extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 
-                ProfileView popup = new ProfileView();
+                ProfileView popup = new ProfileView(app);
                 // TODO: For testing purposes (Adrienne and Viktor):
 //                EnterStatusView popup = new EnterStatusView();      // in place (need to double check)
 //                JourneyShareView popup = new JourneyShareView();      // in place

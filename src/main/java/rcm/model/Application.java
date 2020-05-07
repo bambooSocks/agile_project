@@ -119,6 +119,113 @@ public class Application {
         return errors;
     }
 
+    /**
+     * Method to update user name
+     * 
+     * @param newName New name of the user
+     * @throws WrongInputException
+     */
+    public void updateName(String newName) throws WrongInputException {
+        if (User.validateName(newName)) {
+            if (loggedInCompany != null) {
+                loggedInCompany.setName(newName);
+                repo.updateCompany(loggedInCompany);
+            } else if (loggedInClient != null) {
+                loggedInClient.setName(newName);
+                repo.updateCompany(loggedInClient.getCompany());
+            }
+        } else {
+            throw new WrongInputException("The given client name is not valid.");
+        }
+    }
+
+    /**
+     * Method to update user address
+     * 
+     * @param newAddress New address of the user
+     * @throws WrongInputException
+     */
+    public void updateAddress(String newAddress) throws WrongInputException {
+        if (User.validateAddress(newAddress)) {
+            if (loggedInCompany != null) {
+                loggedInCompany.setAddress(newAddress);
+                repo.updateCompany(loggedInCompany);
+            } else if (loggedInClient != null) {
+                loggedInClient.setAddress(newAddress);
+                repo.updateCompany(loggedInClient.getCompany());
+            }
+        } else {
+            throw new WrongInputException("The given address is not valid.");
+        }
+    }
+
+    /**
+     * Method to update user reference person
+     * 
+     * @param newRefPerson New reference person of the user
+     * @throws WrongInputException
+     */
+    public void updateRefPerson(String newRefPerson) throws WrongInputException {
+        if (User.validateRefPerson(newRefPerson)) {
+            if (loggedInCompany != null) {
+                loggedInCompany.setRefPerson(newRefPerson);
+                repo.updateCompany(loggedInCompany);
+            } else if (loggedInClient != null) {
+                loggedInClient.setRefPerson(newRefPerson);
+                repo.updateCompany(loggedInClient.getCompany());
+            }
+        } else {
+            throw new WrongInputException("The given reference name is not valid.");
+        }
+    }
+
+    /**
+     * Method to update user email
+     * 
+     * @param newEmail New email of the user
+     * @throws WrongInputException
+     */
+    public void updateEmail(String newEmail) throws WrongInputException {
+        if (User.validateEmail(newEmail) || !getAllEmails().contains(newEmail)) {
+            if (loggedInCompany != null) {
+                loggedInCompany.setEmail(newEmail);
+                repo.updateCompany(loggedInCompany);
+            } else if (loggedInClient != null) {
+                loggedInClient.setEmail(newEmail);
+                repo.updateCompany(loggedInClient.getCompany());
+            }
+        } else {
+            throw new WrongInputException("The given email is not valid.");
+        }
+    }
+
+    /**
+     * Method to update user password
+     * 
+     * @param newPassword New password of the user
+     * @throws WrongInputException
+     */
+    public void updatePassword(String newPassword) throws WrongInputException {
+        if (User.validatePassword(newPassword)) {
+            if (loggedInCompany != null) {
+                loggedInCompany.setPassword(User.SHA1_Hasher(newPassword));
+                repo.updateCompany(loggedInCompany);
+            } else if (loggedInClient != null) {
+                loggedInClient.setPassword(User.SHA1_Hasher(newPassword));
+                repo.updateCompany(loggedInClient.getCompany());
+            }
+        } else {
+            throw new WrongInputException("The given password is not valid.");
+        }
+    }
+
+    // TODO do i need a firepropertychange line in the update methods above?
+
+    /**
+     * Method to find all existing emails in the system
+     * 
+     * @return List of all user emails
+     */
     private List<String> getAllEmails() {
         List<String> emails = system.stream().map(c -> c.getEmail()).collect(Collectors.toList());
         emails.addAll(getAllClients().stream().map(c -> c.getEmail()).collect(Collectors.toList()));

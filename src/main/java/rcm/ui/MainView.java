@@ -13,7 +13,6 @@ import rcm.model.Application;
 import rcm.model.WrongInputException;
 import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
-import rcm.ui.tables.MyJourneysTableView;
 
 public class MainView extends JFrame implements PropertyChangeListener {
 
@@ -35,7 +34,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
 
         this.app = app;
         app.addObserver(this);
-        
+
         pane = getContentPane();
 
         lv = new LogInView(app);
@@ -89,11 +88,11 @@ public class MainView extends JFrame implements PropertyChangeListener {
         MainView mv = new MainView(app);
 
         try {
-//            FakeData.setupFakeApp(app);
+            FakeData.setupFakeApp(app);
             // Company user
 //            app.logInUser("peter@3plogistics.dk", "Password12345");
             // Client user
-            app.logInUser("linea@novozymes.dk", "Password12345");         
+            app.logInUser("linea@novozymes.dk", "Password12345");
         } catch (WrongInputException e) {
         }
         mv.run();

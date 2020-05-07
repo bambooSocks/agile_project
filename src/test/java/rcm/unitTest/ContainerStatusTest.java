@@ -19,12 +19,8 @@ public class ContainerStatusTest {
         ContainerStatus sn1 = new ContainerStatus(null, 13.5, 75.0, 1.01, "New York");
         ContainerStatus sn2 = new ContainerStatus(null, 13.5, 75.0, 1.01, "New York");
 
-        assertTrue(s1.hashCode() == s2.hashCode());
-        assertTrue(s1.equals(s2) && s2.equals(s1));
-
-        assertTrue(sn1.hashCode() == sn2.hashCode());
-        assertTrue(sn1.equals(sn2) && sn2.equals(sn1));
-
+        assertEquals(s1.hashCode(), s2.hashCode());
+        assertEquals(sn1.hashCode(), sn2.hashCode());
         ContainerStatus sl = new ContainerStatus(timestamp, 13.0, 75.0, 1.01, null);
         assertNotEquals(0, sl.hashCode());
     }
@@ -54,5 +50,4 @@ public class ContainerStatusTest {
         ContainerStatus sl3 = new ContainerStatus(timestamp, 14.0, 75.0, 1.01, null);
         assertTrue(sl1.equals(sl3));
     }
-
 }

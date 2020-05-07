@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import rcm.model.Application;
+
 public class ProfileView extends JDialog {
 
     private static final long serialVersionUID = -4562833393035926979L;
@@ -35,7 +37,7 @@ public class ProfileView extends JDialog {
     private JButton b2 = new JButton("Save");
     private JButton b3 = new JButton("Cancel");
 
-    public ProfileView() {
+    public ProfileView(Application app) {
 
         setTitle("Manage Profile");
         setModal(true);
@@ -113,9 +115,14 @@ public class ProfileView extends JDialog {
         b2.addKeyListener(new KeyListener());
         b2.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent evt) {
                 System.out.println("Save clicked");
                 // TODO: update changed data
+
+//                app.updateName(nameField.getText());
+//                app.updateAddress(addressField.getText());
+//                app.updateRefPerson(refPersonField.getText());
+//                app.updateEmail(emailField.getText());
                 dispose();
             }
         });
@@ -127,6 +134,7 @@ public class ProfileView extends JDialog {
         constraints.gridwidth = 1;
         b3.addKeyListener(new KeyListener());
         b3.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Cancel clicked");
@@ -135,7 +143,7 @@ public class ProfileView extends JDialog {
         });
         panel.add(b3, constraints);
 
-        // set border for the panel
+// set border for the panel
         panel.setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
@@ -227,6 +235,12 @@ class PasswordView extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Save clicked");
                 // TODO: update the passwords
+                
+//                check if passwordField1 is correct for that user
+//                check if passwordField2 and passwordField3 match
+                
+//              app.updatePassword(new String(passwordField3.getPassword()));
+
                 dispose();
             }
         });

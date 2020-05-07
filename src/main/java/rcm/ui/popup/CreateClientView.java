@@ -48,7 +48,7 @@ public class CreateClientView extends JDialog {
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(400, 350)); // (width, height) // probably need to adjust this
+        panel.setPreferredSize(new Dimension(400, 350)); // (width, height)
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -121,19 +121,19 @@ public class CreateClientView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (!passwordField1.getPassword().equals(passwordField2.getPassword())) {
+                if (!(new String(passwordField1.getPassword()).equals(new String(passwordField2.getPassword())))) {
                     Dialog.ErrorDialog("The passwords don't match", "Password error");
                 } else {
                     try {
                         app.createNewClient(nameField.getText(), addressField.getText(), refPersonField.getText(),
                                 emailField.getText(), new String(passwordField1.getPassword()));
+                        dispose();
                     } catch (IOException e) {
                         Dialog.ErrorDialog("Something went wrong with the database", "Database error");
                     } catch (WrongInputException e) {
                         Dialog.ErrorDialog(e.getMessage(), "Input error");
                     }
                 }
-                System.out.println("Create clicked");
             }
         });
         panel.add(b1, constraints);
@@ -161,7 +161,7 @@ public class CreateClientView extends JDialog {
     }
 
     class KeyListener extends KeyAdapter {
-        
+
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {

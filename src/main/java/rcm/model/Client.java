@@ -225,4 +225,12 @@ public class Client extends User {
         return sharedJourneyList;
     }
 
+    /**
+     * Getter for logistics company
+     * 
+     * @return a logistics company
+     */
+    public LogisticsCompany getCompany() {
+        return company;
+    }
 }

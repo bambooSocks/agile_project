@@ -23,12 +23,12 @@ import rcm.repository.Repository;
 import rcm.repository.SqliteRepository;
 
 public class TestDatabaseAccess {
-    Repository repo,repo2;
-    Application app,app2;
-    LogisticsCompany lc1,lc3;
-    Client cl1, cl2,cl4;
-    Journey j1,j4;
-    Container c1,c3;
+    Repository repo, repo2;
+    Application app, app2;
+    LogisticsCompany lc1, lc3;
+    Client cl1, cl2, cl4;
+    Journey j1, j4;
+    Container c1, c3;
     LocalDateTime timestamp, timestamp2;
     ContainerStatus cs1;
     Client dbClient;
@@ -76,9 +76,8 @@ public class TestDatabaseAccess {
 
     @Test
     public void testUpdate() throws IOException, WrongInputException {
-        dbClient = repo.readClient(cl1.getEmail());
         app.logInUser("tomisashortname@dtu.dk", "Tom123456");
-        dbClient.updateEmail("christianhansen@maersk.dk");
+        app.updateEmail("christianhansen@maersk.dk");
         repo.updateCompany(lc1);
         assertEquals("christianhansen@maersk.dk", repo.readClient(cl1.getEmail()).getEmail());
     }
@@ -99,17 +98,17 @@ public class TestDatabaseAccess {
         assertTrue(cl2.getSharedJourneyList().contains(j1));
         assertFalse(cl3.getSharedJourneyList().contains(j1));
     }
-    
+
     @Test
-    public void testRepo()throws IOException, WrongInputException {
+    public void testRepo() throws IOException, WrongInputException {
         lc3 = repo.readLogisticsCompany("someone@somehwere.dk");
-        assertEquals(null,lc3);
+        assertEquals(null, lc3);
         c3 = repo.readContainer(-123);
-        assertEquals(null,c3);
+        assertEquals(null, c3);
         cl4 = repo.readClient("whoistheclient@idontknow.dk");
-        assertEquals(null,cl4);
+        assertEquals(null, cl4);
         j4 = repo.readJourney(-34574);
-        assertEquals(null,j4);        
+        assertEquals(null, j4);
     }
-    
+
 }
