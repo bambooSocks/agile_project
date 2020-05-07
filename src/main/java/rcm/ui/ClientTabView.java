@@ -37,7 +37,7 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
         addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                app.clientTabChanged();
+                app.fireChange("clientTabChanged");
             }
         });
 
@@ -72,11 +72,11 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-        case "MyJourneyTable":
+        case "showMyJourneyTable":
             journeyView.setVisible(false);
             journeysTableView.setVisible(true);
             break;
-        case "SharedJourneyTable":
+        case "showSharedJourneyTable":
             sharedJourneyView.setVisible(false);
             sharedJourneysTableView.setVisible(true);
             break;

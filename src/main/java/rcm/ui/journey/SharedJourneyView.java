@@ -32,7 +32,7 @@ class SharedJourneyTopBar extends BaseTopBar {
         backButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                app.switchCards("SharedJourneyTable");
+                app.fireChange("showSharedJourneyTable");
             }
         });
         topSide.add(backButton, BorderLayout.WEST);

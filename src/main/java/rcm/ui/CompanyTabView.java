@@ -38,7 +38,7 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
         tabs.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                app.companyTabChanged();
+                app.fireChange("companyTabChanged");
             }
         });
         tabs.addTab("Clients", createClientsCards());
@@ -76,7 +76,7 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
-        case "ContainersTable":
+        case "showContainersTable":
             tabs.setVisible(true);
             tabs.setSelectedIndex(1);
             containersTableView.setVisible(true);
@@ -90,7 +90,7 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
             containersInfoView.setVisible(true);
             journeyView.setVisible(false);
             break;
-        case "ClientsTable":
+        case "showClientsTable":
             tabs.setVisible(true);
             tabs.setSelectedIndex(0);
             clientsTableView.setVisible(true);

@@ -35,7 +35,7 @@ class MyJourneyTopBar extends BaseTopBar {
         backButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                app.switchCards("MyJourneyTable");
+                app.fireChange("showMyJourneyTable");
             }
         });
         topSide.add(backButton, BorderLayout.WEST);

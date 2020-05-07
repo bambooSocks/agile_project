@@ -94,7 +94,7 @@ public class ClientsTableView extends BaseTableView {
                 public void actionPerformed(ActionEvent evt) {
                     try {
                         int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                        app.showClient(id);
+                        app.fireChange("showClient", id);
                     } catch (Exception e) {
                         Dialog.WarningDialog("Please choose a client first", "No client chosen");
                     }

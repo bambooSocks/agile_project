@@ -84,7 +84,7 @@ public class SharedJourneysTableView extends BaseTableView {
                 public void actionPerformed(ActionEvent evt) {
                     try {
                         int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                        app.showSharedJourney(id);
+                        app.fireChange("showSharedJourney", id);
                     } catch (Exception e) {
                         Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
                     }

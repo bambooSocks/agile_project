@@ -413,10 +413,22 @@ public class Application {
         }
     }
 
+    /**
+     * Returns all journeys of a given container
+     * 
+     * @param container_id The ID of container to check for
+     * @return List of journeys of a given container
+     */
     public List<Journey> requestContainersJourneys(int container_id) {
         return getAllJourneys().stream().filter(j -> j.checkContainerById(container_id)).collect(Collectors.toList());
     }
 
+    /**
+     * Returns all journeys of a given client
+     * 
+     * @param client_id The ID of client to check for
+     * @return List of journeys of a given client
+     */
     public List<Journey> requestClientsJourneys(int client_id) {
         return getAllJourneys().stream().filter(j -> j.getClient().getId() == client_id).collect(Collectors.toList());
     }
@@ -450,6 +462,11 @@ public class Application {
 
     }
 
+    /**
+     * Returns all Clients in the system
+     * 
+     * @return List of all clients in the system
+     */
     private List<Client> getAllClients() {
         List<Client> clients = new LinkedList<>();
         for (LogisticsCompany c : system) {
@@ -458,6 +475,11 @@ public class Application {
         return clients;
     }
 
+    /**
+     * Returns all Journeys in the system
+     * 
+     * @return List of all journeys in the system
+     */
     private List<Journey> getAllJourneys() {
         List<Journey> journeys = new LinkedList<>();
         for (Client c : getAllClients()) {
@@ -466,6 +488,12 @@ public class Application {
         return journeys;
     }
 
+    /**
+     * Returns client with given ID
+     * 
+     * @param id ID of the client to be retrieved
+     * @return Client object if found otherwise null
+     */
     public Client getClientById(int id) {
         for (Client c : getAllClients()) {
             if (c.getId() == id) {
@@ -475,6 +503,12 @@ public class Application {
         return null;
     }
 
+    /**
+     * Returns journey with given ID
+     * 
+     * @param id ID of the journey to be retrieved
+     * @return Journey object if found otherwise null
+     */
     public Journey getJourneyById(int id) {
         for (Journey j : getAllJourneys()) {
             if (j.getId() == id) {
@@ -484,36 +518,23 @@ public class Application {
         return null;
     }
 
-    public void companyTabChanged() {
-        support.firePropertyChange("companyTabChanged", null, null);
+    /**
+     * Informs the presentation layer about change inside the system
+     * 
+     * @param change The change name
+     * @param id     The id related to the change
+     */
+    public void fireChange(String change, Integer id) {
+        support.firePropertyChange(change, null, id);
     }
 
-    public void clientTabChanged() {
-        support.firePropertyChange("clientTabChanged", null, null);
+    /**
+     * Informs the presentation layer about change inside the system
+     * 
+     * @param change The change name
+     */
+    public void fireChange(String change) {
+        fireChange(change, null);
     }
 
-    public void switchCards(String command) {
-        support.firePropertyChange(command, null, null);
-    }
-
-    public void showJourney(int id) {
-        support.firePropertyChange("showJourney", null, id);
-    }
-
-    public void showSharedJourney(int id) {
-        support.firePropertyChange("showSharedJourney", null, id);
-    }
-
-    public void showCompanyJourney(int id) {
-        support.firePropertyChange("showCompanyJourney", null, id);
-    }
-
-    public void showContainer(int id) {
-        support.firePropertyChange("showContainer", null, id);
-    }
-
-    public void showClient(int id) {
-        support.firePropertyChange("showClient", null, id);
-
-    }
 }

@@ -109,7 +109,7 @@ public class MyJourneysTableView extends BaseTableView {
                 public void actionPerformed(ActionEvent evt) {
                     try {
                         int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                        app.showJourney(id);
+                        app.fireChange("showJourney", id);
                     } catch (Exception e) {
                         Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
                     }
