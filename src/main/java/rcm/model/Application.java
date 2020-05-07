@@ -519,6 +519,21 @@ public class Application {
     }
 
     /**
+     * Returns container with given ID
+     * 
+     * @param id ID of the container to be retrieved
+     * @return object if found otherwise null
+     */
+    public Container getContainerById(int id) {
+        for (Container c : requestContainers()) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Informs the presentation layer about change inside the system
      * 
      * @param change The change name
@@ -536,5 +551,4 @@ public class Application {
     public void fireChange(String change) {
         fireChange(change, null);
     }
-
 }

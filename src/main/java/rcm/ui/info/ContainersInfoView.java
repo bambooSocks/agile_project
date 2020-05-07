@@ -1,11 +1,16 @@
 package rcm.ui.info;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -17,6 +22,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
+import rcm.model.Container;
 import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.Dialog;
@@ -44,7 +50,6 @@ class ContainersInfoTopBar extends BaseTopBar {
         leftSide.add(backButton, BorderLayout.WEST);
         return leftSide;
     }
-
 }
 
 public class ContainersInfoView extends BaseInfoView {
@@ -121,14 +126,42 @@ public class ContainersInfoView extends BaseInfoView {
 
     @Override
     public JPanel buildInfoPanel() {
-        JPanel infoPanel = new JPanel();
-        // TODO: change for proper code
-        infoPanel.add(new JLabel("" + container_id));
+        JPanel infoPanel = new JPanel(new GridBagLayout());
+        Container container = app.getContainerById(container_id);
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.insets = new Insets(5, 5, 5, 5);
+        JLabel labelId, labelState, testID, testState;
+
+        labelId = new JLabel("Container: ");
+        labelId.setFont(new Font("", Font.BOLD, 20));
+        labelState = new JLabel("Current State: ");
+        labelState.setFont(new Font("", Font.BOLD, 16));
+
+        testID = new JLabel(Integer.toString(container_id));
+        testID.setFont(new Font("", Font.ITALIC, 20));
+        testID.setForeground(new Color(255, 0, 0));
+        testState = new JLabel((container.isAvailable(LocalDateTime.now())) ? "available" : "not available right now");        
+        testState.setFont(new Font("", Font.ITALIC, 16));
+
+        // Add the labels.
+        c.gridx = 0;
+        c.gridy = 0;
+        infoPanel.add(labelId, c);
+        c.gridx = 1;
+        c.gridy = 0;
+        infoPanel.add(testID, c);
+        c.gridx = 0;
+        c.gridy = 1;
+        infoPanel.add(labelState, c);
+        c.gridx = 1;
+        c.gridy = 1;
+        infoPanel.add(testState, c);
+
         return infoPanel;
     }
 
     public void setContainerID(int id) {
         container_id = id;
     }
-
 }

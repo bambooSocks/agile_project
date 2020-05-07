@@ -129,34 +129,32 @@ public class ClientsInfoView extends BaseInfoView {
         Client client = app.getClientById(client_id);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.insets = new Insets(5, 5, 5, 5);
+        c.insets = new Insets(5, 20, 5, 20);
         JLabel labelId, labelName, labelAddress, labelRefPerson, labelEmail, testID, testName, testAddress,
                 testRefPerson, testEmail;
 
         labelId = new JLabel("Client: ");
         labelId.setFont(new Font("", Font.BOLD, 20));
         labelName = new JLabel("Name: ");
-        labelName.setFont(new Font("Serif", Font.BOLD, 16));
+        labelName.setFont(new Font("", Font.BOLD, 16));
         labelAddress = new JLabel("Address: ");
-        labelAddress.setFont(new Font("Serif", Font.BOLD, 16));
+        labelAddress.setFont(new Font("", Font.BOLD, 16));
         labelRefPerson = new JLabel("Reference Person: ");
-        labelRefPerson.setFont(new Font("Serif", Font.BOLD, 16));
+        labelRefPerson.setFont(new Font("", Font.BOLD, 16));
         labelEmail = new JLabel("Email: ");
-        labelEmail.setFont(new Font("Serif", Font.BOLD, 16));
+        labelEmail.setFont(new Font("", Font.BOLD, 16));
 
         testID = new JLabel(Integer.toString(client_id));
-        testID.setFont(new Font("Serif", Font.ITALIC, 20));
+        testID.setFont(new Font("", Font.ITALIC, 20));
         testID.setForeground(new Color(255, 0, 0));
-        testName = new JLabel();
-        testName.setText(client.getName());
-        
-        testName.setFont(new Font("Serif", Font.ITALIC, 16));
+        testName = new JLabel(client.getName());
+        testName.setFont(new Font("", Font.ITALIC, 16));
         testAddress = new JLabel(client.getAddress());
-        testAddress.setFont(new Font("Serif", Font.ITALIC, 16));
+        testAddress.setFont(new Font("", Font.ITALIC, 16));
         testRefPerson = new JLabel(client.getRefPerson());
-        testRefPerson.setFont(new Font("Serif", Font.ITALIC, 16));
+        testRefPerson.setFont(new Font("", Font.ITALIC, 16));
         testEmail = new JLabel(client.getEmail());
-        testEmail.setFont(new Font("Serif", Font.ITALIC, 16));
+        testEmail.setFont(new Font("", Font.ITALIC, 16));
 
         // Add the labels.
         c.gridx = 0;
