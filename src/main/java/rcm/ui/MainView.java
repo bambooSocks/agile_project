@@ -1,7 +1,6 @@
 package rcm.ui;
 
 import java.awt.CardLayout;
-import java.awt.Container;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -26,7 +25,6 @@ public class MainView extends JFrame implements PropertyChangeListener {
 
     @SuppressWarnings("unused")
     private Application app;
-    private Container pane;
 
     public MainView(Application app) {
         super("Remote Container Management");
@@ -34,8 +32,6 @@ public class MainView extends JFrame implements PropertyChangeListener {
 
         this.app = app;
         app.addObserver(this);
-        
-        pane = getContentPane();
 
         lv = new LogInView(app);
         co = new CompanyTabView(app);

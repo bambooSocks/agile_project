@@ -1,6 +1,3 @@
-/**
- * 
- */
 package rcm;
 
 import java.io.IOException;
@@ -12,10 +9,6 @@ import rcm.model.ContainerStatus;
 import rcm.model.Journey;
 import rcm.model.WrongInputException;
 
-/**
- * @author ATB
- *
- */
 public class FakeData {
     public static void setupFakeApp(Application app) throws WrongInputException, IOException {
         app.createNewLogisticsCompany("Agrofert", "Rendebanen 6D, 6000 Kolding", "Peter Hansen", "peter@agrofert.dk",
@@ -24,7 +17,7 @@ public class FakeData {
                 "christian@3maersk.dk", "Password12345");
 
         app.logInUser("peter@agrofert.dk", "Password12345");
-        Client c1 = app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
+        app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
         Client c2 = app.createNewClient("Novozymes", "Smorumvej 43", "William Andersen", "william@novozymes.dk",
                 "Password12345");
         for (int i = 0; i < 8; i++) {

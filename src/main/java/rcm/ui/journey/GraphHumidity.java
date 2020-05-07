@@ -2,8 +2,6 @@ package rcm.ui.journey;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.DateTickMarkPosition;
-import org.jfree.data.time.Day;
 import org.jfree.data.time.Minute;
 import org.jfree.data.xy.XYDataset;
 
@@ -23,17 +21,12 @@ import org.jfree.chart.title.TextTitle;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class GraphHumidity extends BaseGraph {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6955565639396064325L;
 
     public GraphHumidity(Application app, int id) {

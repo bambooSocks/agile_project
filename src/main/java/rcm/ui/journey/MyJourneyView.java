@@ -23,7 +23,7 @@ class MyJourneyTopBar extends BaseTopBar {
 
     public MyJourneyTopBar(Application app) {
         super(app, false);
-        
+
     }
 
     @Override
@@ -78,14 +78,9 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
         case "showJourney":
-            j=app.getJourneyById(journeyID);
-            System.out.println(journeyID);
-//            dateLabelsPanel = buildDateLabelsJourney();
-//            contentLabelsPanel = buildLabelsJourney();
-//            dateLabelsPanel.validate();
-//            dateLabelsPanel.repaint();
-//            contentLabelsPanel.validate();
-//            contentLabelsPanel.repaint();
+            j = app.getJourneyById(journeyID);
+            dateLabelsPanel.updatePanel();
+            contentLabelsPanel.updatePanel();
             tempGraph.updateGraph(journeyID);
             pressureGraph.updateGraph(journeyID);
             humidityGraph.updateGraph(journeyID);

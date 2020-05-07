@@ -2,13 +2,11 @@ package rcm.ui.journey;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
-import org.jfree.data.time.Day;
 import org.jfree.data.time.Minute;
 import org.jfree.data.xy.XYDataset;
 
 import rcm.model.Application;
 import rcm.model.ContainerStatus;
-import rcm.model.Journey;
 
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
@@ -23,17 +21,12 @@ import org.jfree.chart.title.TextTitle;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class GraphTemperature extends BaseGraph {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -5061875398113958353L;
 
     public GraphTemperature(Application app, int id) {

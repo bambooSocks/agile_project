@@ -24,6 +24,7 @@ import rcm.model.ContainerStatus;
 import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 import rcm.ui.BaseView;
+import rcm.ui.UpdatablePanel;
 
 public abstract class BaseJourneyView extends BaseView {
 
@@ -33,8 +34,8 @@ public abstract class BaseJourneyView extends BaseView {
     protected List<ContainerStatus> statuses;
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
     protected BaseGraph tempGraph, pressureGraph, humidityGraph;
-    protected JPanel dateLabelsPanel;
-    protected JPanel contentLabelsPanel;
+    protected UpdatablePanel dateLabelsPanel;
+    protected UpdatablePanel contentLabelsPanel;
 
 
 
@@ -49,7 +50,7 @@ public abstract class BaseJourneyView extends BaseView {
     public Dimension getPreferredSize() {
         return new Dimension(720, 550);
     }
-
+    
     @Override
     protected Component buildContent() {
         JPanel panel = new JPanel();
@@ -64,7 +65,14 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.gridy = 0;
         cMain.gridheight = 2;
         cMain.ipady = 10;
-        contentLabelsPanel = new JPanel();
+        contentLabelsPanel = new UpdatablePanel() {
+            private static final long serialVersionUID = 5467971044456088127L;
+
+            @Override
+            public JPanel buildContent() {
+                return buildLabelsJourney();
+            }
+        };
         panel.add(contentLabelsPanel, cMain);
 
         cMain.gridwidth = 2;
@@ -78,7 +86,14 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.gridx = 1;
         cMain.gridy = 0;
         cMain.gridwidth = 1;
-        dateLabelsPanel = new JPanel();
+        dateLabelsPanel = new UpdatablePanel() {
+            private static final long serialVersionUID = 5467971044762088127L;
+
+            @Override
+            public JPanel buildContent() {
+                return buildDateLabelsJourney();
+            }
+        };
         panel.add(dateLabelsPanel, cMain);
 
         cMain.gridx = 1;
