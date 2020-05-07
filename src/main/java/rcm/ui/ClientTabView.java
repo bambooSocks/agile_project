@@ -1,33 +1,33 @@
 package rcm.ui;
 
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import rcm.model.Application;
+import rcm.ui.journey.BaseJourneyView;
 import rcm.ui.journey.MyJourneyView;
 import rcm.ui.journey.SharedJourneyView;
+import rcm.ui.tables.BaseTableView;
 import rcm.ui.tables.MyJourneysTableView;
 import rcm.ui.tables.SharedJourneysTableView;
 
 public class ClientTabView extends JTabbedPane implements PropertyChangeListener {
     final static String TABLEPANEL = "Table Panel";
+    final static String SHAREDTABLEPANEL = "Shared Table Panel";
     final static String JOURNEYPANEL = "Journey Panel";
     final static String SHAREDJOURNEYPANEL = "Shared Journey Panel";
     private Application app;
-    private MyJourneyView journeyView;
-    private MyJourneysTableView journeysTableView;
-    private SharedJourneyView sharedJourneyView;
-    private SharedJourneysTableView sharedJourneysTableView;
+    private BaseJourneyView journeyView;
+    private BaseTableView journeysTableView;
+    private BaseJourneyView sharedJourneyView;
+    private BaseTableView sharedJourneysTableView;
 
     private static final long serialVersionUID = 4767770251924620192L;
 
@@ -37,7 +37,7 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
         addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                app.clientTabChanged();
+                app.fireChange("clientTabChanged");
             }
         });
 
@@ -58,13 +58,13 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
         myJourneyCards.add(journeyView, JOURNEYPANEL);
         return myJourneyCards;
     }
-    
+
     private JPanel createSharedJourneyCards() {
         JPanel sharedJourneyCards = new JPanel();
         sharedJourneyCards.setLayout(new CardLayout());
         sharedJourneyView = new SharedJourneyView(app);
         sharedJourneysTableView = new SharedJourneysTableView(app);
-        sharedJourneyCards.add(sharedJourneysTableView, TABLEPANEL);
+        sharedJourneyCards.add(sharedJourneysTableView, SHAREDTABLEPANEL);
         sharedJourneyCards.add(sharedJourneyView, SHAREDJOURNEYPANEL);
         return sharedJourneyCards;
     }
@@ -72,23 +72,21 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
+        case "showMyJourneyTable":
+            journeyView.setVisible(false);
+            journeysTableView.setVisible(true);
+            break;
+        case "showSharedJourneyTable":
+            sharedJourneyView.setVisible(false);
+            sharedJourneysTableView.setVisible(true);
+            break;
         case "showJourney":
             journeyView.setJourneyID((int) evt.getNewValue());
             journeyView.setVisible(true);
             journeysTableView.setVisible(false);
             break;
-
-        case "MyJourneyTable":
-            journeyView.setVisible(false);
-            journeysTableView.setVisible(true);
-            break;
-            
-        case "SharedJourneyTable":
-            sharedJourneyView.setVisible(false);
-            sharedJourneysTableView.setVisible(true);
-            break;
-            
         case "showSharedJourney":
+            sharedJourneyView.setJourneyID((int) evt.getNewValue());
             sharedJourneyView.setVisible(true);
             sharedJourneysTableView.setVisible(false);
             break;

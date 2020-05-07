@@ -9,12 +9,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
 import rcm.model.Container;
 import rcm.ui.BaseTopBar;
+import rcm.ui.popup.Dialog;
 
 class ContainersTopBar extends BaseTopBar {
 
@@ -54,10 +57,9 @@ public class ContainersTableView extends BaseTableView {
         app.addObserver(this);
     }
 
-    public void updateTableModel(Container pane) {
+    public void updateTableModel() {
 
         if (app.getLoggedInCompany() != null) {
-            this.pane = pane;
 
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
             tableModel.setRowCount(0);
@@ -76,7 +78,25 @@ public class ContainersTableView extends BaseTableView {
                 tableModel.addRow(rowData);
             }
 
+            JPopupMenu popupMenu = new JPopupMenu();
+            JMenuItem itemViewContainer = new JMenuItem("View Container");
+            popupMenu.add(itemViewContainer);
+            table.setComponentPopupMenu(popupMenu);
             table.setModel(tableModel);
+            table.setEnabled(false);
+
+            itemViewContainer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        app.fireChange("showContainer", id);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a container first", "No container chosen");
+                    }
+                }
+            });
+
             tableModel.fireTableDataChanged();
         }
     }
@@ -86,18 +106,11 @@ public class ContainersTableView extends BaseTableView {
         switch (evt.getPropertyName()) {
         case "companyTabChanged":
         case "companyLoggedIn":
-            updateTableModel(pane);
+            updateTableModel();
             break;
-
         default:
             break;
         }
-    }
-
-    @Override
-    public void updateTableModel() {
-        // TODO Auto-generated method stub
-
     }
 
 }

@@ -1,24 +1,53 @@
 package rcm.ui.journey;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import rcm.model.Application;
+import rcm.ui.BaseTopBar;
 import rcm.ui.popup.EnterStatusView;
 
-public class CompanyJourneyView extends BaseJourneyView {
+class CompanyJourneyTopBar extends BaseTopBar {
+
+    private static final long serialVersionUID = 6993300655884720698L;
+
+    public CompanyJourneyTopBar(Application app) {
+        super(app, false);
+    }
+
+    @Override
+    public JPanel buildLeftSide() {
+        JPanel topSide = new JPanel(new BorderLayout());
+        JButton backButton = new JButton(" < ");
+        backButton.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        backButton.setPreferredSize(new Dimension(50, 30));
+        backButton.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                app.fireChange("dismissCompanyJourney");
+            }
+        });
+        topSide.add(backButton, BorderLayout.WEST);
+        return topSide;
+    }
+}
+
+public class CompanyJourneyView extends BaseJourneyView implements PropertyChangeListener {
 
     private static final long serialVersionUID = -6993300655884720698L;
 
     public CompanyJourneyView(Application app) {
-        super(app, new JourneyTopBar(app));
+        super(app, new CompanyJourneyTopBar(app));
+        app.addObserver(this);
     }
 
     @Override
@@ -27,7 +56,7 @@ public class CompanyJourneyView extends BaseJourneyView {
 
         // TODO: Switch to button?
         JButton enterStatus = new JButton("Enter Status");
-        enterStatus.setFont(new Font("Serif", Font.BOLD, 14));
+        enterStatus.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         enterStatus.setPreferredSize(new Dimension(150, 30));
         enterStatus.addActionListener(new ActionListener() {
 
@@ -40,7 +69,7 @@ public class CompanyJourneyView extends BaseJourneyView {
         });
 
         JButton startJourney = new JButton("Start Journey");
-        startJourney.setFont(new Font("Serif", Font.PLAIN, 14));
+        startJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         startJourney.setPreferredSize(new Dimension(150, 30));
         startJourney.addActionListener(new ActionListener() {
 
@@ -50,7 +79,7 @@ public class CompanyJourneyView extends BaseJourneyView {
         });
 
         JButton endJourney = new JButton("End Journey");
-        endJourney.setFont(new Font("Serif", Font.PLAIN, 14));
+        endJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         endJourney.setPreferredSize(new Dimension(150, 30));
         endJourney.addActionListener(new ActionListener() {
 
@@ -65,6 +94,22 @@ public class CompanyJourneyView extends BaseJourneyView {
         rightPanel.setLayout(new GridLayout(3, 2, 10, 10));
 
         return rightPanel;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+        case "showCompanyJourney":
+            j = app.getJourneyById(journeyID);
+            contentLabelsPanel.updatePanel();
+            tempGraph.updateGraph(journeyID);
+            pressureGraph.updateGraph(journeyID);
+            humidityGraph.updateGraph(journeyID);
+            updateLocationTable(locationTable, app, journeyID);
+            break;
+        default:
+            break;
+        }
     }
 
 }

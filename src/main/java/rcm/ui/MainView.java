@@ -1,14 +1,13 @@
 package rcm.ui;
 
 import java.awt.CardLayout;
-import java.awt.Container;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import rcm.FakeData;
+import rcm.config.FakeData;
 import rcm.model.Application;
 import rcm.model.WrongInputException;
 import rcm.repository.Repository;
@@ -26,7 +25,6 @@ public class MainView extends JFrame implements PropertyChangeListener {
 
     @SuppressWarnings("unused")
     private Application app;
-    private Container pane;
 
     public MainView(Application app) {
         super("Remote Container Management");
@@ -34,8 +32,6 @@ public class MainView extends JFrame implements PropertyChangeListener {
 
         this.app = app;
         app.addObserver(this);
-
-        pane = getContentPane();
 
         lv = new LogInView(app);
         co = new CompanyTabView(app);
@@ -52,6 +48,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
     public void run() {
         pack();
         setVisible(true);
+
     }
 
     @Override
@@ -84,15 +81,15 @@ public class MainView extends JFrame implements PropertyChangeListener {
 
     public static void main(String[] args) throws IOException {
         Repository repo = new SqliteRepository();
+        repo.clearDatabase();
         Application app = new Application(repo);
         MainView mv = new MainView(app);
-
         try {
             FakeData.setupFakeApp(app);
             // Company user
-//            app.logInUser("peter@3plogistics.dk", "Password12345");
+            app.logInUser("peter@agrofert.dk", "Password12345");
             // Client user
-            app.logInUser("linea@novozymes.dk", "Password12345");
+//            app.logInUser("tom@cbs.dk", "Password12345");         
         } catch (WrongInputException e) {
         }
         mv.run();

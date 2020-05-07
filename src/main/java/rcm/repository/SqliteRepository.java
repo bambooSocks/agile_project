@@ -1,7 +1,6 @@
 package rcm.repository;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -44,14 +43,15 @@ public class SqliteRepository implements Repository {
             return null;
         }
     }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public List<LogisticsCompany> readAllLogisticsCompanies() throws IOException {
         try {
-            TypedQuery<LogisticsCompany> query = em
-                    .createQuery("SELECT u FROM LogisticsCompany u", LogisticsCompany.class);
+            TypedQuery<LogisticsCompany> query = em.createQuery("SELECT u FROM LogisticsCompany u",
+                    LogisticsCompany.class);
             return query.getResultList();
         } catch (NoResultException e) {
             return null;

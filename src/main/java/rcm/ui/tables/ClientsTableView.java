@@ -9,7 +9,9 @@ import java.beans.PropertyChangeEvent;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 import rcm.model.Application;
@@ -17,6 +19,7 @@ import rcm.model.Client;
 
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.CreateClientView;
+import rcm.ui.popup.Dialog;
 
 class ClientsTopBar extends BaseTopBar {
 
@@ -48,7 +51,7 @@ class ClientsTopBar extends BaseTopBar {
 
 }
 
-public class ClientsTableView extends BaseTableView implements ActionListener {
+public class ClientsTableView extends BaseTableView {
 
     private static final long serialVersionUID = -319420806707922265L;
 
@@ -80,7 +83,25 @@ public class ClientsTableView extends BaseTableView implements ActionListener {
                 tableModel.addRow(rowData);
             }
 
+            JPopupMenu popupMenu = new JPopupMenu();
+            JMenuItem itemViewContainer = new JMenuItem("View Client");
+            popupMenu.add(itemViewContainer);
+            table.setComponentPopupMenu(popupMenu);
             table.setModel(tableModel);
+            table.setEnabled(false);
+
+            itemViewContainer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        app.fireChange("showClient", id);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a client first", "No client chosen");
+                    }
+                }
+            });
+
             tableModel.fireTableDataChanged();
         }
     }
@@ -96,12 +117,6 @@ public class ClientsTableView extends BaseTableView implements ActionListener {
         default:
             break;
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        // TODO Auto-generated method stub
-
     }
 
 }

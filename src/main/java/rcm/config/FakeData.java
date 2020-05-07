@@ -1,7 +1,4 @@
-/**
- * 
- */
-package rcm;
+package rcm.config;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -12,10 +9,6 @@ import rcm.model.ContainerStatus;
 import rcm.model.Journey;
 import rcm.model.WrongInputException;
 
-/**
- * @author ATB
- *
- */
 public class FakeData {
     public static void setupFakeApp(Application app) throws WrongInputException, IOException {
         app.createNewLogisticsCompany("Agrofert", "Rendebanen 6D, 6000 Kolding", "Peter Hansen", "peter@agrofert.dk",
@@ -44,13 +37,11 @@ public class FakeData {
         Journey j3 = app.requestNewJourney("Rotterdam", "London", "cocaine");
         app.shareJourney(c2.getId(), j1.getId());
 
-        c1.shareJourney(c2, j1);
-        c1.addSharedJourney(j1);
-
         // client 2
         app.logInUser("william@novozymes.dk", "Password12345");
         Journey j2 = app.requestNewJourney("Pearl Harbor", "Tokyo", "robots");
         Journey j4 = app.requestNewJourney("Hong Kong", "New York", "people");
+        app.shareJourney(c1.getId(), j2.getId());
 
         app.logInUser("pablo@dtu.dk", "Password12345");
         Journey j5 = app.requestNewJourney("Los Angeles", "Rio de Janeiro", "furniture");

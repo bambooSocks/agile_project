@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import rcm.model.Application;
 import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
+import rcm.ui.popup.Dialog;
 
 class SharedJourneysTopBar extends BaseTopBar {
 
@@ -36,7 +37,7 @@ public class SharedJourneysTableView extends BaseTableView {
     private static final long serialVersionUID = 1156877669628672936L;
     protected JMenuItem itemViewSharedJourney;
     protected JPopupMenu popupMenu;
-    
+
     public SharedJourneysTableView(Application app) {
         super(app, new SharedJourneysTopBar(app));
         app.addObserver(this);
@@ -49,17 +50,11 @@ public class SharedJourneysTableView extends BaseTableView {
             DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
             tableModel.setRowCount(0);
 
-            String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date" };
+            String[] columnNames = { "ID", "Origin", "Destination", "Content", "Start Date", "End Date", "Owner" };
             tableModel.setColumnIdentifiers(columnNames);
 
             List<Journey> journeys = app.requestSharedJourneys();
-            
-            if (journeys==null) {
-                System.out.println("shared journey list is null");
-            } else {
-                System.out.println("shared journey list is not null");
-            }
-            
+
             for (int i = 0; i < journeys.size(); i++) {
                 Journey j = journeys.get(i);
                 int dataId = j.getId();
@@ -70,10 +65,11 @@ public class SharedJourneysTableView extends BaseTableView {
                         : "Not Started yet");
                 String dataEndDate = ((j.getEndTimestamp() != null) ? j.getEndTimestamp().format(formatter)
                         : "Not Ended yet");
-                Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate };
+                String owner = j.getClient().getName();
+                Object[] rowData = { dataId, dataOrigin, dataDestination, dataContent, dataStartDate, dataEndDate, owner };
                 tableModel.addRow(rowData);
             }
-            
+
             popupMenu = new JPopupMenu();
             itemViewSharedJourney = new JMenuItem("View Shared Journey");
 
@@ -82,15 +78,20 @@ public class SharedJourneysTableView extends BaseTableView {
             table.setComponentPopupMenu(popupMenu);
 
             table.setModel(tableModel);
-            
+            table.setEnabled(false);
+
             itemViewSharedJourney.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                    app.showSharedJourney(id);
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        app.fireChange("showSharedJourney", id);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
+                    }
                 }
             });
-            
+
             tableModel.fireTableDataChanged();
         }
     }

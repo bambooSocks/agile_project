@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -15,7 +17,6 @@ import rcm.model.Application;
 import rcm.ui.BaseTopBar;
 
 class SharedJourneyTopBar extends BaseTopBar {
-
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +33,7 @@ class SharedJourneyTopBar extends BaseTopBar {
         backButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                app.switchCards("SharedJourneyTable");
+                app.fireChange("showSharedJourneyTable");
             }
         });
         topSide.add(backButton, BorderLayout.WEST);
@@ -41,12 +42,13 @@ class SharedJourneyTopBar extends BaseTopBar {
 
 }
 
-public class SharedJourneyView extends BaseJourneyView {
+public class SharedJourneyView extends BaseJourneyView implements PropertyChangeListener {
 
     private static final long serialVersionUID = -6993300655884720698L;
 
     public SharedJourneyView(Application app) {
-        super(app, new MyJourneyTopBar(app));
+        super(app, new SharedJourneyTopBar(app));
+        app.addObserver(this);
     }
 
     @Override
@@ -54,6 +56,22 @@ public class SharedJourneyView extends BaseJourneyView {
         JPanel rightPanel = new JPanel(new GridLayout(3, 1));
 
         return rightPanel;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+        case "showSharedJourney":
+            j = app.getJourneyById(journeyID);
+            contentLabelsPanel.updatePanel();
+            tempGraph.updateGraph(journeyID);
+            pressureGraph.updateGraph(journeyID);
+            humidityGraph.updateGraph(journeyID);
+            updateLocationTable(locationTable, app, journeyID);
+            break;
+        default:
+            break;
+        }
     }
 
 }

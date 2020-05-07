@@ -7,9 +7,12 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import rcm.model.Application;
 import rcm.ui.BaseTopBar;
@@ -21,6 +24,7 @@ class MyJourneyTopBar extends BaseTopBar {
 
     public MyJourneyTopBar(Application app) {
         super(app, false);
+
     }
 
     @Override
@@ -32,7 +36,7 @@ class MyJourneyTopBar extends BaseTopBar {
         backButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                app.switchCards("MyJourneyTable");
+                app.fireChange("showMyJourneyTable");
             }
         });
         topSide.add(backButton, BorderLayout.WEST);
@@ -41,21 +45,21 @@ class MyJourneyTopBar extends BaseTopBar {
 
 }
 
-public class MyJourneyView extends BaseJourneyView {
+public class MyJourneyView extends BaseJourneyView implements PropertyChangeListener {
 
     private static final long serialVersionUID = -6993300655884720698L;
 
     public MyJourneyView(Application app) {
         super(app, new MyJourneyTopBar(app));
+        app.addObserver(this);
     }
 
     @Override
     protected JPanel buildRightButton() {
         JPanel rightPanel = new JPanel(new GridLayout(3, 1));
 
-        // TODO: Switch to button?
         JButton shareJourney = new JButton("Share Journey");
-        shareJourney.setFont(new Font("Serif", Font.PLAIN, 14));
+        shareJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
         shareJourney.setPreferredSize(new Dimension(150, 30));
         shareJourney.addActionListener(new ActionListener() {
 
@@ -69,6 +73,22 @@ public class MyJourneyView extends BaseJourneyView {
         rightPanel.add(shareJourney);
 
         return rightPanel;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+        case "showJourney":
+            j = app.getJourneyById(journeyID);
+            contentLabelsPanel.updatePanel();
+            tempGraph.updateGraph(journeyID);
+            pressureGraph.updateGraph(journeyID);
+            humidityGraph.updateGraph(journeyID);
+            updateLocationTable(locationTable, app, journeyID);
+            break;
+        default:
+            break;
+        }
     }
 
 }

@@ -22,6 +22,7 @@ import rcm.model.Journey;
 import rcm.ui.BaseTopBar;
 
 import rcm.ui.popup.CreateJourneyView;
+import rcm.ui.popup.Dialog;
 import rcm.ui.popup.JourneyShareView;
 
 class MyJourneysTopBar extends BaseTopBar {
@@ -101,25 +102,30 @@ public class MyJourneysTableView extends BaseTableView {
 
             table.setComponentPopupMenu(popupMenu);
 
-            table.setModel(tableModel);
+            table.setModel(tableModel );
+            table.setEnabled(false);
 
             itemViewJourney.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-                    app.showJourney(id);
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        app.fireChange("showJourney", id);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
+                    }
                 }
             });
 
             menuShareJourney.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                  JourneyShareView popup = new JourneyShareView();
-                  popup.setLocationRelativeTo(null);
-                  popup.setVisible(true);
+                    JourneyShareView popup = new JourneyShareView();
+                    popup.setLocationRelativeTo(null);
+                    popup.setVisible(true);
                 }
             });
-            
+
             tableModel.fireTableDataChanged();
         }
     }
