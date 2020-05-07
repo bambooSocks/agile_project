@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import rcm.FakeData;
+import rcm.config.FakeData;
 import rcm.model.Application;
 import rcm.model.WrongInputException;
 import rcm.repository.Repository;
