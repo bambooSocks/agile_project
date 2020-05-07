@@ -1,4 +1,4 @@
-package rcm;
+package rcm.config;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
