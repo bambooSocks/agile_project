@@ -17,7 +17,7 @@ public class FakeData {
                 "christian@3maersk.dk", "Password12345");
 
         app.logInUser("peter@agrofert.dk", "Password12345");
-        app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
+        Client c1 = app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
         Client c2 = app.createNewClient("Novozymes", "Smorumvej 43", "William Andersen", "william@novozymes.dk",
                 "Password12345");
         for (int i = 0; i < 8; i++) {
@@ -41,6 +41,7 @@ public class FakeData {
         app.logInUser("william@novozymes.dk", "Password12345");
         Journey j2 = app.requestNewJourney("Pearl Harbor", "Tokyo", "robots");
         Journey j4 = app.requestNewJourney("Hong Kong", "New York", "people");
+        app.shareJourney(c1.getId(), j2.getId());
 
         app.logInUser("pablo@dtu.dk", "Password12345");
         Journey j5 = app.requestNewJourney("Los Angeles", "Rio de Janeiro", "furniture");

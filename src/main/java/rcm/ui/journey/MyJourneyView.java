@@ -85,11 +85,9 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
             pressureGraph.updateGraph(journeyID);
             humidityGraph.updateGraph(journeyID);
             break;
-
         default:
             break;
         }
-
     }
 
 }

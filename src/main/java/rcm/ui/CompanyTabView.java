@@ -109,6 +109,9 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
             journeyView.setVisible(true);
             tabs.setVisible(false);
             break;
+        case "dismissCompanyJourney":
+            journeyView.setVisible(false);
+            tabs.setVisible(true);
         default:
             break;
         }
