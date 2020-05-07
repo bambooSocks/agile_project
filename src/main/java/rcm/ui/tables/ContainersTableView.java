@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,8 +37,13 @@ class ContainersTopBar extends BaseTopBar {
         newContainer.setPreferredSize(new Dimension(150, 30));
         newContainer.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("New Container clicked");
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    app.createNewContainer();
+                    app.fireChange("newContainer");
+                } catch (IOException e) {
+                    Dialog.ErrorDialog("Something went wrong with the database", "Database error");
+                }
             }
         });
         leftSide.add(newContainer);
@@ -50,7 +56,6 @@ class ContainersTopBar extends BaseTopBar {
 public class ContainersTableView extends BaseTableView {
 
     private static final long serialVersionUID = -3009522281466857043L;
-    private Container pane;
 
     public ContainersTableView(Application app) {
         super(app, new ContainersTopBar(app));
@@ -106,6 +111,7 @@ public class ContainersTableView extends BaseTableView {
         switch (evt.getPropertyName()) {
         case "companyTabChanged":
         case "companyLoggedIn":
+        case "newContainer":
             updateTableModel();
             break;
         default:

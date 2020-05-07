@@ -73,7 +73,7 @@ public class TimePickerView extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Enter clicked");
-                if (!timeField.getText().isBlank()) {
+                if (!timeField.getText().isEmpty()) {
                     time = timeField.getText();
                     dispose();
                 }

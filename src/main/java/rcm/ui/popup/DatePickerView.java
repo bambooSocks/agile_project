@@ -92,7 +92,7 @@ public class DatePickerView extends JDialog {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM-yyyy");
         java.util.Calendar cal = java.util.Calendar.getInstance();
         cal.set(year, month, Integer.parseInt(day));
-        if (time.isBlank()) {
+        if (time.isEmpty()) {
             return "";
         } else {
             return sdf.format(cal.getTime()) + " " + time;
