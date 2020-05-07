@@ -1,7 +1,6 @@
 package rcm.ui.journey;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 

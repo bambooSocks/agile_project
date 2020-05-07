@@ -12,7 +12,6 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 
 import rcm.model.Application;
 import rcm.ui.BaseTopBar;

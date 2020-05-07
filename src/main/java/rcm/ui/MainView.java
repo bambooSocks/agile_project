@@ -37,8 +37,8 @@ public class MainView extends JFrame implements PropertyChangeListener {
         co = new CompanyTabView(app);
         cl = new ClientTabView(app);
 
-        menuBarcl = new MenuBarClient();
-        menuBarco = new MenuBarCompany();
+        menuBarcl = new MenuBarClient(app);
+        menuBarco = new MenuBarCompany(app);
         setLayout(new CardLayout());
         add(lv);
         add(co);
