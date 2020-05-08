@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class GraphHumidity extends BaseGraph {
+public abstract class GraphHumidity extends BaseGraph {
 
     private static final long serialVersionUID = -6955565639396064325L;
 
@@ -37,16 +37,19 @@ public class GraphHumidity extends BaseGraph {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         TimeSeries series = new TimeSeries("Humidity");
 
-        List<ContainerStatus> statuses = app.requestStatus(id);
-        for (ContainerStatus s : statuses) {
-            LocalDateTime date = s.getTimestamp();
-            int min = date.getMinute();
-            int h = date.getHour();
-            int d = date.getDayOfMonth();
-            int m = date.getMonthValue();
-            int y = date.getYear();
-            double value = s.getHumidity();
-            series.add(new Minute(min, h, d, m, y), value);
+        List<ContainerStatus> statuses = getStatus(id);
+
+        if (statuses != null) {
+            for (ContainerStatus s : statuses) {
+                LocalDateTime date = s.getTimestamp();
+                int min = date.getMinute();
+                int h = date.getHour();
+                int d = date.getDayOfMonth();
+                int m = date.getMonthValue();
+                int y = date.getYear();
+                double value = s.getHumidity();
+                series.add(new Minute(min, h, d, m, y), value);
+            }
         }
 
         dataset.addSeries(series);

@@ -511,6 +511,40 @@ public class Application {
             return null;
         }
     }
+    
+    /**
+     * Requests status for given journey of a client
+     * 
+     * @param client_id Client id of the client owning the journey
+     * @param journey_id Journey id to get status history out of
+     * @return List of the Container Statuses
+     */
+    public List<ContainerStatus> requestClientsStatus(int client_id, int journey_id) {
+        if (loggedInCompany != null) {
+            Client client = getClientById(client_id);
+            if (loggedInCompany.getClients().contains(client)) {
+                return client.requestStatus(getJourneyById(journey_id));
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * Requests status for given journey
+     * 
+     * @param container_id Container id of the container involved in the journey
+     * @param journey_id Journey id to get status history out of
+     * @return List of the Container Statuses
+     */
+    public List<ContainerStatus> requestContainersStatus(int container_id, int journey_id) {
+        if (loggedInCompany != null) {
+            Container container = getContainerById(container_id);
+            if (loggedInCompany.getContainers().contains(container)) {
+                return container.requestStatus(getJourneyById(journey_id));
+            }
+        } 
+        return null;
+    }
 
     /**
      * Requests clients of the logged in company

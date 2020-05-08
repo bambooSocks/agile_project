@@ -96,9 +96,11 @@ public class ClientsInfoView extends BaseInfoView {
             itemViewJourney.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
+                    System.out.println(table.getSelectedRow());
                     try {
                         int id = (int) table.getValueAt(table.getSelectedRow(), 0);
                         app.fireChange("showCompanyJourney", id);
+                        app.fireChange("setCompanyJourneysClient", client_id);
                     } catch (Exception e) {
                         Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
                     }

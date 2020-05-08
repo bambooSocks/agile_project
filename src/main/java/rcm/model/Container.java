@@ -129,7 +129,7 @@ public class Container {
         Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
         return journeyList.stream().filter(j -> (pattern.matcher(j.getContent())).find()).collect(Collectors.toList());
     }
-    
+
     /**
      * Method to search journeys by id
      * 
@@ -138,5 +138,13 @@ public class Container {
      */
     public List<Journey> searchJourneyById(String id) {
         return journeyList.stream().filter(j -> Integer.toString(j.getId()).equals(id)).collect(Collectors.toList());
+    }
+
+    public List<ContainerStatus> requestStatus(Journey journey) {
+        if (journey != null && journeyList.contains(journey)) {
+            return journey.getStatus();
+        } else {
+            return null;
+        }
     }
 }

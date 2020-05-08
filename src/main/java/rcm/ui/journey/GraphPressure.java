@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class GraphPressure extends BaseGraph {
+public abstract class GraphPressure extends BaseGraph {
 
     private static final long serialVersionUID = 7053624937489967264L;
 
@@ -37,16 +37,19 @@ public class GraphPressure extends BaseGraph {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         TimeSeries series = new TimeSeries("Atmospheric Pressure");
 
-        List<ContainerStatus> statuses = app.requestStatus(id);
-        for (ContainerStatus s : statuses) {
-            LocalDateTime date = s.getTimestamp();
-            int min = date.getMinute();
-            int h = date.getHour();
-            int d = date.getDayOfMonth();
-            int m = date.getMonthValue();
-            int y = date.getYear();
-            double value = s.getPressure();
-            series.add(new Minute(min, h, d, m, y), value);
+        List<ContainerStatus> statuses = getStatus(id);
+
+        if (statuses != null) {
+            for (ContainerStatus s : statuses) {
+                LocalDateTime date = s.getTimestamp();
+                int min = date.getMinute();
+                int h = date.getHour();
+                int d = date.getDayOfMonth();
+                int m = date.getMonthValue();
+                int y = date.getYear();
+                double value = s.getPressure();
+                series.add(new Minute(min, h, d, m, y), value);
+            }
         }
 
         dataset.addSeries(series);

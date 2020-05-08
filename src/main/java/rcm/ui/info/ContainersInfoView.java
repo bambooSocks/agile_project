@@ -102,6 +102,7 @@ public class ContainersInfoView extends BaseInfoView {
                     try {
                         int id = (int) table.getValueAt(table.getSelectedRow(), 0);
                         app.fireChange("showCompanyJourney", id);
+                        app.fireChange("setCompanyJourneysContainer", container_id);
                     } catch (Exception e) {
                         Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
                     }

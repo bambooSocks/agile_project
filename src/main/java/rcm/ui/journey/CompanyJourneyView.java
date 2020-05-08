@@ -8,11 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import rcm.model.Application;
+import rcm.model.ContainerStatus;
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.EnterStatusView;
 
@@ -44,6 +46,7 @@ class CompanyJourneyTopBar extends BaseTopBar {
 public class CompanyJourneyView extends BaseJourneyView implements PropertyChangeListener {
 
     private static final long serialVersionUID = -6993300655884720698L;
+    private Integer client_id = -1, container_id = -1;
 
     public CompanyJourneyView(Application app) {
         super(app, new CompanyJourneyTopBar(app));
@@ -97,19 +100,39 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
     }
 
     @Override
+    protected List<ContainerStatus> requestStatus() {
+        List<ContainerStatus> statuses = null;
+
+        if (container_id == null && client_id != null) {
+            statuses = app.getClientById(client_id).requestStatus(app.getJourneyById(journey_id));
+        } else if (container_id != null && client_id == null) {
+            statuses = app.getContainerById(container_id).requestStatus(app.getJourneyById(journey_id));
+        }
+
+        return statuses;
+    }
+
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
         case "showCompanyJourney":
-            j = app.getJourneyById(journeyID);
+            j = app.getJourneyById(journey_id);
             contentLabelsPanel.updatePanel();
-            tempGraph.updateGraph(journeyID);
-            pressureGraph.updateGraph(journeyID);
-            humidityGraph.updateGraph(journeyID);
-            updateLocationTable(locationTable, app, journeyID);
+            tempGraph.updateGraph(journey_id);
+            pressureGraph.updateGraph(journey_id);
+            humidityGraph.updateGraph(journey_id);
+            updateLocationTable(locationTable, app, journey_id);
+            break;
+        case "setCompanyJourneysClient":
+            client_id = (int) evt.getNewValue();
+            container_id = null;
+            break;
+        case "setCompanyJourneysContainer":
+            container_id = (int) evt.getNewValue();
+            client_id = null;
             break;
         default:
             break;
         }
     }
-
 }

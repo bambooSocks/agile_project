@@ -9,11 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import rcm.model.Application;
+import rcm.model.ContainerStatus;
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.JourneyShareView;
 
@@ -75,15 +77,20 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
     }
 
     @Override
+    protected List<ContainerStatus> requestStatus() {
+        return app.requestStatus(journey_id);
+    }
+
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
         case "showJourney":
-            j = app.getJourneyById(journeyID);
+            j = app.getJourneyById(journey_id);
             contentLabelsPanel.updatePanel();
-            tempGraph.updateGraph(journeyID);
-            pressureGraph.updateGraph(journeyID);
-            humidityGraph.updateGraph(journeyID);
-            updateLocationTable(locationTable, app, journeyID);
+            tempGraph.updateGraph(journey_id);
+            pressureGraph.updateGraph(journey_id);
+            humidityGraph.updateGraph(journey_id);
+            updateLocationTable(locationTable, app, journey_id);
             break;
         default:
             break;

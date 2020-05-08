@@ -1,5 +1,6 @@
 package rcm.ui.journey;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
@@ -30,7 +31,7 @@ import rcm.ui.UpdatablePanel;
 public abstract class BaseJourneyView extends BaseView {
 
     private static final long serialVersionUID = -7158594990405366048L;
-    protected int journeyID = -1;
+    protected int journey_id = -1;
     protected Journey j;
     protected List<ContainerStatus> statuses;
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -38,21 +39,19 @@ public abstract class BaseJourneyView extends BaseView {
     protected JTable locationTable;
     protected UpdatablePanel contentLabelsPanel;
 
-
-
     protected BaseJourneyView(Application app, BaseTopBar topBar) {
         super(app, topBar);
-        j = app.getJourneyById(journeyID);
-        statuses = app.requestStatus(journeyID);
+        j = app.getJourneyById(journey_id);
+        statuses = app.requestStatus(journey_id);
 
     }
-    
+
     // TODO: see if we neet this or not
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(720, 550);
     }
-    
+
     @Override
     protected Component buildContent() {
         JPanel panel = new JPanel();
@@ -64,7 +63,7 @@ public abstract class BaseJourneyView extends BaseView {
         Border eBorder = BorderFactory.createEtchedBorder();
         panel.setBorder(BorderFactory.createTitledBorder(eBorder, "Journey Details"));
         cMain.fill = GridBagConstraints.WEST;
-        cMain.weightx=1.0;
+        cMain.weightx = 1.0;
         cMain.gridx = 0;
         cMain.gridy = 0;
         cMain.gridwidth = 4;
@@ -90,7 +89,7 @@ public abstract class BaseJourneyView extends BaseView {
 
         cMain.gridx = 0;
         cMain.gridy = 2;
-        cMain.gridwidth=3;
+        cMain.gridwidth = 3;
         cMain.fill = GridBagConstraints.HORIZONTAL;
         cMain.weightx = 1.0;
         JLabel titleStatus = new JLabel("CONTAINER STATUS");
@@ -101,23 +100,42 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.gridx = 0;
         cMain.gridy = 3;
         cMain.gridwidth = 3;
-        tempGraph=new GraphTemperature(app, journeyID);
+        tempGraph = new GraphTemperature(app, journey_id) {
+            private static final long serialVersionUID = 123123123L;
+
+            @Override
+            public List<ContainerStatus> getStatus(int journey_id) {
+                return requestStatus();
+            }
+        };
         tempGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
-//        Dimension panelSize = panel.getSize();
-//        tempGraph.getChartPanel().setSize(panelSize);
         panel.add(tempGraph, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 4;
         cMain.gridwidth = 3;
-        pressureGraph=new GraphPressure(app, journeyID);
+        pressureGraph = new GraphPressure(app, journey_id) {
+            private static final long serialVersionUID = 123121353123L;
+
+            @Override
+            public List<ContainerStatus> getStatus(int journey_id) {
+                return requestStatus();
+            }
+        };
         pressureGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
         panel.add(pressureGraph, cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 5;
         cMain.gridwidth = 3;
-        humidityGraph = new GraphHumidity(app, journeyID);
+        humidityGraph = new GraphHumidity(app, journey_id) {
+            private static final long serialVersionUID = 23678123123123L;
+
+            @Override
+            public List<ContainerStatus> getStatus(int journey_id) {
+                return requestStatus();
+            }
+        };
         humidityGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
         panel.add(humidityGraph, cMain);
 
@@ -137,20 +155,6 @@ public abstract class BaseJourneyView extends BaseView {
 
     protected abstract JPanel buildRightButton();
 
-
-
-    protected GraphPressure buildPressureGraph() {
-        GraphPressure graphPressure = new GraphPressure(app, journeyID);
-
-        return graphPressure;
-    }
-
-    protected GraphHumidity buildHumidityGraph() {
-        GraphHumidity graphHumidity = new GraphHumidity(app, journeyID);
-
-        return graphHumidity;
-    }
-
     protected JPanel buildLabelsJourney() {
         JPanel leftSide = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -168,10 +172,10 @@ public abstract class BaseJourneyView extends BaseView {
         labelContent = new JLabel("Content: ");
         labelContent.setFont(new Font("", Font.BOLD, 14));
 
-        testID = new JLabel(String.valueOf(journeyID));
+        testID = new JLabel(String.valueOf(journey_id));
         testID.setFont(new Font("", Font.ITALIC, 16));
         testID.setForeground(new Color(255, 0, 0));
-        
+
         if (j != null) {
             testOrigin = new JLabel(j.getOriginPort());
             testDestination = new JLabel(j.getDestinationPort());
@@ -181,7 +185,7 @@ public abstract class BaseJourneyView extends BaseView {
             testDestination = new JLabel("unknown");
             testContent = new JLabel("unknown");
         }
-        
+
         testOrigin.setFont(new Font("", Font.ITALIC, 14));
         testDestination.setFont(new Font("", Font.ITALIC, 14));
         testContent.setFont(new Font("", Font.ITALIC, 14));
@@ -195,7 +199,7 @@ public abstract class BaseJourneyView extends BaseView {
         } else {
             startDate = new JLabel(j.getStartTimestamp().format(formatter));
         }
-        
+
         startDate.setFont(new Font("", Font.ITALIC, 14));
         if (j.getEndTimestamp() == null) {
             endDate = new JLabel("not ended yet");
@@ -240,9 +244,6 @@ public abstract class BaseJourneyView extends BaseView {
         c.gridx = 3;
         c.gridy = 2;
         leftSide.add(endDate, c);
-        
-
-
 
         return leftSide;
     }
@@ -254,25 +255,28 @@ public abstract class BaseJourneyView extends BaseView {
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Location tracking",
                 TitledBorder.CENTER, TitledBorder.TOP));
-        panel.add(spTable);
+        panel.add(spTable, BorderLayout.CENTER);
         return panel;
-        
+
     }
+
     protected void updateLocationTable(JTable table, Application app, int id) {
-        
+
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         tableModel.setRowCount(0);
 
-        String[] columnNames = { "Date and Time", "Location"};
+        String[] columnNames = { "Date and Time", "Location" };
         tableModel.setColumnIdentifiers(columnNames);
 
-        statuses = app.requestStatus(id);
-        
-        for (ContainerStatus s : statuses) {
-            String date = s.getTimestamp().format(formatter);
-            String location = s.getLocation();
-            Object[] rowData = { date, location };
-            tableModel.addRow(rowData);
+        statuses = requestStatus();
+
+        if (statuses != null) {
+            for (ContainerStatus s : statuses) {
+                String date = s.getTimestamp().format(formatter);
+                String location = s.getLocation();
+                Object[] rowData = { date, location };
+                tableModel.addRow(rowData);
+            }
         }
 
         table.setModel(tableModel);
@@ -280,12 +284,10 @@ public abstract class BaseJourneyView extends BaseView {
         tableModel.fireTableDataChanged();
     }
 
-    public int getJourneyID() {
-        return journeyID;
-    }
+    protected abstract List<ContainerStatus> requestStatus();
 
     public void setJourneyID(int journeyID) {
-        this.journeyID = journeyID;
+        this.journey_id = journeyID;
     }
 
 }

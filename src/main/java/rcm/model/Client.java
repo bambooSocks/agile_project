@@ -216,7 +216,7 @@ public class Client extends User {
      * @return List of container statuses of the given journey
      */
     public List<ContainerStatus> requestStatus(Journey journey) {
-        if (journey.getClient().equals(this)) {
+        if (journey.getClient().equals(this) || sharedJourneyList.contains(journey)) {
             return journey.getStatus();
         } else {
             return null;

@@ -1,6 +1,7 @@
 package rcm.ui.journey;
 
 import java.awt.Color;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 
@@ -10,6 +11,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 
 import rcm.model.Application;
+import rcm.model.ContainerStatus;
 
 public abstract class BaseGraph extends JPanel {
 
@@ -40,6 +42,8 @@ public abstract class BaseGraph extends JPanel {
 
     public abstract JFreeChart createChart();
 
+    public abstract List<ContainerStatus> getStatus(int journey_id);
+    
     public ChartPanel getChartPanel() {
         return chartPanel;
     }
