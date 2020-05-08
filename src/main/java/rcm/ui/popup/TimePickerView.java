@@ -75,6 +75,8 @@ public class TimePickerView extends JDialog {
                 if (!timeField.getText().isEmpty()) {
                     time = timeField.getText();
                     dispose();
+                } else {
+                    Dialog.ErrorDialog("Please input time", "Empty field error");
                 }
             }
         });

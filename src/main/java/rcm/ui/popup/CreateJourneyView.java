@@ -84,12 +84,30 @@ public class CreateJourneyView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                try {
-                    app.requestNewJourney(originField.getText(), destinationField.getText(), contentField.getText());
-                    app.fireChange("newJourney");
-                    dispose();
-                } catch (IOException e) {
-                    Dialog.ErrorDialog("Something went wrong with the database", "Database error");
+                String error = "Please input:";
+                if (originField.getText().isBlank()) {
+                    error += " origin";
+                }
+
+                if (destinationField.getText().isBlank()) {
+                    error += " destination";
+                }
+
+                if (contentField.getText().isBlank()) {
+                    error += " content";
+                }
+
+                if (error.length() > "Please input:".length()) {
+                    Dialog.ErrorDialog(error, "Empty field error");
+                } else {
+                    try {
+                        app.requestNewJourney(originField.getText(), destinationField.getText(),
+                                contentField.getText());
+                        app.fireChange("newJourney");
+                        dispose();
+                    } catch (IOException e) {
+                        Dialog.ErrorDialog("Something went wrong with the database", "Database error");
+                    }
                 }
             }
         });
