@@ -12,33 +12,37 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class EnterStatusView extends JDialog {
 
     private static final long serialVersionUID = 905381235747598544L;
 
-    private JTextField tempField = new JTextField(10);
-    private JTextField humidityField = new JTextField(10);
-    private JTextField atmPressureField = new JTextField(10);
-    private JTextField locationField = new JTextField(10);
-    private JTextField timeField = new JTextField(10);
+    private JTextField tempField = new JTextField(12);
+    private JTextField humidityField = new JTextField(12);
+    private JTextField atmPressureField = new JTextField(12);
+    private JTextField locationField = new JTextField(12);
+    private JTextField dateTimeField = new JTextField(12);
 
     private JLabel lbl1 = new JLabel("Temperature:");
     private JLabel lbl2 = new JLabel("Humidity:");
     private JLabel lbl3 = new JLabel("Atmospheric Pressure:");
     private JLabel lbl4 = new JLabel("Location:");
-    private JLabel lbl5 = new JLabel("Time:");
+    private JLabel lbl5 = new JLabel("Date & Time:");
 
-    private ImageIcon nowIcon = new ImageIcon("src/main/resources/now_icon.jpg");
-    private JButton b1 = new JButton(nowIcon);
-    private JButton b2 = new JButton("Enter");
-    private JButton b3 = new JButton("Cancel");
+    private JRadioButton r1 = new JRadioButton("Now");
+    private ImageIcon image = new ImageIcon("src/main/resources/calendar_icon.png");
+    private JRadioButton r2 = new JRadioButton(image);
+    private JButton b1 = new JButton("Enter");
+    private JButton b2 = new JButton("Cancel");
 
     public EnterStatusView() {
 
@@ -46,7 +50,7 @@ public class EnterStatusView extends JDialog {
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(400, 300)); // (width, height)
+        panel.setPreferredSize(new Dimension(400, 400)); // (width, height)
         KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -93,37 +97,55 @@ public class EnterStatusView extends JDialog {
         locationField.addKeyListener(kl);
         panel.add(locationField, constraints);
 
-        // Time
+        // Date & Time
         constraints.gridx = 0;
         constraints.gridy = 4;
         panel.add(lbl5, constraints);
 
         constraints.gridx = 1;
-        constraints.gridy = 4;
-        timeField.addKeyListener(kl);
-        panel.add(timeField, constraints);
+        constraints.gridy = 5;
+        dateTimeField.addKeyListener(kl);
+        panel.add(dateTimeField, constraints);
 
-        // Now button
-        b1.addKeyListener(kl);
-        b1.addActionListener(new ActionListener() {
+        // Radio Buttons
+        Box rBox = Box.createHorizontalBox();
+        ButtonGroup rGroup = new ButtonGroup();
+        r1.setActionCommand("Now");
+        r2.setActionCommand("Choose");
+        rGroup.add(r1);
+        rGroup.add(r2);
+        rBox.add(r1);
+        rBox.add(r2);
+
+        r1.addKeyListener(kl);
+        r1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Now clicked");
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 Date obj = new Date();
-                timeField.setText(sdf.format(obj));
+                dateTimeField.setText(sdf.format(obj));
             }
         });
 
-        b1.setMargin(new Insets(0, 0, 0, 0));
-        b1.setBounds(74, 0, 19, 19);
-        timeField.add(b1);
+        r2.addKeyListener(kl);
+        r2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dateTimeField.setText(new DatePickerView().setPickedDate());
+            }
+        });
+
+        r1.doClick();
+
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        panel.add(rBox, constraints);
 
         // Enter Button
         constraints.gridx = 0;
-        constraints.gridy = 5;
-        b2.addKeyListener(kl);
-        b2.addActionListener(new ActionListener() {
+        constraints.gridy = 6;
+        b1.addKeyListener(kl);
+        b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Enter clicked");
@@ -131,20 +153,19 @@ public class EnterStatusView extends JDialog {
                 dispose();
             }
         });
-        panel.add(b2, constraints);
+        panel.add(b1, constraints);
 
         // Cancel Button
         constraints.gridx = 1;
-        constraints.gridy = 5;
-        b3.addKeyListener(kl);
-        b3.addActionListener(new ActionListener() {
+        constraints.gridy = 6;
+        b2.addKeyListener(kl);
+        b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 dispose();
             }
         });
-        panel.add(b3, constraints);
+        panel.add(b2, constraints);
 
         // set border for the panel
         panel.setBorder(BorderFactory
@@ -161,12 +182,10 @@ public class EnterStatusView extends JDialog {
         @Override
         public void keyPressed(KeyEvent event) {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-                if (event.getSource() == b1) {
-                    b1.doClick();
-                } else if (event.getSource() == b3) {
-                    b3.doClick();
-                } else {
+                if (event.getSource() == b2) {
                     b2.doClick();
+                } else {
+                    b1.doClick();
                 }
             }
         }
