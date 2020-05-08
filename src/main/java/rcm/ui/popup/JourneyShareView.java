@@ -20,9 +20,9 @@ public class JourneyShareView extends JDialog {
 
     private static final long serialVersionUID = -6276216260193469897L;
 
-    private JTextField client = new JTextField(20);
+    private JTextField client = new JTextField();
 
-    private JLabel lbl1 = new JLabel("Share with:");
+    private JLabel lbl1 = new JLabel("Please enter a client email to share with:");
 
     private JButton b1 = new JButton("OK");
     private JButton b2 = new JButton("Cancel");
@@ -33,7 +33,8 @@ public class JourneyShareView extends JDialog {
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(375, 150)); // (width, height)
+        panel.setPreferredSize(new Dimension(375, 150)); // (width, height)        
+        KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.EAST;
@@ -42,19 +43,21 @@ public class JourneyShareView extends JDialog {
         // Share TextField
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.gridwidth = 2;
         panel.add(lbl1, constraints);
 
-        constraints.gridx = 1;
-        constraints.gridy = 0;
+        constraints.gridx = 0;
+        constraints.gridy = 1;
         constraints.gridwidth = 2;
-        client.addKeyListener(new KeyListener());
+        client.setPreferredSize(new Dimension(230, 20));
+        client.addKeyListener(kl);
         panel.add(client, constraints);
 
         // OK Button
-        constraints.gridx = 1;
-        constraints.gridy = 1;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
         constraints.gridwidth = 1;
-        b1.addKeyListener(new KeyListener());
+        b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,9 +69,10 @@ public class JourneyShareView extends JDialog {
         panel.add(b1, constraints);
 
         // Cancel Button
-        constraints.gridx = 2;
-        constraints.gridy = 1;
-        b2.addKeyListener(new KeyListener());
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        constraints.gridwidth = 1;
+        b2.addKeyListener(kl);
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

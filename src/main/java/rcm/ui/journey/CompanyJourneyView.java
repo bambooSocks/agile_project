@@ -17,6 +17,7 @@ import rcm.model.Application;
 import rcm.model.ContainerStatus;
 import rcm.ui.BaseTopBar;
 import rcm.ui.popup.EnterStatusView;
+import rcm.ui.popup.StartJourneyView;
 
 class CompanyJourneyTopBar extends BaseTopBar {
 
@@ -30,7 +31,7 @@ class CompanyJourneyTopBar extends BaseTopBar {
     public JPanel buildLeftSide() {
         JPanel topSide = new JPanel(new BorderLayout());
         JButton backButton = new JButton(" < ");
-        backButton.setFont(new Font("Times New Roman", Font.BOLD, 12));
+        backButton.setFont(new Font("", Font.BOLD, 12));
         backButton.setPreferredSize(new Dimension(50, 30));
         backButton.addActionListener(new ActionListener() {
 
@@ -78,6 +79,10 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Start journey clicked");
+                StartJourneyView popup = new StartJourneyView(app);
+
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
             }
         });
 

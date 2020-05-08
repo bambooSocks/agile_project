@@ -9,18 +9,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import rcm.model.Application;
@@ -32,16 +26,11 @@ public class CreateJourneyView extends JDialog {
     private JTextField originField = new JTextField(12);
     private JTextField destinationField = new JTextField(12);
     private JTextField contentField = new JTextField(12);
-    private JTextField dateTimeField = new JTextField(12);
 
     private JLabel lbl1 = new JLabel("Origin:");
     private JLabel lbl2 = new JLabel("Destination:");
     private JLabel lbl3 = new JLabel("Content:");
-    private JLabel lbl4 = new JLabel("Start Date:");
 
-    private JRadioButton r1 = new JRadioButton("Now");
-    ImageIcon image = new ImageIcon("src/main/resources/calendar_icon.png");
-    private JRadioButton r2 = new JRadioButton(image);
     private JButton b1 = new JButton("Request");
     private JButton b2 = new JButton("Cancel");
 
@@ -51,13 +40,11 @@ public class CreateJourneyView extends JDialog {
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(400, 350)); // (width, height)
-
+        panel.setPreferredSize(new Dimension(300, 350)); // (width, height)
         KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
-        // TODO: Decide east or west
-        constraints.anchor = GridBagConstraints.WEST;
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.insets = new Insets(10, 10, 10, 10);
 
         // Origin
@@ -90,51 +77,6 @@ public class CreateJourneyView extends JDialog {
         contentField.addKeyListener(kl);
         panel.add(contentField, constraints);
 
-        // StartDate
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        panel.add(lbl4, constraints);
-
-        // Radio Buttons
-        // TODO: Adrienne move to a separate popup
-        Box rBox = Box.createHorizontalBox();
-        ButtonGroup rGroup = new ButtonGroup();
-        r1.setActionCommand("Now");
-        r2.setActionCommand("Choose");
-        rGroup.add(r1);
-        rGroup.add(r2);
-        rBox.add(r1);
-        rBox.add(r2);
-
-        r1.addKeyListener(kl);
-        r1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                Date obj = new Date();
-                dateTimeField.setText(sdf.format(obj));
-            }
-        });
-
-        r2.addKeyListener(kl);
-        r2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dateTimeField.setText(new DatePickerView().setPickedDate());
-            }
-        });
-
-        r1.doClick();
-
-        constraints.gridx = 1;
-        constraints.gridy = 3;
-        panel.add(rBox, constraints);
-
-        constraints.gridx = 1;
-        constraints.gridy = 4;
-        dateTimeField.addKeyListener(kl);
-        panel.add(dateTimeField, constraints);
-
         // Request Button
         constraints.gridx = 0;
         constraints.gridy = 5;
@@ -145,6 +87,7 @@ public class CreateJourneyView extends JDialog {
                 try {
                     app.requestNewJourney(originField.getText(), destinationField.getText(), contentField.getText());
                     app.fireChange("newJourney");
+                    dispose();
                 } catch (IOException e) {
                     Dialog.ErrorDialog("Something went wrong with the database", "Database error");
                 }

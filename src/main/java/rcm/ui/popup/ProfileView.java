@@ -44,6 +44,7 @@ public class ProfileView extends JDialog {
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setSize(new Dimension(400, 300)); // (width, height)
+        KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -57,7 +58,7 @@ public class ProfileView extends JDialog {
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.gridwidth = 2;
-        nameField.addKeyListener(new KeyListener());
+        nameField.addKeyListener(kl);
         panel.add(nameField, constraints);
 
         // Address
@@ -68,7 +69,7 @@ public class ProfileView extends JDialog {
         constraints.gridx = 1;
         constraints.gridy = 1;
         constraints.gridwidth = 2;
-        addressField.addKeyListener(new KeyListener());
+        addressField.addKeyListener(kl);
         panel.add(addressField, constraints);
 
         // Reference Person
@@ -79,7 +80,7 @@ public class ProfileView extends JDialog {
         constraints.gridx = 1;
         constraints.gridy = 2;
         constraints.gridwidth = 2;
-        refPersonField.addKeyListener(new KeyListener());
+        refPersonField.addKeyListener(kl);
         panel.add(refPersonField, constraints);
 
         // Email
@@ -90,14 +91,14 @@ public class ProfileView extends JDialog {
         constraints.gridx = 1;
         constraints.gridy = 3;
         constraints.gridwidth = 2;
-        emailField.addKeyListener(new KeyListener());
+        emailField.addKeyListener(kl);
         panel.add(emailField, constraints);
 
         // Change Password Button
         constraints.gridx = 0;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
-        b1.addKeyListener(new KeyListener());
+        b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,7 +113,7 @@ public class ProfileView extends JDialog {
         constraints.gridx = 1;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
-        b2.addKeyListener(new KeyListener());
+        b2.addKeyListener(kl);
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -132,7 +133,7 @@ public class ProfileView extends JDialog {
         constraints.gridx = 2;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
-        b3.addKeyListener(new KeyListener());
+        b3.addKeyListener(kl);
         b3.addActionListener(new ActionListener() {
 
             @Override
@@ -191,6 +192,7 @@ class PasswordView extends JDialog {
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
+        KeyListener kl = new KeyListener();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
@@ -202,7 +204,7 @@ class PasswordView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        passwordField1.addKeyListener(new KeyListener());
+        passwordField1.addKeyListener(kl);
         panel.add(passwordField1, constraints);
 
         // New Password
@@ -212,7 +214,7 @@ class PasswordView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        passwordField2.addKeyListener(new KeyListener());
+        passwordField2.addKeyListener(kl);
         panel.add(passwordField2, constraints);
 
         // Confirm Password
@@ -222,23 +224,23 @@ class PasswordView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
-        passwordField3.addKeyListener(new KeyListener());
+        passwordField3.addKeyListener(kl);
         panel.add(passwordField3, constraints);
 
         // Save Button
         constraints.gridx = 0;
         constraints.gridy = 3;
         constraints.gridwidth = 1;
-        b1.addKeyListener(new KeyListener());
+        b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Save clicked");
                 // TODO: update the passwords
-                
+
 //                check if passwordField1 is correct for that user
 //                check if passwordField2 and passwordField3 match
-                
+
 //              app.updatePassword(new String(passwordField3.getPassword()));
 
                 dispose();
@@ -250,7 +252,7 @@ class PasswordView extends JDialog {
         constraints.gridx = 1;
         constraints.gridy = 3;
         constraints.gridwidth = 1;
-        b2.addKeyListener(new KeyListener());
+        b2.addKeyListener(kl);
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

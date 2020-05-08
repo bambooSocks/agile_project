@@ -47,6 +47,7 @@ public class EnterStatusView extends JDialog {
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setPreferredSize(new Dimension(400, 300)); // (width, height)
+        KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -59,7 +60,7 @@ public class EnterStatusView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        tempField.addKeyListener(new KeyListener());
+        tempField.addKeyListener(kl);
         panel.add(tempField, constraints);
 
         // Humidity
@@ -69,7 +70,7 @@ public class EnterStatusView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        humidityField.addKeyListener(new KeyListener());
+        humidityField.addKeyListener(kl);
         panel.add(humidityField, constraints);
 
         // Atmospheric Pressure
@@ -79,7 +80,7 @@ public class EnterStatusView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
-        atmPressureField.addKeyListener(new KeyListener());
+        atmPressureField.addKeyListener(kl);
         panel.add(atmPressureField, constraints);
 
         // Location
@@ -89,7 +90,7 @@ public class EnterStatusView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 3;
-        locationField.addKeyListener(new KeyListener());
+        locationField.addKeyListener(kl);
         panel.add(locationField, constraints);
 
         // Time
@@ -99,11 +100,11 @@ public class EnterStatusView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 4;
-        timeField.addKeyListener(new KeyListener());
+        timeField.addKeyListener(kl);
         panel.add(timeField, constraints);
 
         // Now button
-        b1.addKeyListener(new KeyListener());
+        b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,7 +122,7 @@ public class EnterStatusView extends JDialog {
         // Enter Button
         constraints.gridx = 0;
         constraints.gridy = 5;
-        b2.addKeyListener(new KeyListener());
+        b2.addKeyListener(kl);
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -135,7 +136,7 @@ public class EnterStatusView extends JDialog {
         // Cancel Button
         constraints.gridx = 1;
         constraints.gridy = 5;
-        b3.addKeyListener(new KeyListener());
+        b3.addKeyListener(kl);
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

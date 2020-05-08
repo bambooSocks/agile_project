@@ -30,13 +30,12 @@ public class TimePickerView extends JDialog {
         setTitle("Time Picker");
         setModal(true);
 
-        KeyListener kl = new KeyListener();
-
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setPreferredSize(new Dimension(375, 150)); // (width, height)
+        KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
+        constraints.anchor = GridBagConstraints.EAST;
         constraints.insets = new Insets(10, 10, 10, 10);
 
         constraints.gridx = 0;

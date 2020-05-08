@@ -8,87 +8,101 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class AdvancedSearchView extends JDialog {
+import rcm.model.Application;
 
-    private static final long serialVersionUID = -7175406337438643480L;
+public class StartJourneyView extends JDialog {
+    private static final long serialVersionUID = 3613037354944867362L;
 
-    private JTextField search = new JTextField(15);
+    private JTextField dateTimeField = new JTextField(12);
+    private JLabel lbl1 = new JLabel("Start Date:");
 
-    private JLabel lbl1 = new JLabel("Search:");
-    private JLabel lbl2 = new JLabel("Filter by:");
-
-    private JCheckBox cb1 = new JCheckBox("Name");
-    private JCheckBox cb2 = new JCheckBox("Address");
-    private JCheckBox cb3 = new JCheckBox("Reference Person");
-    private JCheckBox cb4 = new JCheckBox("Email");
-
-    private JButton b1 = new JButton("Search");
+    private JRadioButton r1 = new JRadioButton("Now");
+    ImageIcon image = new ImageIcon("src/main/resources/calendar_icon.png");
+    private JRadioButton r2 = new JRadioButton(image);
+    private JButton b1 = new JButton("Start");
     private JButton b2 = new JButton("Cancel");
 
-    public AdvancedSearchView() {
+    public StartJourneyView(Application app) {
 
-        setTitle("Advanced Search");
+        setTitle("Start Journey");
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(400, 300)); // (width, height)
+        panel.setPreferredSize(new Dimension(300, 200)); // (width, height)
         KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(10, 10, 10, 10);
 
-        // Search TextField
+        // StartDate
         constraints.gridx = 0;
         constraints.gridy = 0;
         panel.add(lbl1, constraints);
 
+        // Radio Buttons
+        Box rBox = Box.createHorizontalBox();
+        ButtonGroup rGroup = new ButtonGroup();
+        r1.setActionCommand("Now");
+        r2.setActionCommand("Choose");
+        rGroup.add(r1);
+        rGroup.add(r2);
+        rBox.add(r1);
+        rBox.add(r2);
+
+        r1.addKeyListener(kl);
+        r1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                Date obj = new Date();
+                dateTimeField.setText(sdf.format(obj));
+            }
+        });
+
+        r2.addKeyListener(kl);
+        r2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dateTimeField.setText(new DatePickerView().setPickedDate());
+            }
+        });
+
+        r1.doClick();
+
         constraints.gridx = 1;
         constraints.gridy = 0;
-        search.addKeyListener(kl);
-        panel.add(search, constraints);
+        panel.add(rBox, constraints);
 
-        // Checkboxes
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.anchor = GridBagConstraints.NORTHWEST;
-        panel.add(lbl2, constraints);
-
-        Box cbBox = Box.createVerticalBox();
-        cbBox.add(cb1);
-        cbBox.add(cb2);
-        cbBox.add(cb3);
-        cbBox.add(cb4);
-
-        constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 1;
-        cb1.addKeyListener(kl);
-        cb2.addKeyListener(kl);
-        cb3.addKeyListener(kl);
-        cb4.addKeyListener(kl);
-        panel.add(cbBox, constraints);
+        constraints.gridwidth = 2;
+        dateTimeField.setPreferredSize(new Dimension(230, 20));
+        dateTimeField.addKeyListener(kl);
+        panel.add(dateTimeField, constraints);
 
-        // Search Button
+        // Start Button
         constraints.gridx = 0;
         constraints.gridy = 2;
         b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Search clicked");
-                // TODO: search entered data
-                dispose();
+            public void actionPerformed(ActionEvent evt) {
+//TODO: connect to model
             }
         });
         panel.add(b1, constraints);
@@ -100,7 +114,6 @@ public class AdvancedSearchView extends JDialog {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 dispose();
             }
         });
@@ -114,7 +127,6 @@ public class AdvancedSearchView extends JDialog {
         add(panel);
         pack();
         setLocationRelativeTo(null);
-
     }
 
     class KeyListener extends KeyAdapter {
@@ -124,14 +136,6 @@ public class AdvancedSearchView extends JDialog {
             if (event.getKeyCode() == KeyEvent.VK_ENTER) {
                 if (event.getSource() == b2) {
                     b2.doClick();
-                } else if (event.getSource() == cb1) {
-                    cb1.doClick();
-                } else if (event.getSource() == cb2) {
-                    cb2.doClick();
-                } else if (event.getSource() == cb3) {
-                    cb3.doClick();
-                } else if (event.getSource() == cb4) {
-                    cb4.doClick();
                 } else {
                     b1.doClick();
                 }

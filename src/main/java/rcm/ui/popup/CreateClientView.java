@@ -49,6 +49,7 @@ public class CreateClientView extends JDialog {
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setPreferredSize(new Dimension(400, 350)); // (width, height)
+        KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -61,7 +62,7 @@ public class CreateClientView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 0;
-        nameField.addKeyListener(new KeyListener());
+        nameField.addKeyListener(kl);
         panel.add(nameField, constraints);
 
         // Address
@@ -71,7 +72,7 @@ public class CreateClientView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        addressField.addKeyListener(new KeyListener());
+        addressField.addKeyListener(kl);
         panel.add(addressField, constraints);
 
         // Reference Person
@@ -81,7 +82,7 @@ public class CreateClientView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 2;
-        refPersonField.addKeyListener(new KeyListener());
+        refPersonField.addKeyListener(kl);
         panel.add(refPersonField, constraints);
 
         // Email
@@ -91,7 +92,7 @@ public class CreateClientView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 3;
-        emailField.addKeyListener(new KeyListener());
+        emailField.addKeyListener(kl);
         panel.add(emailField, constraints);
 
         // New Password
@@ -101,7 +102,7 @@ public class CreateClientView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 4;
-        passwordField1.addKeyListener(new KeyListener());
+        passwordField1.addKeyListener(kl);
         panel.add(passwordField1, constraints);
 
         // Confirm Password
@@ -111,13 +112,13 @@ public class CreateClientView extends JDialog {
 
         constraints.gridx = 1;
         constraints.gridy = 5;
-        passwordField2.addKeyListener(new KeyListener());
+        passwordField2.addKeyListener(kl);
         panel.add(passwordField2, constraints);
 
         // Create Button
         constraints.gridx = 0;
         constraints.gridy = 6;
-        b1.addKeyListener(new KeyListener());
+        b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -141,7 +142,7 @@ public class CreateClientView extends JDialog {
         // Cancel Button
         constraints.gridx = 1;
         constraints.gridy = 6;
-        b2.addKeyListener(new KeyListener());
+        b2.addKeyListener(kl);
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
