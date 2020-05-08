@@ -26,21 +26,21 @@ import javax.swing.JTextField;
 
 import rcm.model.Application;
 
-public class StartJourneyView extends JDialog {
-    private static final long serialVersionUID = 3613037354944867362L;
+public class EndJourneyView extends JDialog {
+    private static final long serialVersionUID = -3640917496556492346L;
 
     private JTextField dateTimeField = new JTextField(12);
-    private JLabel lbl1 = new JLabel("Start Date:");
+    private JLabel lbl1 = new JLabel("End Date:");
 
     private JRadioButton r1 = new JRadioButton("Now");
     ImageIcon image = new ImageIcon("src/main/resources/calendar_icon.png");
     private JRadioButton r2 = new JRadioButton(image);
-    private JButton b1 = new JButton("Start");
+    private JButton b1 = new JButton("End");
     private JButton b2 = new JButton("Cancel");
 
-    public StartJourneyView(Application app, int journey_id) {
+    public EndJourneyView(Application app, int journey_id) {
 
-        setTitle("Start Journey");
+        setTitle("End Journey");
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -97,7 +97,7 @@ public class StartJourneyView extends JDialog {
         dateTimeField.addKeyListener(kl);
         panel.add(dateTimeField, constraints);
 
-        // Start Button
+        // End Button
         constraints.gridx = 0;
         constraints.gridy = 2;
         b1.addKeyListener(kl);
@@ -106,8 +106,8 @@ public class StartJourneyView extends JDialog {
             public void actionPerformed(ActionEvent evt) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
                 LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
-                app.startJourney(journey_id, dateTime);
-                app.fireChange("startJourney");
+                app.endJourney(journey_id, dateTime);
+                app.fireChange("endJourney");
                 dispose();
             }
         });

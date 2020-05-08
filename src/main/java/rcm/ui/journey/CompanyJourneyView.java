@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import rcm.model.Application;
 import rcm.model.ContainerStatus;
 import rcm.ui.BaseTopBar;
+import rcm.ui.popup.EndJourneyView;
 import rcm.ui.popup.EnterStatusView;
 import rcm.ui.popup.StartJourneyView;
 
@@ -60,12 +61,11 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
 
         // TODO: Switch to button?
         JButton enterStatus = new JButton("Enter Status");
-        enterStatus.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        enterStatus.setFont(new Font("", Font.PLAIN, 14));
         enterStatus.setPreferredSize(new Dimension(150, 30));
         enterStatus.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Enter Status clicked");
                 EnterStatusView popup = new EnterStatusView();
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
@@ -73,13 +73,12 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         });
 
         JButton startJourney = new JButton("Start Journey");
-        startJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        startJourney.setFont(new Font("", Font.PLAIN, 14));
         startJourney.setPreferredSize(new Dimension(150, 30));
         startJourney.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Start journey clicked");
-                StartJourneyView popup = new StartJourneyView(app);
+                StartJourneyView popup = new StartJourneyView(app, journey_id);
 
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
@@ -87,12 +86,15 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         });
 
         JButton endJourney = new JButton("End Journey");
-        endJourney.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        endJourney.setFont(new Font("", Font.PLAIN, 14));
         endJourney.setPreferredSize(new Dimension(150, 30));
         endJourney.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                System.out.println("End journey clicked");
+                EndJourneyView popup = new EndJourneyView(app, journey_id);
+
+                popup.setLocationRelativeTo(null);
+                popup.setVisible(true);
             }
         });
 
@@ -113,13 +115,14 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         } else if (container_id != null && client_id == null) {
             statuses = app.getContainerById(container_id).requestStatus(app.getJourneyById(journey_id));
         }
-
         return statuses;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
+        case "startJourney":
+        case "endJourney":
         case "showCompanyJourney":
             j = app.getJourneyById(journey_id);
             contentLabelsPanel.updatePanel();

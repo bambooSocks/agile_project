@@ -111,6 +111,8 @@ public class ClientsTableView extends BaseTableView {
         case "companyTabChanged":
         case "companyLoggedIn":
         case "newClientCreated":
+        case "startJourney":
+        case "endJourney":
             clients = app.requestClients();
             updateTableModel();
             break;

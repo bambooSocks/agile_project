@@ -53,7 +53,6 @@ public class TimePickerView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Now clicked");
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
                 Date obj = new Date();
                 timeField.setText(sdf.format(obj));
@@ -71,7 +70,6 @@ public class TimePickerView extends JDialog {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Enter clicked");
                 if (!timeField.getText().isEmpty()) {
                     time = timeField.getText();
                     dispose();
@@ -122,5 +120,4 @@ public class TimePickerView extends JDialog {
             }
         }
     }
-
 }

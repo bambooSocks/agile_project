@@ -17,7 +17,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -55,19 +54,14 @@ public abstract class BaseJourneyView extends BaseView {
     @Override
     protected Component buildContent() {
         JPanel panel = new JPanel();
-
         panel.setLayout(new GridBagLayout());
+        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Journey Details"));
 
         GridBagConstraints cMain = new GridBagConstraints();
-        cMain.insets = new Insets(10, 20, 10, 10);
-        Border eBorder = BorderFactory.createEtchedBorder();
-        panel.setBorder(BorderFactory.createTitledBorder(eBorder, "Journey Details"));
-        cMain.fill = GridBagConstraints.WEST;
-        cMain.weightx = 1.0;
+        cMain.insets = new Insets(10, 10, 10, 10);
+        cMain.fill = GridBagConstraints.HORIZONTAL;
         cMain.gridx = 0;
         cMain.gridy = 0;
-        cMain.gridwidth = 4;
-        cMain.gridheight = 2;
         cMain.ipady = 10;
         contentLabelsPanel = new UpdatablePanel() {
             private static final long serialVersionUID = 5467971044456088127L;
@@ -77,19 +71,18 @@ public abstract class BaseJourneyView extends BaseView {
                 return buildLabelsJourney();
             }
         };
-        contentLabelsPanel.setBorder(BorderFactory.createTitledBorder(eBorder, ""));
+        contentLabelsPanel.setBorder(BorderFactory.createEtchedBorder());
         panel.add(contentLabelsPanel, cMain);
-        cMain.fill = GridBagConstraints.EAST;
-        cMain.gridwidth = 1;
-        cMain.gridx = 4;
+
+        cMain.fill = GridBagConstraints.WEST;
+        cMain.gridx = 1;
         cMain.gridy = 0;
         cMain.weighty = 0;
-        cMain.gridheight = 1;
         panel.add(buildRightButton(), cMain);
 
         cMain.gridx = 0;
         cMain.gridy = 2;
-        cMain.gridwidth = 3;
+        cMain.gridwidth = 2;
         cMain.fill = GridBagConstraints.HORIZONTAL;
         cMain.weightx = 1.0;
         JLabel titleStatus = new JLabel("CONTAINER STATUS");
@@ -99,7 +92,6 @@ public abstract class BaseJourneyView extends BaseView {
 
         cMain.gridx = 0;
         cMain.gridy = 3;
-        cMain.gridwidth = 3;
         tempGraph = new GraphTemperature(app, journey_id) {
             private static final long serialVersionUID = 123123123L;
 
@@ -113,7 +105,6 @@ public abstract class BaseJourneyView extends BaseView {
 
         cMain.gridx = 0;
         cMain.gridy = 4;
-        cMain.gridwidth = 3;
         pressureGraph = new GraphPressure(app, journey_id) {
             private static final long serialVersionUID = 123121353123L;
 
@@ -127,7 +118,6 @@ public abstract class BaseJourneyView extends BaseView {
 
         cMain.gridx = 0;
         cMain.gridy = 5;
-        cMain.gridwidth = 3;
         humidityGraph = new GraphHumidity(app, journey_id) {
             private static final long serialVersionUID = 23678123123123L;
 
@@ -141,9 +131,7 @@ public abstract class BaseJourneyView extends BaseView {
 
         cMain.gridx = 0;
         cMain.gridy = 6;
-        cMain.gridwidth = 2;
         cMain.ipady = 110;
-        cMain.weightx = 0.0;
         JPanel tablePanel = buildLocationTable();
         panel.add(tablePanel, cMain);
 
@@ -207,6 +195,7 @@ public abstract class BaseJourneyView extends BaseView {
             endDate = new JLabel(j.getEndTimestamp().format(formatter));
         }
         endDate.setFont(new Font("", Font.ITALIC, 14));
+        
         // Add the labels.
         c.gridx = 0;
         c.gridy = 0;
@@ -257,7 +246,6 @@ public abstract class BaseJourneyView extends BaseView {
                 TitledBorder.CENTER, TitledBorder.TOP));
         panel.add(spTable, BorderLayout.CENTER);
         return panel;
-
     }
 
     protected void updateLocationTable(JTable table, Application app, int id) {
@@ -289,5 +277,4 @@ public abstract class BaseJourneyView extends BaseView {
     public void setJourneyID(int journeyID) {
         this.journey_id = journeyID;
     }
-
 }
