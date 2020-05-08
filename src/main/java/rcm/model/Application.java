@@ -225,8 +225,6 @@ public class Application {
         }
     }
 
-    // TODO do i need a firepropertychange line in the update methods above?
-
     /**
      * Method to find all existing emails in the system
      * 
@@ -447,7 +445,7 @@ public class Application {
         resultList.addAll(loggedInClient.searchSharedJourneyById(query));
         return new ArrayList<>(resultList);
     }
-    
+
     /**
      * Searches for shared journeys of logged in client by all parameters
      * 
@@ -462,7 +460,7 @@ public class Application {
         resultList.addAll(client.searchJourneyById(query));
         return new ArrayList<>(resultList);
     }
-    
+
     /**
      * Searches for shared journeys of logged in client by all parameters
      * 
@@ -511,11 +509,11 @@ public class Application {
             return null;
         }
     }
-    
+
     /**
      * Requests status for given journey of a client
      * 
-     * @param client_id Client id of the client owning the journey
+     * @param client_id  Client id of the client owning the journey
      * @param journey_id Journey id to get status history out of
      * @return List of the Container Statuses
      */
@@ -528,12 +526,12 @@ public class Application {
         }
         return null;
     }
-    
+
     /**
      * Requests status for given journey
      * 
      * @param container_id Container id of the container involved in the journey
-     * @param journey_id Journey id to get status history out of
+     * @param journey_id   Journey id to get status history out of
      * @return List of the Container Statuses
      */
     public List<ContainerStatus> requestContainersStatus(int container_id, int journey_id) {
@@ -542,7 +540,7 @@ public class Application {
             if (loggedInCompany.getContainers().contains(container)) {
                 return container.requestStatus(getJourneyById(journey_id));
             }
-        } 
+        }
         return null;
     }
 
@@ -631,7 +629,22 @@ public class Application {
         } else {
             return false;
         }
+    }
 
+    /**
+     * Method to find a valid client Id from an email
+     * 
+     * @param email of client to be found
+     * @return Id of found client
+     */
+    public Integer searchClientIdByEmail(String email) {
+        Integer id = null;
+        for (Client c : getAllClients()) {
+            if (c.getEmail().equals(email)) {
+                id = c.getId();
+            }
+        }
+        return id;
     }
 
     /**

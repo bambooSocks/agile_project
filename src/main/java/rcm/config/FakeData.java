@@ -47,6 +47,7 @@ public class FakeData {
         Journey c3j2 = app.requestNewJourney("China", "New York", "Snacks");
         Journey c3j3 = app.requestNewJourney("Mexico", "New York", "Booze");
         app.requestNewJourney("New York", "Wakanda", "Prototypes");
+        app.shareJourney(c4.getId(), c3j2.getId());
 
         app.logInUser("EarlGreyHot@shaceship.com", "Password12345");
         Journey c4j1 = app.requestNewJourney("The Enterprise", "Qo'noS", "Tribbles");
@@ -224,5 +225,6 @@ public class FakeData {
                 new ContainerStatus(LocalDateTime.of(2020, 4, 23, 15, 0), 35.0, 5.0, 107.0, "Copenhagen"));
 
         app.logOut();
+        System.out.println("Database Setup");
     }
 }

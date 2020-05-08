@@ -72,6 +72,7 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
+        case "clientLoggedIn":
         case "showMyJourneyTable":
             setSelectedIndex(0);
             journeyView.setVisible(false);

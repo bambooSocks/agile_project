@@ -16,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import rcm.model.Application;
+import rcm.model.WrongInputException;
+
 public class JourneyShareView extends JDialog {
 
     private static final long serialVersionUID = -6276216260193469897L;
@@ -27,13 +30,13 @@ public class JourneyShareView extends JDialog {
     private JButton b1 = new JButton("OK");
     private JButton b2 = new JButton("Cancel");
 
-    public JourneyShareView() {
+    public JourneyShareView(Application app, int journey_id) {
 
         setTitle("Share Journey");
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setPreferredSize(new Dimension(375, 150)); // (width, height)        
+        panel.setPreferredSize(new Dimension(375, 150)); // (width, height)
         KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -60,9 +63,14 @@ public class JourneyShareView extends JDialog {
         b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("OK clicked");
-                // TODO: share with client
+            public void actionPerformed(ActionEvent evt) {
+                Integer id = app.searchClientIdByEmail(client.getText());
+                if (id != null) {
+                    app.shareJourney(id, journey_id);
+                    Dialog.InfoDialog("Journey has been successfully shared", "Successful sharing");
+                } else {
+                    Dialog.ErrorDialog("don't have that email sorry", "Input error");
+                }
                 dispose();
             }
         });
@@ -76,7 +84,6 @@ public class JourneyShareView extends JDialog {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 dispose();
             }
         });

@@ -90,6 +90,7 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
             containersInfoView.setVisible(true);
             journeyView.setVisible(false);
             break;
+        case "companyLoggedIn":
         case "showClientsTable":
             tabs.setVisible(true);
             tabs.setSelectedIndex(0);
@@ -112,6 +113,11 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
         case "dismissCompanyJourney":
             journeyView.setVisible(false);
             tabs.setVisible(true);
+            if (tabs.getSelectedIndex() == 0) {
+                app.fireChange("updateClient");
+            } else if (tabs.getSelectedIndex() == 1) {
+                app.fireChange("updateContainer");
+            }
         default:
             break;
         }

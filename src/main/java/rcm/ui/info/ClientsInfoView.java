@@ -96,7 +96,6 @@ public class ClientsInfoView extends BaseInfoView {
             itemViewJourney.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
-                    System.out.println(table.getSelectedRow());
                     try {
                         int id = (int) table.getValueAt(table.getSelectedRow(), 0);
                         app.fireChange("showCompanyJourney", id);
@@ -185,6 +184,7 @@ public class ClientsInfoView extends BaseInfoView {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
+        case "updateClient":
         case "showClient":
             journeys = app.requestClientsJourneys(client_id);
             updateTableModel();

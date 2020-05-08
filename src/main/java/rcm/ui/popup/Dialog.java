@@ -25,4 +25,13 @@ public class Dialog {
         JOptionPane.showMessageDialog(new JFrame(), msg, title, JOptionPane.WARNING_MESSAGE);
     }
 
+    /**
+     * Opens an information dialog
+     * 
+     * @param msg   Message to be shown
+     * @param title Title of the dialog window
+     */
+    public static void InfoDialog(String msg, String title) {
+        JOptionPane.showMessageDialog(new JFrame(), msg, title, JOptionPane.INFORMATION_MESSAGE);
+    }
 }

@@ -157,6 +157,7 @@ public class ContainersInfoView extends BaseInfoView {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
+        case "updateContainer":
         case "showContainer":
             journeys = app.requestContainersJourneys(container_id);
             updateTableModel();

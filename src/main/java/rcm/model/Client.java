@@ -142,7 +142,7 @@ public class Client extends User {
      * @return true if journey is successfully shared, otherwise false
      */
     public boolean shareJourney(Client client, Journey journey) {
-        if (client != null && journey != null) {
+        if (client != null && journey != null && journeyList.contains(journey)) {
             client.addSharedJourney(journey);
             return true;
         } else {

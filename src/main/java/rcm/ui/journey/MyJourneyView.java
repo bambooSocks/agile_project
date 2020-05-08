@@ -65,8 +65,7 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
         shareJourney.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Shared journey clicked");
-                JourneyShareView popup = new JourneyShareView();
+                JourneyShareView popup = new JourneyShareView(app, journey_id);
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }

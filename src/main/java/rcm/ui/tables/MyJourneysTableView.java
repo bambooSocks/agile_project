@@ -101,7 +101,7 @@ public class MyJourneysTableView extends BaseTableView {
 
             table.setComponentPopupMenu(popupMenu);
 
-            table.setModel(tableModel );
+            table.setModel(tableModel);
             table.setEnabled(false);
 
             itemViewJourney.addActionListener(new ActionListener() {
@@ -118,10 +118,15 @@ public class MyJourneysTableView extends BaseTableView {
 
             menuShareJourney.addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    JourneyShareView popup = new JourneyShareView();
-                    popup.setLocationRelativeTo(null);
-                    popup.setVisible(true);
+                public void actionPerformed(ActionEvent evt) {
+                    try {
+                        int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+                        JourneyShareView popup = new JourneyShareView(app, id);
+                        popup.setLocationRelativeTo(null);
+                        popup.setVisible(true);
+                    } catch (Exception e) {
+                        Dialog.WarningDialog("Please choose a journey first", "No journey chosen");
+                    }
                 }
             });
 
