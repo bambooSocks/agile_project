@@ -74,23 +74,6 @@ public abstract class BaseJourneyView extends BaseView {
         panel.add(buildRightButton(), cMain);
 
         cMain.gridx = 0;
-        cMain.gridy = 2;
-        cMain.gridwidth = 3;
-        cMain.fill = GridBagConstraints.HORIZONTAL;
-        cMain.weightx = 1.0;
-        JLabel titleStatus;
-
-        if (statuses == null) {
-            titleStatus = new JLabel("NO STATUS YET");
-        } else {
-            titleStatus = new JLabel("CONTAINER STATUS");
-        }
-
-        titleStatus.setFont(new Font("", Font.PLAIN, 18));
-        titleStatus.setHorizontalAlignment(JLabel.CENTER);
-        panel.add(titleStatus, cMain);
-
-        cMain.gridx = 0;
         cMain.gridy = 3;
         cMain.gridwidth = 3;
         tempGraph = new GraphTemperature(app, journey_id) {
