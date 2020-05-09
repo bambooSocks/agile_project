@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.Set;
 
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.Client;
@@ -18,22 +19,28 @@ public class M1 {
 
     private Set<Client> searchResults;
     private SharedObjectHolder holder;
+    private Client client;
+    private boolean failed = false;
 
     public M1(SharedObjectHolder holder) {
         this.holder = holder;
+    }
+
+    @Given("a client with email {string}")
+    public void a_client_with_email(String email) throws IOException, WrongInputException {
+        holder.getApp().createNewClient("Dole", "Miami, FL", "Banana Man", email, "Object123");
     }
 
     ////////////// M1:1////////////////////////////////////////////////
     @When("the company creates a first client {string} with address {string} reference person {string} email {string} and password {string}")
     public void the_company_creates_a_first_client_with_address_reference_person_email_and_password(String name,
             String address, String refPerson, String email, String password) throws IOException {
-        Client client = holder.getFirstCompany().createClient(name, address, refPerson, email, password);
-        holder.setFirstClient(client);
-    }
-
-    @Then("an id is automatically generated")
-    public void an_id_is_automatically_generated() {
-        assertNotEquals(null, holder.getFirstClient().getId());
+        try {
+            Client client = holder.getApp().createNewClient(name, address, refPerson, email, password);
+            holder.setFirstClient(client);
+        } catch (IOException | WrongInputException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     @Then("a new client {string} with address {string} reference person {string} email {string} and password {string} belongs to the company")
@@ -49,44 +56,38 @@ public class M1 {
 
     @Then("the information is not valid and the client is not created")
     public void the_information_is_not_valid_and_the_client_is_not_created() {
-        assertEquals(null, holder.getFirstClient());
+        assertFalse(holder.getApp().requestClients().contains(client));
     }
 
 ///////////////////M1:2//////////////////////////////////////////
-    @When("a first logistics company searches for name {string}")
-    public void a_first_logistics_company_searches_for_name(String name) {
-        searchResults = holder.getFirstCompany().searchByName(name);
+    @When("a logistics company searches for name {string}")
+    public void a_logistics_company_searches_for_name(String name) {
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByName(name);
     }
 
-    @When("a first logistics company searches for address {string}")
-    public void a_first_logistics_company_searches_for_address(String address) {
-        searchResults = holder.getFirstCompany().searchByAddress(address);
+    @When("a logistics company searches for address {string}")
+    public void a_logistics_company_searches_for_address(String address) {
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByAddress(address);
     }
 
-    @When("a first logistics company searches for reference person {string}")
-    public void a_first_logistics_company_searches_for_reference_person(String refPerson) {
-        searchResults = holder.getFirstCompany().searchByRefPerson(refPerson);
+    @When("a logistics company searches for reference person {string}")
+    public void a_logistics_company_searches_for_reference_person(String refPerson) {
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByRefPerson(refPerson);
     }
 
-    @When("a first logistics company searches for email {string}")
-    public void a_first_logistics_company_searches_for_email(String email) {
-        searchResults = holder.getFirstCompany().searchByEmail(email);
+    @When("a logistics company searches for email {string}")
+    public void a_logistics_company_searches_for_email(String email) {
+        searchResults = holder.getApp().getLoggedInCompany().searchClientByEmail(email);
     }
 
-    @Then("it exists and the client {string} with address {string} reference person {string} email {string} and password {string} is returned")
-    public void it_exists_and_the_client_with_address_reference_person_email_and_pasword_is_returned(String name,
-            String address, String refPerson, String email, String password) {
+    @Then("the client of the logistics company is returned")
+    public void the_client_of_the_logistics_company_is_returned() {
         assertFalse(searchResults.isEmpty());
-        assertNotEquals(null, holder.getFirstClient());
-        assertEquals(name, holder.getFirstClient().getName());
-        assertEquals(address, holder.getFirstClient().getAddress());
-        assertEquals(refPerson, holder.getFirstClient().getRefPerson());
-        assertEquals(email, holder.getFirstClient().getEmail());
-        assertEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
+        assertTrue(searchResults.contains(holder.getFirstClient()));
     }
 
-    @Then("it does not exist and no client is returned")
-    public void it_does_not_exist_and_no_client_is_returned() {
+    @Then("no client is returned")
+    public void no_client_is_returned() {
         assertTrue(searchResults.isEmpty());
     }
 
@@ -94,36 +95,43 @@ public class M1 {
     @When("a client enters new client info {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_client_enters_new_client_info_with_address_reference_person_email_and_password(String name,
             String address, String refPerson, String email, String password) {
+        failed = false;
         try {
-            holder.getFirstClient().updateName(name);
+            holder.getApp().updateName(name);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstClient().updateAddress(address);
+            holder.getApp().updateAddress(address);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstClient().updateRefPerson(refPerson);
+            holder.getApp().updateRefPerson(refPerson);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstClient().updateEmail(email);
+            holder.getApp().updateEmail(email);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstClient().updatePassword(password);
+            holder.getApp().updatePassword(password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
     }
 
-    @Then("the client {string} with address {string} reference person {string} email {string} and password {string} is successfully updated")
-    public void the_client_with_address_reference_person_email_and_password_is_successfully_updated(String name,
-            String address, String refPerson, String email, String password) {
+    @Then("the new client data is {string} with address {string} reference person {string} email {string} and password {string}")
+    public void the_new_client_data_is_with_address_reference_person_email_and_password(String name, String address,
+            String refPerson, String email, String password) {
+        assertFalse(failed);
         assertNotEquals(null, holder.getFirstClient());
         assertEquals(name, holder.getFirstClient().getName());
         assertEquals(address, holder.getFirstClient().getAddress());
@@ -132,50 +140,51 @@ public class M1 {
         assertEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
     }
 
-    @Then("the client {string} with address {string} reference person {string} email {string} and password {string} is not updated")
-    public void the_client_with_address_reference_person_email_and_password_is_not_updated(String name, String address,
-            String refPerson, String email, String password) {
-        assertNotEquals(null, holder.getFirstClient());
-        assertNotEquals(name, holder.getFirstClient().getName());
-        assertNotEquals(address, holder.getFirstClient().getAddress());
-        assertNotEquals(refPerson, holder.getFirstClient().getRefPerson());
-        assertNotEquals(email, holder.getFirstClient().getEmail());
-        assertNotEquals(User.SHA1_Hasher(password), holder.getFirstClient().getPassword());
+    @Then("the client data has not been updated")
+    public void the_client_data_has_not_been_updated() {
+        assertTrue(failed);
     }
 
     @When("a logistics company enters new info {string} with address {string} reference person {string} email {string} and password {string}")
     public void a_logistics_company_enters_new_info_with_address_reference_person_email_and_password(String name,
             String address, String refPerson, String email, String password) {
+        failed = false;
         try {
-            holder.getFirstCompany().updateName(name);
+            holder.getApp().updateName(name);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstCompany().updateAddress(address);
+            holder.getApp().updateAddress(address);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstCompany().updateRefPerson(refPerson);
+            holder.getApp().updateRefPerson(refPerson);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstCompany().updateEmail(email);
+            holder.getApp().updateEmail(email);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
         try {
-            holder.getFirstCompany().updatePassword(password);
+            holder.getApp().updatePassword(password);
         } catch (WrongInputException e) {
             System.err.println(e.getMessage());
+            failed = true;
         }
     }
 
-    @Then("the logistics company {string} with address {string} reference person {string} email {string} and password {string} is successfully updated")
-    public void the_logistics_company_with_address_reference_person_email_and_password_is_successfully_updated(
-            String name, String address, String refPerson, String email, String password) {
+    @Then("the new logistics company data is {string} with address {string} reference person {string} email {string} and password {string}")
+    public void the_new_logistics_company_data_is_with_address_reference_person_email_and_password(String name,
+            String address, String refPerson, String email, String password) {
+        assertFalse(failed);
         assertNotEquals(null, holder.getFirstCompany());
         assertEquals(name, holder.getFirstCompany().getName());
         assertEquals(address, holder.getFirstCompany().getAddress());
@@ -184,14 +193,8 @@ public class M1 {
         assertEquals(User.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
     }
 
-    @Then("the logistics company {string} with address {string} reference person {string} email {string} and password {string} is not updated")
-    public void the_logistics_company_with_address_reference_person_email_and_password_is_not_updated(String name,
-            String address, String refPerson, String email, String password) {
-        assertNotEquals(null, holder.getFirstCompany());
-        assertNotEquals(name, holder.getFirstCompany().getName());
-        assertNotEquals(address, holder.getFirstCompany().getAddress());
-        assertNotEquals(refPerson, holder.getFirstCompany().getRefPerson());
-        assertNotEquals(email, holder.getFirstCompany().getEmail());
-        assertNotEquals(User.SHA1_Hasher(password), holder.getFirstCompany().getPassword());
+    @Then("the logistics company data has not been updated")
+    public void the_logistics_company_data_has_not_been_updated() {
+        assertTrue(failed);
     }
 }

@@ -97,26 +97,70 @@ public class Journey implements Comparable<Journey> {
         return history.contains(status);
     }
 
+    /**
+     * Getter for the origin port
+     * 
+     * @return origin port of the journey
+     */
     public String getOriginPort() {
         return originPort;
     }
 
+    /**
+     * Getter for the destination port
+     * 
+     * @return destination port of the journey
+     */
     public String getDestinationPort() {
         return destinationPort;
     }
 
+    /**
+     * Getter for the contents
+     * 
+     * @return contents of the journey
+     */
     public String getContent() {
         return content;
     }
 
+    /**
+     * Getter for the client
+     * 
+     * @return client of the journey
+     */
     public Client getClient() {
         return client;
     }
 
+    /**
+     * Getter of the container
+     * 
+     * @return container of the journey
+     */
     public Container getContainer() {
         return container;
     }
 
+    /**
+     * Method to find a container using its id
+     * 
+     * @param id of the container to be found
+     * @return true if the container exists, otherwise false
+     */
+    public boolean checkContainerById(int container_id) {
+        if (container != null && container.getId() == container_id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Setter for container
+     * 
+     * @param container for the journey
+     */
     public void setContainer(Container container) {
         this.container = container;
     }
@@ -222,22 +266,13 @@ public class Journey implements Comparable<Journey> {
     public int compareTo(Journey o) {
         return startTimestamp.compareTo(o.getStartTimestamp());
     }
+
     /**
      * Getter for the id
      * 
-     * @return int id for Journey 
+     * @return int id for Journey
      */
     public int getId() {
         return id;
     }
-    /**
-     * Getter for the history of container statuses
-     * 
-     * @return List of ContainerStatus of the journey
-     */
-    public List<ContainerStatus> getHistory() {
-
-        return history;
-    }
-
 }

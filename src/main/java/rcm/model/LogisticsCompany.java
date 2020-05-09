@@ -5,26 +5,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.io.IOException;
+import java.util.regex.Pattern;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
-import rcm.repository.Repository;
 
 @Entity
-
 public class LogisticsCompany extends User {
     @OneToMany(cascade = CascadeType.ALL)
-    List<Container> containers;
+    private List<Container> containers;
     @OneToMany(cascade = CascadeType.ALL)
-    Set<Client> clients;
-
-    @Transient
-    Repository db;
+    private Set<Client> clients;
 
     @SuppressWarnings("unused")
     private LogisticsCompany() {
@@ -34,22 +27,18 @@ public class LogisticsCompany extends User {
     /**
      * Logistics Company constructor
      * 
-     * @param db        database where to store the LogisticsCompany object
      * @param name      Name of the logistics company
      * @param address   Address of the logistics company
      * @param refPerson Reference person of the logistics company
      * @param email     Email of the logistics company
      * @param password  Password of the logistics company
      * @throws WrongInputException
-     * @throws IOException
      */
-    public LogisticsCompany(Repository db, String name, String address, String refPerson, String email, String password)
-            throws WrongInputException, IOException {
+    public LogisticsCompany(String name, String address, String refPerson, String email, String password)
+            throws WrongInputException {
         super(name, address, refPerson, email, password);
         containers = new LinkedList<Container>();
         clients = new HashSet<Client>();
-        this.db = db;
-        db.createLogisticsCompany(this);
     }
 
     /**
@@ -100,7 +89,7 @@ public class LogisticsCompany extends User {
      * @param p Search criteria
      * @return Set of clients that meet filter requirements
      */
-    private Set<Client> applyFilter(Predicate<Client> p) {
+    private Set<Client> applyClientFilter(Predicate<Client> p) {
         return clients.stream().filter(p).collect(Collectors.toSet());
     }
 
@@ -110,8 +99,10 @@ public class LogisticsCompany extends User {
      * @param name Search criteria
      * @return Set of clients that have a matching name
      */
-    public Set<Client> searchByName(String name) {
-        return applyFilter(c -> c.getName().equals(name));
+    public Set<Client> searchClientByName(String name) {
+        String regexSearch = "(" + name + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getName())).find());
     }
 
     /**
@@ -120,8 +111,10 @@ public class LogisticsCompany extends User {
      * @param address Search criteria
      * @return Set of clients that have a matching address
      */
-    public Set<Client> searchByAddress(String address) {
-        return applyFilter(c -> c.getAddress().equals(address));
+    public Set<Client> searchClientByAddress(String address) {
+        String regexSearch = "(" + address + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getAddress())).find());
     }
 
     /**
@@ -130,8 +123,10 @@ public class LogisticsCompany extends User {
      * @param refPerson Search criteria
      * @return Set of clients that have a matching reference person
      */
-    public Set<Client> searchByRefPerson(String refPerson) {
-        return applyFilter(c -> c.getRefPerson().equals(refPerson));
+    public Set<Client> searchClientByRefPerson(String refPerson) {
+        String regexSearch = "(" + refPerson + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getRefPerson())).find());
     }
 
     /**
@@ -140,33 +135,20 @@ public class LogisticsCompany extends User {
      * @param email Search criteria
      * @return Set of clients that have a matching email
      */
-    public Set<Client> searchByEmail(String email) {
-        return applyFilter(c -> c.getEmail().equals(email));
+    public Set<Client> searchClientByEmail(String email) {
+        String regexSearch = "(" + email + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return applyClientFilter(c -> (pattern.matcher(c.getEmail())).find());
     }
 
     /**
-     * Method to create a client and assign it to a logistics company
+     * Method to search clients by id
      * 
-     * @param name      Name of the client
-     * @param address   Address of the client
-     * @param refPerson Reference person of the client
-     * @param email     Email of the client
-     * @param password  Password of the client
-     * @return created client or null if client is not created
-     * @throws IOException
+     * @param id Search criteria
+     * @return Set of clients that have a matching id
      */
-    public Client createClient(String name, String address, String refPerson, String email, String password)
-            throws IOException {
-        try {
-            Client c = new Client(name, address, refPerson, email, password);
-            addClient(c);
-            c.assignCompany(this);
-            db.createClient(c);
-            return c;
-        } catch (WrongInputException e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
+    public Set<Client> searchClientById(String id) {
+        return applyClientFilter(c -> Integer.toString(c.getId()).equals(id));
     }
 
     /**
@@ -179,96 +161,11 @@ public class LogisticsCompany extends User {
     }
 
     /**
-     * Creates a journey for a given client and links them together
+     * Getter for the containers of the logistics company
      * 
-     * @param client          The client requesting a new journey
-     * @param originPort      The origin port of the journey
-     * @param destinationPort The destination port of the journey
-     * @param content         The content of the container transported in the
-     *                        journey
-     * @return null if the client is not of the logistics company creating the
-     *         journey
-     * @throws IOException
+     * @return List of Containers
      */
-    public Journey createJourney(Client client, String originPort, String destinationPort, String content)
-            throws IOException {
-        if (clients.contains(client)) {
-            Journey journey = new Journey(originPort, destinationPort, content, client);
-            client.addJourney(journey);
-            db.createJourney(journey);
-            return journey;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Starts a given journey with given time stamp
-     * 
-     * @param journey   The journey to be stared
-     * @param timestamp The time stamp to be set as starting time stamp of the
-     *                  journey
-     * @return Boolean of whether the journey was started successfully
-     */
-    public boolean startJourney(Journey journey, LocalDateTime timestamp) {
-        Container container = getAvailableContainer(timestamp);
-        if (journey != null && !journey.isStarted() && container != null) {
-            journey.setContainer(container);
-            journey.setStartTimestamp(timestamp);
-            journey.setStarted();
-            journey.getContainer().addJourney(journey);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Ends a given journey with given time stamp
-     * 
-     * @param journey   The journey to be ended
-     * @param timestamp The time stamp to be set as ending time stamp of the journey
-     * @return Boolean of whether the journey was ended successfully
-     */
-    public boolean endJourney(Journey journey, LocalDateTime timestamp) {
-        if (journey != null && !journey.isEnded() && journey.isStarted() && journey.isValidEndTimestamp(timestamp)) {
-            journey.setEndTimestamp(timestamp);
-            journey.setEnded();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Creates a container and links it together with the company
-     * 
-     * @return A created container
-     * @throws IOException
-     */
-    public Container createContainer() throws IOException {
-        Container container = new Container(this);
-        addContainer(container);
-        db.createContainer(container);
-        return container;
-    }
-
-    /**
-     * Enters a new container status to the given journey
-     * 
-     * @param status  The status to be entered
-     * @param journey The journey that the status should be entered to
-     * @return Boolean of whether the container status was entered successfully
-     * @throws IOException
-     */
-    public boolean enterStatus(ContainerStatus status, Journey journey) throws IOException {
-        if (journey != null && journey.getCompany().getId() == (this.getId()) && journey.isStarted()
-                && journey.getStartTimestamp().isBefore(status.getTimestamp()) && !journey.isEnded()) {
-            journey.addStatus(status);
-            db.updateCompany(this);
-            return true;
-        } else {
-            return false;
-        }
+    public List<Container> getContainers() {
+        return containers;
     }
 }

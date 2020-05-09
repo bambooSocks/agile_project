@@ -1,9 +1,8 @@
 package rcm.model;
 
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 import javax.persistence.CascadeType;
@@ -71,8 +70,10 @@ public class Client extends User {
      * @param destination Destination to be searched for
      * @return a list of journeys with the required destination
      */
-    public List<Journey> searchByDestination(String destination) {
-        return journeyList.stream().filter(j -> j.getDestinationPort().equals(destination))
+    public List<Journey> searchJourneyByDestination(String destination) {
+        String regexSearch = "(" + destination + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getDestinationPort())).find())
                 .collect(Collectors.toList());
     }
 
@@ -82,8 +83,11 @@ public class Client extends User {
      * @param origin Origin to be searched for
      * @return a list of journeys with the required origin
      */
-    public List<Journey> searchByOrigin(String origin) {
-        return journeyList.stream().filter(j -> j.getOriginPort().equals(origin)).collect(Collectors.toList());
+    public List<Journey> searchJourneyByOrigin(String origin) {
+        String regexSearch = "(" + origin + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getOriginPort())).find())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -92,51 +96,95 @@ public class Client extends User {
      * @param content Container contents to be searched for
      * @return a list of journeys with the required container contents
      */
-    public List<Journey> searchByContent(String content) {
-        return journeyList.stream().filter(j -> j.getContent().equals(content)).collect(Collectors.toList());
+    public List<Journey> searchJourneyByContent(String content) {
+        String regexSearch = "(" + content + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return journeyList.stream().filter(j -> (pattern.matcher(j.getContent())).find()).collect(Collectors.toList());
     }
 
     /**
-     * Method to view the data of a client
+     * Method to search journeys by id
      * 
-     * @param loggedIn boolean representing the log-in status of the first client
-     * @param email1   Email of the first client
-     * @param email2   Email of the second client
-     * @return a list of journeys of the second client
+     * @param id Journey id to be searched for
+     * @return a list of journeys with the required id
      */
-    public List<Journey> viewClientData(String email1, String email2) {
-        if (email1.equals(email2)) {
-            LinkedList<Client> cl = new LinkedList<Client>();
-            cl.addAll(company.searchByEmail(email2));
-            if (cl.isEmpty()) {
-                return null;
-            } else {
-                return cl.pop().getJourneyList();
-            }
+    public List<Journey> searchJourneyById(String id) {
+        return journeyList.stream().filter(j -> Integer.toString(j.getId()).equals(id)).collect(Collectors.toList());
+    }
+
+    /**
+     * Method to share a journey with another client
+     * 
+     * @param client  Client the journey is shared with
+     * @param journey Journey to be shared with the client
+     * @return true if journey is successfully shared, otherwise false
+     */
+    public boolean shareJourney(Client client, Journey journey) {
+        if (client != null && journey != null && journeyList.contains(journey)) {
+            client.addSharedJourney(journey);
+            return true;
         } else {
-            return null;
+            return false;
         }
     }
 
     /**
-     * Method to share journeys of one client with another client
+     * Method to add a shared journey to the list of shared journeys
      * 
-     * @param loggedIn boolean representing the log-in status of the first client
-     * @param email1   Email of the first client
-     * @param email2   Email of the second client
-     * @return a list of shared journeys of the second client
+     * @param journey Journey to be added to the list of shared journeys
      */
-    public List<Journey> shareClientData(String email1, String email2) {
-        LinkedList<Client> cl1 = new LinkedList<Client>();
-        LinkedList<Client> cl2 = new LinkedList<Client>();
-        cl1.addAll(company.searchByEmail(email1));
-        cl2.addAll(company.searchByEmail(email2));
-        if (cl1.isEmpty() || cl2.isEmpty()) {
-            return sharedJourneyList;
-        } else {
-            sharedJourneyList.addAll(cl1.pop().getJourneyList());
-            return sharedJourneyList;
-        }
+    public void addSharedJourney(Journey journey) {
+        sharedJourneyList.add(journey);
+    }
+
+    /**
+     * Method to search shared journeys using destination
+     * 
+     * @param destination Destination to be searched for
+     * @return a list of shared journeys with the required destination
+     */
+    public List<Journey> searchSharedJourneyByDestination(String destination) {
+        String regexSearch = "(" + destination + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return sharedJourneyList.stream().filter(j -> (pattern.matcher(j.getDestinationPort())).find())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search shared journeys using Origin
+     * 
+     * @param origin Origin to be searched for
+     * @return a list of shared journeys with the required origin
+     */
+    public List<Journey> searchSharedJourneyByOrigin(String origin) {
+        String regexSearch = "(" + origin + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return sharedJourneyList.stream().filter(j -> (pattern.matcher(j.getOriginPort())).find())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search shared journeys by container contents
+     * 
+     * @param content Container contents to be searched for
+     * @return a list of shared journeys with the required container contents
+     */
+    public List<Journey> searchSharedJourneyByContent(String content) {
+        String regexSearch = "(" + content + ")";
+        Pattern pattern = Pattern.compile(regexSearch, Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+        return sharedJourneyList.stream().filter(j -> (pattern.matcher(j.getContent())).find())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Method to search shared journeys by id
+     * 
+     * @param id Journey id to be searched for
+     * @return a list of shared journeys with the required id
+     */
+    public List<Journey> searchSharedJourneyById(String id) {
+        return sharedJourneyList.stream().filter(j -> Integer.toString(j.getId()).equals(id))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -146,42 +194,10 @@ public class Client extends User {
      * @return List of container statuses of the given journey
      */
     public List<ContainerStatus> requestStatus(Journey journey) {
-        if (journey.getClient().equals(this)) {
+        if (journey.getClient().equals(this) || sharedJourneyList.contains(journey)) {
             return journey.getStatus();
         } else {
             return null;
-        }
-    }
-
-    /**
-     * Requests the company to create a journey
-     * 
-     * @param originPort      the origin port of the journey
-     * @param destinationPort the destination port of the journey
-     * @param content         content of the container in the journey
-     * @param timestamp       time stamp of the journey start
-     * @return Response.SUCCESS for journey created and added to journeyList
-     *         JOURNEY_NOT_STARTED for failing to start journey. The journey is
-     *         added to the journeyList. JOURNEY_NOT_CREATED for failing to create
-     *         journey
-     * @implNote This method only works if the client is assigned to a company
-     */
-    public Response requestJourney(String originPort, String destinationPort, String content, LocalDateTime timestamp) {
-        Journey journey;
-        try {
-            journey = company.createJourney(this, originPort, destinationPort, content);
-        } catch (IOException e) {
-            return Response.DATABASE_ERROR;
-
-        }
-        if (journey != null) {
-            if (company.startJourney(journey, timestamp)) {
-                return Response.SUCCESS;
-            } else {
-                return Response.JOURNEY_NOT_STARTED;
-            }
-        } else {
-            return Response.JOURNEY_NOT_CREATED;
         }
     }
 
@@ -194,10 +210,6 @@ public class Client extends User {
         return journeyList;
     }
 
-    public LogisticsCompany getCompany() {
-        return company;
-    }
-
     /**
      * Getter for List of shared Journeys belonging to the client
      * 
@@ -205,5 +217,14 @@ public class Client extends User {
      */
     public List<Journey> getSharedJourneyList() {
         return sharedJourneyList;
+    }
+
+    /**
+     * Getter for logistics company
+     * 
+     * @return a logistics company
+     */
+    public LogisticsCompany getCompany() {
+        return company;
     }
 }

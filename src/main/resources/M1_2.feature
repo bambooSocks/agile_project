@@ -1,67 +1,65 @@
 @tag
 Feature: Client searching
-Background:
-Given an empty database
+
+  Background: 
+    Given a logged in logistics company with client
+
   @tag1
   Scenario: Successful search using client name
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    When a first logistics company searches for name "Chiquita"
-    Then it exists and the client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123" is returned
+    When a logistics company searches for name "Chiquita"
+    Then the client of the logistics company is returned
 
   @tag2
   Scenario: Failed search using client name
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    When a first logistics company searches for name "Dole"
-    Then it does not exist and no client is returned
+    When a logistics company searches for name "Dole"
+    Then no client is returned
 
   @tag3
   Scenario: Successful search using address
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    When a first logistics company searches for address "1855 Griffin Rd. Miami, Florida"
-    Then it exists and the client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123" is returned
+    When a logistics company searches for address "Miami, FL"
+    Then the client of the logistics company is returned
 
   @tag4
   Scenario: Failed search using address
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    When a first logistics company searches for address "some address"
-    Then it does not exist and no client is returned
+    When a logistics company searches for address "some address"
+    Then no client is returned
 
   @tag5
   Scenario: Successful search using reference person
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    When a first logistics company searches for reference person "Carmen Rodriguez"
-    Then it exists and the client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123" is returned
+    When a logistics company searches for reference person "Banana Man"
+    Then the client of the logistics company is returned
 
   @tag6
   Scenario: Failed search using reference person
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Chiquita" with address "1855 Griffin Rd. Miami, Florida" reference person "Carmen Rodriguez" email "bananas@chiquita.com" and password "Object123"
-    When a first logistics company searches for reference person "Car7men Nodriguez"
-    Then it does not exist and no client is returned
+    When a logistics company searches for reference person "Carmen nodriguez"
+    Then no client is returned
 
   @tag7
   Scenario: Successful search using email
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123"
-    When a first logistics company searches for email "info@novonordisk.com"
-    Then it exists and the client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123" is returned
+    When a logistics company searches for email "bananas@chiquita.com"
+    Then the client of the logistics company is returned
 
   @tag8
   Scenario: Failed search using email
-    Given a first logistics company "Maersk" with address "Esplanaden 50, 1098 Koebenhavn K" reference person "Soeren Skou" email "info@maersk.com" and password "Agile123"
-    And first logistics company is logged-in with email "info@maersk.com" and password "Agile123"
-    And a first client "Novo Nordisk" with address "Novo Alle, 2880 Bagsvaerd" reference person "Lars Fruergaard Joergensen" email "info@novonordisk.com" and password "Object123"
-    When a first logistics company searches for email "bigyellowbananas@chiquita.com"
-    Then it does not exist and no client is returned
+    When a logistics company searches for email "fakeEmail@chiquita.com"
+    Then no client is returned
+
+  @tag9
+  Scenario: Successful search using partial name
+    When a logistics company searches for name "iQuit"
+    Then the client of the logistics company is returned
+
+  @tag10
+  Scenario: Successful search using partial address
+    When a logistics company searches for address "aMi"
+    Then the client of the logistics company is returned
+
+  @tag11
+  Scenario: Successful search using partial reference person
+    When a logistics company searches for reference person "aNaNa"
+    Then the client of the logistics company is returned
+
+  @tag12
+  Scenario: Successful search using partial email
+    When a logistics company searches for email "iQuita."
+    Then the client of the logistics company is returned
