@@ -18,26 +18,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AdvancedSearchView extends JDialog {
-
-    private static final long serialVersionUID = -7175406337438643480L;
+public class AdvancedJourneySearchView extends JDialog {
+    private static final long serialVersionUID = -375579492666292741L;
 
     private JTextField search = new JTextField(15);
 
     private JLabel lbl1 = new JLabel("Search:");
     private JLabel lbl2 = new JLabel("Filter by:");
 
-    private JCheckBox cb1 = new JCheckBox("Name");
-    private JCheckBox cb2 = new JCheckBox("Address");
-    private JCheckBox cb3 = new JCheckBox("Reference Person");
-    private JCheckBox cb4 = new JCheckBox("Email");
+    private JCheckBox cb1 = new JCheckBox("Origin Port");
+    private JCheckBox cb2 = new JCheckBox("Destination Port");
+    private JCheckBox cb3 = new JCheckBox("Contents");
 
     private JButton b1 = new JButton("Search");
     private JButton b2 = new JButton("Cancel");
 
-    public AdvancedSearchView() {
+    public AdvancedJourneySearchView() {
 
-        setTitle("Advanced Client Search");
+        setTitle("Advanced Journey Search");
         setModal(true);
 
         JPanel panel = new JPanel(new GridBagLayout());
@@ -68,7 +66,6 @@ public class AdvancedSearchView extends JDialog {
         cbBox.add(cb1);
         cbBox.add(cb2);
         cbBox.add(cb3);
-        cbBox.add(cb4);
 
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
@@ -76,7 +73,6 @@ public class AdvancedSearchView extends JDialog {
         cb1.addKeyListener(kl);
         cb2.addKeyListener(kl);
         cb3.addKeyListener(kl);
-        cb4.addKeyListener(kl);
         panel.add(cbBox, constraints);
 
         // Search Button
@@ -128,8 +124,6 @@ public class AdvancedSearchView extends JDialog {
                     cb2.doClick();
                 } else if (event.getSource() == cb3) {
                     cb3.doClick();
-                } else if (event.getSource() == cb4) {
-                    cb4.doClick();
                 } else {
                     b1.doClick();
                 }
