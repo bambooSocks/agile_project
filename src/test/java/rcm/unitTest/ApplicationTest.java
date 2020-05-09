@@ -72,7 +72,6 @@ public class ApplicationTest {
         assertTrue(app.searchForClients("Kbh").contains(client1));
         assertTrue(app.searchForClients("Someone else").contains(client1));
         assertTrue(app.searchForClients("info@novonordisk.com").contains(client1));
-        assertTrue(app.searchForClients(Integer.toString(client1.getId())).contains(client1));
         app.logOut();
     }
 
@@ -108,18 +107,15 @@ public class ApplicationTest {
         assertTrue(app.searchForJourneys("Copenhagen").contains(journey1));
         assertTrue(app.searchForJourneys("Rotterdam").contains(journey1));
         assertTrue(app.searchForJourneys("medical tools").contains(journey1));
-        assertTrue(app.searchForJourneys(Integer.toString(journey1.getId())).contains(journey1));
         app.logOut();
     }
 
     @Test
     public void testSearchForSharedJourneys() throws WrongInputException {
         app.logInUser("dole@bananas.com", "Object123");
-        Set<Journey> resultList = new HashSet<Journey>(app.requestSharedJourneys());
-        assertTrue(resultList.equals(app.searchForSharedJourneys("Copenhagen")));
-        assertTrue(resultList.equals(app.searchForSharedJourneys("Rotterdam")));
-        assertTrue(resultList.equals(app.searchForSharedJourneys("medical tools")));
-        assertTrue(resultList.equals(app.searchForSharedJourneys(Integer.toString(journey.getId()))));
+        assertTrue(app.searchForSharedJourneys("Copenhagen").contains(journey));
+        assertTrue(app.searchForSharedJourneys("Rotterdam").contains(journey));
+        assertTrue(app.searchForSharedJourneys("medical tools").contains(journey));
         app.logOut();
     }
 

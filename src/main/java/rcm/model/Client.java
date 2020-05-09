@@ -113,28 +113,6 @@ public class Client extends User {
     }
 
     /**
-     * Method to view the data of a client
-     * 
-     * @param loggedIn boolean representing the log-in status of the first client
-     * @param email1   Email of the first client
-     * @param email2   Email of the second client
-     * @return a list of journeys of the second client
-     */
-    public List<Journey> viewClientData(String email1, String email2) {
-        if (email1.equals(email2)) {
-            LinkedList<Client> cl = new LinkedList<Client>();
-            cl.addAll(company.searchClientByEmail(email2));
-            if (cl.isEmpty()) {
-                return null;
-            } else {
-                return cl.pop().getJourneyList();
-            }
-        } else {
-            return null;
-        }
-    }
-
-    /**
      * Method to share a journey with another client
      * 
      * @param client  Client the journey is shared with

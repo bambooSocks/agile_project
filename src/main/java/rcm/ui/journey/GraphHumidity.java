@@ -48,7 +48,7 @@ public abstract class GraphHumidity extends BaseGraph {
                 int m = date.getMonthValue();
                 int y = date.getYear();
                 double value = s.getHumidity();
-                series.add(new Minute(min, h, d, m, y), value);
+                series.addOrUpdate(new Minute(min, h, d, m, y), value);
             }
             setVisible(true);
         } else {

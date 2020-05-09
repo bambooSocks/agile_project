@@ -100,6 +100,14 @@ public class ClientsInfoView extends BaseInfoView {
                 public void actionPerformed(ActionEvent evt) {
                     try {
                         int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+
+                        if ((app.getJourneyById(id).getStartTimestamp() == null)) {
+                            app.fireChange("aPendingJourney");
+                        } else if ((app.getJourneyById(id).getEndTimestamp() == null)) {
+                            app.fireChange("aStartedJourney");
+                        } else {
+                            app.fireChange("anEndedJourney");
+                        }
                         app.fireChange("setCompanyJourneysClient", client_id);
                         app.fireChange("showCompanyJourney", id);
                     } catch (Exception e) {

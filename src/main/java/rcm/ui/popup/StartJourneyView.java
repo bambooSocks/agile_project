@@ -107,6 +107,7 @@ public class StartJourneyView extends JDialog {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
                 LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
                 app.startJourney(journey_id, dateTime);
+                Dialog.InfoDialog("Your journey has successfully started", "Successful starting");
                 app.fireChange("startJourney");
                 dispose();
             }

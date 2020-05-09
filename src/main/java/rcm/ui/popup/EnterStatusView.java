@@ -178,9 +178,11 @@ public class EnterStatusView extends JDialog {
                         app.enterNewContainerStatus(journey_id, dateTime, Double.parseDouble(tempField.getText()),
                                 Double.parseDouble(humidityField.getText()),
                                 Double.parseDouble(atmPressureField.getText()), locationField.getText());
+                        Dialog.InfoDialog("The status has been added to the journey", "Successful status");
                         app.fireChange("newStatus");
                     } catch (NumberFormatException e) {
-                        Dialog.ErrorDialog("Temperature, humidity, and pressure must be a number.", "Number Format error");
+                        Dialog.ErrorDialog("Temperature, humidity, and pressure must be a number.",
+                                "Number Format error");
                     } catch (IOException e) {
                         Dialog.ErrorDialog("Something went wrong with the database", "Database error");
                     }

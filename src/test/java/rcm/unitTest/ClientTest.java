@@ -36,9 +36,4 @@ public class ClientTest {
         assertFalse(client1.shareJourney(null, null));
         assertFalse(client1.shareJourney(client1, null));
     }
-
-    @Test
-    public void testViewClientData() {
-        assertEquals(null, client1.viewClientData("bla@fake.com", "bla@fake.com"));
-    }
 }

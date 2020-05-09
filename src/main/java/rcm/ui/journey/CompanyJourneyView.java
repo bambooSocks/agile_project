@@ -50,6 +50,10 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
     private static final long serialVersionUID = -6993300655884720698L;
     private Integer client_id, container_id = null;
 
+    private JButton enterStatus;
+    private JButton startJourney;
+    private JButton endJourney;
+
     public CompanyJourneyView(Application app) {
         super(app, new CompanyJourneyTopBar(app));
         app.addObserver(this);
@@ -59,7 +63,9 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
     protected JPanel buildRightButton() {
         JPanel rightPanel = new JPanel(new GridLayout(3, 1));
 
-        JButton enterStatus = new JButton("Enter Status");
+        enterStatus = new JButton("Enter Status");
+        startJourney = new JButton("Start Journey");
+        endJourney = new JButton("End Journey");
         enterStatus.setFont(new Font("", Font.PLAIN, 14));
         enterStatus.setPreferredSize(new Dimension(150, 30));
         enterStatus.addActionListener(new ActionListener() {
@@ -71,7 +77,6 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
             }
         });
 
-        JButton startJourney = new JButton("Start Journey");
         startJourney.setFont(new Font("", Font.PLAIN, 14));
         startJourney.setPreferredSize(new Dimension(150, 30));
         if (journey != null && journey.isStarted()) {
@@ -83,17 +88,16 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
                     popup.setLocationRelativeTo(null);
                     popup.setVisible(true);
                 }
-            });            
+            });
         }
 
-        JButton endJourney = new JButton("End Journey");
         endJourney.setFont(new Font("", Font.PLAIN, 14));
         endJourney.setPreferredSize(new Dimension(150, 30));
         if (journey != null && (!journey.isStarted() || journey.isEnded())) {
             endJourney.setEnabled(false);
         } else {
             endJourney.addActionListener(new ActionListener() {
-                
+
                 public void actionPerformed(ActionEvent e) {
                     EndJourneyView popup = new EndJourneyView(app, journey_id);
                     popup.setLocationRelativeTo(null);
@@ -101,7 +105,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
                 }
             });
         }
-        
+
         rightPanel.add(enterStatus);
         rightPanel.add(startJourney);
         rightPanel.add(endJourney);
@@ -126,8 +130,6 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
         case "newStatus":
-        case "startJourney":
-        case "endJourney":
         case "showCompanyJourney":
             journey = app.getJourneyById(journey_id);
             statuses = requestStatus();
@@ -145,6 +147,31 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
             container_id = (int) evt.getNewValue();
             client_id = null;
             break;
+
+        case "aPendingJourney":
+            enterStatus.setEnabled(false);
+            startJourney.setEnabled(true);
+            endJourney.setEnabled(false);
+            break;
+
+        case "startJourney":
+        case "aStartedJourney":
+            journey = app.getJourneyById(journey_id);
+            contentLabelsPanel.updatePanel();
+            enterStatus.setEnabled(true);
+            startJourney.setEnabled(false);
+            endJourney.setEnabled(true);
+            break;
+
+        case "endJourney":
+        case "anEndedJourney":
+            journey = app.getJourneyById(journey_id);
+            contentLabelsPanel.updatePanel();
+            enterStatus.setEnabled(false);
+            startJourney.setEnabled(false);
+            endJourney.setEnabled(false);
+            break;
+
         default:
             break;
         }
