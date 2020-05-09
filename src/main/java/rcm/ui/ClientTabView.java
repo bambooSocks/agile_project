@@ -45,7 +45,6 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
         setMnemonicAt(0, KeyEvent.VK_1);
         addTab("Shared Journeys", createSharedJourneyCards());
         setMnemonicAt(1, KeyEvent.VK_2);
-
         setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     }
 
@@ -96,7 +95,5 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
         default:
             break;
         }
-
     }
-
 }

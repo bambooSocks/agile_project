@@ -54,7 +54,6 @@ public abstract class GraphTemperature extends BaseGraph {
         } else {
             setVisible(false);
         }
-
         dataset.addSeries(series);
 
         return dataset;
@@ -92,5 +91,4 @@ public abstract class GraphTemperature extends BaseGraph {
 
         return chart;
     }
-
 }

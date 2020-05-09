@@ -20,7 +20,7 @@ public abstract class BaseMenuBar extends JMenuBar implements PropertyChangeList
     public BaseMenuBar(Application app) {
         this.app = app;
         app.addObserver(this);
-        
+
         // create a menu
         prof = new JMenu("Profile");
         search = new JMenu("Search");
@@ -32,12 +32,11 @@ public abstract class BaseMenuBar extends JMenuBar implements PropertyChangeList
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProfileView popup = new ProfileView(app);
-                
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
         });
-        
+
         logout = new JMenuItem("Log out");
         logout.addActionListener(new ActionListener() {
             @Override
@@ -52,6 +51,5 @@ public abstract class BaseMenuBar extends JMenuBar implements PropertyChangeList
 
         // add menu to menu bar
         add(prof);
-
     }
 }

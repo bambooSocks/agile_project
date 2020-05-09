@@ -47,7 +47,7 @@ public class ProfileView extends JDialog {
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setSize(new Dimension(400, 300)); // (width, height)
-        
+
         if (app.getLoggedInClient() != null) {
             user = app.getLoggedInClient();
         } else if (app.getLoggedInCompany() != null) {
@@ -146,7 +146,7 @@ public class ProfileView extends JDialog {
                     dispose();
                 } catch (WrongInputException e) {
                     Dialog.ErrorDialog(e.getMessage(), "Input error");
-                }                
+                }
             }
         });
         panel.add(b2, constraints);
@@ -170,7 +170,6 @@ public class ProfileView extends JDialog {
         panel.setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
-
         add(panel);
         pack();
         setLocationRelativeTo(null);
@@ -194,7 +193,6 @@ public class ProfileView extends JDialog {
 }
 
 class PasswordView extends JDialog {
-
     private static final long serialVersionUID = -5106418056161602438L;
     private User user = null;
 
@@ -210,7 +208,7 @@ class PasswordView extends JDialog {
     private JButton b2 = new JButton("Cancel");
 
     public PasswordView(Application app) {
-        
+
         setTitle("Change Password");
         setModal(true);
 
@@ -219,7 +217,7 @@ class PasswordView extends JDialog {
         } else if (app.getLoggedInCompany() != null) {
             user = app.getLoggedInCompany();
         }
-        
+
         JPanel panel = new JPanel(new GridBagLayout());
         KeyListener kl = new KeyListener();
         GridBagConstraints constraints = new GridBagConstraints();
@@ -301,7 +299,6 @@ class PasswordView extends JDialog {
         panel.setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
-
         add(panel);
         pack();
         setLocationRelativeTo(null);

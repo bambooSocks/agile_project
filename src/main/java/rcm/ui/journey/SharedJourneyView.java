@@ -41,7 +41,6 @@ class SharedJourneyTopBar extends BaseTopBar {
         topSide.add(backButton, BorderLayout.WEST);
         return topSide;
     }
-
 }
 
 public class SharedJourneyView extends BaseJourneyView implements PropertyChangeListener {
@@ -65,7 +64,7 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
     protected List<ContainerStatus> requestStatus() {
         return app.requestStatus(journey_id);
     }
-    
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
@@ -82,5 +81,4 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
             break;
         }
     }
-
 }

@@ -108,7 +108,7 @@ public class EndJourneyView extends JDialog {
                 LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
                 if (app.endJourney(journey_id, dateTime)) {
                     Dialog.InfoDialog("Your journey has successfully ended", "Successful ending");
-                    app.fireChange("endJourney");  
+                    app.fireChange("endJourney");
                 } else {
                     Dialog.ErrorDialog("Failed to end the journey, check the time stamp", "Failed to end journey");
                 }

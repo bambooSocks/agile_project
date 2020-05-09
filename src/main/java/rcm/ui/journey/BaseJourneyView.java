@@ -64,6 +64,7 @@ public abstract class BaseJourneyView extends BaseView {
                 return buildLabelsJourney();
             }
         };
+
         contentLabelsPanel.setBorder(BorderFactory.createEtchedBorder());
         panel.add(contentLabelsPanel, cMain);
 
@@ -84,6 +85,7 @@ public abstract class BaseJourneyView extends BaseView {
                 return requestStatus();
             }
         };
+
         tempGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
         panel.add(tempGraph, cMain);
 
@@ -98,6 +100,7 @@ public abstract class BaseJourneyView extends BaseView {
                 return requestStatus();
             }
         };
+
         pressureGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
         panel.add(pressureGraph, cMain);
 
@@ -112,6 +115,7 @@ public abstract class BaseJourneyView extends BaseView {
                 return requestStatus();
             }
         };
+
         humidityGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
         panel.add(humidityGraph, cMain);
 
@@ -182,14 +186,15 @@ public abstract class BaseJourneyView extends BaseView {
         label5.setFont(new Font("", Font.BOLD, 14));
         label6 = new JLabel("End Date: ");
         label6.setFont(new Font("", Font.BOLD, 14));
-        if (journey.getStartTimestamp() == null) {
+        
+        if (journey == null || journey.getStartTimestamp() == null) {
             startDate = new JLabel("not started yet");
         } else {
             startDate = new JLabel(journey.getStartTimestamp().format(formatter));
         }
 
         startDate.setFont(new Font("", Font.ITALIC, 14));
-        if (journey.getEndTimestamp() == null) {
+        if (journey == null || journey.getEndTimestamp() == null) {
             endDate = new JLabel("not ended yet");
         } else {
             endDate = new JLabel(journey.getEndTimestamp().format(formatter));

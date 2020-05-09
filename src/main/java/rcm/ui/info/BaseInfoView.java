@@ -36,12 +36,12 @@ class TableMouseListeners extends MouseAdapter {
     }
 }
 
-public abstract class BaseInfoView extends BaseView implements PropertyChangeListener{
+public abstract class BaseInfoView extends BaseView implements PropertyChangeListener {
 
     private static final long serialVersionUID = 3559026551108682625L;
     protected JTable table;
     protected UpdatablePanel infoPanel;
-    
+
     protected BaseInfoView(Application app, BaseTopBar topBar) {
         super(app, topBar);
         app.addObserver(this);
@@ -51,7 +51,7 @@ public abstract class BaseInfoView extends BaseView implements PropertyChangeLis
     protected Component buildContent() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        
+
         table = new JTable();
 
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
@@ -70,12 +70,11 @@ public abstract class BaseInfoView extends BaseView implements PropertyChangeLis
         };
         panel.add(infoPanel, BorderLayout.NORTH);
         panel.add(new JScrollPane(table), BorderLayout.CENTER);
-        
+
         return panel;
     }
-    
+
     public abstract void updateTableModel();
-    
+
     public abstract JPanel buildInfoPanel();
-    
 }

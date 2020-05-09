@@ -140,6 +140,12 @@ public class Container {
         return journeyList.stream().filter(j -> Integer.toString(j.getId()).equals(id)).collect(Collectors.toList());
     }
 
+    /**
+     * Method to request the status of a journey
+     * 
+     * @param journey to be searched for
+     * @return status of the journey if found, otherwise null
+     */
     public List<ContainerStatus> requestStatus(Journey journey) {
         if (journey != null && journeyList.contains(journey)) {
             return journey.getStatus();

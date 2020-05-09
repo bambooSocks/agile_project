@@ -11,15 +11,15 @@ import rcm.unitTest.*;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-    // Acceptance tests
-    CucumberTest.class,
-    // Unit tests
-    JourneyTest.class,
-    ApplicationTest.class,
-    ClientTest.class,
-    LogisticsCompanyTest.class,
-    ContainerStatusTest.class,
-    TestDatabaseAccess.class,
-    TestDB2.class
-})
-public class FullSuite { }
+        // Acceptance tests
+        CucumberTest.class,
+        // Unit tests
+        JourneyTest.class, 
+        ApplicationTest.class, 
+        ClientTest.class, 
+        LogisticsCompanyTest.class,
+        ContainerStatusTest.class, 
+        TestDatabaseAccess.class, 
+        TestDB2.class })
+public class FullSuite {
+}

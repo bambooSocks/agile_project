@@ -51,7 +51,7 @@ public class CompanyMenuBar extends BaseMenuBar {
                 popup.setVisible(true);
             }
         });
-        
+
         JMenuItem clearSearch = new JMenuItem("Clear Search");
         clearSearch.addActionListener(new ActionListener() {
 

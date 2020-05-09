@@ -34,8 +34,6 @@ public class LogInView extends JPanel {
     public LogInView(Application app) {
 
         JPanel panel = new JPanel(new GridBagLayout());
-//        setSize(new Dimension(400, 400)); // (width, height)
-
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.insets = new Insets(10, 10, 10, 10);

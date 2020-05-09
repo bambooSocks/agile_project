@@ -12,7 +12,7 @@ import rcm.model.WrongInputException;
 public class FakeData {
     public static void setupFakeApp(Application app) throws WrongInputException, IOException {
         // Company 1
-        app.createNewLogisticsCompany("Agrofert", "Rendebanen 6D, 6000 Kolding", "Peter Hansen", "peter@agrofert.dk",
+        app.createNewLogisticsCompany("Hamburg-Sud", "Rendebanen 6D, 6000 Kolding", "Peter Hansen", "peter@hamburg.de",
                 "Password12345");
         app.logInUser("peter@agrofert.dk", "Password12345");
         Client c1 = app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
@@ -34,13 +34,13 @@ public class FakeData {
 
         app.logInUser("tom@cbs.dk", "Password12345");
         Journey c1j1 = app.requestNewJourney("Copenhagen", "New York", "bananas");
-        Journey c1j2 = app.requestNewJourney("Rotterdam", "London", "cocaine");
+        Journey c1j2 = app.requestNewJourney("Rotterdam", "London", "computers");
         app.shareJourney(c2.getId(), c1j1.getId());
         app.shareJourney(c4.getId(), c1j1.getId());
 
         app.logInUser("william@novozymes.dk", "Password12345");
         Journey c2j1 = app.requestNewJourney("Pearl Harbor", "Tokyo", "robots");
-        Journey c2j2 = app.requestNewJourney("Hong Kong", "New York", "people");
+        Journey c2j2 = app.requestNewJourney("Hong Kong", "New York", "insulin");
         app.shareJourney(c1.getId(), c2j1.getId());
         app.shareJourney(c6.getId(), c2j1.getId());
 
@@ -321,9 +321,9 @@ public class FakeData {
         app.enterNewContainerStatus(cC5J1.getId(),
                 new ContainerStatus(LocalDateTime.of(2020, 4, 23, 15, 0), 45.0, 20.0, 101.0, "Border Planets"));
 
-        app.endJourney(cC3J3.getId(), LocalDateTime.of(2019, 5, 25, 15, 0));
-        app.endJourney(cC4J2.getId(), LocalDateTime.of(2019, 5, 25, 15, 0));
-        
+        app.endJourney(cC3J3.getId(), LocalDateTime.of(2020, 5, 25, 15, 0));
+        app.endJourney(cC4J2.getId(), LocalDateTime.of(2020, 5, 25, 15, 0));
+
         app.logOut();
         System.out.println("Database Setup");
     }

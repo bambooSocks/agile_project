@@ -163,5 +163,4 @@ public class SqliteRepository implements Repository {
             em.merge(logisticsCompany);
         });
     }
-
 }

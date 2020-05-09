@@ -22,7 +22,6 @@ import rcm.model.Application;
 import rcm.model.WrongInputException;
 
 public class CreateClientView extends JDialog {
-
     private static final long serialVersionUID = 1044408338796977511L;
 
     private JTextField nameField = new JTextField(10);
@@ -128,6 +127,7 @@ public class CreateClientView extends JDialog {
                     try {
                         app.createNewClient(nameField.getText(), addressField.getText(), refPersonField.getText(),
                                 emailField.getText(), new String(passwordField1.getPassword()));
+                        Dialog.InfoDialog("The client has been created", "Successful client creation");
                         dispose();
                     } catch (IOException e) {
                         Dialog.ErrorDialog("Something went wrong with the database", "Database error");

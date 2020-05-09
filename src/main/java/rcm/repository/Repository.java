@@ -11,9 +11,6 @@ import rcm.model.LogisticsCompany;
 public interface Repository {
     /**
      * Method to remove all objects from the database, does not change the structure
-     * 
-     * 
-     * 
      */
     void clearDatabase();
 
@@ -28,7 +25,6 @@ public interface Repository {
      * Method to retrieve the LogisticsCompany object from the database
      * 
      * @param key representing the email of the client
-     * 
      * @return LogisticsCompany object
      */
     LogisticsCompany readLogisticsCompany(String key) throws IOException;
@@ -44,7 +40,6 @@ public interface Repository {
      * Method to retrieve the Container object from the database
      * 
      * @param i representing the id of the container
-     * 
      * @return Container object
      */
     Container readContainer(int i) throws IOException;
@@ -60,7 +55,6 @@ public interface Repository {
      * Method to retrieve the Client object from the database
      * 
      * @param key representing the email of the client
-     * 
      * @return Client object
      */
     Client readClient(String key) throws IOException;
@@ -76,7 +70,6 @@ public interface Repository {
      * Method to retrieve the Journey object from the database
      * 
      * @param i representing the id of the journey
-     * 
      * @return Journey object
      */
     Journey readJourney(int i) throws IOException;
@@ -87,11 +80,11 @@ public interface Repository {
      * @param logisticsCompany LogisticsCompany to be updated
      */
     void updateCompany(LogisticsCompany logisticsCompany);
+
     /**
      * getter for LogisticsCompanies from the database
      * 
      * @return list of all LogisticsCompanies in the database
      */
     List<LogisticsCompany> readAllLogisticsCompanies() throws IOException;
-
 }

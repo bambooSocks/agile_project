@@ -24,7 +24,6 @@ public abstract class BaseGraph extends JPanel {
         this.app = app;
         this.journey_id = journey_id;
         initUI();
-
     }
 
     private void initUI() {
@@ -43,9 +42,8 @@ public abstract class BaseGraph extends JPanel {
     public abstract JFreeChart createChart();
 
     public abstract List<ContainerStatus> getStatus(int journey_id);
-    
+
     public ChartPanel getChartPanel() {
         return chartPanel;
     }
-
 }

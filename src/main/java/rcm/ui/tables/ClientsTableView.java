@@ -48,7 +48,6 @@ class ClientsTopBar extends BaseTopBar {
 
         return leftSide;
     }
-
 }
 
 public class ClientsTableView extends BaseTableView {
@@ -124,7 +123,8 @@ public class ClientsTableView extends BaseTableView {
             @SuppressWarnings("unchecked")
             Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
             String query = (String) filters.get("query");
-            clients = app.searchForClients(query, (boolean) filters.getOrDefault("name", false), (boolean) filters.getOrDefault("address", false),
+            clients = app.searchForClients(query, (boolean) filters.getOrDefault("name", false),
+                    (boolean) filters.getOrDefault("address", false),
                     (boolean) filters.getOrDefault("refPerson", false), (boolean) filters.getOrDefault("email", false));
             updateTableModel();
             break;
@@ -132,5 +132,4 @@ public class ClientsTableView extends BaseTableView {
             break;
         }
     }
-
 }

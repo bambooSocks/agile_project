@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -36,7 +35,7 @@ public class TestDatabaseAccess {
     @Before
     public void init() throws WrongInputException, IOException {
         repo = new SqliteRepository();
-        repo.clearDatabase(); // Remove all users from the database to get a fresh database for testing
+        repo.clearDatabase();
         app = new Application(repo);
 
         lc1 = app.createNewLogisticsCompany("Maersk", "Linde Alle", "Peter", "peter@maersk.dk", "Password12345");
@@ -55,7 +54,6 @@ public class TestDatabaseAccess {
 
     @Test
     public void testDatabase() throws IOException, WrongInputException {
-
         app.logInUser("peter@maersk.dk", "Password12345");
         boolean success = app.enterNewContainerStatus(j1.getId(), cs1);
         assertTrue(success);
@@ -71,7 +69,6 @@ public class TestDatabaseAccess {
         assertEquals("robots", dbJourney.getContent());
         ContainerStatus dbStatus = dbJourney.getStatus().get(0);
         assertEquals(35.0, dbStatus.getTemperature(), 0.001);
-
     }
 
     @Test
@@ -110,5 +107,4 @@ public class TestDatabaseAccess {
         j4 = repo.readJourney(-34574);
         assertEquals(null, j4);
     }
-
 }

@@ -63,7 +63,7 @@ public class ClientMenuBar extends BaseMenuBar {
                 app.fireChange(cmd, filters);
             }
         });
-        
+
         search.add(advSearch);
         search.add(clearSearch);
 

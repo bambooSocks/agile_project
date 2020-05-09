@@ -28,7 +28,6 @@ import javax.swing.JTextField;
 import rcm.model.Application;
 
 public class EnterStatusView extends JDialog {
-
     private static final long serialVersionUID = 905381235747598544L;
 
     private JTextField tempField = new JTextField(12);
@@ -175,11 +174,14 @@ public class EnterStatusView extends JDialog {
                     Dialog.ErrorDialog(error, "Empty field error");
                 } else {
                     try {
-                        app.enterNewContainerStatus(journey_id, dateTime, Double.parseDouble(tempField.getText()),
+                        if (app.enterNewContainerStatus(journey_id, dateTime, Double.parseDouble(tempField.getText()),
                                 Double.parseDouble(humidityField.getText()),
-                                Double.parseDouble(atmPressureField.getText()), locationField.getText());
-                        Dialog.InfoDialog("The status has been added to the journey", "Successful status");
-                        app.fireChange("newStatus");
+                                Double.parseDouble(atmPressureField.getText()), locationField.getText())) {
+                            Dialog.InfoDialog("The status has been added to the journey", "Successful status");
+                            app.fireChange("newStatus");
+                        } else {
+                            Dialog.ErrorDialog("The status was not added to the journey", "Failed to add status");
+                        }
                     } catch (NumberFormatException e) {
                         Dialog.ErrorDialog("Temperature, humidity, and pressure must be a number.",
                                 "Number Format error");

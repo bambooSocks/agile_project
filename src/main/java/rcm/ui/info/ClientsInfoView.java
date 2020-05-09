@@ -47,6 +47,7 @@ class ClientsInfoTopBar extends BaseTopBar {
                 app.fireChange("showClientsTable");
             }
         });
+
         leftSide.add(backButton, BorderLayout.WEST);
         return leftSide;
     }
@@ -210,7 +211,8 @@ public class ClientsInfoView extends BaseInfoView {
             Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
             String query = (String) filters.get("query");
             journeys = app.searchForClientsJourneys(client_id, query, (boolean) filters.getOrDefault("origin", false),
-                    (boolean) filters.getOrDefault("destination", false), (boolean) filters.getOrDefault("content", false));
+                    (boolean) filters.getOrDefault("destination", false),
+                    (boolean) filters.getOrDefault("content", false));
             updateTableModel();
             break;
         default:

@@ -35,8 +35,8 @@ public class O1 {
     }
 
     @When("the logistics company ends the journey with timestamp {int}:{int} {int}\\/{int}\\/{int}")
-    public void the_logistics_company_ends_the_journey_with_timestamp(Integer hours, Integer minutes,
-            Integer day, Integer month, Integer year) {
+    public void the_logistics_company_ends_the_journey_with_timestamp(Integer hours, Integer minutes, Integer day,
+            Integer month, Integer year) {
         LocalDateTime timestamp = LocalDateTime.of(year, month, day, hours, minutes);
         successfulJourneyEnd = holder.getApp().endJourney(holder.getFirstJourney().getId(), timestamp);
     }

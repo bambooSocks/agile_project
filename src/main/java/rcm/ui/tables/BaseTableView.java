@@ -48,16 +48,13 @@ public abstract class BaseTableView extends BaseView implements PropertyChangeLi
     @Override
     protected Component buildContent() {
         table = new JTable();
-
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
         table.getTableHeader().setReorderingAllowed(false);
-
         table.addMouseListener(new TableMouseListeners(table));
 
         return new JScrollPane(table);
     }
 
     public abstract void updateTableModel();
-
 }

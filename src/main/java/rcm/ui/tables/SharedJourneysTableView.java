@@ -29,7 +29,6 @@ class SharedJourneysTopBar extends BaseTopBar {
     public JPanel buildLeftSide() {
         return new JPanel();
     }
-
 }
 
 public class SharedJourneysTableView extends BaseTableView {
@@ -77,7 +76,6 @@ public class SharedJourneysTableView extends BaseTableView {
             popupMenu.add(itemViewSharedJourney);
 
             table.setComponentPopupMenu(popupMenu);
-
             table.setModel(tableModel);
             table.setEnabled(false);
 
@@ -115,12 +113,12 @@ public class SharedJourneysTableView extends BaseTableView {
             Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
             String query = (String) filters.get("query");
             journeys = app.searchForSharedJourneys(query, (boolean) filters.getOrDefault("origin", false),
-                    (boolean) filters.getOrDefault("destination", false), (boolean) filters.getOrDefault("content", false));
+                    (boolean) filters.getOrDefault("destination", false),
+                    (boolean) filters.getOrDefault("content", false));
             updateTableModel();
             break;
         default:
             break;
         }
     }
-
 }

@@ -92,5 +92,4 @@ public abstract class GraphHumidity extends BaseGraph {
 
         return chart;
     }
-
 }

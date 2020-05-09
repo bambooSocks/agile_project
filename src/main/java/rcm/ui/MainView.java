@@ -48,7 +48,6 @@ public class MainView extends JFrame implements PropertyChangeListener {
     public void run() {
         pack();
         setVisible(true);
-
     }
 
     @Override
@@ -88,11 +87,11 @@ public class MainView extends JFrame implements PropertyChangeListener {
         try {
             FakeData.setupFakeApp(app);
             // Company 1
-//            app.logInUser("peter@agrofert.dk", "Password12345");
+//            app.logInUser("peter@hamburg.de", "Password12345");
             // Company 2
-//            app.logInUser("christian@3maersk.dk", "Password12345");
+            app.logInUser("christian@3maersk.dk", "Password12345");
             // Client user from company 1
-            app.logInUser("tom@cbs.dk", "Password12345");  
+//            app.logInUser("tom@cbs.dk", "Password12345");  
             // Client user from company 2
 //            app.logInUser("gardener@shire.com", "Password12345");
         } catch (WrongInputException e) {

@@ -19,7 +19,6 @@ import javax.swing.JTextField;
 import rcm.model.Application;
 
 public class JourneyShareView extends JDialog {
-
     private static final long serialVersionUID = -6276216260193469897L;
 
     private JTextField client = new JTextField();
@@ -68,7 +67,7 @@ public class JourneyShareView extends JDialog {
                     app.shareJourney(id, journey_id);
                     Dialog.InfoDialog("Journey has been successfully shared", "Successful sharing");
                 } else {
-                    Dialog.ErrorDialog("don't have that email sorry", "Input error");
+                    Dialog.ErrorDialog("The email does not exist in the database", "Input error");
                 }
                 dispose();
             }
@@ -92,11 +91,9 @@ public class JourneyShareView extends JDialog {
         panel.setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
-
         add(panel);
         pack();
         setLocationRelativeTo(null);
-
     }
 
     class KeyListener extends KeyAdapter {

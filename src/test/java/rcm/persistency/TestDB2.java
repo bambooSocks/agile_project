@@ -16,7 +16,6 @@ public class TestDB2 {
 
     @Test
     public void testData() throws WrongInputException, IOException {
-
         Repository db = new SqliteRepository();
         Application app = new Application(db);
         db.clearDatabase();
@@ -108,5 +107,4 @@ public class TestDB2 {
         app.enterNewContainerStatus(j6.getId(),
                 new ContainerStatus(LocalDateTime.of(2020, 4, 23, 15, 0), 35.0, 5.0, 107.0, "Copenhagen"));
     }
-
 }

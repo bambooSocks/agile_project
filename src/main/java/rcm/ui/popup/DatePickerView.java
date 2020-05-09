@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class DatePickerView extends JDialog {
-
     private static final long serialVersionUID = -8323341876021134520L;
 
     private int month = java.util.Calendar.getInstance().get(java.util.Calendar.MONTH);

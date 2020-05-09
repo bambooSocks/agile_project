@@ -14,6 +14,6 @@ Feature: Client access to internal status
     And a list of statuses contains a status of 5.0 degrees, 80.0 % humidity and 1.01 bar with a timestamp 4:22 13/3/2020
 
   Scenario: Failed access because of wrong client in the journey
-    Given another client is now logged in 
+    Given another client is now logged in
     When the client requests access to the status
     Then a list of statuses is not returned

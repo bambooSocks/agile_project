@@ -139,5 +139,4 @@ public class ContainerStatus {
     public String getLocation() {
         return location;
     }
-
 }

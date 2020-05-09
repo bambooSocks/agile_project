@@ -42,7 +42,6 @@ class MyJourneyTopBar extends BaseTopBar {
         topSide.add(backButton, BorderLayout.WEST);
         return topSide;
     }
-
 }
 
 public class MyJourneyView extends BaseJourneyView implements PropertyChangeListener {
@@ -96,5 +95,4 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
             break;
         }
     }
-
 }

@@ -106,9 +106,12 @@ public class StartJourneyView extends JDialog {
             public void actionPerformed(ActionEvent evt) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
                 LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
-                app.startJourney(journey_id, dateTime);
-                Dialog.InfoDialog("Your journey has successfully started", "Successful starting");
-                app.fireChange("startJourney");
+                if (app.startJourney(journey_id, dateTime)) {
+                    Dialog.InfoDialog("Your journey has successfully started", "Successful starting");
+                    app.fireChange("startJourney");
+                } else {
+                    Dialog.ErrorDialog("Failed to start the journey", "Failed to start journey");
+                }
                 dispose();
             }
         });
@@ -130,7 +133,6 @@ public class StartJourneyView extends JDialog {
         panel.setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
-
         add(panel);
         pack();
         setLocationRelativeTo(null);

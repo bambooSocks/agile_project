@@ -50,7 +50,6 @@ class ContainersTopBar extends BaseTopBar {
 
         return leftSide;
     }
-
 }
 
 public class ContainersTableView extends BaseTableView {
@@ -78,7 +77,6 @@ public class ContainersTableView extends BaseTableView {
                 Container c = containers.get(i);
                 int dataId = c.getId();
                 String dataState = ((c.isAvailable(LocalDateTime.now())) ? "available" : "not available right now");
-//                String dataLastJourney = ((c.getJourneyList() != null)) ? String.valueOf(c.getJourneyList().getLast().getId()) : "none";
                 Object[] rowData = { dataId, dataState };
                 tableModel.addRow(rowData);
             }
@@ -118,5 +116,4 @@ public class ContainersTableView extends BaseTableView {
             break;
         }
     }
-
 }

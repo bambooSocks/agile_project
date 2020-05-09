@@ -41,13 +41,12 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
                 app.fireChange("companyTabChanged", tabs.getSelectedIndex());
             }
         });
+
         tabs.addTab("Clients", createClientsCards());
         tabs.setMnemonicAt(0, KeyEvent.VK_1);
         tabs.addTab("Containers", createContainersCards());
         tabs.setMnemonicAt(1, KeyEvent.VK_2);
-
         journeyView = new CompanyJourneyView(app);
-
         tabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         add(tabs);
         add(journeyView);
@@ -122,5 +121,4 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
             break;
         }
     }
-
 }

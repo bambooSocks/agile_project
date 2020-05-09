@@ -20,7 +20,6 @@ import javax.swing.JTextField;
 import rcm.model.Application;
 
 public class CreateJourneyView extends JDialog {
-
     private static final long serialVersionUID = 1242136189691358210L;
 
     private JTextField originField = new JTextField(12);
@@ -103,6 +102,7 @@ public class CreateJourneyView extends JDialog {
                     try {
                         app.requestNewJourney(originField.getText(), destinationField.getText(),
                                 contentField.getText());
+                        Dialog.InfoDialog("The journey has been created", "Successful journey creation");
                         app.fireChange("newJourney");
                         dispose();
                     } catch (IOException e) {

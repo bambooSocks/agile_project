@@ -96,7 +96,6 @@ public class TimePickerView extends JDialog {
         panel.setBorder(BorderFactory
                 .createCompoundBorder(BorderFactory.createCompoundBorder(BorderFactory.createLoweredBevelBorder(),
                         BorderFactory.createRaisedBevelBorder()), BorderFactory.createLoweredBevelBorder()));
-
         add(panel);
         pack();
         setLocationRelativeTo(null);

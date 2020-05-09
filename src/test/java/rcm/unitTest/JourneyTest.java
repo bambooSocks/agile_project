@@ -45,5 +45,4 @@ public class JourneyTest {
         app.startJourney(journey.getId(), LocalDateTime.of(2020, 3, 13, 4, 20));
         assertEquals(company, journey.getCompany());
     }
-
 }

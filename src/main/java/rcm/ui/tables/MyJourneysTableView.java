@@ -101,7 +101,6 @@ public class MyJourneysTableView extends BaseTableView {
             popupMenu.add(menuShareJourney);
 
             table.setComponentPopupMenu(popupMenu);
-
             table.setModel(tableModel);
             table.setEnabled(false);
 
@@ -145,7 +144,7 @@ public class MyJourneysTableView extends BaseTableView {
             updateTableModel();
             break;
         case "searchMyJourney":
-            journeys = app.requestJourneys();
+            journeys = app.searchForJourneys((String) evt.getNewValue());
             updateTableModel();
             break;
         case "advSearchMyJourneys":
@@ -153,7 +152,8 @@ public class MyJourneysTableView extends BaseTableView {
             Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
             String query = (String) filters.get("query");
             journeys = app.searchForJourneys(query, (boolean) filters.getOrDefault("origin", false),
-                    (boolean) filters.getOrDefault("destination", false), (boolean) filters.getOrDefault("content", false));
+                    (boolean) filters.getOrDefault("destination", false),
+                    (boolean) filters.getOrDefault("content", false));
             updateTableModel();
             break;
         default:
