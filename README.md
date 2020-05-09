@@ -14,7 +14,7 @@ The features requested for the project are implemented in sub-features and they 
 
 * M3: Container Status tracking: Each journey involves a container, but a container can be used in several journeys. For each container involved in the journey the following internal status is tracked: temperature (Celsius), humidity (%) and atm. pressure (atm). The logistics company can add these measurements to the system and the client is able to access them. In the UI the internal status is presented on the panel using graphs created with jfreechart dependencies, alongside with a table showing the tracking of the location. (in our system the logistics company must enter a status alongside with a location).
 
-* M4: User Interface: It is possible to interact with the system using Java Swing as the GUI for this project. This can be straightforwardly accessed through the main executable file. Another way to run this project is by running the MainView.java as a normal Java Application. This can be found under: src/main/java under the rcm.ui package.  For an overview of how the GUI works please see the UML diagram which can be found under LOCATION.
+* M4: User Interface: It is possible to interact with the system using Java Swing as the GUI for this project. This can be straightforwardly accessed through the main executable file. Another way to run this project is by running the MainView.java as a normal Java Application. This can be found under: src/main/java under the rcm.ui package.  For an overview of how the GUI works please see the UML diagram which can be found under *docs: UI-Diagram.pdf*.
 
 These additional features have also been implemented to add extra value to the system:
 * O1: Keep track of evolution: the history of each container and all of the journeys it went on is being tracked. This is mostly done through lists and database storage.
@@ -25,17 +25,18 @@ These additional features have also been implemented to add extra value to the s
 project the SQLite repository was used as the implementation. 
 
 ## Design Decisions & Project Issues:
-* A jurney can only have one container. Since it was not specifically written in the porject requirements, this choice was made due to time constraints and YAGNI principles.
+* A jurney can only have one container. Since it was not specifically written in the project requirements, this choice was made due to time constraints and YAGNI principles.
 
 * There is a lack of interfaces for the model, apart from the Repository for the database. This is mostly due to the fact that it was not considered to be necessary for the scope of this project. The number of classes is limited and the functionalities are mostly segregated according to the user type. Should one extend the project and create an admin user role, then the User class could be possibly made as an interface.
 
 *It might be that our UI system is highly coupled, however it was decided to design it in this way in order to give it a consistent appearance (for example the top bar is similar for the main panels). Also we have kept the model (Application.java in our case) separated from the UI. This allows further implementation of the system on other user interfaces, if required in the future.
 
 ## Files Included Within This Project:
+* **JPA Content** n XML file for the persistence layer
 * **src/main/java**
-     * rcm.config : contains FakeData.java for testing purposes and filling up the UI in advance, thus creating a better display.
+     * rcm.config : contains FakeData.java which has pre-filled data: initially for testing purposes, but later used also in the presentation of the final product to up the UI display in advance, thus creating a better look.
      * rcm.model: model for running the application and the correspondent classes. Each class has methods defined for its sole purpose (e.g.: a client can request a Journey object to be created but only the logistics company can add a starting and ending timestamp).
-          * Application.java.: communicates with the Repository interface. For more details regarding how these classes are interconnected to each other please check our UML Diagram located under LOCATION
+          * Application.java.: communicates with the Repository interface. For more details regarding how these classes are interconnected to each other please check our UML Diagram located under *docs: UML.pdf*
           * Client.java, 
           * Container.java 
           * ContainerStatus.java
@@ -44,7 +45,7 @@ project the SQLite repository was used as the implementation.
           * User.java 
           * WorngInputException.java. 
 
-    * rcm.repository: Repository.java and SqliteRepository constitute the Persistency Layer mentioned above in O4.
+    * rcm.repository: Repository.java and SqliteRepository constitute the Persistency Layer mentioned above in O4. For an overview of how this is implemented please see the Database Diagram under *docs: Database-Diagram.pdf*
     * rcm.ui: main GUI parent classes:
           * MainView: most important. Application and Repository are run through it. 
          * BaseMenuBar.java
@@ -83,11 +84,13 @@ project the SQLite repository was used as the implementation.
          * LogisticsCompanyTest.java
 * **JRE System Library**: contains the jar files which we need for running our system
 * **Maven Dependencies** lots of Maven Dependencies, but worth mentioning are Cucumber (for testing), Hibernate and SQLite (for the database) 
+* **docs**: used to store our UML diagrams for the database, the UI and Model.
 * **rcm**: contains a structure of the used classes outside of the packages
 * **target**: mostly contains the annotations for generated sources and generated-test-sources. Also includes the status of the Maven compiler plugin. Another folder is the surefire-reports which are reports generated by Maven once the tests are run.
 * **CIrules.md**: contains the rules all team members have agreed one for continuous integration. This enables working in an agile manner and having a runnable system each time someone is pushing code.
 * **pom.xml**: used for installing the Maven dependencies. This file can be run according to several Maven Configuration, depending on the user's intent.
-* this README.md file: glad you are reading it!
+* **Database.db**: automatically gets created when you run the pre-filled database.
+* this **README.md** file: glad you are reading it!
      
 ## Running the Executable File:
 
