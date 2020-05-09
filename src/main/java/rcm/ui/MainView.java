@@ -86,10 +86,14 @@ public class MainView extends JFrame implements PropertyChangeListener {
         MainView mv = new MainView(app);
         try {
             FakeData.setupFakeApp(app);
-            // Company user
-            app.logInUser("peter@agrofert.dk", "Password12345");
-            // Client user
-//            app.logInUser("tom@cbs.dk", "Password12345");         
+            // Company 1
+//            app.logInUser("peter@agrofert.dk", "Password12345");
+            // Company 2
+            app.logInUser("christian@3maersk.dk", "Password12345");
+            // Client user from company 1
+//            app.logInUser("tom@cbs.dk", "Password12345");  
+            // Client user from company 2
+//            app.logInUser("gardener@shire.com", "Password12345");
         } catch (WrongInputException e) {
         }
         mv.run();
