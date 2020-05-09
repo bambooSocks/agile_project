@@ -23,8 +23,8 @@ public class LogisticsCompanyTest {
     @Before
     public void init() throws WrongInputException, IOException {
         Repository repo = new SqliteRepository();
-        app = new Application(repo);
         repo.clearDatabase();
+        app = new Application(repo);
         company1 = app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou",
                 "info@maersk.com", "Agile123");
         company2 = app.createNewLogisticsCompany("Hamburg Sud", "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany",

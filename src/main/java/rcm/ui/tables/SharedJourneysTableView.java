@@ -114,8 +114,8 @@ public class SharedJourneysTableView extends BaseTableView {
             @SuppressWarnings("unchecked")
             Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
             String query = (String) filters.get("query");
-            journeys = app.searchForSharedJourneys(query, (boolean) filters.get("origin"),
-                    (boolean) filters.get("destination"), (boolean) filters.get("content"));
+            journeys = app.searchForSharedJourneys(query, (boolean) filters.getOrDefault("origin", false),
+                    (boolean) filters.getOrDefault("destination", false), (boolean) filters.getOrDefault("content", false));
             updateTableModel();
             break;
         default:

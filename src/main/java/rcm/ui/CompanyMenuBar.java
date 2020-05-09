@@ -3,6 +3,8 @@ package rcm.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JMenuItem;
 
@@ -49,8 +51,22 @@ public class CompanyMenuBar extends BaseMenuBar {
                 popup.setVisible(true);
             }
         });
+        
+        JMenuItem clearSearch = new JMenuItem("Clear Search");
+        clearSearch.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Map<String, Object> filters = new HashMap<>();
+                filters.put("query", "");
+                filters.put("name", true);
+                filters.put("origin", true);
+                app.fireChange(cmd, filters);
+            }
+        });
 
         search.add(advSearch);
+        search.add(clearSearch);
         add(search);
         add(view);
     }

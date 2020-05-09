@@ -3,6 +3,7 @@ package rcm.cucumber;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Set;
@@ -72,7 +73,8 @@ public class O2 {
 
     @When("client with email {string} tries to view containers and data of client with email {string}")
     public void client_with_email_tries_to_view_containers_and_data_of_client_with_email(String email1, String email2) {
-        journeys = holder.getFirstClient().viewClientData(email1, email2);
+//        journeys = holder.getFirstClient().viewClientData(email1, email2);
+        fail();
     }
 
     @Then("the containers and data can be viewed")

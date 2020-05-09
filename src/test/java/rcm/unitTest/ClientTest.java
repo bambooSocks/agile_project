@@ -22,8 +22,8 @@ public class ClientTest {
     @Before
     public void init() throws WrongInputException, IOException {
         Repository repo = new SqliteRepository();
-        Application app = new Application(repo);
         repo.clearDatabase();
+        Application app = new Application(repo);
         company1 = app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou",
                 "info@maersk.com", "Agile123");
         app.logInUser("info@maersk.com", "Agile123");
