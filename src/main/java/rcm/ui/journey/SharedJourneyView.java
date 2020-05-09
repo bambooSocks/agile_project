@@ -74,7 +74,7 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
             tempGraph.updateGraph(journey_id);
             pressureGraph.updateGraph(journey_id);
             humidityGraph.updateGraph(journey_id);
-            updateLocationTable(locationTable, app, journey_id);
+            updateLocationTable(locationTable, journey_id);
             break;
         default:
             break;

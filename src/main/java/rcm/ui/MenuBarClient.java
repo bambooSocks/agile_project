@@ -35,5 +35,4 @@ public class MenuBarClient extends BaseMenuBar {
         add(search);
         add(view);
     }
-
 }

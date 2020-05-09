@@ -125,10 +125,10 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         case "showCompanyJourney":
             journey = app.getJourneyById(journey_id);
             contentLabelsPanel.updatePanel();
-            tempGraph.updateGraph(journey_id);
-            pressureGraph.updateGraph(journey_id);
-            humidityGraph.updateGraph(journey_id);
-            updateLocationTable(locationTable, app, journey_id);
+            if (tempGraph != null) tempGraph.updateGraph(journey_id);
+            if (pressureGraph != null) pressureGraph.updateGraph(journey_id);
+            if (humidityGraph != null) humidityGraph.updateGraph(journey_id);
+            if (locationTable != null) updateLocationTable(locationTable, journey_id);
             break;
         case "setCompanyJourneysClient":
             client_id = (int) evt.getNewValue();

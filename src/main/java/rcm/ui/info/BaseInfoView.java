@@ -3,6 +3,9 @@ package rcm.ui.info;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
@@ -13,6 +16,25 @@ import rcm.model.Application;
 import rcm.ui.BaseTopBar;
 import rcm.ui.BaseView;
 import rcm.ui.UpdatablePanel;
+
+class TableMouseListeners extends MouseAdapter {
+
+    private JTable table;
+
+    public TableMouseListeners(JTable table) {
+        this.table = table;
+    }
+
+    @Override
+    public void mousePressed(MouseEvent event) {
+        try {
+            Point point = event.getPoint();
+            int currentRow = table.rowAtPoint(point);
+            table.setRowSelectionInterval(currentRow, currentRow);
+        } catch (Exception e) {
+        }
+    }
+}
 
 public abstract class BaseInfoView extends BaseView implements PropertyChangeListener{
 
@@ -35,9 +57,8 @@ public abstract class BaseInfoView extends BaseView implements PropertyChangeLis
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
 
-//        table.addMouseListener(new TableMouseListeners(table));
+        table.addMouseListener(new TableMouseListeners(table));
 
-        
         infoPanel = new UpdatablePanel() {
             private static final long serialVersionUID = 3559021108682655625L;
 

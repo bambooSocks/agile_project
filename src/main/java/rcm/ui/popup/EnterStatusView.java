@@ -156,19 +156,19 @@ public class EnterStatusView extends JDialog {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
                 LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
                 String error = "Please input:";
-                if (tempField.getText().isBlank()) {
+                if (tempField.getText().isEmpty()) {
                     error += " temperature";
                 }
-                if (humidityField.getText().isBlank()) {
+                if (humidityField.getText().isEmpty()) {
                     error += " humidity";
                 }
-                if (atmPressureField.getText().isBlank()) {
+                if (atmPressureField.getText().isEmpty()) {
                     error += " pressure";
                 }
-                if (dateTimeField.getText().isBlank()) {
+                if (dateTimeField.getText().isEmpty()) {
                     error += " date";
                 }
-                if (locationField.getText().isBlank()) {
+                if (locationField.getText().isEmpty()) {
                     error += " location";
                 }
                 if (error.length() > "Please input:".length()) {

@@ -89,7 +89,7 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
             tempGraph.updateGraph(journey_id);
             pressureGraph.updateGraph(journey_id);
             humidityGraph.updateGraph(journey_id);
-            updateLocationTable(locationTable, app, journey_id);
+            updateLocationTable(locationTable, journey_id);
             break;
         default:
             break;

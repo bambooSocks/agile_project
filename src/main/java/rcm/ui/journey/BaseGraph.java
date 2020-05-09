@@ -17,12 +17,12 @@ public abstract class BaseGraph extends JPanel {
 
     private static final long serialVersionUID = 9059820726277444630L;
     protected Application app;
-    protected int id;
+    protected int journey_id;
     private ChartPanel chartPanel;
 
-    public BaseGraph(Application app, int id) {
+    public BaseGraph(Application app, int journey_id) {
         this.app = app;
-        this.id = id;
+        this.journey_id = journey_id;
         initUI();
 
     }
@@ -34,8 +34,8 @@ public abstract class BaseGraph extends JPanel {
         add(getChartPanel());
     }
 
-    public void updateGraph(int id) {
-        this.id = id;
+    public void updateGraph(int journey_id) {
+        this.journey_id = journey_id;
         JFreeChart chart = createChart();
         getChartPanel().setChart(chart);
     }

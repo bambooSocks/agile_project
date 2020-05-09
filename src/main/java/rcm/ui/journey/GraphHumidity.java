@@ -37,7 +37,7 @@ public abstract class GraphHumidity extends BaseGraph {
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         TimeSeries series = new TimeSeries("Humidity");
 
-        List<ContainerStatus> statuses = getStatus(id);
+        List<ContainerStatus> statuses = getStatus(journey_id);
 
         if (statuses != null) {
             for (ContainerStatus s : statuses) {

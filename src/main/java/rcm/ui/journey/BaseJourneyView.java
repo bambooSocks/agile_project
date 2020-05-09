@@ -259,7 +259,7 @@ public abstract class BaseJourneyView extends BaseView {
         return panel;
     }
 
-    protected void updateLocationTable(JTable table, Application app, int id) {
+    protected void updateLocationTable(JTable table, int id) {
 
         DefaultTableModel tableModel = (DefaultTableModel) table.getModel();
         tableModel.setRowCount(0);
