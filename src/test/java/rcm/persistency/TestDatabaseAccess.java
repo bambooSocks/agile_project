@@ -36,8 +36,8 @@ public class TestDatabaseAccess {
     @Before
     public void init() throws WrongInputException, IOException {
         repo = new SqliteRepository();
-        app = new Application(repo);
         repo.clearDatabase(); // Remove all users from the database to get a fresh database for testing
+        app = new Application(repo);
 
         lc1 = app.createNewLogisticsCompany("Maersk", "Linde Alle", "Peter", "peter@maersk.dk", "Password12345");
         app.logInUser("peter@maersk.dk", "Password12345");

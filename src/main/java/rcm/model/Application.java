@@ -99,7 +99,15 @@ public class Application {
             return null;
         }
     }
-
+    /**
+     * Validates the personal information of a user 
+     * @param name Name of the user
+     * @param address Address of the user 
+     * @param refPerson Reference person of the user 
+     * @param email Email of the user
+     * @param password Password of the user
+     * @return list of errors containing the name of the fields which contain incorrect information 
+     */
     private List<String> validateUser(String name, String address, String refPerson, String email, String password) {
         List<String> errors = new LinkedList<>();
         if (!User.validateName(name)) {
