@@ -382,15 +382,15 @@ public class Application {
                     throw new WrongInputException("Your password is incorrect");
                 }
             } else {
-                Set<Client> cs = c.searchClientByEmail(email);
-                if (!cs.isEmpty()) {
-                    Client cl = (new LinkedList<>(cs)).pop();
-                    if (User.SHA1_Hasher(password).equals(cl.getPassword())) {
-                        loggedInClient = cl;
-                        support.firePropertyChange("clientLoggedIn", null, null);
-                        break;
-                    } else {
-                        throw new WrongInputException("Your password is incorrect");
+                for (Client cl : c.getClients()) {
+                    if (cl.getEmail().equals(email)) {
+                        if (User.SHA1_Hasher(password).equals(cl.getPassword())) {
+                            loggedInClient = cl;
+                            support.firePropertyChange("clientLoggedIn", null, null);
+                            break;
+                        } else {
+                            throw new WrongInputException("Your password is incorrect");
+                        }
                     }
                 }
             }
