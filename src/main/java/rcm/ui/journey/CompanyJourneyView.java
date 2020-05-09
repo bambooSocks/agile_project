@@ -124,7 +124,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         case "startJourney":
         case "endJourney":
         case "showCompanyJourney":
-            j = app.getJourneyById(journey_id);
+            journey = app.getJourneyById(journey_id);
             contentLabelsPanel.updatePanel();
             tempGraph.updateGraph(journey_id);
             pressureGraph.updateGraph(journey_id);

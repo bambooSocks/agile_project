@@ -31,7 +31,7 @@ public abstract class BaseJourneyView extends BaseView {
 
     private static final long serialVersionUID = -7158594990405366048L;
     protected int journey_id = -1;
-    protected Journey j;
+    protected Journey journey;
     protected List<ContainerStatus> statuses;
     static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
     protected BaseGraph tempGraph, pressureGraph, humidityGraph;
@@ -40,15 +40,9 @@ public abstract class BaseJourneyView extends BaseView {
 
     protected BaseJourneyView(Application app, BaseTopBar topBar) {
         super(app, topBar);
-        j = app.getJourneyById(journey_id);
+        journey = app.getJourneyById(journey_id);
         statuses = app.requestStatus(journey_id);
 
-    }
-
-    // TODO: see if we neet this or not
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(720, 550);
     }
 
     @Override
@@ -80,61 +74,78 @@ public abstract class BaseJourneyView extends BaseView {
         cMain.weighty = 0;
         panel.add(buildRightButton(), cMain);
 
-        cMain.gridx = 0;
-        cMain.gridy = 2;
-        cMain.gridwidth = 2;
-        cMain.fill = GridBagConstraints.HORIZONTAL;
-        cMain.weightx = 1.0;
-        JLabel titleStatus = new JLabel("CONTAINER STATUS");
-        titleStatus.setFont(new Font("", Font.PLAIN, 18));
-        titleStatus.setHorizontalAlignment(JLabel.CENTER);
-        panel.add(titleStatus, cMain);
+        if (statuses == null) {
+            cMain.gridx = 0;
+            cMain.gridy = 2;
+            cMain.gridwidth = 3;
+            cMain.fill = GridBagConstraints.HORIZONTAL;
+            cMain.weightx = 1.0;
+            JLabel titleStatus = new JLabel("NO STATUS YET");
+            titleStatus.setFont(new Font("", Font.PLAIN, 18));
+            titleStatus.setHorizontalAlignment(JLabel.CENTER);
+            panel.add(titleStatus, cMain);
+        } else {
+            cMain.gridx = 0;
+            cMain.gridy = 2;
+            cMain.gridwidth = 3;
+            cMain.fill = GridBagConstraints.HORIZONTAL;
+            cMain.weightx = 1.0;
+            JLabel titleStatus = new JLabel("CONTAINER STATUS");
+            titleStatus.setFont(new Font("", Font.PLAIN, 18));
+            titleStatus.setHorizontalAlignment(JLabel.CENTER);
+            panel.add(titleStatus, cMain);
 
-        cMain.gridx = 0;
-        cMain.gridy = 3;
-        tempGraph = new GraphTemperature(app, journey_id) {
-            private static final long serialVersionUID = 123123123L;
+            cMain.gridx = 0;
+            cMain.gridy = 3;
+            cMain.gridwidth = 3;
+            tempGraph = new GraphTemperature(app, journey_id) {
+                private static final long serialVersionUID = 123123123L;
 
-            @Override
-            public List<ContainerStatus> getStatus(int journey_id) {
-                return requestStatus();
-            }
-        };
-        tempGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
-        panel.add(tempGraph, cMain);
+                @Override
+                public List<ContainerStatus> getStatus(int journey_id) {
+                    return requestStatus();
+                }
+            };
+            tempGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
+            panel.add(tempGraph, cMain);
 
-        cMain.gridx = 0;
-        cMain.gridy = 4;
-        pressureGraph = new GraphPressure(app, journey_id) {
-            private static final long serialVersionUID = 123121353123L;
+            cMain.gridx = 0;
+            cMain.gridy = 4;
+            cMain.gridwidth = 3;
+            pressureGraph = new GraphPressure(app, journey_id) {
+                private static final long serialVersionUID = 123121353123L;
 
-            @Override
-            public List<ContainerStatus> getStatus(int journey_id) {
-                return requestStatus();
-            }
-        };
-        pressureGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
-        panel.add(pressureGraph, cMain);
+                @Override
+                public List<ContainerStatus> getStatus(int journey_id) {
+                    return requestStatus();
+                }
+            };
+            pressureGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
+            panel.add(pressureGraph, cMain);
 
-        cMain.gridx = 0;
-        cMain.gridy = 5;
-        humidityGraph = new GraphHumidity(app, journey_id) {
-            private static final long serialVersionUID = 23678123123123L;
+            cMain.gridx = 0;
+            cMain.gridy = 5;
+            cMain.gridwidth = 3;
+            humidityGraph = new GraphHumidity(app, journey_id) {
+                private static final long serialVersionUID = 23678123123123L;
 
-            @Override
-            public List<ContainerStatus> getStatus(int journey_id) {
-                return requestStatus();
-            }
-        };
-        humidityGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
-        panel.add(humidityGraph, cMain);
+                @Override
+                public List<ContainerStatus> getStatus(int journey_id) {
+                    return requestStatus();
+                }
+            };
+            humidityGraph.getChartPanel().setPreferredSize(new Dimension(650, 400));
+            panel.add(humidityGraph, cMain);
 
-        cMain.gridx = 0;
-        cMain.gridy = 6;
-        cMain.ipady = 110;
-        JPanel tablePanel = buildLocationTable();
-        panel.add(tablePanel, cMain);
-
+            cMain.gridx = 0;
+            cMain.gridy = 6;
+            cMain.gridwidth = 2;
+            cMain.ipady = 110;
+            cMain.weightx = 0.0;
+            JPanel tablePanel = buildLocationTable();
+            panel.add(tablePanel, cMain);
+        }
+        
         JScrollPane scroll = new JScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.getVerticalScrollBar().setUnitIncrement(16);
@@ -164,10 +175,10 @@ public abstract class BaseJourneyView extends BaseView {
         testID.setFont(new Font("", Font.ITALIC, 16));
         testID.setForeground(new Color(255, 0, 0));
 
-        if (j != null) {
-            testOrigin = new JLabel(j.getOriginPort());
-            testDestination = new JLabel(j.getDestinationPort());
-            testContent = new JLabel(j.getContent());
+        if (journey != null) {
+            testOrigin = new JLabel(journey.getOriginPort());
+            testDestination = new JLabel(journey.getDestinationPort());
+            testContent = new JLabel(journey.getContent());
         } else {
             testOrigin = new JLabel("unknown");
             testDestination = new JLabel("unknown");
@@ -182,17 +193,17 @@ public abstract class BaseJourneyView extends BaseView {
         label5.setFont(new Font("", Font.BOLD, 14));
         label6 = new JLabel("End Date: ");
         label6.setFont(new Font("", Font.BOLD, 14));
-        if (j.getStartTimestamp() == null) {
+        if (journey.getStartTimestamp() == null) {
             startDate = new JLabel("not started yet");
         } else {
-            startDate = new JLabel(j.getStartTimestamp().format(formatter));
+            startDate = new JLabel(journey.getStartTimestamp().format(formatter));
         }
 
         startDate.setFont(new Font("", Font.ITALIC, 14));
-        if (j.getEndTimestamp() == null) {
+        if (journey.getEndTimestamp() == null) {
             endDate = new JLabel("not ended yet");
         } else {
-            endDate = new JLabel(j.getEndTimestamp().format(formatter));
+            endDate = new JLabel(journey.getEndTimestamp().format(formatter));
         }
         endDate.setFont(new Font("", Font.ITALIC, 14));
         

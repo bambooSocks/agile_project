@@ -26,10 +26,12 @@ class TableMouseListeners extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent event) {
-        Point point = event.getPoint();
-        int currentRow = table.rowAtPoint(point);
-        // TODO: Teo add try catch or something... it throws an exception
-        table.setRowSelectionInterval(currentRow, currentRow);
+        try {
+            Point point = event.getPoint();
+            int currentRow = table.rowAtPoint(point);
+            table.setRowSelectionInterval(currentRow, currentRow);
+        } catch (Exception e) {
+        }
     }
 }
 

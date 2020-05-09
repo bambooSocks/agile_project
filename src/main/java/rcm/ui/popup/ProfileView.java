@@ -18,10 +18,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import rcm.model.Application;
+import rcm.model.User;
+import rcm.model.WrongInputException;
 
 public class ProfileView extends JDialog {
 
     private static final long serialVersionUID = -4562833393035926979L;
+    private User user = null;
 
     private JTextField nameField = new JTextField(10);
     private JTextField addressField = new JTextField(10);
@@ -44,6 +47,12 @@ public class ProfileView extends JDialog {
 
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setSize(new Dimension(400, 300)); // (width, height)
+        
+        if (app.getLoggedInClient() != null) {
+            user = app.getLoggedInClient();
+        } else if (app.getLoggedInCompany() != null) {
+            user = app.getLoggedInCompany();
+        }
         KeyListener kl = new KeyListener();
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -60,6 +69,7 @@ public class ProfileView extends JDialog {
         constraints.gridwidth = 2;
         nameField.addKeyListener(kl);
         panel.add(nameField, constraints);
+        nameField.setText(user.getName());
 
         // Address
         constraints.gridx = 0;
@@ -71,6 +81,7 @@ public class ProfileView extends JDialog {
         constraints.gridwidth = 2;
         addressField.addKeyListener(kl);
         panel.add(addressField, constraints);
+        addressField.setText(user.getAddress());
 
         // Reference Person
         constraints.gridx = 0;
@@ -82,6 +93,7 @@ public class ProfileView extends JDialog {
         constraints.gridwidth = 2;
         refPersonField.addKeyListener(kl);
         panel.add(refPersonField, constraints);
+        refPersonField.setText(user.getRefPerson());
 
         // Email
         constraints.gridx = 0;
@@ -93,6 +105,7 @@ public class ProfileView extends JDialog {
         constraints.gridwidth = 2;
         emailField.addKeyListener(kl);
         panel.add(emailField, constraints);
+        emailField.setText(user.getEmail());
 
         // Change Password Button
         constraints.gridx = 0;
@@ -103,7 +116,7 @@ public class ProfileView extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Change Password clicked");
-                PasswordView pv = new PasswordView();
+                PasswordView pv = new PasswordView(app);
                 pv.setVisible(true);
             }
         });
@@ -117,14 +130,23 @@ public class ProfileView extends JDialog {
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                System.out.println("Save clicked");
-                // TODO: update changed data
-
-//                app.updateName(nameField.getText());
-//                app.updateAddress(addressField.getText());
-//                app.updateRefPerson(refPersonField.getText());
-//                app.updateEmail(emailField.getText());
-                dispose();
+                try {
+                    if (!user.getName().equals(nameField.getText())) {
+                        app.updateName(nameField.getText());
+                    }
+                    if (!user.getAddress().equals(addressField.getText())) {
+                        app.updateAddress(addressField.getText());
+                    }
+                    if (!user.getRefPerson().equals(refPersonField.getText())) {
+                        app.updateRefPerson(refPersonField.getText());
+                    }
+                    if (!user.getEmail().equals(emailField.getText())) {
+                        app.updateEmail(emailField.getText());
+                    }
+                    dispose();
+                } catch (WrongInputException e) {
+                    Dialog.ErrorDialog(e.getMessage(), "Input error");
+                }                
             }
         });
         panel.add(b2, constraints);
@@ -174,6 +196,7 @@ public class ProfileView extends JDialog {
 class PasswordView extends JDialog {
 
     private static final long serialVersionUID = -5106418056161602438L;
+    private User user = null;
 
     private JLabel lbl1 = new JLabel("Old Password:");
     private JLabel lbl2 = new JLabel("New Password:");
@@ -186,11 +209,17 @@ class PasswordView extends JDialog {
     private JButton b1 = new JButton("Save");
     private JButton b2 = new JButton("Cancel");
 
-    public PasswordView() {
-
+    public PasswordView(Application app) {
+        
         setTitle("Change Password");
         setModal(true);
 
+        if (app.getLoggedInClient() != null) {
+            user = app.getLoggedInClient();
+        } else if (app.getLoggedInCompany() != null) {
+            user = app.getLoggedInCompany();
+        }
+        
         JPanel panel = new JPanel(new GridBagLayout());
         KeyListener kl = new KeyListener();
         GridBagConstraints constraints = new GridBagConstraints();
@@ -234,16 +263,23 @@ class PasswordView extends JDialog {
         b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Save clicked");
-                // TODO: update the passwords
-
-//                check if passwordField1 is correct for that user
-//                check if passwordField2 and passwordField3 match
-
-//              app.updatePassword(new String(passwordField3.getPassword()));
-
-                dispose();
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    String oldPassword = new String(passwordField1.getPassword());
+                    if (user.getPassword().equals(User.SHA1_Hasher(oldPassword))) {
+                        String pswd = new String(passwordField2.getPassword());
+                        if (pswd.equals(new String(passwordField3.getPassword()))) {
+                            app.updatePassword(new String(passwordField3.getPassword()));
+                            dispose();
+                        } else {
+                            Dialog.ErrorDialog("The passwords don't match", "Password error");
+                        }
+                    } else {
+                        Dialog.ErrorDialog("The old password is wrong", "Password error");
+                    }
+                } catch (WrongInputException e) {
+                    Dialog.ErrorDialog(e.getMessage(), "Password error");
+                }
             }
         });
         panel.add(b1, constraints);

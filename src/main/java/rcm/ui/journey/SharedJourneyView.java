@@ -69,7 +69,7 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
         case "showSharedJourney":
-            j = app.getJourneyById(journey_id);
+            journey = app.getJourneyById(journey_id);
             contentLabelsPanel.updatePanel();
             tempGraph.updateGraph(journey_id);
             pressureGraph.updateGraph(journey_id);

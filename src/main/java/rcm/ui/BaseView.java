@@ -2,6 +2,7 @@ package rcm.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
@@ -20,6 +21,11 @@ public abstract class BaseView extends JPanel {
         add(topBar, BorderLayout.NORTH);
 
         add(buildContent(), BorderLayout.CENTER);
+    }
+    
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(720, 550);
     }
     
     protected abstract Component buildContent();
