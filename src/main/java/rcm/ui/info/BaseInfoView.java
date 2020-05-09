@@ -56,6 +56,7 @@ public abstract class BaseInfoView extends BaseView implements PropertyChangeLis
 
         table.setPreferredScrollableViewportSize(new Dimension(500, 200));
         table.setFillsViewportHeight(true);
+        table.getTableHeader().setReorderingAllowed(false);
 
         table.addMouseListener(new TableMouseListeners(table));
 

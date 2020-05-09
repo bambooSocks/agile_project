@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AdvancedSearchView extends JDialog {
+public class AdvancedClientSearchView extends JDialog {
 
     private static final long serialVersionUID = -7175406337438643480L;
 
@@ -35,7 +35,7 @@ public class AdvancedSearchView extends JDialog {
     private JButton b1 = new JButton("Search");
     private JButton b2 = new JButton("Cancel");
 
-    public AdvancedSearchView() {
+    public AdvancedClientSearchView() {
 
         setTitle("Advanced Client Search");
         setModal(true);
