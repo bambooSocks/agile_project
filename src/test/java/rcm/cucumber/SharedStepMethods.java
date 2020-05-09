@@ -1,6 +1,7 @@
 package rcm.cucumber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -95,6 +96,25 @@ public class SharedStepMethods {
         Journey journey2 = holder.getApp().requestNewJourney("Copenhagen", "Stockholm", "Kinder eggs");
         holder.setSecondJourney(journey2);
         holder.getApp().logInUser("bigboats@maersk.com", "Agile123");
+    }
+
+    @Given("a logged in logistics company with a container and a clients with two ended journeys")
+    public void a_logged_in_logistics_company_with_a_container_and_a_clients_with_two_ended_journeys()
+            throws IOException, WrongInputException {
+        a_logged_in_logistics_company_with_client();
+        Container c = holder.getApp().createNewContainer();
+        holder.setFirstContainer(c);
+        holder.getApp().logInUser("bananas@chiquita.com", "Object123");
+        Journey journey = holder.getApp().requestNewJourney("Rome", "New York", "Kinder eggs");
+        holder.setFirstJourney(journey);
+        Journey journey2 = holder.getApp().requestNewJourney("Copenhagen", "Stockholm", "Kinder eggs");
+        holder.setSecondJourney(journey2);
+        holder.getApp().logInUser("bigboats@maersk.com", "Agile123");
+        assertTrue(holder.getApp().startJourney(journey.getId(), LocalDateTime.of(2020,3,13,4,20)));
+        assertTrue(holder.getApp().endJourney(journey.getId(), LocalDateTime.of(2020,3,14,4,20)));
+        assertTrue(holder.getApp().startJourney(journey2.getId(), LocalDateTime.of(2020,3,15,4,20)));
+        assertTrue(holder.getApp().endJourney(journey2.getId(), LocalDateTime.of(2020,3,16,4,20)));
+        
     }
 
     @Given("another logged in logistics company")

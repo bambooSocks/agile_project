@@ -69,24 +69,6 @@ public class O2 {
         assertEquals(null, holder.getApp().getLoggedInCompany());
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @When("client with email {string} tries to view containers and data of client with email {string}")
-    public void client_with_email_tries_to_view_containers_and_data_of_client_with_email(String email1, String email2) {
-//        journeys = holder.getFirstClient().viewClientData(email1, email2);
-        fail();
-    }
-
-    @Then("the containers and data can be viewed")
-    public void the_containers_and_data_can_be_viewed() {
-        assertEquals(holder.getFirstClient().getJourneyList(), journeys);
-    }
-
-    @Then("the containers and data can not be viewed")
-    public void the_containers_and_data_can_not_be_viewed() {
-        assertEquals(null, journeys);
-    }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @When("first client shares journey with second client")

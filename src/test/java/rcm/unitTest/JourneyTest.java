@@ -26,8 +26,8 @@ public class JourneyTest {
     @Before
     public void init() throws WrongInputException, IOException {
         Repository repo = new SqliteRepository();
-        app = new Application(repo);
         repo.clearDatabase();
+        app = new Application(repo);
         company = app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou",
                 "info@maersk.com", "Agile123");
         app.logInUser("info@maersk.com", "Agile123");

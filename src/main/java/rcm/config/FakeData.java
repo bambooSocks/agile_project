@@ -14,7 +14,7 @@ public class FakeData {
         // Company 1
         app.createNewLogisticsCompany("Hamburg-Sud", "Rendebanen 6D, 6000 Kolding", "Peter Hansen", "peter@hamburg.de",
                 "Password12345");
-        app.logInUser("peter@agrofert.dk", "Password12345");
+        app.logInUser("peter@hamburg.de", "Password12345");
         Client c1 = app.createNewClient("CBS", "Byhojen 2", "Tom Hanks", "tom@cbs.dk", "Password12345");
         Client c2 = app.createNewClient("Novozymes", "Smorumvej 43", "William Andersen", "william@novozymes.dk",
                 "Password12345");
@@ -140,7 +140,7 @@ public class FakeData {
         app.shareJourney(cC3.getId(), cC5J1.getId());
 
         // Company 1 Journeys
-        app.logInUser("peter@agrofert.dk", "Password12345");
+        app.logInUser("peter@hamburg.de", "Password12345");
         app.startJourney(c1j1.getId(), LocalDateTime.of(2019, 4, 22, 15, 0));
         app.startJourney(c1j2.getId(), LocalDateTime.of(2019, 4, 24, 15, 0));
         app.startJourney(c2j1.getId(), LocalDateTime.of(2019, 4, 23, 15, 0));
