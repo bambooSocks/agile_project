@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -104,15 +105,19 @@ public class StartJourneyView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-                LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
-                if (app.startJourney(journey_id, dateTime)) {
-                    Dialog.InfoDialog("Your journey has successfully started", "Successful starting");
-                    app.fireChange("startJourney");
-                } else {
-                    Dialog.ErrorDialog("Failed to start the journey", "Failed to start journey");
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                    LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
+                    if (app.startJourney(journey_id, dateTime)) {
+                        Dialog.InfoDialog("Your journey has successfully started", "Successful starting");
+                        app.fireChange("startJourney");
+                    } else {
+                        Dialog.ErrorDialog("Failed to start the journey", "Failed to start journey");
+                    }
+                    dispose();
+                } catch (DateTimeParseException e) {
+                    Dialog.ErrorDialog("Please input date & time in the correct format", "Invalid date error");
                 }
-                dispose();
             }
         });
         panel.add(b1, constraints);

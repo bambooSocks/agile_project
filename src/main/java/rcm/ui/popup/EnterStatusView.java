@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -152,8 +153,6 @@ public class EnterStatusView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-                LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
                 String error = "Please input:";
                 if (tempField.getText().isEmpty()) {
                     error += " temperature";
@@ -174,6 +173,8 @@ public class EnterStatusView extends JDialog {
                     Dialog.ErrorDialog(error, "Empty field error");
                 } else {
                     try {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                        LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
                         if (app.enterNewContainerStatus(journey_id, dateTime, Double.parseDouble(tempField.getText()),
                                 Double.parseDouble(humidityField.getText()),
                                 Double.parseDouble(atmPressureField.getText()), locationField.getText())) {
@@ -182,13 +183,15 @@ public class EnterStatusView extends JDialog {
                         } else {
                             Dialog.ErrorDialog("The status was not added to the journey", "Failed to add status");
                         }
+                        dispose();
                     } catch (NumberFormatException e) {
                         Dialog.ErrorDialog("Temperature, humidity, and pressure must be a number.",
                                 "Number Format error");
                     } catch (IOException e) {
                         Dialog.ErrorDialog("Something went wrong with the database", "Database error");
+                    } catch (DateTimeParseException e) {
+                        Dialog.ErrorDialog("Please input date & time in the correct format", "Invalid date error");
                     }
-                    dispose();
                 }
             }
         });

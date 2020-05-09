@@ -9,6 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 import javax.swing.*;
@@ -23,7 +26,7 @@ public class TimePickerView extends JDialog {
     private JButton b1 = new JButton(nowIcon);
     private JButton b2 = new JButton("Enter");
     private JButton b3 = new JButton("Cancel");
-    private String time = "";
+    private LocalTime time;
 
     public TimePickerView() {
 
@@ -69,12 +72,13 @@ public class TimePickerView extends JDialog {
         b2.addKeyListener(kl);
         b2.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!timeField.getText().isEmpty()) {
-                    time = timeField.getText();
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                    time = LocalTime.parse(timeField.getText(), formatter);
                     dispose();
-                } else {
-                    Dialog.ErrorDialog("Please input time", "Empty field error");
+                } catch (DateTimeParseException e) {
+                    Dialog.ErrorDialog("Please input time in the correct format", "Invalid time error");
                 }
             }
         });
@@ -87,7 +91,6 @@ public class TimePickerView extends JDialog {
         b3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 dispose();
             }
         });
@@ -103,7 +106,11 @@ public class TimePickerView extends JDialog {
     }
 
     public String getTime() {
-        return time;
+        try {
+            return time.toString();
+        } catch (NullPointerException e) {
+        }
+        return "";
     }
 
     class KeyListener extends KeyAdapter {
