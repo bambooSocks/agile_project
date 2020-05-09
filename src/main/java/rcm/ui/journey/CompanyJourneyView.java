@@ -48,7 +48,7 @@ class CompanyJourneyTopBar extends BaseTopBar {
 public class CompanyJourneyView extends BaseJourneyView implements PropertyChangeListener {
 
     private static final long serialVersionUID = -6993300655884720698L;
-    private Integer client_id = -1, container_id = -1;
+    private Integer client_id, container_id = null;
 
     public CompanyJourneyView(Application app) {
         super(app, new CompanyJourneyTopBar(app));
@@ -59,7 +59,6 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
     protected JPanel buildRightButton() {
         JPanel rightPanel = new JPanel(new GridLayout(3, 1));
 
-        // TODO: Switch to button?
         JButton enterStatus = new JButton("Enter Status");
         enterStatus.setFont(new Font("", Font.PLAIN, 14));
         enterStatus.setPreferredSize(new Dimension(150, 30));
@@ -75,27 +74,34 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         JButton startJourney = new JButton("Start Journey");
         startJourney.setFont(new Font("", Font.PLAIN, 14));
         startJourney.setPreferredSize(new Dimension(150, 30));
-        startJourney.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                StartJourneyView popup = new StartJourneyView(app, journey_id);
-                popup.setLocationRelativeTo(null);
-                popup.setVisible(true);
-            }
-        });
+        if (journey != null && journey.isStarted()) {
+            startJourney.setEnabled(false);
+        } else {
+            startJourney.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    StartJourneyView popup = new StartJourneyView(app, journey_id);
+                    popup.setLocationRelativeTo(null);
+                    popup.setVisible(true);
+                }
+            });            
+        }
 
         JButton endJourney = new JButton("End Journey");
         endJourney.setFont(new Font("", Font.PLAIN, 14));
         endJourney.setPreferredSize(new Dimension(150, 30));
-        endJourney.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                EndJourneyView popup = new EndJourneyView(app, journey_id);
-                popup.setLocationRelativeTo(null);
-                popup.setVisible(true);
-            }
-        });
-
+        if (journey != null && (!journey.isStarted() || journey.isEnded())) {
+            endJourney.setEnabled(false);
+        } else {
+            endJourney.addActionListener(new ActionListener() {
+                
+                public void actionPerformed(ActionEvent e) {
+                    EndJourneyView popup = new EndJourneyView(app, journey_id);
+                    popup.setLocationRelativeTo(null);
+                    popup.setVisible(true);
+                }
+            });
+        }
+        
         rightPanel.add(enterStatus);
         rightPanel.add(startJourney);
         rightPanel.add(endJourney);
@@ -106,7 +112,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
 
     @Override
     protected List<ContainerStatus> requestStatus() {
-        List<ContainerStatus> statuses = null;
+        statuses = null;
 
         if (container_id == null && client_id != null) {
             statuses = app.getClientById(client_id).requestStatus(app.getJourneyById(journey_id));
@@ -124,11 +130,12 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         case "endJourney":
         case "showCompanyJourney":
             journey = app.getJourneyById(journey_id);
+            statuses = requestStatus();
             contentLabelsPanel.updatePanel();
-            if (tempGraph != null) tempGraph.updateGraph(journey_id);
-            if (pressureGraph != null) pressureGraph.updateGraph(journey_id);
-            if (humidityGraph != null) humidityGraph.updateGraph(journey_id);
-            if (locationTable != null) updateLocationTable(locationTable, journey_id);
+            tempGraph.updateGraph(journey_id);
+            pressureGraph.updateGraph(journey_id);
+            humidityGraph.updateGraph(journey_id);
+            updateLocationTable();
             break;
         case "setCompanyJourneysClient":
             client_id = (int) evt.getNewValue();

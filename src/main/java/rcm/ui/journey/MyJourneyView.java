@@ -25,7 +25,6 @@ class MyJourneyTopBar extends BaseTopBar {
 
     public MyJourneyTopBar(Application app) {
         super(app, null, false);
-
     }
 
     @Override
@@ -53,6 +52,7 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
     public MyJourneyView(Application app) {
         super(app, new MyJourneyTopBar(app));
         app.addObserver(this);
+        statuses = app.requestStatus(journey_id);
     }
 
     @Override
@@ -85,11 +85,12 @@ public class MyJourneyView extends BaseJourneyView implements PropertyChangeList
         switch (evt.getPropertyName()) {
         case "showJourney":
             journey = app.getJourneyById(journey_id);
+            statuses = requestStatus();
             contentLabelsPanel.updatePanel();
             tempGraph.updateGraph(journey_id);
             pressureGraph.updateGraph(journey_id);
             humidityGraph.updateGraph(journey_id);
-            updateLocationTable(locationTable, journey_id);
+            updateLocationTable();
             break;
         default:
             break;

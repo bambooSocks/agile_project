@@ -50,6 +50,9 @@ public abstract class GraphPressure extends BaseGraph {
                 double value = s.getPressure();
                 series.add(new Minute(min, h, d, m, y), value);
             }
+            setVisible(true);
+        } else {
+            setVisible(false);
         }
 
         dataset.addSeries(series);

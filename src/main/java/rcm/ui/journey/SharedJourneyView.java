@@ -51,6 +51,7 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
     public SharedJourneyView(Application app) {
         super(app, new SharedJourneyTopBar(app));
         app.addObserver(this);
+        statuses = app.requestStatus(journey_id);
     }
 
     @Override
@@ -70,11 +71,12 @@ public class SharedJourneyView extends BaseJourneyView implements PropertyChange
         switch (evt.getPropertyName()) {
         case "showSharedJourney":
             journey = app.getJourneyById(journey_id);
+            statuses = requestStatus();
             contentLabelsPanel.updatePanel();
             tempGraph.updateGraph(journey_id);
             pressureGraph.updateGraph(journey_id);
             humidityGraph.updateGraph(journey_id);
-            updateLocationTable(locationTable, journey_id);
+            updateLocationTable();
             break;
         default:
             break;

@@ -50,6 +50,9 @@ public abstract class GraphHumidity extends BaseGraph {
                 double value = s.getHumidity();
                 series.add(new Minute(min, h, d, m, y), value);
             }
+            setVisible(true);
+        } else {
+            setVisible(false);
         }
 
         dataset.addSeries(series);

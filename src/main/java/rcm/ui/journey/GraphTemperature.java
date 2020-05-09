@@ -50,6 +50,9 @@ public abstract class GraphTemperature extends BaseGraph {
                 double value = s.getTemperature();
                 series.add(new Minute(min, h, d, m, y), value);
             }
+            setVisible(true);
+        } else {
+            setVisible(false);
         }
 
         dataset.addSeries(series);
