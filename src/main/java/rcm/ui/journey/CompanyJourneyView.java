@@ -66,7 +66,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
         enterStatus.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                EnterStatusView popup = new EnterStatusView();
+                EnterStatusView popup = new EnterStatusView(app, journey_id);
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
@@ -79,7 +79,6 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
 
             public void actionPerformed(ActionEvent e) {
                 StartJourneyView popup = new StartJourneyView(app, journey_id);
-
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
@@ -92,7 +91,6 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
 
             public void actionPerformed(ActionEvent e) {
                 EndJourneyView popup = new EndJourneyView(app, journey_id);
-
                 popup.setLocationRelativeTo(null);
                 popup.setVisible(true);
             }
@@ -121,6 +119,7 @@ public class CompanyJourneyView extends BaseJourneyView implements PropertyChang
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
+        case "newStatus":
         case "startJourney":
         case "endJourney":
         case "showCompanyJourney":

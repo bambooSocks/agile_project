@@ -8,7 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
@@ -21,6 +24,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import rcm.model.Application;
 
 public class EnterStatusView extends JDialog {
 
@@ -44,7 +49,7 @@ public class EnterStatusView extends JDialog {
     private JButton b1 = new JButton("Enter");
     private JButton b2 = new JButton("Cancel");
 
-    public EnterStatusView() {
+    public EnterStatusView(Application app, int journey_id) {
 
         setTitle("Enter Status");
         setModal(true);
@@ -147,10 +152,40 @@ public class EnterStatusView extends JDialog {
         b1.addKeyListener(kl);
         b1.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Enter clicked");
-                // TODO: save entered data
-                dispose();
+            public void actionPerformed(ActionEvent evt) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                LocalDateTime dateTime = LocalDateTime.parse(dateTimeField.getText(), formatter);
+                String error = "Please input:";
+                if (tempField.getText().isBlank()) {
+                    error += " temperature";
+                }
+                if (humidityField.getText().isBlank()) {
+                    error += " humidity";
+                }
+                if (atmPressureField.getText().isBlank()) {
+                    error += " pressure";
+                }
+                if (dateTimeField.getText().isBlank()) {
+                    error += " date";
+                }
+                if (locationField.getText().isBlank()) {
+                    error += " location";
+                }
+                if (error.length() > "Please input:".length()) {
+                    Dialog.ErrorDialog(error, "Empty field error");
+                } else {
+                    try {
+                        app.enterNewContainerStatus(journey_id, dateTime, Double.parseDouble(tempField.getText()),
+                                Double.parseDouble(humidityField.getText()),
+                                Double.parseDouble(atmPressureField.getText()), locationField.getText());
+                        app.fireChange("newStatus");
+                    } catch (NumberFormatException e) {
+                        Dialog.ErrorDialog("Temperature, humidity, and pressure must be a number.", "Number Format error");
+                    } catch (IOException e) {
+                        Dialog.ErrorDialog("Something went wrong with the database", "Database error");
+                    }
+                    dispose();
+                }
             }
         });
         panel.add(b1, constraints);

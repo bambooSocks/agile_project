@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import rcm.model.Application;
-import rcm.model.WrongInputException;
 
 public class JourneyShareView extends JDialog {
 
