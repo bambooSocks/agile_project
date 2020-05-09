@@ -410,12 +410,31 @@ public class Application {
      * @return List of clients
      */
     public List<Client> searchForClients(String query) {
-        Set<Client> results = loggedInCompany.searchClientByName(query);
-        results.addAll(loggedInCompany.searchClientByAddress(query));
-        results.addAll(loggedInCompany.searchClientByRefPerson(query));
-        results.addAll(loggedInCompany.searchClientByEmail(query));
-        results.addAll(loggedInCompany.searchClientById(query));
-        return new ArrayList<>(results);
+        return searchForClients(query, true, true, true, true);
+    }
+
+    /**
+     * Searches for clients of logged in logistics company by specified parameters
+     * 
+     * @param query       Query to be searched for
+     * @param byName      enable search by name
+     * @param byAddress   enable search by address
+     * @param byRefPerson enable search by reference person
+     * @param byEmail     enable search by email
+     * @return
+     */
+    public List<Client> searchForClients(String query, boolean byName, boolean byAddress, boolean byRefPerson,
+            boolean byEmail) {
+        Set<Client> resultList = new HashSet<>();
+        if (byName)
+            resultList.addAll(loggedInCompany.searchClientByName(query));
+        if (byAddress)
+            resultList.addAll(loggedInCompany.searchClientByAddress(query));
+        if (byRefPerson)
+            resultList.addAll(loggedInCompany.searchClientByRefPerson(query));
+        if (byEmail)
+            resultList.addAll(loggedInCompany.searchClientByEmail(query));
+        return new ArrayList<>(resultList);
     }
 
     /**
@@ -425,10 +444,26 @@ public class Application {
      * @return List of journeys
      */
     public List<Journey> searchForJourneys(String query) {
-        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.searchJourneyByOrigin(query));
-        resultList.addAll(loggedInClient.searchJourneyByDestination(query));
-        resultList.addAll(loggedInClient.searchJourneyByContent(query));
-        resultList.addAll(loggedInClient.searchJourneyById(query));
+        return searchForJourneys(query, true, true, true);
+    }
+
+    /**
+     * Searches for journeys of logged in client by specified parameters
+     * 
+     * @param query         Query to be searched for
+     * @param byOrigin      enable search by name
+     * @param byDestination enable search by address
+     * @param byContent     enable search by reference person
+     * @return
+     */
+    public List<Journey> searchForJourneys(String query, boolean byOrigin, boolean byDestination, boolean byContent) {
+        Set<Journey> resultList = new HashSet<>();
+        if (byOrigin)
+            resultList.addAll(loggedInClient.searchJourneyByOrigin(query));
+        if (byDestination)
+            resultList.addAll(loggedInClient.searchJourneyByDestination(query));
+        if (byContent)
+            resultList.addAll(loggedInClient.searchJourneyByContent(query));
         return new ArrayList<>(resultList);
     }
 
@@ -439,25 +474,61 @@ public class Application {
      * @return List of shared journeys
      */
     public List<Journey> searchForSharedJourneys(String query) {
-        Set<Journey> resultList = new HashSet<Journey>(loggedInClient.searchSharedJourneyByOrigin(query));
-        resultList.addAll(loggedInClient.searchSharedJourneyByDestination(query));
-        resultList.addAll(loggedInClient.searchSharedJourneyByContent(query));
-        resultList.addAll(loggedInClient.searchSharedJourneyById(query));
+        return searchForSharedJourneys(query, true, true, true);
+    }
+
+    /**
+     * Searches for shared journeys of logged in client by specified parameters
+     * 
+     * @param query         Query to be searched for
+     * @param byOrigin      enable search by name
+     * @param byDestination enable search by address
+     * @param byContent     enable search by reference person
+     * @return
+     */
+    public List<Journey> searchForSharedJourneys(String query, boolean byOrigin, boolean byDestination,
+            boolean byContent) {
+        Set<Journey> resultList = new HashSet<>();
+        if (byOrigin)
+            resultList.addAll(loggedInClient.searchSharedJourneyByOrigin(query));
+        if (byDestination)
+            resultList.addAll(loggedInClient.searchSharedJourneyByDestination(query));
+        if (byContent)
+            resultList.addAll(loggedInClient.searchSharedJourneyByContent(query));
         return new ArrayList<>(resultList);
     }
 
     /**
-     * Searches for shared journeys of logged in client by all parameters
+     * Searches for clients journeys of logged in client by all parameters
      * 
-     * @param query Query to be searched for
+     * @param client_id Id of the client to be searched for journeys
+     * @param query     Query to be searched for
      * @return List of shared journeys
      */
     public List<Journey> searchForClientsJourneys(int client_id, String query) {
+        return searchForClientsJourneys(client_id, query, true, true, true);
+    }
+
+    /**
+     * Searches for clients journeys of logged in client by specified parameters
+     * 
+     * @param client_id     Id of the client to be searched for journeys
+     * @param query         Query to be searched for
+     * @param byOrigin      enable search by name
+     * @param byDestination enable search by address
+     * @param byContent     enable search by reference person
+     * @return
+     */
+    public List<Journey> searchForClientsJourneys(int client_id, String query, boolean byOrigin, boolean byDestination,
+            boolean byContent) {
         Client client = getClientById(client_id);
-        Set<Journey> resultList = new HashSet<Journey>(client.searchJourneyByOrigin(query));
-        resultList.addAll(client.searchJourneyByDestination(query));
-        resultList.addAll(client.searchJourneyByContent(query));
-        resultList.addAll(client.searchJourneyById(query));
+        Set<Journey> resultList = new HashSet<>();
+        if (byOrigin)
+            resultList.addAll(client.searchJourneyByOrigin(query));
+        if (byDestination)
+            resultList.addAll(client.searchJourneyByDestination(query));
+        if (byContent)
+            resultList.addAll(client.searchJourneyByContent(query));
         return new ArrayList<>(resultList);
     }
 
@@ -468,11 +539,30 @@ public class Application {
      * @return List of shared journeys
      */
     public List<Journey> searchForContainersJourneys(int container_id, String query) {
+        return searchForClientsJourneys(container_id, query, true, true, true);
+    }
+
+    /**
+     * Searches for containers journeys of logged in client by specified parameters
+     * 
+     * @param query         Query to be searched for
+     * @param byOrigin      enable search by name
+     * @param byDestination enable search by address
+     * @param byContent     enable search by reference person
+     * @param client_id     Id of the client to be searched for journeys
+     * 
+     * @return
+     */
+    public List<Journey> searchForContainersJourneys(int container_id, String query, boolean byOrigin,
+            boolean byDestination, boolean byContent) {
         Container container = getContainerById(container_id);
-        Set<Journey> resultList = new HashSet<Journey>(container.searchJourneyByOrigin(query));
-        resultList.addAll(container.searchJourneyByDestination(query));
-        resultList.addAll(container.searchJourneyByContent(query));
-        resultList.addAll(container.searchJourneyById(query));
+        Set<Journey> resultList = new HashSet<Journey>();
+        if (byOrigin)
+            resultList.addAll(container.searchJourneyByOrigin(query));
+        if (byDestination)
+            resultList.addAll(container.searchJourneyByDestination(query));
+        if (byContent)
+            resultList.addAll(container.searchJourneyByContent(query));
         return new ArrayList<>(resultList);
     }
 
@@ -722,10 +812,10 @@ public class Application {
      * Informs the presentation layer about change inside the system
      * 
      * @param change The change name
-     * @param id     The id related to the change
+     * @param obj    The object related to the change
      */
-    public void fireChange(String change, Integer id) {
-        support.firePropertyChange(change, null, id);
+    public void fireChange(String change, Object obj) {
+        support.firePropertyChange(change, null, obj);
     }
 
     /**
@@ -737,13 +827,4 @@ public class Application {
         support.firePropertyChange(change, null, null);
     }
 
-    /**
-     * Informs the presentation layer about change inside the system
-     * 
-     * @param change The change name
-     * @param query  The query related to the change
-     */
-    public void fireChange(String change, String query) {
-        support.firePropertyChange(change, null, query);
-    }
 }

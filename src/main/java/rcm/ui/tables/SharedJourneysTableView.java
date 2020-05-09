@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -107,6 +108,14 @@ public class SharedJourneysTableView extends BaseTableView {
             break;
         case "searchSharedJourney":
             journeys = app.searchForSharedJourneys((String) evt.getNewValue());
+            updateTableModel();
+            break;
+        case "advSearchSharedJourneys":
+            @SuppressWarnings("unchecked")
+            Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
+            String query = (String) filters.get("query");
+            journeys = app.searchForSharedJourneys(query, (boolean) filters.get("origin"),
+                    (boolean) filters.get("destination"), (boolean) filters.get("content"));
             updateTableModel();
             break;
         default:

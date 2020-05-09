@@ -8,17 +8,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AdvancedClientSearchView extends JDialog {
+import rcm.model.Application;
+
+public class AdvancedClientSearchView extends BaseAdvancedSearchView {
 
     private static final long serialVersionUID = -7175406337438643480L;
 
@@ -35,7 +38,7 @@ public class AdvancedClientSearchView extends JDialog {
     private JButton b1 = new JButton("Search");
     private JButton b2 = new JButton("Cancel");
 
-    public AdvancedClientSearchView() {
+    public AdvancedClientSearchView(Application app) {
 
         setTitle("Advanced Client Search");
         setModal(true);
@@ -86,8 +89,13 @@ public class AdvancedClientSearchView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Search clicked");
-                // TODO: search entered data
+                Map<String, Object> filters = new HashMap<>();
+                filters.put("query", search.getText());
+                filters.put("name", cb1.isSelected());
+                filters.put("address", cb2.isSelected());
+                filters.put("refPerson", cb3.isSelected());
+                filters.put("email", cb4.isSelected());
+                app.fireChange(cmd, filters);
                 dispose();
             }
         });

@@ -8,17 +8,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AdvancedJourneySearchView extends JDialog {
+import rcm.model.Application;
+
+public class AdvancedJourneySearchView extends BaseAdvancedSearchView {
     private static final long serialVersionUID = -375579492666292741L;
 
     private JTextField search = new JTextField(15);
@@ -33,7 +36,7 @@ public class AdvancedJourneySearchView extends JDialog {
     private JButton b1 = new JButton("Search");
     private JButton b2 = new JButton("Cancel");
 
-    public AdvancedJourneySearchView() {
+    public AdvancedJourneySearchView(Application app) {
 
         setTitle("Advanced Journey Search");
         setModal(true);
@@ -82,8 +85,12 @@ public class AdvancedJourneySearchView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Search clicked");
-                // TODO: search entered data
+                Map<String, Object> filters = new HashMap<>();
+                filters.put("query", search.getText());
+                filters.put("origin", cb1.isSelected());
+                filters.put("destination", cb2.isSelected());
+                filters.put("content", cb3.isSelected());
+                app.fireChange(cmd, filters);
                 dispose();
             }
         });

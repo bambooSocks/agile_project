@@ -9,6 +9,7 @@ import java.beans.PropertyChangeEvent;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -145,6 +146,14 @@ public class MyJourneysTableView extends BaseTableView {
             break;
         case "searchMyJourney":
             journeys = app.requestJourneys();
+            updateTableModel();
+            break;
+        case "advSearchMyJourneys":
+            @SuppressWarnings("unchecked")
+            Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
+            String query = (String) filters.get("query");
+            journeys = app.searchForJourneys(query, (boolean) filters.get("origin"),
+                    (boolean) filters.get("destination"), (boolean) filters.get("content"));
             updateTableModel();
             break;
         default:

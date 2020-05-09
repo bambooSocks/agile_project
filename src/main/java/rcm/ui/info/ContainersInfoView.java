@@ -13,6 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -167,6 +168,14 @@ public class ContainersInfoView extends BaseInfoView {
             journeys = app.searchForContainersJourneys(container_id, (String) evt.getNewValue());
             updateTableModel();
             infoPanel.updatePanel();
+            break;
+        case "advSearchContainersJourney":
+            @SuppressWarnings("unchecked")
+            Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
+            String query = (String) filters.get("query");
+            journeys = app.searchForContainersJourneys(container_id, query, (boolean) filters.get("origin"),
+                    (boolean) filters.get("destination"), (boolean) filters.get("content"));
+            updateTableModel();
             break;
         default:
             break;

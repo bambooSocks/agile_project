@@ -38,7 +38,7 @@ public class CompanyTabView extends JPanel implements PropertyChangeListener {
         tabs.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                app.fireChange("companyTabChanged");
+                app.fireChange("companyTabChanged", tabs.getSelectedIndex());
             }
         });
         tabs.addTab("Clients", createClientsCards());

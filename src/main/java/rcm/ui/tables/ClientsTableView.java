@@ -5,8 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
-
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -55,7 +55,7 @@ public class ClientsTableView extends BaseTableView {
 
     private static final long serialVersionUID = -319420806707922265L;
     private List<Client> clients;
-    
+
     public ClientsTableView(Application app) {
         super(app, new ClientsTopBar(app));
     }
@@ -118,6 +118,14 @@ public class ClientsTableView extends BaseTableView {
             break;
         case "searchClients":
             clients = app.searchForClients((String) evt.getNewValue());
+            updateTableModel();
+            break;
+        case "advSearchClients":
+            @SuppressWarnings("unchecked")
+            Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
+            String query = (String) filters.get("query");
+            clients = app.searchForClients(query, (boolean) filters.get("name"), (boolean) filters.get("address"),
+                    (boolean) filters.get("refPerson"), (boolean) filters.get("email"));
             updateTableModel();
             break;
         default:

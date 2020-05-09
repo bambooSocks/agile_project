@@ -37,7 +37,7 @@ public class ClientTabView extends JTabbedPane implements PropertyChangeListener
         addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                app.fireChange("clientTabChanged");
+                app.fireChange("clientTabChanged", getSelectedIndex());
             }
         });
 

@@ -2,13 +2,14 @@ package rcm.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
 import rcm.model.Application;
 import rcm.ui.popup.ProfileView;
 
-public class BaseMenuBar extends JMenuBar {
+public abstract class BaseMenuBar extends JMenuBar implements PropertyChangeListener {
 
     private static final long serialVersionUID = 3416869874550541750L;
 
@@ -18,6 +19,7 @@ public class BaseMenuBar extends JMenuBar {
 
     public BaseMenuBar(Application app) {
         this.app = app;
+        app.addObserver(this);
         
         // create a menu
         prof = new JMenu("Profile");

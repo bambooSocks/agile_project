@@ -20,8 +20,8 @@ public class MainView extends JFrame implements PropertyChangeListener {
     private LogInView lv;
     private CompanyTabView co;
     private ClientTabView cl;
-    private MenuBarClient menuBarcl;
-    private MenuBarCompany menuBarco;
+    private ClientMenuBar menuBarcl;
+    private CompanyMenuBar menuBarco;
 
     @SuppressWarnings("unused")
     private Application app;
@@ -37,8 +37,8 @@ public class MainView extends JFrame implements PropertyChangeListener {
         co = new CompanyTabView(app);
         cl = new ClientTabView(app);
 
-        menuBarcl = new MenuBarClient(app);
-        menuBarco = new MenuBarCompany(app);
+        menuBarcl = new ClientMenuBar(app);
+        menuBarco = new CompanyMenuBar(app);
         setLayout(new CardLayout());
         add(lv);
         add(co);
@@ -76,6 +76,7 @@ public class MainView extends JFrame implements PropertyChangeListener {
             menuBarcl.setVisible(true);
             break;
         default:
+            break;
         }
     }
 
@@ -89,9 +90,9 @@ public class MainView extends JFrame implements PropertyChangeListener {
             // Company 1
 //            app.logInUser("peter@agrofert.dk", "Password12345");
             // Company 2
-            app.logInUser("christian@3maersk.dk", "Password12345");
+//            app.logInUser("christian@3maersk.dk", "Password12345");
             // Client user from company 1
-//            app.logInUser("tom@cbs.dk", "Password12345");  
+            app.logInUser("tom@cbs.dk", "Password12345");  
             // Client user from company 2
 //            app.logInUser("gardener@shire.com", "Password12345");
         } catch (WrongInputException e) {

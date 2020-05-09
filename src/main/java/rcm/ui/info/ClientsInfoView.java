@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -195,6 +196,14 @@ public class ClientsInfoView extends BaseInfoView {
             journeys = app.searchForClientsJourneys(client_id, (String) evt.getNewValue());
             updateTableModel();
             infoPanel.updatePanel();
+            break;
+        case "advSearchClientsJourney":
+            @SuppressWarnings("unchecked")
+            Map<String, Object> filters = (Map<String, Object>) evt.getNewValue();
+            String query = (String) filters.get("query");
+            journeys = app.searchForClientsJourneys(client_id, query, (boolean) filters.get("origin"),
+                    (boolean) filters.get("destination"), (boolean) filters.get("content"));
+            updateTableModel();
             break;
         default:
             break;
