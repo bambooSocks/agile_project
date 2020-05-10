@@ -1,6 +1,10 @@
 package rcm.repository;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -16,8 +20,8 @@ import rcm.model.LogisticsCompany;
 
 public class SqliteRepository implements Repository {
 
-    EntityManagerFactory emf = Persistence.createEntityManagerFactory("Database");
-    EntityManager em = emf.createEntityManager();
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Database");
+    private EntityManager em = emf.createEntityManager();
 
     /**
      * {@inheritDoc}

@@ -81,17 +81,13 @@ public class MainView extends JFrame implements PropertyChangeListener {
     }
 
     public static void main(String[] args) throws IOException {
+        boolean no_database = !(new File("./Database.db")).exists();
         Repository repo = new SqliteRepository();
-        File f = new File("./Database.db");
-        if (!f.exists()) {
-            repo.clearDatabase();
-        }
         Application app = new Application(repo);
         MainView mv = new MainView(app);
         try {
-            if (!f.exists()) {
+            if (no_database)
                 FakeData.setupFakeApp(app);
-            }
         } catch (WrongInputException e) {
         }
         mv.run();
