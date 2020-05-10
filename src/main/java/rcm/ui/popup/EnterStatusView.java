@@ -44,7 +44,8 @@ public class EnterStatusView extends JDialog {
     private JLabel lbl5 = new JLabel("Date & Time:");
 
     private JRadioButton r1 = new JRadioButton("Now");
-    private ImageIcon image = new ImageIcon("src/main/resources/calendar_icon.png");
+    private ClassLoader classLoader = getClass().getClassLoader();
+    private ImageIcon image = new ImageIcon(classLoader.getResource("calendar_icon.png"));
     private JRadioButton r2 = new JRadioButton(image);
     private JButton b1 = new JButton("Enter");
     private JButton b2 = new JButton("Cancel");

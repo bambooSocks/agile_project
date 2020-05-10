@@ -39,7 +39,8 @@ public class LogInView extends JPanel {
         constraints.insets = new Insets(10, 10, 10, 10);
 
         // Logo
-        ImageIcon image = new ImageIcon("src/main/resources/h_logo.jpg");
+        ClassLoader classLoader = getClass().getClassLoader();
+        ImageIcon image = new ImageIcon(classLoader.getResource("h_logo.jpg"));
         JLabel logo = new JLabel(image);
         logo.setPreferredSize(new Dimension(66, 131));
         constraints.fill = GridBagConstraints.HORIZONTAL;

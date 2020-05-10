@@ -29,6 +29,7 @@ public abstract class BaseTopBar extends JPanel {
     private boolean showSearchBar = true;
     private JButton searchButton;
     private String searchCommand;
+    private ClassLoader classLoader = getClass().getClassLoader();
 
     public BaseTopBar(Application app, String searchCommand) {
         this(app, searchCommand, true);
@@ -60,7 +61,7 @@ public abstract class BaseTopBar extends JPanel {
             search.setPreferredSize(new Dimension(200, 22));
             search.setBorder(new LineBorder(Color.gray));
 
-            ImageIcon image = new ImageIcon("src/main/resources/search_icon.jpg");
+            ImageIcon image = new ImageIcon(classLoader.getResource("search_icon.jpg"));
             searchButton = new JButton(image);
             searchButton.setPreferredSize(new Dimension(16, 16));
             searchButton.setBorder(null);
@@ -78,7 +79,7 @@ public abstract class BaseTopBar extends JPanel {
                 }
             });
 
-            ImageIcon X = new ImageIcon("src/main/resources/clear.jpg");
+            ImageIcon X = new ImageIcon(classLoader.getResource("clear.jpg"));
             JButton clearButton = new JButton(X);
             clearButton.setPreferredSize(new Dimension(16, 16));
             clearButton.setBorder(null);
@@ -97,7 +98,7 @@ public abstract class BaseTopBar extends JPanel {
         }
 
         // Profile button
-        ImageIcon buttonIcon = new ImageIcon("src/main/resources/user.png");
+        ImageIcon buttonIcon = new ImageIcon(classLoader.getResource("user.png"));
         JButton profileButton = new JButton(buttonIcon);
         profileButton.setPreferredSize(new Dimension(25, 25));
         profileButton.setBorder(null);

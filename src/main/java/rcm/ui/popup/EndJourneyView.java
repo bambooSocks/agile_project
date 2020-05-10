@@ -34,7 +34,8 @@ public class EndJourneyView extends JDialog {
     private JLabel lbl1 = new JLabel("End Date:");
 
     private JRadioButton r1 = new JRadioButton("Now");
-    ImageIcon image = new ImageIcon("src/main/resources/calendar_icon.png");
+    private ClassLoader classLoader = getClass().getClassLoader();
+    private ImageIcon image = new ImageIcon(classLoader.getResource("calendar_icon.png"));
     private JRadioButton r2 = new JRadioButton(image);
     private JButton b1 = new JButton("End");
     private JButton b2 = new JButton("Cancel");

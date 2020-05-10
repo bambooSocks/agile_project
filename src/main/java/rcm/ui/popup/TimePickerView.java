@@ -22,7 +22,8 @@ public class TimePickerView extends JDialog {
 
     private JTextField timeField = new JTextField(10);
     private JLabel lbl1 = new JLabel("Time:");
-    private ImageIcon nowIcon = new ImageIcon("src/main/resources/now_icon.jpg");
+    private ClassLoader classLoader = getClass().getClassLoader();
+    private ImageIcon nowIcon = new ImageIcon(classLoader.getResource("now_icon.jpg"));
     private JButton b1 = new JButton(nowIcon);
     private JButton b2 = new JButton("Enter");
     private JButton b3 = new JButton("Cancel");
