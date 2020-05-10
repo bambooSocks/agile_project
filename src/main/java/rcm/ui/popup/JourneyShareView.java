@@ -66,10 +66,10 @@ public class JourneyShareView extends JDialog {
                 if (id != null) {
                     app.shareJourney(id, journey_id);
                     Dialog.InfoDialog("Journey has been successfully shared", "Successful sharing");
+                    dispose();
                 } else {
                     Dialog.ErrorDialog("The email does not exist in the database", "Input error");
                 }
-                dispose();
             }
         });
         panel.add(b1, constraints);

@@ -147,7 +147,7 @@ public class Application {
                 repo.updateCompany(loggedInClient.getCompany());
             }
         } else {
-            throw new WrongInputException("The given client name is not valid.");
+            throw new WrongInputException("The given name is not valid.");
         }
     }
 
@@ -198,7 +198,7 @@ public class Application {
      * @throws WrongInputException
      */
     public void updateEmail(String newEmail) throws WrongInputException {
-        if (User.validateEmail(newEmail) || !getAllEmails().contains(newEmail)) {
+        if (User.validateEmail(newEmail) && !getAllEmails().contains(newEmail)) {
             if (loggedInCompany != null) {
                 loggedInCompany.setEmail(newEmail);
                 repo.updateCompany(loggedInCompany);
@@ -545,7 +545,7 @@ public class Application {
      * @return List of shared journeys
      */
     public List<Journey> searchForContainersJourneys(int container_id, String query) {
-        return searchForClientsJourneys(container_id, query, true, true, true);
+        return searchForContainersJourneys(container_id, query, true, true, true);
     }
 
     /**
