@@ -111,10 +111,10 @@ public class StartJourneyView extends JDialog {
                     if (app.startJourney(journey_id, dateTime)) {
                         Dialog.InfoDialog("Your journey has successfully started", "Successful starting");
                         app.fireChange("startJourney");
+                        dispose();
                     } else {
                         Dialog.ErrorDialog("Failed to start the journey", "Failed to start journey");
                     }
-                    dispose();
                 } catch (DateTimeParseException e) {
                     Dialog.ErrorDialog("Please input date & time in the correct format", "Invalid date error");
                 }

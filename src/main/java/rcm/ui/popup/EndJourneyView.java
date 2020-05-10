@@ -111,10 +111,10 @@ public class EndJourneyView extends JDialog {
                     if (app.endJourney(journey_id, dateTime)) {
                         Dialog.InfoDialog("Your journey has successfully ended", "Successful ending");
                         app.fireChange("endJourney");
+                        dispose();
                     } else {
                         Dialog.ErrorDialog("Failed to end the journey, check the time stamp", "Failed to end journey");
                     }
-                    dispose();
                 } catch (DateTimeParseException e) {
                     Dialog.ErrorDialog("Please input date & time in the correct format", "Invalid date error");
                 }
