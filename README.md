@@ -1,8 +1,8 @@
 # Remote Container Management System - Group H
 ## Purpose
-This software was implemented for a final project assignment for course  [02160 Agile Object-oriented Software Development](https://kurser.dtu.dk/course/2019-2020/02160 "course link"). The development of the project was wholly based on agile principles, meaning the Maven Build-in tool along with its dependencies is used for automatic testing and continuous integration. 
+This software was implemented for a final project assignment for course  [02160 Agile Object-oriented Software Development](https://kurser.dtu.dk/course/2019-2020/02160 "course link"). The development of the project was almost entirely based on agile principles, meaning the Maven Build-in tool along with its dependencies is used for automatic testing and continuous integration. 
 
-This purpose of this software is to create a common point interaction between logistics companies and their clients. The services which are intended to be used are shipping cargo from one location to another (an example of a such logistic company could be A. P. Moller-Maersk). By using this software the clients will have the possibility to requests journeys for shipping their cargo and the logistics companies will be able to administer and monitor a container within a journey. As an extra functionality to the system, we allowed multiple logistics company to register for our system. This was mostly due to the fact that we treat our software as a usable product, which could have multiple buyers.
+The purpose of this software is to create a common point of interaction between logistics companies and their clients. The services which are intended to be used are shipping cargo from one location to another (an example of such a logistic company could be A. P. Moller-Maersk). By using this software the clients will have the possibility to requests journeys for shipping their cargo and the logistics companies will be able to administer and monitor a container within a journey. As an extra functionality to the system, we allowed multiple logistics companies to register for our system. This was mostly due to the fact that we treat our software as a usable product, which could have multiple buyers.
 
 ## Implemented Features:
 
@@ -25,11 +25,11 @@ These additional features have also been implemented to add extra value to the s
 project the SQLite repository was used as the implementation. 
 
 ## Design Decisions & Project Issues:
-* A jurney can only have one container. Since it was not specifically written in the project requirements, this choice was made due to time constraints and YAGNI principles.
+* A journey can only have one container. Since it was not specifically written in the project requirements, this choice was made due to time constraints and YAGNI principles.
 
 * There is a lack of interfaces for the model, apart from the Repository for the database. This is mostly due to the fact that it was not considered to be necessary for the scope of this project. The number of classes is limited and the functionalities are mostly segregated according to the user type. Should one extend the project and create an admin user role, then the User class could be possibly made as an interface.
 
-*It might be that our UI system is highly coupled, however it was decided to design it in this way in order to give it a consistent appearance (for example the top bar is similar for the main panels). Also we have kept the model (Application.java in our case) separated from the UI. This allows further implementation of the system on other user interfaces, if required in the future.
+ * It might be that our UI system is highly coupled, however it was decided to design it in this way in order to give it a consistent appearance (for example the top bar is similar for the main panels). Also we have kept the model (Application.java in our case) separated from the UI. This allows further implementation of the system on other user interfaces, if required in the future.
 
 ## Files Included Within This Project:
 * **JPA Content** n XML file for the persistence layer
