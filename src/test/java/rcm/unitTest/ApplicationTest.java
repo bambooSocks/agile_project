@@ -26,12 +26,16 @@ public class ApplicationTest {
     private Journey journey;
     private Client client, client2;
     private Container container;
+    private ContainerStatus status;
+    private boolean test;
 
     @Before
     public void init() throws WrongInputException, IOException {
         Repository repo = new SqliteRepository();
         repo.clearDatabase();
         app = new Application(repo);
+
+        test = false;
 
         app.createNewLogisticsCompany("Maersk", "Kbh", "Someone", "info@maersk.com", "Agile123");
         app.logInUser("info@maersk.com", "Agile123");
@@ -44,6 +48,8 @@ public class ApplicationTest {
         app.shareJourney(client2.getId(), journey.getId());
         app.logInUser("info@maersk.com", "Agile123");
         app.startJourney(journey.getId(), LocalDateTime.of(2020, 3, 13, 4, 20));
+        status = new ContainerStatus(LocalDateTime.of(2020, 3, 13, 4, 25), 12.0, 80.0, 1.01, "Copenhagen");
+        app.enterNewContainerStatus(journey.getId(), status);
         app.logOut();
     }
 
@@ -180,9 +186,74 @@ public class ApplicationTest {
     }
 
     @Test
-    public void testeSearchForClientsJourneysIdQuery() throws WrongInputException {
+    public void testSearchForClientsJourneysIdQuery() throws WrongInputException {
         app.logInUser("info@maersk.com", "Agile123");
         assertTrue(app.searchForClientsJourneys(client.getId(), "Copenhagen").contains(journey));
         app.logOut();
     }
+
+    @Test(expected = WrongInputException.class)
+    public void testWrongInputForCompany() throws WrongInputException, IOException {
+        app.createNewLogisticsCompany("wrongname", "@|!^", "wn", "thisatthatdotcom", "weakpswd");
+    }
+
+    @Test(expected = WrongInputException.class)
+    public void testWrongPasswordForComapny() throws WrongInputException {
+        app.logInUser("info@maersk.com", "wrongpassword");
+    }
+
+    @Test
+    public void testFireChange() {
+
+        app.addObserver(new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                switch (evt.getPropertyName()) {
+                case "setTrue":
+                    test = true;
+                    break;
+                case "set":
+                    test = (boolean) evt.getNewValue();
+                    break;
+                }
+            }
+        });
+
+        app.fireChange("setTrue");
+        assertTrue(test);
+        app.fireChange("set", false);
+        assertFalse(test);
+    }
+
+    @Test
+    public void testGettersByID() throws WrongInputException {
+        assertEquals(null, app.getClientById(-1));
+        assertEquals(null, app.getJourneyById(-1));
+        app.logInUser("info@maersk.com", "Agile123");
+        assertEquals(null, app.getContainerById(-1));
+    }
+
+    @Test
+    public void testRequestingJourney() throws WrongInputException {
+        assertEquals(null, app.requestClientsStatus(client.getId(), journey.getId()));
+        assertEquals(null, app.requestContainersStatus(container.getId(), journey.getId()));
+        app.logInUser("info@maersk.com", "Agile123");
+        assertEquals(null, app.requestClientsStatus(-1, journey.getId()));
+        assertEquals(null, app.requestContainersStatus(-1, journey.getId()));
+        assertTrue(app.requestClientsStatus(client.getId(), journey.getId()).contains(status));
+        assertTrue(app.requestContainersStatus(container.getId(), journey.getId()).contains(status));
+        assertTrue(app.requestClientsJourneys(client.getId()).contains(journey));
+        assertFalse(app.requestClientsJourneys(-1).contains(journey));
+        assertTrue(app.requestContainersJourneys(container.getId()).contains(journey));
+    }
+
+    @Test
+    public void testAdditionalSearch() throws WrongInputException {
+        assertEquals(client.getId(), (int) app.searchClientIdByEmail("info@novonordisk.com"));
+        assertEquals(null, app.searchClientIdByEmail("wrong@email.com"));
+        app.logInUser("info@maersk.com", "Agile123");
+        assertTrue(app.searchForContainersJourneys(container.getId(), "Copenhagen").contains(journey));
+    }
+    
 }

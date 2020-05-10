@@ -3,22 +3,18 @@ package rcm.cucumber;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.util.List;
 import java.util.Set;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import rcm.model.Client;
-import rcm.model.Journey;
 import rcm.model.WrongInputException;
 
 public class O2 {
 
     private SharedObjectHolder holder;
-    private List<Journey> journeys;
     private boolean sharedJourney;
     private Set<Client> clients;
 
@@ -86,7 +82,7 @@ public class O2 {
     @When("first logistics company views its client list of {string} and {string}")
     public void first_logistics_company_views_its_client_list_of_and(String name1, String name2) {
         clients = holder.getFirstCompany().searchClientByName(name1);
-        Set<Client> client2 = holder.getFirstCompany().searchClientByName(name2);  
+        Set<Client> client2 = holder.getFirstCompany().searchClientByName(name2);
         clients.addAll(client2);
     }
 

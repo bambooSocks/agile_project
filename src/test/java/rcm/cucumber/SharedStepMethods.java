@@ -110,11 +110,11 @@ public class SharedStepMethods {
         Journey journey2 = holder.getApp().requestNewJourney("Copenhagen", "Stockholm", "Kinder eggs");
         holder.setSecondJourney(journey2);
         holder.getApp().logInUser("bigboats@maersk.com", "Agile123");
-        assertTrue(holder.getApp().startJourney(journey.getId(), LocalDateTime.of(2020,3,13,4,20)));
-        assertTrue(holder.getApp().endJourney(journey.getId(), LocalDateTime.of(2020,3,14,4,20)));
-        assertTrue(holder.getApp().startJourney(journey2.getId(), LocalDateTime.of(2020,3,15,4,20)));
-        assertTrue(holder.getApp().endJourney(journey2.getId(), LocalDateTime.of(2020,3,16,4,20)));
-        
+        assertTrue(holder.getApp().startJourney(journey.getId(), LocalDateTime.of(2020, 3, 13, 4, 20)));
+        assertTrue(holder.getApp().endJourney(journey.getId(), LocalDateTime.of(2020, 3, 14, 4, 20)));
+        assertTrue(holder.getApp().startJourney(journey2.getId(), LocalDateTime.of(2020, 3, 15, 4, 20)));
+        assertTrue(holder.getApp().endJourney(journey2.getId(), LocalDateTime.of(2020, 3, 16, 4, 20)));
+
     }
 
     @Given("another logged in logistics company")
