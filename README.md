@@ -10,11 +10,7 @@ There are two ways of running the application, either through an executable jar 
 
 ### Executable JAR
 
-The executable can be downloaded from the releases (
-
-  [link]: https://github.com/bambooSocks/agile_project/releases "Releases"
-
-  ) and then run by using `java -jar <path_to_executable>` or by double clicking
+The executable can be downloaded from the releases ([link](https://github.com/bambooSocks/agile_project/releases)) and then run by using `java -jar <path_to_executable>` or by double clicking
 
 ### Compiled manually
 
