@@ -110,6 +110,7 @@ public class ContainersTableView extends BaseTableView {
         case "companyTabChanged":
         case "companyLoggedIn":
         case "newContainer":
+        case "updateContainer":
             updateTableModel();
             break;
         default:

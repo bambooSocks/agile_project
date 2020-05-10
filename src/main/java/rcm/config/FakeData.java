@@ -83,9 +83,9 @@ public class FakeData {
         app.shareJourney(c4.getId(), c7j2.getId());
 
         // Company 2
-        app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 6000 Kolding", "Cristian Hansen",
-                "christian@3maersk.dk", "Password12345");
-        app.logInUser("christian@3maersk.dk", "Password12345");
+        app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 6000 Kolding", "Cristian Hansen", "christian@maersk.dk",
+                "Password12345");
+        app.logInUser("christian@maersk.dk", "Password12345");
         Client cC1 = app.createNewClient("DTU", "Tekniksevej 43", "Pablo Escobar", "pablo@dtu.dk", "Password12345");
         Client cC2 = app.createNewClient("Netto", "Ondrovej 43", "Oscar Vinci", "oscar@netto.dk", "Password12345");
         Client cC3 = app.createNewClient("Shire Supply", "Bag End", "Samwise Gamgee", "gardener@shire.com",
@@ -249,7 +249,7 @@ public class FakeData {
                 new ContainerStatus(LocalDateTime.of(2020, 4, 24, 15, 0), 35.0, 12.0, 132.0, "English Channel"));
 
         // Company 2 Journeys
-        app.logInUser("christian@3maersk.dk", "Password12345");
+        app.logInUser("christian@maersk.dk", "Password12345");
         app.startJourney(cC1J1.getId(), LocalDateTime.of(2019, 4, 26, 15, 0));
         app.startJourney(cC1J2.getId(), LocalDateTime.of(2019, 4, 28, 15, 0));
         app.startJourney(cC2J1.getId(), LocalDateTime.of(2019, 4, 28, 15, 0));

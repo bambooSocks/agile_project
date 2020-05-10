@@ -19,6 +19,7 @@ import rcm.unitTest.*;
         ClientTest.class, 
         LogisticsCompanyTest.class,
         ContainerStatusTest.class, 
+        ContainerTest.class,
         TestDatabaseAccess.class, 
         TestDB2.class })
 public class FullSuite {

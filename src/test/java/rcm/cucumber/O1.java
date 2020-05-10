@@ -46,32 +46,38 @@ public class O1 {
 
     @When("the company filters clients journeys based on the destination {string}")
     public void the_company_filters_clients_journeys_based_on_the_destination(String query) {
-        filteredJourneys = holder.getApp().searchForClientsJourneys(holder.getFirstClient().getId(), query, false, true, false);
+        filteredJourneys = holder.getApp().searchForClientsJourneys(holder.getFirstClient().getId(), query, false, true,
+                false);
     }
 
     @When("the company filters clients journeys based on the origin {string}")
     public void the_company_filters_clients_journeys_based_on_the_origin(String query) {
-        filteredJourneys = holder.getApp().searchForClientsJourneys(holder.getFirstClient().getId(), query, true, false, false);
+        filteredJourneys = holder.getApp().searchForClientsJourneys(holder.getFirstClient().getId(), query, true, false,
+                false);
     }
 
     @When("the company filters clients journeys based on the content {string}")
     public void the_company_filters_clients_journeys_based_on_the_content(String query) {
-        filteredJourneys = holder.getApp().searchForClientsJourneys(holder.getFirstClient().getId(), query, false, false, true);
+        filteredJourneys = holder.getApp().searchForClientsJourneys(holder.getFirstClient().getId(), query, false,
+                false, true);
     }
 
     @When("the company filters containers journeys based on the destination {string}")
     public void the_company_filters_containers_journeys_based_on_the_destination(String query) {
-        filteredJourneys = holder.getApp().searchForContainersJourneys(holder.getFirstContainer().getId(), query, false, true, false);
+        filteredJourneys = holder.getApp().searchForContainersJourneys(holder.getFirstContainer().getId(), query, false,
+                true, false);
     }
 
     @When("the company filters containers journeys based on the origin {string}")
     public void the_company_filters_containers_journeys_based_on_the_origin(String query) {
-        filteredJourneys = holder.getApp().searchForContainersJourneys(holder.getFirstContainer().getId(), query, true, false, false);
+        filteredJourneys = holder.getApp().searchForContainersJourneys(holder.getFirstContainer().getId(), query, true,
+                false, false);
     }
 
     @When("the company filters containers journeys based on the content {string}")
     public void the_company_filters_containers_journeys_based_on_the_content(String query) {
-        filteredJourneys = holder.getApp().searchForContainersJourneys(holder.getFirstContainer().getId(), query, false, false, true);
+        filteredJourneys = holder.getApp().searchForContainersJourneys(holder.getFirstContainer().getId(), query, false,
+                false, true);
     }
 
     @Then("the first journey is in the filtered list")
@@ -94,7 +100,7 @@ public class O1 {
     public void none_of_the_journeys_is_in_the_filtered_list() {
         assertTrue(filteredJourneys.isEmpty());
     }
-    
+
     @Then("the journey failed to start")
     public void the_first_journey_failed_to_start() {
         assertFalse(successfulJourneyStart);

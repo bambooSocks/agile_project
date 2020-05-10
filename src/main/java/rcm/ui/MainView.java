@@ -3,6 +3,7 @@ package rcm.ui;
 import java.awt.CardLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -80,20 +81,13 @@ public class MainView extends JFrame implements PropertyChangeListener {
     }
 
     public static void main(String[] args) throws IOException {
+        boolean no_database = !(new File("./Database.db")).exists();
         Repository repo = new SqliteRepository();
-        repo.clearDatabase();
         Application app = new Application(repo);
         MainView mv = new MainView(app);
         try {
-            FakeData.setupFakeApp(app);
-            // Company 1
-//            app.logInUser("peter@hamburg.de", "Password12345");
-            // Company 2
-            app.logInUser("christian@3maersk.dk", "Password12345");
-            // Client user from company 1
-//            app.logInUser("tom@cbs.dk", "Password12345");  
-            // Client user from company 2
-//            app.logInUser("gardener@shire.com", "Password12345");
+            if (no_database)
+                FakeData.setupFakeApp(app);
         } catch (WrongInputException e) {
         }
         mv.run();

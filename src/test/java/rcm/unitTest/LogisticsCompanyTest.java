@@ -16,9 +16,9 @@ import rcm.repository.SqliteRepository;
 
 public class LogisticsCompanyTest {
 
-    Application app;
-    LogisticsCompany company1, company2;
-    Client client1, client2;
+    private Application app;
+    private LogisticsCompany company1;
+    private Client client1;
 
     @Before
     public void init() throws WrongInputException, IOException {
@@ -27,20 +27,27 @@ public class LogisticsCompanyTest {
         app = new Application(repo);
         company1 = app.createNewLogisticsCompany("Maersk", "Esplanaden 50, 1098 Koebenhavn K", "Soeren Skou",
                 "info@maersk.com", "Agile123");
-        company2 = app.createNewLogisticsCompany("Hamburg Sud", "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany",
+        app.createNewLogisticsCompany("Hamburg Sud", "Willy-Brandt-Strasse 59, 20457 Hamburg, Germany",
                 "Dr. Arnt Vespermann", "info@hamburgsud-line.com", "Agile123");
         app.logInUser("info@maersk.com", "Agile123");
         client1 = app.createNewClient("Novo Nordisk", "Novo Alle, 2880 Bagsvaerd", "Lars Fruergaard Joergensen",
                 "info@novonordisk.com", "Agile123");
         app.logInUser("info@hamburgsud-line.com", "Agile123");
-        client2 = app.createNewClient("Chiquita", "1855 Griffin Rd. Miami, Florida", "Carmen Rodriguez",
-                "bananas@chiquita.com", "Agile123");
+        app.createNewClient("Chiquita", "1855 Griffin Rd. Miami, Florida", "Carmen Rodriguez", "bananas@chiquita.com",
+                "Agile123");
     }
 
     @Test
     public void TestWrongClientCreatingJourney() throws IOException, WrongInputException {
         app.logInUser("info@maersk.com", "Agile123");
         assertEquals(null, app.requestNewJourney("Nordhavn", "Rotterdam", "remoulade"));
+        app.logOut();
+    }
+
+    @Test
+    public void testSearchClientById() throws WrongInputException {
+        app.logInUser("info@maersk.com", "Agile123");
+        assertTrue(company1.searchClientById(Integer.toString(client1.getId())).contains(client1));
         app.logOut();
     }
 }

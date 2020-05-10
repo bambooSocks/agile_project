@@ -66,7 +66,6 @@ public class ClientMenuBar extends BaseMenuBar {
 
         search.add(advSearch);
         search.add(clearSearch);
-
         add(search);
         add(view);
     }

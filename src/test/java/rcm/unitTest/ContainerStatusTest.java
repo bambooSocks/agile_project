@@ -50,4 +50,13 @@ public class ContainerStatusTest {
         ContainerStatus sl3 = new ContainerStatus(timestamp, 14.0, 75.0, 1.01, null);
         assertTrue(sl1.equals(sl3));
     }
+    
+    @Test
+    public void testGetters() {
+        ContainerStatus cs = new ContainerStatus(LocalDateTime.of(2020, 3, 13, 4, 20), 35.0, 95.0, 1.01, "Copenhagen");
+        assertTrue(cs.getTemperature() == 35.0);
+        assertTrue(cs.getHumidity() == 95.0);
+        assertTrue(cs.getPressure() == 1.01);
+        assertTrue(cs.getLocation().equals("Copenhagen"));
+    }
 }

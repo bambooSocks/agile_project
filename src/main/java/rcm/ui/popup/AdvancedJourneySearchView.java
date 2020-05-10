@@ -137,4 +137,12 @@ public class AdvancedJourneySearchView extends BaseAdvancedSearchView {
             }
         }
     }
+
+    @Override
+    public void clear() {
+        search.setText("");
+        cb1.setSelected(false);
+        cb2.setSelected(false);
+        cb3.setSelected(false);
+    }
 }

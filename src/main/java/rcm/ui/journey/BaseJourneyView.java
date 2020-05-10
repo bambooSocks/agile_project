@@ -186,7 +186,7 @@ public abstract class BaseJourneyView extends BaseView {
         label5.setFont(new Font("", Font.BOLD, 14));
         label6 = new JLabel("End Date: ");
         label6.setFont(new Font("", Font.BOLD, 14));
-        
+
         if (journey == null || journey.getStartTimestamp() == null) {
             startDate = new JLabel("not started yet");
         } else {

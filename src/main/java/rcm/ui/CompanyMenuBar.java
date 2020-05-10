@@ -46,6 +46,7 @@ public class CompanyMenuBar extends BaseMenuBar {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                popup.clear();
                 popup.setLocationRelativeTo(null);
                 popup.setCommand(cmd);
                 popup.setVisible(true);

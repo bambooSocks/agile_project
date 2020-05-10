@@ -84,15 +84,15 @@ public class CreateJourneyView extends JDialog {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 String error = "Please input:";
-                if (originField.getText().isEmpty()) {
+                if (originField.getText().isBlank()) {
                     error += " origin";
                 }
 
-                if (destinationField.getText().isEmpty()) {
+                if (destinationField.getText().isBlank()) {
                     error += " destination";
                 }
 
-                if (contentField.getText().isEmpty()) {
+                if (contentField.getText().isBlank()) {
                     error += " content";
                 }
 

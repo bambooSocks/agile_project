@@ -147,7 +147,7 @@ public class Application {
                 repo.updateCompany(loggedInClient.getCompany());
             }
         } else {
-            throw new WrongInputException("The given client name is not valid.");
+            throw new WrongInputException("The given name is not valid.");
         }
     }
 
@@ -198,7 +198,7 @@ public class Application {
      * @throws WrongInputException
      */
     public void updateEmail(String newEmail) throws WrongInputException {
-        if (User.validateEmail(newEmail) || !getAllEmails().contains(newEmail)) {
+        if (User.validateEmail(newEmail) && !getAllEmails().contains(newEmail)) {
             if (loggedInCompany != null) {
                 loggedInCompany.setEmail(newEmail);
                 repo.updateCompany(loggedInCompany);
@@ -382,15 +382,15 @@ public class Application {
                     throw new WrongInputException("Your password is incorrect");
                 }
             } else {
-                Set<Client> cs = c.searchClientByEmail(email);
-                if (!cs.isEmpty()) {
-                    Client cl = (new LinkedList<>(cs)).pop();
-                    if (User.SHA1_Hasher(password).equals(cl.getPassword())) {
-                        loggedInClient = cl;
-                        support.firePropertyChange("clientLoggedIn", null, null);
-                        break;
-                    } else {
-                        throw new WrongInputException("Your password is incorrect");
+                for (Client cl : c.getClients()) {
+                    if (cl.getEmail().equals(email)) {
+                        if (User.SHA1_Hasher(password).equals(cl.getPassword())) {
+                            loggedInClient = cl;
+                            support.firePropertyChange("clientLoggedIn", null, null);
+                            break;
+                        } else {
+                            throw new WrongInputException("Your password is incorrect");
+                        }
                     }
                 }
             }
@@ -545,7 +545,7 @@ public class Application {
      * @return List of shared journeys
      */
     public List<Journey> searchForContainersJourneys(int container_id, String query) {
-        return searchForClientsJourneys(container_id, query, true, true, true);
+        return searchForContainersJourneys(container_id, query, true, true, true);
     }
 
     /**

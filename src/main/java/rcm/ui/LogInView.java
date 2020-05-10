@@ -25,8 +25,8 @@ public class LogInView extends JPanel {
 
     private static final long serialVersionUID = -525974348663829648L;
 
-    private JTextField emailField = new JTextField(10);
-    private JPasswordField passwordField = new JPasswordField(10);
+    private JTextField emailField = new JTextField(15);
+    private JPasswordField passwordField = new JPasswordField(15);
     private JLabel lbl1 = new JLabel("Email:");
     private JLabel lbl2 = new JLabel("Password:");
     private JButton b1 = new JButton("Login");

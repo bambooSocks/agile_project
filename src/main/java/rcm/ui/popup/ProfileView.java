@@ -26,10 +26,10 @@ public class ProfileView extends JDialog {
     private static final long serialVersionUID = -4562833393035926979L;
     private User user = null;
 
-    private JTextField nameField = new JTextField(10);
-    private JTextField addressField = new JTextField(10);
-    private JTextField refPersonField = new JTextField(10);
-    private JTextField emailField = new JTextField(10);
+    private JTextField nameField = new JTextField(15);
+    private JTextField addressField = new JTextField(15);
+    private JTextField refPersonField = new JTextField(15);
+    private JTextField emailField = new JTextField(15);
 
     private JLabel lbl1 = new JLabel("Name:");
     private JLabel lbl2 = new JLabel("Address:");
@@ -115,7 +115,6 @@ public class ProfileView extends JDialog {
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Change Password clicked");
                 PasswordView pv = new PasswordView(app);
                 pv.setVisible(true);
             }
@@ -160,7 +159,6 @@ public class ProfileView extends JDialog {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Cancel clicked");
                 dispose();
             }
         });
